@@ -13,7 +13,7 @@ const callbackModel = {
 export const sys_get = async ({auth = false, endpoint = ''}) => {
   try {
     let token =  getToken();
-    
+    console.log(API_URL + endpoint);
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
       method: 'GET',

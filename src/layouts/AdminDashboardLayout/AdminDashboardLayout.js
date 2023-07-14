@@ -205,7 +205,7 @@ const AdminDashboardLayout = () => {
             <div className="d-flex justify-content-between">
               {/* <div className="logo"> */}
                 <Link to="/">
-                  <img src={process.env.PUBLIC_URL + '/assets/images/logo/logo-1.png'} alt="Logo" />
+                  <img src={process.env.PUBLIC_URL + '/assets/images/logo/Jakhr.png'} alt="Logo" />
                 </Link>
               {/* </div> */}
            
