@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import { BellIcon, MagnifyingGlassIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 const AdminDashboard = ({ label, subHeading, children }) => {
+  console.log("KESINI?")
+
   return (
     <div id="main" className="layout-navbar navbar-fixed">
      <header>
