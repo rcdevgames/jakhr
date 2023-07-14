@@ -31,14 +31,14 @@ const navItems = [
         label: "Gaji",
         link: "/master-data/salary",
       },
-      {
-        label: "Track Record",
-        link: "/master-data/record",
-      },
-      {
-        label: "Master KPI",
-        link: "/master-data/kpi",
-      },
+      // {
+      //   label: "Track Record",
+      //   link: "/master-data/record",
+      // },
+      // {
+      //   label: "Master KPI",
+      //   link: "/master-data/kpi",
+      // },
       {
         label: "Jadwal",
         link: "/master-data/schedule",
@@ -59,10 +59,10 @@ const navItems = [
         label: "Lowongan Kerja",
         link: "/master-data/vacancy",
       },
-      {
-        label: "Pelamar",
-        link: "/master-data/applicant",
-      },
+      // {
+      //   label: "Pelamar",
+      //   link: "/master-data/applicant",
+      // },
     ],
   },
   {
@@ -96,10 +96,10 @@ const navItems = [
         label: "Reimbursement",
         link: "/transaction/imbursement",
       },
-      {
-        label: "KPI",
-        link: "/transaction/kpi",
-      },
+      // {
+      //   label: "KPI",
+      //   link: "/transaction/kpi",
+      // },
     ],
   },
   {
@@ -113,10 +113,10 @@ const navItems = [
         label: "Karyawan",
         link: "/report/employee",
       },
-      {
-        label: "Pelamar",
-        link: "/report/applicant",
-      },
+      // {
+      //   label: "Pelamar",
+      //   link: "/report/applicant",
+      // },
       {
         label: "Kehadiran",
         link: "/report/attendance",
@@ -153,10 +153,10 @@ const navItems = [
         label: "Pajak",
         link: "/report/tax",
       },
-      {
-        label: "KPI",
-        link: "/report/kpi",
-      },
+      // {
+      //   label: "KPI",
+      //   link: "/report/kpi",
+      // },
     ],
   },
   {

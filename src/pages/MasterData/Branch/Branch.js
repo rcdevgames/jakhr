@@ -6,7 +6,7 @@ import * as branch_providers from "../../../providers/branch";
 import convert from "../../../model/branchModel";
 import { showToast } from "../../../utils/global_store";
 
-const headers = ["ID", "Nama", "Alamat", "Action"];
+const headers = ["Branch", "Address",'Radius',"Primary Phone","Secondary Phone", "Created Date","Action"];
 const branches = [];
 const Branch = () => {
   const [data, setData] = useState(convert.listOfbranchModel([]));
