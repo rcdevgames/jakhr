@@ -12,7 +12,8 @@ const callbackModel = {
 
 export const sys_get = async ({auth = false, endpoint = ''}) => {
   try {
-    let token = await getToken();
+    let token =  getToken();
+    
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
       method: 'GET',
@@ -23,6 +24,7 @@ export const sys_get = async ({auth = false, endpoint = ''}) => {
       },
     });
     const data = await response.json();
+    console.log(data);
     callback.code = response.status;
     callback.success = response.status==200?true:false;
     callback.message = response.status==200?"Success":data.message;

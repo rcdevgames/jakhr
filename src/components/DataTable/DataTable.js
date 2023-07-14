@@ -71,7 +71,7 @@ class DataTable extends Component {
          <table className="table" style={{  borderCollapse: 'collapse', width: '100%' }}>
          <thead style={{ backgroundColor: '#E6F7FF', color: '#039BE5' }}>
             <tr>
-              <th className="text-center" data-sortable={false}>
+              {/* <th className="text-center" data-sortable={false}>
                 <div className="custom-control custom-checkbox">
                   <input
                       type="checkbox"
@@ -81,7 +81,7 @@ class DataTable extends Component {
                       onChange={(e) => this.handleSelectAll(e)}
                     />
                 </div>
-              </th>
+              </th> */}
               {headers.map((header) => (
                 <th key={header} data-sortable={false}>{header}</th>
               ))}
@@ -91,7 +91,7 @@ class DataTable extends Component {
           <tbody>
             {data.map((row) => (
               <tr key={row.id}>
-                <td className="text-center">
+                {/* <td className="text-center">
                   <div className="custom-control custom-checkbox">
                     <input 
                     className="form-check-input form-check-primary" 
@@ -100,7 +100,7 @@ class DataTable extends Component {
                     onChange={(e) => this.onItemCheck(e, row)} />
                   </div>
 
-                </td>
+                </td> */}
                 {Object.keys(row).map((key) => (
         key !== "selected" && <td key={key}>{row[key]}</td>
       ))}
