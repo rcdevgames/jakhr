@@ -1,51 +1,56 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
-import DataTable from "../../../components/DataTable";
+import DataTablePagination from "../../../components/DataTable";
 import * as branch_providers from "../../../providers/branch";
-import convert from "../../../model/branchModel";
-import { showToast } from "../../../utils/global_store";
 
-const headers = ["Branch", "Address",'Radius',"Primary Phone","Secondary Phone", "Created Date","Action"];
-const branches = [];
 const Branch = () => {
-  const [data, setData] = useState(convert.listOfbranchModel([]));
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const resp = await branch_providers.getData(page);
-      setData(convert.listOfbranchModel(resp.data.data));
-      console.log(resp.data.data);
-    } catch (error) {
-      showToast({ message: error.message, type: "error" });
-    }
-    setLoading(false);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  const log_data=(val)=>{
+    console.log(val);
+  }
+  const columns = [
+    { title: "Branch", dataIndex: "name", key: "name" },
+    { title: "Address", dataIndex: "address", key: "address" },
+    { title: "Radius", dataIndex: "radius", key: "radius" },
+    { title: "Primary Phone", dataIndex: "primary_phone", key: "primary_phone" },
+    {
+      title: "Secondary Phone",
+      dataIndex: "secondary_phone",
+      key: "secondary_phone",
+    },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      render: (val) => (
+        <div className="btn-group" role="group">
+          <a onClick={()=>log_data(val)} style={{marginRight:10}} className="btn icon btn-primary btn-sm">
+            <i className="bi bi-file-text"></i>
+          </a>
+          <a href="#0" className="btn icon btn-danger btn-sm">
+            <i className="bi bi-trash"></i>
+          </a>
+        </div>
+      ),
+    },
+  ];
+  const action = [
+    <Link
+      to="/master-data/branch/create"
+      className="btn icon icon-left btn-primary"
+    >
+      <i className="bi bi-plus" /> Tambah
+    </Link>,
+  ];
   return (
     <AdminDashboard label="">
-      <section className="section">
-        <div className="card">
-          <div className="card-header d-flex justify-content-between align-items-center">
-            <h2>Cabang</h2>
-            <Link
-              to="/master-data/branch/create"
-              className="btn icon icon-left btn-primary"
-            >
-              <i className="bi bi-plus" /> Tambah
-            </Link>
-          </div>
-          <div className="card-body">
-            {loading ? null : (
-              <DataTable headers={headers} data={data} type="branch" />
-            )}
-          </div>
-        </div>
-      </section>
+      <DataTablePagination
+        fetchDataFunc={branch_providers.getData}
+        columns={columns}
+        title="Cabang"
+        action={action}
+      />
     </AdminDashboard>
   );
 };
