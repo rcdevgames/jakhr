@@ -1,37 +1,19 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
-import * as branch_providers from "../../../providers/master/branch";
+import * as organization_providers from "../../../providers/master/organization";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 
-const Branch = () => {
+const Organization = () => {
   const navigate = useNavigate();
   const [message, set_message] = useState("");
-  const [id_branch, set_branch] = useState("");
+  const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    {
-      title: "Company",
-      dataIndex: "company",
-      key: "company",
-      render: (val) => val.company_name,
-    },
-    { title: "Branch", dataIndex: "name", key: "name" },
-    { title: "Address", dataIndex: "address", key: "address" },
-    { title: "Radius", dataIndex: "radius", key: "radius" },
-    {
-      title: "Primary Phone",
-      dataIndex: "primary_phone",
-      key: "primary_phone",
-    },
-    {
-      title: "Secondary Phone",
-      dataIndex: "secondary_phone",
-      key: "secondary_phone",
-    },
+    { title: "Alias", dataIndex: "alias", key: "alias" },
     { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     {
       title: "Action",
@@ -57,17 +39,17 @@ const Branch = () => {
     },
   ];
   const action = [
-    <Link
-      to="/master-data/branch/create"
-      className="btn icon icon-left btn-primary"
-    >
-      <i className="bi bi-plus" /> Tambah
-    </Link>,
+    // <Link
+    //   to="/master-data/company/create"
+    //   className="btn icon icon-left btn-primary"
+    // >
+    //   <i className="bi bi-plus" /> Tambah
+    // </Link>,
   ];
   const handleDelete = async () => {
     set_modal(false);
     try {
-      const resp = await branch_providers.deleteData(id_branch);
+      const resp = await organization_providers.deleteData(id);
       showToast({ message: resp.message, type: "info" });
       window.location.reload();
     } catch (error) {
@@ -76,26 +58,27 @@ const Branch = () => {
   };
   const openModal = async (val) => {
     set_message(val.name);
-    set_branch(val.id);
+    set_id(val.id);
     set_modal(true);
   };
+
   return (
     <AdminDashboard label="">
       <DataTablePagination
-        fetchDataFunc={branch_providers.getData}
+        fetchDataFunc={organization_providers.getData}
         columns={columns}
-        title="Cabang"
+        title="Organization"
         action={action}
       />
-        <ActionModal
-          onOk={handleDelete}
-          onCancel={() => set_modal(false)}
-          title="Confirmation"
-          content={`Are you sure to delete ${message}?`}
-          visible={modal}
-        />
+      <ActionModal
+        onOk={handleDelete}
+        onCancel={() => set_modal(false)}
+        title="Confirmation"
+        content={`Are you sure to delete ${message}?`}
+        visible={modal}
+      />
     </AdminDashboard>
   );
 };
 
-export default Branch;
+export default Organization;

@@ -19,13 +19,34 @@ const navItems = [
     label: "Master Data",
     dir: "/master-data",
     subMenu: [
+      
       {
-        label: "Cabang",
+        label: "Company",
+        link: "/master-data/company",
+      },
+      {
+        label: "Branch",
         link: "/master-data/branch",
       },
       {
-        label: "Karyawan",
+        label: "Employee",
         link: "/master-data/employee",
+      },
+      {
+        label: "Leave Mass",
+        link: "/master-data/leave_mass",
+      },
+      {
+        label: "Organization",
+        link: "/master-data/organization",
+      },
+      {
+        label: "Job Level",
+        link: "/master-data/job_level",
+      },
+      {
+        label: "Job Position",
+        link: "/master-data/job_position",
       },
       {
         label: "Gaji",

@@ -7,6 +7,7 @@ import AdminDashboardLayout from "../layouts/AdminDashboardLayout/AdminDashboard
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 // master data
+import { Company, CreateCompany } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
 import { Employee, CreateEmployee } from "../pages/MasterData/Employee";
 import { Salary, CreateSalary } from "../pages/MasterData/Salary";
@@ -15,6 +16,10 @@ import { Kpi, CreateKpi } from "../pages/MasterData/Kpi";
 import { Schedule, CreateSchedule } from "../pages/MasterData/Schedule";
 import { Overtime, CreateOvertime } from "../pages/MasterData/Overtime";
 import { Vacancy, CreateVacancy } from "../pages/MasterData/Vacancy";
+import { Organization } from "../pages/MasterData/Organisasi";
+import { LeaveMass } from "../pages/MasterData/LeaveMass";
+import { JobLevel } from "../pages/MasterData/JobLevel";
+import { JobPosition } from "../pages/MasterData/JobPosition";
 import {
   Announcement,
   CreateAnnouncement,
@@ -72,6 +77,11 @@ const Router = () => (
           <Route element={<Dashboard />} path="/dashboard" />
 
           <Route path="master-data">
+            <Route path="company">
+              <Route path="" element={<Company />} />
+              <Route path="create" element={<CreateCompany />} />
+              <Route path="detail/:id" element={<CreateCompany />} />
+            </Route>
             <Route path="branch">
               <Route path="" element={<Branch />} />
               <Route path="create" element={<CreateBranch />} />
@@ -81,6 +91,22 @@ const Router = () => (
             <Route path="employee">
               <Route path="" element={<Employee />} />
               <Route path="create" element={<CreateEmployee />} />
+            </Route>
+            
+            <Route path="organization">
+              <Route path="" element={<Organization />} />
+            </Route>
+            
+            <Route path="leave_mass">
+              <Route path="" element={<LeaveMass />} />
+            </Route>
+            
+            <Route path="job_level">
+              <Route path="" element={<JobLevel />} />
+            </Route>
+            
+            <Route path="job_position">
+              <Route path="" element={<JobPosition />} />
             </Route>
             <Route path="salary">
               <Route path="" element={<Salary />} />

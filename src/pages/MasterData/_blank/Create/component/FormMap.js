@@ -5,8 +5,8 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import TimeInput from "../../../../../components/TimeInput";
-import * as company_providers from "../../../../../providers/master/company";
-import * as branch_providers from "../../../../../providers/master/branch";
+import * as company_providers from "../../../../../providers/company";
+import * as branch_providers from "../../../../../providers/branch";
 import { showToast } from "../../../../../utils/global_store";
 
 class LoadScriptComponent extends LoadScript {
