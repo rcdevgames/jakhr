@@ -75,6 +75,7 @@ const Router = () => (
             <Route path="branch">
               <Route path="" element={<Branch />} />
               <Route path="create" element={<CreateBranch />} />
+              <Route path="detail/:id" element={<CreateBranch />} />
             </Route>
 
             <Route path="employee">

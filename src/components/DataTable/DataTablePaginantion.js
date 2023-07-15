@@ -75,6 +75,7 @@ const DataTablePagination = ({
               dataSource={tableData}
               pagination={false}
               columns={columns}
+              style={{marginBottom:30}}
             />
 
             <Pagination

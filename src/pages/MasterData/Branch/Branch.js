@@ -3,16 +3,30 @@ import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
 import DataTablePagination from "../../../components/DataTable";
 import * as branch_providers from "../../../providers/branch";
+import ActionModal from "../../../components/ActionModal";
+import { showToast } from "../../../utils/global_store";
+import { useNavigate } from "react-router-dom";
 
 const Branch = () => {
-  const log_data=(val)=>{
-    console.log(val);
-  }
+  const navigate = useNavigate();
+  const [message, set_message] = useState("");
+  const [id_branch, set_branch] = useState("");
+  const [modal, set_modal] = useState(false);
   const columns = [
+    {
+      title: "Company",
+      dataIndex: "company",
+      key: "company",
+      render: (val) => val.company_name,
+    },
     { title: "Branch", dataIndex: "name", key: "name" },
     { title: "Address", dataIndex: "address", key: "address" },
     { title: "Radius", dataIndex: "radius", key: "radius" },
-    { title: "Primary Phone", dataIndex: "primary_phone", key: "primary_phone" },
+    {
+      title: "Primary Phone",
+      dataIndex: "primary_phone",
+      key: "primary_phone",
+    },
     {
       title: "Secondary Phone",
       dataIndex: "secondary_phone",
@@ -23,12 +37,19 @@ const Branch = () => {
       title: "Action",
       dataIndex: "id",
       key: "id",
-      render: (val) => (
+      render: (val, record) => (
         <div className="btn-group" role="group">
-          <a onClick={()=>log_data(val)} style={{marginRight:10}} className="btn icon btn-primary btn-sm">
+          <a
+            onClick={() => navigate(`/master-data/branch/detail/${val}`)}
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
             <i className="bi bi-file-text"></i>
           </a>
-          <a href="#0" className="btn icon btn-danger btn-sm">
+          <a
+            onClick={() => openModal(record)}
+            className="btn icon btn-danger btn-sm"
+          >
             <i className="bi bi-trash"></i>
           </a>
         </div>
@@ -43,6 +64,22 @@ const Branch = () => {
       <i className="bi bi-plus" /> Tambah
     </Link>,
   ];
+  const handleDelete = async () => {
+    set_modal(false);
+    try {
+      const resp = await branch_providers.deleteData(id_branch);
+      showToast({ message: resp.message, type: "info" });
+      window.location.reload();
+    } catch (error) {
+      showToast({ message: error.message, type: "error" });
+    }
+  };
+  const openModal = async (val) => {
+    set_message(val.name);
+    set_branch(val.id);
+    set_modal(true);
+    console.log(val);
+  };
   return (
     <AdminDashboard label="">
       <DataTablePagination
@@ -51,6 +88,15 @@ const Branch = () => {
         title="Cabang"
         action={action}
       />
+      {
+        <ActionModal
+          onOk={handleDelete}
+          onCancel={() => set_modal(false)}
+          title="Confirmation"
+          content={`Are you sure to delete ${message}?`}
+          visible={modal}
+        />
+      }
     </AdminDashboard>
   );
 };
