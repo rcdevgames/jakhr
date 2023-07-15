@@ -48,10 +48,10 @@ const navItems = [
         label: "Job Position",
         link: "/master-data/job_position",
       },
-      {
-        label: "Gaji",
-        link: "/master-data/salary",
-      },
+      // {
+      //   label: "Gaji",
+      //   link: "/master-data/salary",
+      // },
       // {
       //   label: "Track Record",
       //   link: "/master-data/record",
@@ -60,26 +60,26 @@ const navItems = [
       //   label: "Master KPI",
       //   link: "/master-data/kpi",
       // },
-      {
-        label: "Jadwal",
-        link: "/master-data/schedule",
-      },
-      {
-        label: "Lembur",
-        link: "/master-data/overtime",
-      },
-      {
-        label: "Saldo & Cutri Bersama",
-        link: "/master-data/leave-balance",
-      },
-      {
-        label: "Pengumuman",
-        link: "/master-data/announcement",
-      },
-      {
-        label: "Lowongan Kerja",
-        link: "/master-data/vacancy",
-      },
+      // {
+      //   label: "Jadwal",
+      //   link: "/master-data/schedule",
+      // },
+      // {
+      //   label: "Lembur",
+      //   link: "/master-data/overtime",
+      // },
+      // {
+      //   label: "Saldo & Cutri Bersama",
+      //   link: "/master-data/leave-balance",
+      // },
+      // {
+      //   label: "Pengumuman",
+      //   link: "/master-data/announcement",
+      // },
+      // {
+      //   label: "Lowongan Kerja",
+      //   link: "/master-data/vacancy",
+      // },
       // {
       //   label: "Pelamar",
       //   link: "/master-data/applicant",

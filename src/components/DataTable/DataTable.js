@@ -132,14 +132,7 @@ class DataTable extends Component {
             ))}
           </tbody>
         </table>
-        <div
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            backgroundColor: "black",
-            height:"40px"
-          }}
-        ></div>
+        
       </div>
     );
   }

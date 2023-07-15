@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard"
-import DataTable from "../../../components/DataTable"
+import DataTable from "../../../components/DataTable/DataTable"
 
 
 const headers = ['ID', 'Nama', 'Alamat', 'Action']

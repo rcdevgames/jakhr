@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 import AdminDashboard from "../../AdminDashboard"
-import DataTable from "../../../components/DataTable"
+import DataTable from "../../../components/DataTable/DataTable"
 import DatePicker from "../../../components/DatePicker"
 
 const headers = ['Periode', 'ID','Nama', 'Gaji', 'Terhutang', 'Terbayar', 'Actions']
