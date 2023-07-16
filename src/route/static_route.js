@@ -1,3 +1,13 @@
 export const routes_name={
-    DASHBOARD:"/dashboard"
+    DASHBOARD:"/dashboard",
+    M_LEAVE_MASS_CREATE:'/master-data/leave_mass/create',
+    M_LEAVE_MASS_DETAIL:'/master-data/leave_mass/detail/',
+    M_ORGANIZATION_CREATE:'/master-data/organization/create',
+    M_ORGANIZATION_DETAIL:'/master-data/organization/detail/', 
+    M_JOB_LEVEL_CREATE:'/master-data/job_level/create',
+    M_JOB_LEVEL_DETAIL:'/master-data/job_level/detail/', 
+    M_JOB_POSITION_CREATE:'/master-data/job_position/create',
+    M_JOB_POSITION_DETAIL:'/master-data/job_position/detail/',
+    M_COMPANY_CREATE:'/master-data/company/create',
+    M_COMPANY_DETAIL:'/master-data/company/detail/',
 }

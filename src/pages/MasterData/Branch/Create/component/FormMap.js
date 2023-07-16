@@ -71,36 +71,36 @@ class FormMap extends Component {
   getDetail = async (id) => {
     try {
       const resp = await branch_providers.getDetail(id);
-      console.log(resp.data);
       this.setState({
-        branch_name:resp.data.data.name,
-        address:resp.data.data.address,
-        radius: resp.data.data.radius,
+        branch_name:resp.data.name,
+        address:resp.data.address,
+        radius: resp.data.radius,
         marker:{
-            lat:resp.data.data.latitude,
-            lng:resp.data.data.longitude,
+            lat:resp.data.latitude,
+            lng:resp.data.longitude,
         },
         center:{
-            lat:resp.data.data.latitude,
-            lng:resp.data.data.longitude,
+            lat:resp.data.latitude,
+            lng:resp.data.longitude,
         },
-        phone:resp.data.data.primary_phone,
-        phone2:resp.data.data.secondary_phone,
-        branchSchIn:resp.data.data.sch_in,
-        branchSchOut:resp.data.data.sch_out,
-        branchSchInHalf:resp.data.data.sch_in_half,
-        branchSchOutHalf:resp.data.data.sch_out_half,
-        company_id: resp.data.data.company_id,
+        phone:resp.data.primary_phone,
+        phone2:resp.data.secondary_phone,
+        branchSchIn:resp.data.sch_in,
+        branchSchOut:resp.data.sch_out,
+        branchSchInHalf:resp.data.sch_in_half,
+        branchSchOutHalf:resp.data.sch_out_half,
+        company_id: resp.data.company_id,
       })
     } catch (error) {
       showToast({ message: error.message, type: "error" });
+      this.props.navigate(-1);
     }
   };
   getCompanyList = async () => {
     try {
       const resp = await company_providers.getDataMaximum();
       this.setState({
-        company_list: resp.data.data,
+        company_list: resp.data,
       });
     } catch (error) {
       showToast({ message: error.message, type: "error" });

@@ -1,0 +1,16 @@
+{
+    "id": "a830d7e4-cc2c-41ea-9815-bebc03ff3817",
+    "job_level_id": "a21b7471-e3f2-41b8-a8b0-183f93182631",
+    "parent_id": null,
+    "name": "Manager",
+    "company_id": "e7ba9190-3b99-4e87-a901-2a90d6d7b45f",
+    "created_at": "2023-07-13T13:29:05.000Z",
+    "updated_at": "2023-07-13T13:29:05.000Z",
+    "deleted": false,
+    "company": {
+        "name": "Company 1"
+    },
+    "job_level": {
+        "name": "HRD & GA Manager"
+    }
+}

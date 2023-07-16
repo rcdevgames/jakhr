@@ -2,10 +2,11 @@ import React from "react";
 import "flatpickr/dist/flatpickr.min.css";
 import Flatpickr from "react-flatpickr";
 
-const DatePicker = ({ value, onChange, placeholder, dateFormat = "Y-m-d", disabled = false }) => {
+const DatePicker = ({ value, onChange, placeholder, dateFormat = "Y-m-d", disabled = false,name="" }) => {
   return (
     <Flatpickr
       value={value}
+      name={name}
       options={{
         dateFormat: dateFormat,
         altFormat: dateFormat,

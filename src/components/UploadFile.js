@@ -1,57 +1,45 @@
-import React from 'react';
-import { FilePond, registerPlugin } from 'react-filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import FilePondPluginImageResize from 'filepond-plugin-image-resize';
-import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
-import { BeakerIcon } from '@heroicons/react/24/solid'
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import './style.css'
-registerPlugin(FilePondPluginImagePreview, FilePondPluginImageResize, FilePondPluginImageTransform);
+import React, { useEffect } from "react";
+import { FilePond, registerPlugin } from "react-filepond";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import FilePondPluginImageResize from "filepond-plugin-image-resize";
+import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import "./style.css";
+registerPlugin(
+  FilePondPluginImagePreview,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform
+);
 
-const UploadFile = ({ onUpload }) => {
-  const handleUpload = (files) => {
-    // processing upload
-    // const uploadedFile = files[0];
-    // const formData = new FormData();
-    // formData.append('file', uploadedFile.file);
+const UploadFile = ({ onImageUpload, file }) => {
+  // const [file, setFile] = useState(null);
 
-    // fetch('http://localhost:8000/upload', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   onUpload(data.url); // panggil callback onUpload dengan URL gambar yang diunggah
-    // })
-    // .catch(error => {
-    //   console.error(error);
-    // });
-  }
+  const handleFileLoad = (file) => {
+    try {
+      const reader = new FileReader();
 
+      // console.log(file);
+      // if(file){
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        console.log(base64String);
+        onImageUpload(base64String);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {}
+    // }
+  };
   return (
     <div>
       <FilePond
-        allowMultiple={false}
-        // server={{
-        //   process: {
-        //     url: 'http://localhost:8000/upload' // URL endpoint API upload Anda
-        //   }
-        // }}
-        allowProcess={false} 
-        onprocessfiles={handleUpload}
-        labelIdle='Drag and drop file ke sini atau <br/> <span class="btn btn-primary">Unggah</span>'
-        imageResizeTargetSize='205x273'
-        imageResizeMode='contain'
-        imageResizeUpscale={false}
-        plugins={[
-          FilePondPluginImagePreview,
-          FilePondPluginImageResize,
-          FilePondPluginImageTransform
-        ]}
-        imageTransformMinZoom={0.1}
-        imageTransformMaxZoom={5}
-        imageTransformZoomStep={0.01}
+        // server={serverEndpoint}
+        files={file ? [file] : []}
+        onupdatefiles={(fileItems) => {
+          const selectedFile =
+            fileItems && fileItems.length > 0 ? fileItems[0].file : null;
+          handleFileLoad(selectedFile);
+        }}
       />
     </div>
   );

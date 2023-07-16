@@ -7,7 +7,7 @@ import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 
-const Branch = () => {
+const Employee = () => {
   const navigate = useNavigate();
   const [message, set_message] = useState("");
   const [id_branch, set_branch] = useState("");
@@ -110,4 +110,4 @@ const Branch = () => {
   );
 };
 
-export default Branch;
+export default Employee;

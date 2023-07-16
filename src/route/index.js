@@ -7,7 +7,7 @@ import AdminDashboardLayout from "../layouts/AdminDashboardLayout/AdminDashboard
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 // master data
-import { Company, CreateCompany } from "../pages/MasterData/Company";
+import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
 import { Employee, CreateEmployee } from "../pages/MasterData/Employee";
 import { Salary, CreateSalary } from "../pages/MasterData/Salary";
@@ -16,10 +16,10 @@ import { Kpi, CreateKpi } from "../pages/MasterData/Kpi";
 import { Schedule, CreateSchedule } from "../pages/MasterData/Schedule";
 import { Overtime, CreateOvertime } from "../pages/MasterData/Overtime";
 import { Vacancy, CreateVacancy } from "../pages/MasterData/Vacancy";
-import { Organization } from "../pages/MasterData/Organisasi";
-import { LeaveMass } from "../pages/MasterData/LeaveMass";
+import { Organization, OrganizationForm } from "../pages/MasterData/Organisasi";
+import { LeaveMass,LeaveMassForm } from "../pages/MasterData/LeaveMass";
 import { JobLevel } from "../pages/MasterData/JobLevel";
-import { JobPosition } from "../pages/MasterData/JobPosition";
+import { JobPosition, JobPositionForm } from "../pages/MasterData/JobPosition";
 import {
   Announcement,
   CreateAnnouncement,
@@ -64,6 +64,7 @@ import { SystemLog } from "../pages/Tool/SystemLog";
 
 import PrivateRoute from "./PrivateRoute";
 import ScrollToTop from "./ScrollToTop";
+import JobLevelForm from "../pages/MasterData/JobLevel/JobLevelForm";
 
 const Router = () => (
   <BrowserRouter>
@@ -79,8 +80,8 @@ const Router = () => (
           <Route path="master-data">
             <Route path="company">
               <Route path="" element={<Company />} />
-              <Route path="create" element={<CreateCompany />} />
-              <Route path="detail/:id" element={<CreateCompany />} />
+              <Route path="create" element={<CompanyForm />} />
+              <Route path="detail/:id" element={<CompanyForm />} />
             </Route>
             <Route path="branch">
               <Route path="" element={<Branch />} />
@@ -95,18 +96,27 @@ const Router = () => (
             
             <Route path="organization">
               <Route path="" element={<Organization />} />
+              <Route path="create" element={<OrganizationForm />} />
+              <Route path="detail/:id" element={<OrganizationForm />} />
             </Route>
             
             <Route path="leave_mass">
               <Route path="" element={<LeaveMass />} />
+              <Route path="create" element={<LeaveMassForm />} />
+              <Route path="detail/:id" element={<LeaveMassForm />} />
+
             </Route>
             
             <Route path="job_level">
               <Route path="" element={<JobLevel />} />
+              <Route path="create" element={<JobLevelForm />} />
+              <Route path="detail/:id" element={<JobLevelForm />} />
             </Route>
             
             <Route path="job_position">
               <Route path="" element={<JobPosition />} />
+              <Route path="create" element={<JobPositionForm />} />
+              <Route path="detail/:id" element={<JobPositionForm />} />
             </Route>
             <Route path="salary">
               <Route path="" element={<Salary />} />

@@ -4,6 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as company_providers from "../../../providers/master/company";
 import DataTablePagination from "../../../components/DataTable";
 import { useNavigate } from "react-router-dom";
+import { routes_name } from "../../../route/static_route";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -17,31 +18,31 @@ const Company = () => {
     { title: "Alias", dataIndex: "alias", key: "alias" },
    
     { title: "Created Date", dataIndex: "created_at", key: "created_at" },
-    // {
-    //   title: "Action",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (val, record) => (
-    //     <div className="btn-group" role="group">
-    //       <a
-    //         onClick={() => navigate(`/master-data/company/detail/${val}`)}
-    //         style={{ marginRight: 10 }}
-    //         className="btn icon btn-primary btn-sm"
-    //       >
-    //         <i className="bi bi-file-text"></i>
-    //       </a>
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      render: (val, record) => (
+        <div className="btn-group" role="group">
+          <a
+            onClick={() => navigate(`${routes_name.M_COMPANY_DETAIL}${val}`)}
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
+            <i className="bi bi-file-text"></i>
+          </a>
          
-    //     </div>
-    //   ),
-    // },
+        </div>
+      ),
+    },
   ];
   const action = [
-    // <Link
-    //   to="/master-data/company/create"
-    //   className="btn icon icon-left btn-primary"
-    // >
-    //   <i className="bi bi-plus" /> Tambah
-    // </Link>,
+    <Link
+      to={routes_name.M_COMPANY_CREATE}
+      className="btn icon icon-left btn-primary"
+    >
+      <i className="bi bi-plus" /> Tambah
+    </Link>,
   ];
  
   return (

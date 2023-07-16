@@ -50,8 +50,8 @@ export function SysDateTransform({
     return "";
   }
   const current = new Date();
-  const dateFormat = new Date(Moment(date, "YYYY-MM-DD hh:mm:s.SSS"));
-  const month = dateFormat.getMonth();
+  const dateFormat = new Date(date);
+  const month = dateFormat.getMonth()+1;
   const year = dateFormat.getFullYear();
   const day = dateFormat.getDate();
   const hour = dateFormat.getHours();

@@ -27,7 +27,7 @@ export const sys_get = async ({auth = false, endpoint = ''}) => {
     callback.code = response.status;
     callback.success = response.status==200?true:false;
     callback.message = data?.message??"ERROR!";
-    callback.data = data;
+    callback.data = data?.data??{};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -54,7 +54,7 @@ export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
     callback.code = response.status;
     callback.message = data?.message??"ERROR!";
     callback.success = response.status==200?true:false;
-    callback.data = data;
+    callback.data = data?.data??{};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -79,7 +79,7 @@ export const sys_del = async ({auth = false, endpoint = ''}) => {
     callback.code = response.status;
     callback.success = response.status==200?true:false;
         callback.message = data?.message??"ERROR!";
-    callback.data = data;
+    callback.data = data?.data??{};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -113,7 +113,7 @@ export const sys_put = async ({
     callback.code = response.status;
     callback.success = response.status==200?true:false;
         callback.message = data?.message??"ERROR!";
-    callback.data = data;
+    callback.data = data?.data??{};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -122,3 +122,19 @@ export const sys_put = async ({
     throw error;
   }
 };
+
+export const image_uri_to_base64=async(uri="")=>{
+  try {
+    const response = await fetch(uri);
+    const img_blob = await response.blob();
+    
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(img_blob);
+    });
+  } catch (error) {
+    throw error
+  }
+}

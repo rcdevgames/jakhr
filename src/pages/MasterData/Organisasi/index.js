@@ -1,3 +1,3 @@
 import Organization from './Organization'
-
-export {Organization}
+import OrganizationForm from './OrganizationForm'
+export {Organization,OrganizationForm}

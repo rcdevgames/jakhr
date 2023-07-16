@@ -1,4 +1,4 @@
 import Company from './Company'
-import CreateCompany from './Create/CreateBranch'
+import CompanyForm from './CompanyForm'
 
-export {Company, CreateCompany}
+export {Company, CompanyForm}

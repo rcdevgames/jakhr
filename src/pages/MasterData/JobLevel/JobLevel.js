@@ -7,6 +7,7 @@ import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
+import { routes_name } from "../../../route/static_route";
 
 const JobLevel = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const JobLevel = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`/master-data/branch/detail/${val}`)}
+            onClick={() => navigate(`${routes_name.M_JOB_LEVEL_DETAIL}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
@@ -41,12 +42,12 @@ const JobLevel = () => {
     },
   ];
   const action = [
-    // <Link
-    //   to="/master-data/company/create"
-    //   className="btn icon icon-left btn-primary"
-    // >
-    //   <i className="bi bi-plus" /> Tambah
-    // </Link>,
+    <Link
+      to={routes_name.M_JOB_LEVEL_CREATE}
+      className="btn icon icon-left btn-primary"
+    >
+      <i className="bi bi-plus" /> Tambah
+    </Link>,
   ];
   const handleDelete = async () => {
     set_modal(false);
