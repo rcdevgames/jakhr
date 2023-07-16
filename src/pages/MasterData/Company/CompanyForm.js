@@ -20,13 +20,13 @@ const CompanyForm = () => {
     setData((prevState) => ({ ...prevState, is_active: value }));
   };
   useEffect(() => {
-    setData((val) => ({
-      ...val,
-      logo: {
-        source:
-          "http://45.77.245.25:3006/public/uploads/companies/06zsnnrfnyqw.jpeg",
-      },
-    }));
+    // setData((val) => ({
+    //   ...val,
+    //   logo: {
+    //     source:
+    //       "http://45.77.245.25:3006/public/uploads/companies/06zsnnrfnyqw.jpeg",
+    //   },
+    // }));
     if (id) {
       handleDetail(id);
     }
@@ -34,7 +34,12 @@ const CompanyForm = () => {
   const handleDetail = async (id) => {
     try {
       const resp = await providers.getDetail(id);
-      setData(resp.data);
+      setData({
+        ...resp.data,
+        logo: {
+          source:resp.data.logo,
+        },
+      });
     } catch (error) {
       showToast({ message: error.message, type: error });
       navigate(-1);
@@ -46,7 +51,7 @@ const CompanyForm = () => {
         name: data.name,
         alias: data.alias,
         address: data.address,
-        is_active: data?.is_active??false,
+        is_active: data?.is_active ?? false,
         logo: data.logo,
       });
       showToast({ message: resp.message, type: "success" });

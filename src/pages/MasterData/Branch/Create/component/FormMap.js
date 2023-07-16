@@ -3,6 +3,7 @@ import PlacesAutocomplete, {
   geocodeByPlaceId,
   getLatLng,
 } from "react-places-autocomplete";
+import { Input } from "antd";
 import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import TimeInput from "../../../../../components/TimeInput";
 import * as company_providers from "../../../../../providers/master/company";
@@ -11,25 +12,27 @@ import { showToast } from "../../../../../utils/global_store";
 
 class LoadScriptComponent extends LoadScript {
   componentDidMount() {
-    const cleaningUp = true;
-    const isBrowser = typeof document !== "undefined";
-    const isAlreadyLoaded =
-      window.google &&
-      window.google.maps &&
-      document.querySelector("body.first-hit-completed"); // AJAX page loading system is adding this class the first time the app is loaded
-    if (!isAlreadyLoaded && isBrowser) {
-      // @ts-ignore
-      if (window.google && !cleaningUp) {
-        console.error("google api is already presented");
-        return;
+    try {
+      const cleaningUp = true;
+      const isBrowser = typeof document !== "undefined";
+      const isAlreadyLoaded =
+        window.google &&
+        window.google.maps &&
+        document.querySelector("body.first-hit-completed"); // AJAX page loading system is adding this class the first time the app is loaded
+      if (!isAlreadyLoaded && isBrowser) {
+        // @ts-ignore
+        if (window.google && !cleaningUp) {
+          console.error("google api is already presented");
+          return;
+        }
+
+        this.isCleaningUp().then(this.injectScript);
       }
 
-      this.isCleaningUp().then(this.injectScript);
-    }
-
-    if (isAlreadyLoaded) {
-      this.setState({ loaded: true });
-    }
+      if (isAlreadyLoaded) {
+        this.setState({ loaded: true });
+      }
+    } catch (error) {}
   }
 }
 class FormMap extends Component {
@@ -72,25 +75,25 @@ class FormMap extends Component {
     try {
       const resp = await branch_providers.getDetail(id);
       this.setState({
-        branch_name:resp.data.name,
-        address:resp.data.address,
+        branch_name: resp.data.name,
+        address: resp.data.address,
         radius: resp.data.radius,
-        marker:{
-            lat:resp.data.latitude,
-            lng:resp.data.longitude,
+        marker: {
+          lat: resp.data.latitude,
+          lng: resp.data.longitude,
         },
-        center:{
-            lat:resp.data.latitude,
-            lng:resp.data.longitude,
+        center: {
+          lat: resp.data.latitude,
+          lng: resp.data.longitude,
         },
-        phone:resp.data.primary_phone,
-        phone2:resp.data.secondary_phone,
-        branchSchIn:resp.data.sch_in,
-        branchSchOut:resp.data.sch_out,
-        branchSchInHalf:resp.data.sch_in_half,
-        branchSchOutHalf:resp.data.sch_out_half,
+        phone: resp.data.primary_phone,
+        phone2: resp.data.secondary_phone,
+        branchSchIn: resp.data.sch_in,
+        branchSchOut: resp.data.sch_out,
+        branchSchInHalf: resp.data.sch_in_half,
+        branchSchOutHalf: resp.data.sch_out_half,
         company_id: resp.data.company_id,
-      })
+      });
     } catch (error) {
       showToast({ message: error.message, type: "error" });
       this.props.navigate(-1);
@@ -319,48 +322,68 @@ class FormMap extends Component {
               placeholder="Nama Cabang"
             />
           </div>
-          <PlacesAutocomplete
-            value={address}
-            onChange={this.handleChangeAddress}
-            onSelect={(address, placeId) => {
-              this.handleSelect(address, placeId);
-            }}
-            getSuggestionValue={(suggestion) => suggestion.description}
-          >
-            {({
-              getInputProps,
-              suggestions,
-              getSuggestionItemProps,
-              loading,
-            }) => (
-              <div className="form-group">
-                <label>Alamat:</label>
+          
+          <div className="form-group">
+            <label for="address">Address</label>
+            <Input.TextArea
+              value={this.state.address}
+              onChange={this.handleChange}
+              id="address"
+              name="address"
+              className="form-control"
+              placeholder="Address"
+            />
+          </div>
+          {/* {setTimeout(() => {
+            return (
+              <PlacesAutocomplete
+                value={address}
+                onChange={this.handleChangeAddress}
+                onSelect={(address, placeId) => {
+                  this.handleSelect(address, placeId);
+                }}
+                getSuggestionValue={(suggestion) => suggestion.description}
+              >
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading,
+                }) => (
+                  <div className="form-group">
+                    <label>Alamat:</label>
 
-                <input
-                  className="form-control"
-                  {...getInputProps({ placeholder: "Masukan alamat" })}
-                />
-                <div>
-                  {loading ? <div>Loading...</div> : null}
+                    <input
+                      className="form-control"
+                      {...getInputProps({ placeholder: "Masukan alamat" })}
+                    />
+                    <div>
+                      {loading ? <div>Loading...</div> : null}
 
-                  {suggestions.map((suggestion) => {
-                    const style = {
-                      backgroundColor: suggestion.active ? "#445ebe" : "#fff",
-                      cursor: "pointer",
-                      padding: "15px",
-                      textColor: "white",
-                    };
+                      {suggestions.map((suggestion) => {
+                        const style = {
+                          backgroundColor: suggestion.active
+                            ? "#445ebe"
+                            : "#fff",
+                          cursor: "pointer",
+                          padding: "15px",
+                          textColor: "white",
+                        };
 
-                    return (
-                      <div {...getSuggestionItemProps(suggestion, { style })}>
-                        {suggestion.description}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </PlacesAutocomplete>
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, { style })}
+                          >
+                            {suggestion.description}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
+            );
+          }, 100)} */}
           <div className="row">
             <div className="col-sm-8">
               <LoadScriptComponent
