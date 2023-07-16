@@ -13,7 +13,6 @@ const callbackModel = {
 export const sys_get = async ({auth = false, endpoint = ''}) => {
   try {
     let token =  getToken();
-    console.log(API_URL + endpoint);
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
       method: 'GET',
@@ -40,7 +39,6 @@ export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
   try {
     let token =  getToken();
     var callback = callbackModel;
-    console.log(body,API_URL+endpoint);
     const response = await fetch(API_URL + endpoint, {
       method: 'POST',
       headers: {
@@ -55,6 +53,7 @@ export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
     callback.message = data?.message??"ERROR!";
     callback.success = response.status==200?true:false;
     callback.data = data?.data??{};
+    if(endpoint=='auth/login')callback.data={token:data.token};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
