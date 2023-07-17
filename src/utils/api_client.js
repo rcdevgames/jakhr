@@ -1,32 +1,32 @@
-import {getSession, getToken} from './session';
-import {SESSION} from './constants';
+import { getSession, getToken } from "./session";
+import { SESSION } from "./constants";
 
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_API_URL;
 
 const callbackModel = {
   code: 500,
   success: false,
-  message: 'Internal Server Error!',
+  message: "Internal Server Error!",
   data: null,
 };
 
-export const sys_get = async ({auth = false, endpoint = ''}) => {
+export const sys_get = async ({ auth = false, endpoint = "" }) => {
   try {
-    let token =  getToken();
+    let token = getToken();
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: auth ? 'Bearer ' + token : '',
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: auth ? "Bearer " + token : "",
       },
     });
     const data = await response.json();
     callback.code = response.status;
-    callback.success = response.status==200?true:false;
-    callback.message = data?.message??"ERROR!";
-    callback.data = data?.data??{};
+    callback.success = response.status == 200 ? true : false;
+    callback.message = data?.message ?? "ERROR!";
+    callback.data = data?.totalData ? { ...data } : data.data;
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -35,25 +35,25 @@ export const sys_get = async ({auth = false, endpoint = ''}) => {
     throw error;
   }
 };
-export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
+export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
   try {
-    let token =  getToken();
+    let token = getToken();
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: auth ? 'Bearer ' + token : '',
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: auth ? "Bearer " + token : "",
       },
       body: JSON.stringify(body),
     });
     const data = await response.json();
     callback.code = response.status;
-    callback.message = data?.message??"ERROR!";
-    callback.success = response.status==200?true:false;
-    callback.data = data?.data??{};
-    if(endpoint=='auth/login')callback.data={token:data.token};
+    callback.message = data?.message ?? "ERROR!";
+    callback.success = response.status == 200 ? true : false;
+    callback.data = data?.data ?? {};
+    if (endpoint == "auth/login") callback.data = { token: data.token };
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -62,23 +62,23 @@ export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
     throw error;
   }
 };
-export const sys_del = async ({auth = false, endpoint = ''}) => {
+export const sys_del = async ({ auth = false, endpoint = "" }) => {
   try {
-    let token =  getToken();
+    let token = getToken();
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: auth ? 'Bearer ' + token : '',
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: auth ? "Bearer " + token : "",
       },
     });
     const data = await response.json();
     callback.code = response.status;
-    callback.success = response.status==200?true:false;
-        callback.message = data?.message??"ERROR!";
-    callback.data = data?.data??{};
+    callback.success = response.status == 200 ? true : false;
+    callback.message = data?.message ?? "ERROR!";
+    callback.data = data?.data ?? {};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -89,30 +89,30 @@ export const sys_del = async ({auth = false, endpoint = ''}) => {
 };
 export const sys_put = async ({
   auth = false,
-  endpoint = '',
+  endpoint = "",
   body = {},
   is_refresh = false,
 }) => {
   try {
-    let token =  getToken();
+    let token = getToken();
     if (is_refresh) {
-      token =  getSession(SESSION.REFRESH_TOKEN);
+      token = getSession(SESSION.REFRESH_TOKEN);
     }
     var callback = callbackModel;
     const response = await fetch(API_URL + endpoint, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: auth ? 'Bearer ' + token : '',
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: auth ? "Bearer " + token : "",
       },
       body: JSON.stringify(body),
     });
     const data = await response.json();
     callback.code = response.status;
-    callback.success = response.status==200?true:false;
-        callback.message = data?.message??"ERROR!";
-    callback.data = data?.data??{};
+    callback.success = response.status == 200 ? true : false;
+    callback.message = data?.message ?? "ERROR!";
+    callback.data = data?.data ?? {};
     if (response.status != 201 && response.status != 200) {
       throw callback;
     }
@@ -122,11 +122,11 @@ export const sys_put = async ({
   }
 };
 
-export const image_uri_to_base64=async(uri="")=>{
+export const image_uri_to_base64 = async (uri = "") => {
   try {
     const response = await fetch(uri);
     const img_blob = await response.blob();
-    
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
@@ -134,6 +134,6 @@ export const image_uri_to_base64=async(uri="")=>{
       reader.readAsDataURL(img_blob);
     });
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};

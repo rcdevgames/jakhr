@@ -6,6 +6,7 @@ import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
+import { routes_name } from "../../../route/static_route";
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -36,17 +37,6 @@ const Employee = () => {
     { title: "Position", dataIndex: "position", key: "position" },
     { title: "Job", dataIndex: "job_level", key: "job_level" },
     // {
-    //   title: "Primary Phone",
-    //   dataIndex: "primary_phone",
-    //   key: "primary_phone",
-    // },
-    // {
-    //   title: "Secondary Phone",
-    //   dataIndex: "secondary_phone",
-    //   key: "secondary_phone",
-    // },
-    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
-    // {
     //   title: "Action",
     //   dataIndex: "id",
     //   key: "id",
@@ -59,18 +49,12 @@ const Employee = () => {
     //       >
     //         <i className="bi bi-file-text"></i>
     //       </a>
-    //       <a
-    //         onClick={() => openModal(record)}
-    //         className="btn icon btn-danger btn-sm"
-    //       >
-    //         <i className="bi bi-trash"></i>
-    //       </a>
     //     </div>
     //   ),
     // },
   ];
   const action = [
-    // <Link to="/master-data/employee/create" className="btn icon icon-left btn-primary"><i className="bi bi-plus"/> Tambah</Link>
+    <Link to={routes_name.M_EMPLOYEE_CREATE} className="btn icon icon-left btn-primary"><i className="bi bi-plus"/> Tambah</Link>
     // ,
   ];
   const handleDelete = async () => {

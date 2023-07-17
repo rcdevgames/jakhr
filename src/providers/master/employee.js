@@ -26,6 +26,7 @@ export const getDetail = async (id) => {
 };
 export const insertData=async (body={})=>{
   try {
+    console.log(body);
     const response = await sys_post({
       auth:true,
       body,

@@ -10,4 +10,6 @@ export const routes_name={
     M_JOB_POSITION_DETAIL:'/master-data/job_position/detail/',
     M_COMPANY_CREATE:'/master-data/company/create',
     M_COMPANY_DETAIL:'/master-data/company/detail/',
+    M_EMPLOYEE_CREATE:'/master-data/employee/create',
+    M_EMPLOYEE_DETAIL:'/master-data/employee/detail/',
 }

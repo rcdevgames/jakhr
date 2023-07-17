@@ -20,13 +20,6 @@ const CompanyForm = () => {
     setData((prevState) => ({ ...prevState, is_active: value }));
   };
   useEffect(() => {
-    // setData((val) => ({
-    //   ...val,
-    //   logo: {
-    //     source:
-    //       "http://45.77.245.25:3006/public/uploads/companies/06zsnnrfnyqw.jpeg",
-    //   },
-    // }));
     if (id) {
       handleDetail(id);
     }
@@ -97,13 +90,11 @@ const CompanyForm = () => {
               <div className="form-body">
                 <div className="row mt-3">
                   <div className="col-md-6">
-                    <div className="form-group">
                       <label>Logo:</label>
                       <UploadFile
                         onImageUpload={handleUpload}
                         file={data.logo}
                       />
-                    </div>
                   </div>
                   <div className="col-md-6">
                     <div className="col-md-6">

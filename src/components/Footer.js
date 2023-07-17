@@ -10,7 +10,8 @@ function Footer() {
           <img src={process.env.PUBLIC_URL + '/assets/images/logo/logo-red.png'} alt="Avatar" />
         </div>
         <div className="col-6 text-end">
-          <img src={process.env.PUBLIC_URL + '/assets/images/logo/Jakhr.png'} alt="Avatar" />
+          <p>Copyright © PT. Jakarta Propertindo - 2023</p>
+          {/* <img src={process.env.PUBLIC_URL + '/assets/images/logo/Jakhr.png'} alt="Avatar" /> */}
         </div>
       </div>
     </div>

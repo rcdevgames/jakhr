@@ -26,8 +26,9 @@ const DataTablePagination = ({
   const fetchData = () => {
     fetchDataFunc(currentPage, pageSize, searchQuery)
       .then((data) => {
-        setTableData(data.data);
-        setTotalItems(data.totalData);
+        // console.log(data);
+        setTableData(data.data.data);
+        setTotalItems(data.data.totalData);
       })
       .catch((error) => {
         showToast({ message: error.message, type: "error" });

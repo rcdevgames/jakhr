@@ -31,7 +31,7 @@ import {
 } from "../pages/MasterData/Applicant";
 import LeaveBalance from "../pages/MasterData/LeaveBalance";
 // Transaction
-import { Attendance, CreateAttendance } from "../pages/Transaction/Attendance";
+import { Attendance } from "../pages/Transaction/Attendance";
 import { Leave, CreateLeave } from "../pages/Transaction/Leave";
 import { Additional, CreateAdditional } from "../pages/Transaction/Additional";
 import { Reduction, CreateReduction } from "../pages/Transaction/Reduction";
@@ -58,8 +58,9 @@ import { ReportKpi } from "../pages/Report/Kpi";
 import { ReportTax } from "../pages/Report/Tax";
 import { ReportSalary } from "../pages/Report/Salary";
 
-// Tools
+// Tools or CONFIG
 import { Setting } from "../pages/Tool/Setting";
+import { BpjsForm } from "../pages/Config/Bpjs";
 import { SystemLog } from "../pages/Tool/SystemLog";
 
 import PrivateRoute from "./PrivateRoute";
@@ -158,7 +159,6 @@ const Router = () => (
           <Route path="transaction">
             <Route path="attendance">
               <Route path="" element={<Attendance />} />
-              <Route path="create" element={<CreateAttendance />} />
             </Route>
             <Route path="leave">
               <Route path="" element={<Leave />} />
@@ -229,12 +229,12 @@ const Router = () => (
             </Route>
           </Route>
           <Route path="tool">
-            <Route path="setting">
-              <Route path="" element={<Setting />} />
+            <Route path="bpjs">
+              <Route path="" element={<BpjsForm />} />
             </Route>
-            <Route path="system-log">
+            {/* <Route path="system-log">
               <Route path="" element={<SystemLog />} />
-            </Route>
+            </Route> */}
           </Route>
         </Route>
       </Route>

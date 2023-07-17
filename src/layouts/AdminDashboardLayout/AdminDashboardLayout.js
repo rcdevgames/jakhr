@@ -29,15 +29,7 @@ const navItems = [
         link: "/master-data/branch",
       },
       {
-        label: "Employee",
-        link: "/master-data/employee",
-      },
-      {
-        label: "Leave Mass",
-        link: "/master-data/leave_mass",
-      },
-      {
-        label: "Organization",
+        label: "Division",
         link: "/master-data/organization",
       },
       {
@@ -48,42 +40,14 @@ const navItems = [
         label: "Job Position",
         link: "/master-data/job_position",
       },
-      // {
-      //   label: "Gaji",
-      //   link: "/master-data/salary",
-      // },
-      // {
-      //   label: "Track Record",
-      //   link: "/master-data/record",
-      // },
-      // {
-      //   label: "Master KPI",
-      //   link: "/master-data/kpi",
-      // },
-      // {
-      //   label: "Jadwal",
-      //   link: "/master-data/schedule",
-      // },
-      // {
-      //   label: "Lembur",
-      //   link: "/master-data/overtime",
-      // },
-      // {
-      //   label: "Saldo & Cutri Bersama",
-      //   link: "/master-data/leave-balance",
-      // },
-      // {
-      //   label: "Pengumuman",
-      //   link: "/master-data/announcement",
-      // },
-      // {
-      //   label: "Lowongan Kerja",
-      //   link: "/master-data/vacancy",
-      // },
-      // {
-      //   label: "Pelamar",
-      //   link: "/master-data/applicant",
-      // },
+      {
+        label: "Employee",
+        link: "/master-data/employee",
+      },
+      {
+        label: "Leave Mass",
+        link: "/master-data/leave_mass",
+      },
     ],
   },
   {
@@ -117,16 +81,11 @@ const navItems = [
         label: "Reimbursement",
         link: "/transaction/imbursement",
       },
-      // {
-      //   label: "KPI",
-      //   link: "/transaction/kpi",
-      // },
     ],
   },
   {
     icon: "PresentationChartBarIcon",
     iconType: "outline",
-
     label: "Laporan",
     dir: "/report",
     subMenu: [
@@ -134,10 +93,6 @@ const navItems = [
         label: "Karyawan",
         link: "/report/employee",
       },
-      // {
-      //   label: "Pelamar",
-      //   link: "/report/applicant",
-      // },
       {
         label: "Kehadiran",
         link: "/report/attendance",
@@ -174,26 +129,18 @@ const navItems = [
         label: "Pajak",
         link: "/report/tax",
       },
-      // {
-      //   label: "KPI",
-      //   link: "/report/kpi",
-      // },
     ],
   },
   {
     icon: "ViewGridIcon",
     iconType: "solid",
-    label: "Tools",
+    label: "Config",
     dir: "/tool",
     subMenu: [
       {
-        label: "Setting",
-        link: "/tool/setting",
-      },
-      {
-        label: "System Log",
-        link: "/tool/system-log",
-      },
+        label: "BPJS",
+        link: "/tool/bpjs",
+      }
     ],
   },
 ];
