@@ -93,6 +93,7 @@ const Router = () => (
             <Route path="employee">
               <Route path="" element={<Employee />} />
               <Route path="create" element={<CreateEmployee />} />
+              <Route path="detail/:id" element={<CreateEmployee />} />
             </Route>
             
             <Route path="organization">

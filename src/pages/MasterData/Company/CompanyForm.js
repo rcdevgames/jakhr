@@ -9,6 +9,7 @@ import UploadFile from "../../../components/UploadFile";
 const CompanyForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
   const title = "Company " + (id ? "Edit Form" : "Form");
   const handleChange = (event) => {
@@ -20,18 +21,29 @@ const CompanyForm = () => {
     setData((prevState) => ({ ...prevState, is_active: value }));
   };
   useEffect(() => {
+    getParent();
     if (id) {
       handleDetail(id);
     }
   }, []);
+  const getParent = async () => {
+    try {
+      const resp = await providers.getDataMaximum();
+      set_parent(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+    }
+  };
   const handleDetail = async (id) => {
     try {
       const resp = await providers.getDetail(id);
       setData({
         ...resp.data,
-        logo: {
-          source:resp.data.logo,
-        },
+        logo: resp.data.logo
+          ? {
+              source: resp.data.logo,
+            }
+          : null,
       });
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -46,6 +58,7 @@ const CompanyForm = () => {
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
+        parent_id: data.parent_id,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -64,6 +77,7 @@ const CompanyForm = () => {
           address: data.address,
           is_active: data.is_active,
           logo: data.logo,
+          parent_id: data.parent_id,
         },
         data.id
       );
@@ -90,11 +104,8 @@ const CompanyForm = () => {
               <div className="form-body">
                 <div className="row mt-3">
                   <div className="col-md-6">
-                      <label>Logo:</label>
-                      <UploadFile
-                        onImageUpload={handleUpload}
-                        file={data.logo}
-                      />
+                    <label>Logo:</label>
+                    <UploadFile onImageUpload={handleUpload} file={data.logo} />
                   </div>
                   <div className="col-md-6">
                     <div className="col-md-6">
@@ -112,6 +123,28 @@ const CompanyForm = () => {
                           value={data.is_active}
                           onChange={handleChangeActive}
                         />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Parent:</label>{" "}
+                        <select
+                          className="form-select"
+                          id="parent_id"
+                          name="parent_id"
+                          value={data.parent_id}
+                          onChange={handleChange}
+                          aria-label="Parent"
+                        >
+                          <option value={null}>Select Parent</option>
+                          {parent.map((option, index) =>
+                            option.id == data.id ? null : (
+                              <option key={index} value={option.id}>
+                                {option.name}
+                              </option>
+                            )
+                          )}
+                        </select>
                       </div>
                     </div>
                     <div className="col-md-6">

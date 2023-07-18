@@ -10,6 +10,17 @@ const JobPositionForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfjob_positionModel({}));
+  const [parent, set_parent] = useState(convert.listOfjob_positionModel([]));
+
+  const getParent = async () => {
+    try {
+      const resp = await providers.getDataMax();
+      set_parent(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+    }
+  };
+
   const [job_level, setJobLevel] = useState(
     convert_job_level.listOfjob_levelModel([])
   );
@@ -20,6 +31,7 @@ const JobPositionForm = () => {
   };
   useEffect(() => {
     getJobLevel();
+    getParent();
     if (id) {
       handleDetail(id);
     }
@@ -36,7 +48,7 @@ const JobPositionForm = () => {
   const getJobLevel = async () => {
     try {
       const resp = await providers_job_level.getDataMax();
-      setJobLevel(resp.data);
+      setJobLevel(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
@@ -45,7 +57,8 @@ const JobPositionForm = () => {
     try {
       const resp = await providers.insertData({
         name: data.name,
-        job_level_id:data.job_level_id
+        job_level_id: data.job_level_id,
+        parent_id: data.parent_id,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -60,7 +73,8 @@ const JobPositionForm = () => {
       const resp = await providers.updateData(
         {
           name: data.name,
-          job_level_id:data.job_level_id
+          job_level_id: data.job_level_id,
+          parent_id: data.parent_id,
         },
         data.id
       );
@@ -83,6 +97,28 @@ const JobPositionForm = () => {
             <div className="form form-horizontal">
               <div className="form-body">
                 <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Parent:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="parent_id"
+                        name="parent_id"
+                        value={data.parent_id}
+                        onChange={handleChange}
+                        aria-label="Parent"
+                      >
+                        <option value={null}>Select Parent</option>
+                        {parent.map((option, index) =>
+                          option.id == data.id ? null : (
+                            <option key={index} value={option.id}>
+                              {option.name}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Job Level:</label>{" "}

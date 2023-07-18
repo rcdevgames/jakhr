@@ -3,17 +3,29 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/organizationModel";
 import * as providers from "../../../providers/master/organization";
-import {  showToast } from "../../../utils/global_store";
+import { showToast } from "../../../utils/global_store";
 const OrganizationForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
+  const [parent, set_parent] = useState(convert.listOforganizationModel([]));
+
+  const getParent = async () => {
+    try {
+      const resp = await providers.getDataMax();
+      set_parent(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+    }
+  };
+
   const title = "Organization " + (id ? "Edit Form" : "Form");
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
   };
   useEffect(() => {
+    getParent();
     if (id) {
       // console.log(id);
       handleDetail(id);
@@ -32,6 +44,7 @@ const OrganizationForm = () => {
     try {
       const resp = await providers.insertData({
         name: data.name,
+        parent_id: data.parent_id,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -46,6 +59,7 @@ const OrganizationForm = () => {
       const resp = await providers.updateData(
         {
           name: data.name,
+          parent_id: data.parent_id,
         },
         data.id
       );
@@ -70,6 +84,28 @@ const OrganizationForm = () => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
+                      <label>Parent:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="parent_id"
+                        name="parent_id"
+                        value={data.parent_id}
+                        onChange={handleChange}
+                        aria-label="Parent"
+                      >
+                        <option value={null}>Select Parent</option>
+                        {parent.map((option, index) =>
+                          option.id == data.id ? null : (
+                            <option key={index} value={option.id}>
+                              {option.name}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
                       <label>Organization Name:</label>
                       <input
                         className="form-control"
@@ -82,9 +118,7 @@ const OrganizationForm = () => {
                   </div>
                 </div>
                 <button
-                  onClick={()=>
-                    data.id ? handleUpdate() : handleSubmit()
-                  }
+                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
                   className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}

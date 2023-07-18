@@ -11,6 +11,7 @@ const modelOfDatauser = {
 	password: ''
 };
 const modelOfDataemployeeModel = {
+	id: '',
 	full_name: '',
 	phone_number: '',
 	email: '',
@@ -39,7 +40,6 @@ const modelOfDataemployeeModel = {
 	emergency_contact_relationship: null,
 	emergency_contact_phone_number: null,
 	is_payroll: false,
-	
     "photo":"",
 	user: modelOfDatauser
 };
@@ -50,6 +50,7 @@ function listOfemployeeModel(data = []) {
     data.map((val) => {
       var object = {
 				full_name: val.full_name ?? null,
+				id: val.id ?? null,
 				photo: val.photo ?? null,
 				phone_number: val.phone_number ?? null,
 				email: val.email ?? null,
@@ -94,6 +95,7 @@ function objectOfemployeeModel(data = null) {
   }
   try {
 		objectData.full_name = data.full_name ?? null;
+		objectData.id = data.id ?? null;
 		objectData.photo = data.photo ?? null;
 		objectData.phone_number = data.phone_number ?? null;
 		objectData.email = data.email ?? null;

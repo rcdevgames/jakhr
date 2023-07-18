@@ -13,12 +13,12 @@ export const getData = async (page = 1, limit = 10, search = "") => {
     throw error;
   }
 };
-export const getDataMax = async () => {
+export const getDataMax = async (id=null) => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
-        uri + `job_levels?page=1&perPage=99999999`,
+        uri + `job_levels?page=1&perPage=99999999`+(id?`&organization_id=${id}`:''),
     });
     return response;
   } catch (error) {

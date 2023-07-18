@@ -103,7 +103,7 @@ class FormMap extends Component {
     try {
       const resp = await company_providers.getDataMaximum();
       this.setState({
-        company_list: resp.data,
+        company_list: resp.data.data,
       });
     } catch (error) {
       showToast({ message: error.message, type: "error" });

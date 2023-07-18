@@ -16,7 +16,7 @@ export const getDetail = async (id) => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `detail_branch/${id}`,
+      endpoint: uri + `detail_employee/${id}`,
     });
     // console.log(response);
     return response;
@@ -30,7 +30,7 @@ export const insertData=async (body={})=>{
     const response = await sys_post({
       auth:true,
       body,
-      endpoint:uri+"create_branch"
+      endpoint:uri+"create_employee"
     });
     return response;
   } catch (error) {
@@ -39,23 +39,15 @@ export const insertData=async (body={})=>{
 }
 
 export const updateData=async (body={},id="")=>{
+  console.log(body);
   try {
     const response = await sys_put({
       auth:true,
       body,
-      endpoint:uri+"update_branch/"+id
+      endpoint:uri+"update_employee/"+id
     });
     return response;
   } catch (error) {
     throw error;
-  }
-}
-
-export const deleteData= async(id="")=>{
-  try {
-    const response = await sys_del({auth:true,endpoint:uri+`delete_branch/${id}`});
-    return response;
-  } catch (error) {
-    throw error
   }
 }

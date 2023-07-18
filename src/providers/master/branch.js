@@ -12,6 +12,18 @@ export const getData = async (page = 1,limit=10,search="") => {
     throw error;
   }
 };
+
+export const getDataMax = async (id_company=null) => {
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint: uri + `get_branches?page=1&perPage=999999`+(id_company?`&company_id=${id_company}`:""),
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getDetail = async (id) => {
   try {
     const response = await sys_get({

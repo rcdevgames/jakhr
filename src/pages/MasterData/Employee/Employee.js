@@ -36,43 +36,27 @@ const Employee = () => {
     { title: "Division", dataIndex: "division", key: "division" },
     { title: "Position", dataIndex: "position", key: "position" },
     { title: "Job", dataIndex: "job_level", key: "job_level" },
-    // {
-    //   title: "Action",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (val, record) => (
-    //     <div className="btn-group" role="group">
-    //       <a
-    //         onClick={() => navigate(`/master-data/branch/detail/${val}`)}
-    //         style={{ marginRight: 10 }}
-    //         className="btn icon btn-primary btn-sm"
-    //       >
-    //         <i className="bi bi-file-text"></i>
-    //       </a>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      render: (val, record) => (
+        <div className="btn-group" role="group">
+          <a
+            onClick={() => navigate(`${routes_name.M_EMPLOYEE_DETAIL}${val}`)}
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
+            <i className="bi bi-file-text"></i>
+          </a>
+        </div>
+      ),
+    },
   ];
   const action = [
     <Link to={routes_name.M_EMPLOYEE_CREATE} className="btn icon icon-left btn-primary"><i className="bi bi-plus"/> Tambah</Link>
     // ,
   ];
-  const handleDelete = async () => {
-    set_modal(false);
-    try {
-      const resp = await employee_providers.deleteData(id_branch);
-      showToast({ message: resp.message, type: "info" });
-      window.location.reload();
-    } catch (error) {
-      showToast({ message: error.message, type: "error" });
-    }
-  };
-  const openModal = async (val) => {
-    set_message(val.name);
-    set_branch(val.id);
-    set_modal(true);
-    console.log(val);
-  };
   return (
     <AdminDashboard label="">
       <DataTablePagination
@@ -81,15 +65,6 @@ const Employee = () => {
         title="Employee"
         action={action}
       />
-      {
-        <ActionModal
-          onOk={handleDelete}
-          onCancel={() => set_modal(false)}
-          title="Confirmation"
-          content={`Are you sure to delete ${message}?`}
-          visible={modal}
-        />
-      }
     </AdminDashboard>
   );
 };
