@@ -19,7 +19,6 @@ const navItems = [
     label: "Master Data",
     dir: "/master-data",
     subMenu: [
-      
       {
         label: "Company",
         link: "/master-data/company",
@@ -140,7 +139,17 @@ const navItems = [
       {
         label: "BPJS",
         link: "/tool/bpjs",
-      }
+      },
+
+      {
+        label: "Late",
+        link: "/tool/late",
+      },
+
+      {
+        label: "Overtime",
+        link: "/tool/overtime",
+      },
     ],
   },
 ];
@@ -172,11 +181,14 @@ const AdminDashboardLayout = () => {
           <div className="sidebar-header position-relative">
             <div className="d-flex justify-content-between">
               {/* <div className="logo"> */}
-                <Link to="/">
-                  <img src={process.env.PUBLIC_URL + '/assets/images/logo/Jakhr.png'} alt="Logo" />
-                </Link>
+              <Link to="/">
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/logo/Jakhr.png"}
+                  alt="Logo"
+                />
+              </Link>
               {/* </div> */}
-           
+
               <div className="sidebar-toggler x">
                 <a href="#" className="sidebar-hide d-xl-none d-block">
                   <i className="bi bi-x bi-middle"></i>
@@ -186,7 +198,6 @@ const AdminDashboardLayout = () => {
           </div>
           <div className="sidebar-menu">
             <ul className="menu">
-
               {navItems.map((el, idx) => {
                 const link = "" + (el.link ? el.link : "");
 
@@ -216,7 +227,7 @@ const AdminDashboardLayout = () => {
                   >
                     <Link to={link} className="sidebar-link">
                       <HeroIcon iconName={el.icon} iconType={el.iconType} />
-                     
+
                       <span>{el.label}</span>
                     </Link>
                     {!isEmpty(el.subMenu) && (
