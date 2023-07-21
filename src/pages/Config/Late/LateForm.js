@@ -73,8 +73,7 @@ const LateForm = () => {
                         aria-label="Calc Base"
                       >
                         <option value={null}>Select Calc Base</option>
-                        {calc_base_data.map((option, index) =>
-                          option.val == data.calc_base ? null : (
+                        {calc_base_data.map((option, index) => (
                             <option key={index} value={option.val}>
                               {option.text}
                             </option>

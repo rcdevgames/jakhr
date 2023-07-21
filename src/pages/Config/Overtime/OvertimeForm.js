@@ -30,6 +30,7 @@ const OvertimeForm = () => {
     try {
       const resp = await providers.getData();
       setData(resp.data);
+      handleChangeActive(resp.data.is_approval)
     } catch (error) {
       showToast({ message: error.message, type: error });
       navigate(-1);
@@ -101,13 +102,11 @@ const OvertimeForm = () => {
                         aria-label="Calc Base"
                       >
                         <option value={null}>Select Calc Base</option>
-                        {calc_base_data.map((option, index) =>
-                          option.val == data.calc_base ? null : (
-                            <option key={index} value={option.val}>
-                              {option.text}
-                            </option>
-                          )
-                        )}
+                        {calc_base_data.map((option, index) => (
+                          <option key={index} value={option.val}>
+                            {option.text}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -118,18 +117,16 @@ const OvertimeForm = () => {
                         className="form-select"
                         id="calc_mode"
                         name="calc_mode"
-                        value={data.calc_base}
+                        value={data.calc_mode}
                         onChange={handleChange}
                         aria-label="Calc Mode"
                       >
                         <option value={null}>Select Calc Mode</option>
-                        {calc_mode_date.map((option, index) =>
-                          option.val == data.calc_base ? null : (
-                            <option key={index} value={option.val}>
-                              {option.text}
-                            </option>
-                          )
-                        )}
+                        {calc_mode_date.map((option, index) => (
+                          <option key={index} value={option.val}>
+                            {option.text}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
