@@ -84,7 +84,7 @@ const OvertimeForm = () => {
                       <label style={{ marginRight: 15 }}>Approval</label>
                       <Switch
                         name="is_approval"
-                        value={data.is_approval}
+                        checked={data.is_approval}
                         onChange={handleChangeActive}
                       />
                     </div>
