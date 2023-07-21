@@ -12,4 +12,5 @@ export const routes_name={
     M_COMPANY_DETAIL:'/master-data/company/detail/',
     M_EMPLOYEE_CREATE:'/master-data/employee/create',
     M_EMPLOYEE_DETAIL:'/master-data/employee/detail/',
+    M_EMPLOYEE_CREATE_MULTIPLE:'/master-data/employee/multiple/',
 }

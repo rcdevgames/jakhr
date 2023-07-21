@@ -73,6 +73,7 @@ const JobLevel = () => {
         title="Job Level"
         action={action}
       />
+      
       <ActionModal
         onOk={handleDelete}
         onCancel={() => set_modal(false)}

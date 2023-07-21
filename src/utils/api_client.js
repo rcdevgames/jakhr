@@ -48,7 +48,9 @@ export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
       },
       body: JSON.stringify(body),
     });
+    console.log(body);
     const data = await response.json();
+    console.log(data);
     callback.code = response.status;
     callback.message = data?.message ?? "ERROR!";
     callback.success = response.status == 200 ? true : false;
@@ -59,6 +61,7 @@ export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
     }
     return callback;
   } catch (error) {
+    // console.log(error);
     throw error;
   }
 };

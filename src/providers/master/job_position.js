@@ -6,7 +6,7 @@ export const getData = async (page = 1, limit = 10, search = "") => {
     const response = await sys_get({
       auth: true,
       endpoint:
-        uri + `job_positions?page=${page}&perPage=${limit}&search=${search}`,
+        uri + `job_positions?page=${page}&perPage=${limit}&keywords=${search}`,
     });
     return response;
   } catch (error) {

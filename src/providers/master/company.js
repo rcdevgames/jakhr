@@ -1,11 +1,11 @@
-import { sys_post, sys_put, sys_get } from "../../utils/api_client";
+import { sys_del, sys_post, sys_put, sys_get } from "../../utils/api_client";
 
 const uri = "master/";
 export const getData = async (page = 1,limit=10,search="") => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `get_companies?page=${page}&perPage=${limit}&search=${search}`,
+      endpoint: uri + `get_companies?page=${page}&perPage=${limit}&keywords=${search}`,
     });
     return response;
   } catch (error) {
@@ -62,11 +62,11 @@ export const getDetail = async (id) => {
     }
   }
   
-//   export const deleteData= async(id="")=>{
-//     try {
-//       const response = await sys_del({auth:true,endpoint:uri+`delete_branch/${id}`});
-//       return response;
-//     } catch (error) {
-//       throw error
-//     }
-//   }
+  export const deleteData= async(id="")=>{
+    try {
+      const response = await sys_del({auth:true,endpoint:uri+`delete_company/${id}`});
+      return response;
+    } catch (error) {
+      throw error
+    }
+  }

@@ -14,6 +14,7 @@ import * as providers_organization from "../../../providers/master/organization"
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
+import { routes_name } from "../../../route/static_route";
 const EmployeeForm = () => {
   const gender = ["Laki-laki", "Perempuan"];
   const religion = ["Islam", "Kristen", "Hindu", "Budha", "Konghucu"];
@@ -59,7 +60,10 @@ const EmployeeForm = () => {
   const handleDetail = async (id) => {
     try {
       const resp = await providers.getDetail(id);
-      setData({ ...resp.data, photo:resp.data.photo? { source: resp.data.photo }:null });
+      setData({
+        ...resp.data,
+        photo: resp.data.photo ? { source: resp.data.photo } : null,
+      });
       await getOrganization();
       await getJobLevel();
       await getJobPosition();
@@ -277,9 +281,20 @@ const EmployeeForm = () => {
                     </div>
                   </div>
                   <div className="col-md-6">
+                    {data.id == null ? (
+                      <div className="col-md-12">
+                        <Link
+                          to={routes_name.M_EMPLOYEE_CREATE_MULTIPLE}
+                          className="btn icon icon-left btn-primary"
+                        >
+                          <i className="bi bi-plus" /> Multiple
+                        </Link>
+                      </div>
+                    ) : null}
                     <div className="col-md-12">
                       <h4>Employee Information</h4>
                     </div>
+
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Fullname:</label>

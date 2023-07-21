@@ -9,7 +9,7 @@ import Login from "../pages/Login";
 // master data
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
-import { Employee, CreateEmployee } from "../pages/MasterData/Employee";
+import { Employee, CreateEmployee, EmployeeMultipleForm } from "../pages/MasterData/Employee";
 import { Salary, CreateSalary } from "../pages/MasterData/Salary";
 import { Record, CreateRecord } from "../pages/MasterData/TrackRecord";
 import { Kpi, CreateKpi } from "../pages/MasterData/Kpi";
@@ -66,6 +66,8 @@ import { SystemLog } from "../pages/Tool/SystemLog";
 import PrivateRoute from "./PrivateRoute";
 import ScrollToTop from "./ScrollToTop";
 import JobLevelForm from "../pages/MasterData/JobLevel/JobLevelForm";
+import { LateForm } from "../pages/Config/Late";
+import { OvertimeForm } from "../pages/Config/Overtime";
 
 const Router = () => (
   <BrowserRouter>
@@ -94,6 +96,7 @@ const Router = () => (
               <Route path="" element={<Employee />} />
               <Route path="create" element={<CreateEmployee />} />
               <Route path="detail/:id" element={<CreateEmployee />} />
+              <Route path="multiple" element={<EmployeeMultipleForm />} />
             </Route>
             
             <Route path="organization">
@@ -232,6 +235,14 @@ const Router = () => (
           <Route path="tool">
             <Route path="bpjs">
               <Route path="" element={<BpjsForm />} />
+            </Route>
+            
+            <Route path="late">
+              <Route path="" element={<LateForm />} />
+            </Route>
+            
+            <Route path="overtime">
+              <Route path="" element={<OvertimeForm />} />
             </Route>
             {/* <Route path="system-log">
               <Route path="" element={<SystemLog />} />
