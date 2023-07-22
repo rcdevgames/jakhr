@@ -1,0 +1,6 @@
+[
+  { "value": "custom", "name": "Custom" },
+  { "value": "gaji_pokok", "name": "Gaji Pokok" },
+  { "value": "tunjangan_tetap", "name": "Tunjangan Tetap" },
+  { "value": "gaji_pokok_tunjangan", "name": "Gaji Pokok Tunjangan" }
+]

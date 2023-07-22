@@ -51,7 +51,7 @@ export function SysDateTransform({
   }
   const current = new Date();
   const dateFormat = new Date(date);
-  const month = dateFormat.getMonth()+1;
+  const month = dateFormat.getMonth() + 1;
   const year = dateFormat.getFullYear();
   const day = dateFormat.getDate();
   const hour = dateFormat.getHours();
@@ -176,7 +176,11 @@ export function SysMonthTransform(val, type = "long", lang = "en") {
   }
 }
 
-export function showToast({ message = "", type = "success",autoClose=2000 }) {
+export function showToast({
+  message = "",
+  type = "success",
+  autoClose = 2000,
+}) {
   switch (type) {
     case "error":
       toast.error(message, {
@@ -215,5 +219,16 @@ export function showToast({ message = "", type = "success",autoClose=2000 }) {
         theme: "light",
       });
       break;
+  }
+}
+export function SysReadData(file) {
+  try {
+    let rawData = [{ value: "", name: "" }];
+    rawData = [];
+    rawData = file;
+    return rawData;
+  } catch (err) {
+    console.error("Error reading data:", err);
+    return [];
   }
 }

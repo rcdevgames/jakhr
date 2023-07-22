@@ -3,22 +3,15 @@ import { useNavigate } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/overtimeModel";
 import * as providers from "../../../providers/config/overtime";
-import { showToast } from "../../../utils/global_store";
+import { SysReadData, showToast } from "../../../utils/global_store";
 import { Input, Switch } from "antd";
+import { sys_labels, sys_path_data } from "../../../utils/constants";
 const OvertimeForm = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(convert.objectOfovertimeModel({}));
-  const calc_base_data = [
-    { val: "custom", text: "Custom" },
-    { val: "gaji_pokok", text: "Gaji Pokok" },
-    { val: "tunjangan_tetap", text: "Tunjangan Tetap" },
-    { val: "gaji_pokok_tunjangan", text: "Gaji Pokok Tunjangan" },
-  ];
-  const calc_mode_date = [
-    { val: "undang_undang", text: "Undang-Undang" },
-    { val: "Kelipatan Rata Upah", text: "Kelipatan Rata Upah" },
-  ];
-  const title = "Overtime Form";
+  const calc_base_data = SysReadData(sys_path_data.calc_base_data);
+  const calc_mode_date =SysReadData(sys_path_data.calc_mode_data);
+  const title = `${sys_labels.menus.OVERTIME} ${sys_labels.action.FORM}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -103,8 +96,8 @@ const OvertimeForm = () => {
                       >
                         <option value={null}>Select Calc Base</option>
                         {calc_base_data.map((option, index) => (
-                          <option key={index} value={option.val}>
-                            {option.text}
+                          <option key={index} value={option.value}>
+                            {option.name}
                           </option>
                         ))}
                       </select>
@@ -123,8 +116,8 @@ const OvertimeForm = () => {
                       >
                         <option value={null}>Select Calc Mode</option>
                         {calc_mode_date.map((option, index) => (
-                          <option key={index} value={option.val}>
-                            {option.text}
+                          <option key={index} value={option.value}>
+                            {option.name}
                           </option>
                         ))}
                       </select>

@@ -6,6 +6,7 @@ import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
+import { sys_labels } from "../../../utils/constants";
 
 const Branch = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const Branch = () => {
       to="/master-data/branch/create"
       className="btn icon icon-left btn-primary"
     >
-      <i className="bi bi-plus" /> Tambah
+      <i className="bi bi-plus" /> {sys_labels.action.ADD}
     </Link>,
   ];
   const handleDelete = async () => {
@@ -84,7 +85,7 @@ const Branch = () => {
       <DataTablePagination
         fetchDataFunc={branch_providers.getData}
         columns={columns}
-        title="Cabang"
+        title={`${sys_labels.menus.BRANCH}`}
         action={action}
       />
         <ActionModal

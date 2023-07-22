@@ -1,0 +1,33 @@
+{
+    "full_name": "karyawan 51 test update",
+    "phone_number": "0812312312",
+    "email": "karyawan3@jakpro.co.id",
+    "gender": "Laki-laki",
+    "marital_status": "Menikah",
+    "religion": "Islam",
+    "pob": "Jakarta",
+    "dob": "1971-01-01",
+    "blood_type": "AB",
+    "id_type": "KTP",
+    "id_number": "317123213213",
+    "citizien_address": "Griya Pedurenan II No. 77 RT. 009 RW. 002 Kel. Jatiluhur Kec. Jatiasih Kota Bekasi Jawa Barat",
+    "address": "Bekasi Griya Pedurenan II No. 77 RT 009 RW 002",
+    "employee_id": "004.2015.013",
+    "employee_join_date": "2021-06-15",
+    "employee_expired_date": "2025-06-15",
+    "tax_type": 1,
+    "tax_number": "24.188.978.1-407.001",
+    "branch_id": "16286db1-8a27-4097-b18a-9392f0d958a4",
+    "organization_id": "c6e62a96-ddf7-49f0-ba37-f5a732ca52ea",
+    "job_level_id": "b3d54b5b-c388-4433-9453-10120f265073",
+    "job_position_id": "d815e626-3b50-4b11-909c-5996b653a46a",
+    "employee_status_id": "524460fc-6410-4a80-8301-9227d0f062bc",
+    "create_user": true,
+    "emergency_contact_name": null,
+    "emergency_contact_relationship": null,
+    "emergency_contact_phone_number": null,
+    "is_payroll": true,
+    "user": {
+        "password": "test123"
+    }
+}

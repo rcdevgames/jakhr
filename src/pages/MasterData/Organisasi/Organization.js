@@ -8,6 +8,7 @@ import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
+import { sys_labels } from "../../../utils/constants";
 
 const Organization = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const Organization = () => {
       to={routes_name.M_ORGANIZATION_CREATE}
       className="btn icon icon-left btn-primary"
     >
-      <i className="bi bi-plus" /> Tambah
+      <i className="bi bi-plus" /> {sys_labels.action.ADD}
     </Link>,
   ];
   const handleDelete = async () => {
@@ -70,7 +71,7 @@ const Organization = () => {
       <DataTablePagination
         fetchDataFunc={organization_providers.getData}
         columns={columns}
-        title="Organization"
+        title={sys_labels.menus.DIVISION}
         action={action}
       />
       <ActionModal

@@ -2,6 +2,7 @@ import React from "react";
 import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/transaction/attendace";
 import DataTablePagination from "../../../components/DataTable";
+import { sys_labels } from "../../../utils/constants";
 
 const Attendance = () => {
   const columns = [
@@ -20,7 +21,7 @@ const Attendance = () => {
       <DataTablePagination
         fetchDataFunc={providers.getData}
         columns={columns}
-        title="Attendance"
+        title={sys_labels.menus.ATTENDANCE}
         action={action}
       />
     </AdminDashboard>

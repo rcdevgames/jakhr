@@ -5,47 +5,65 @@ import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import isEmpty from "../../utils/is-empty";
 import HeroIcon from "../../components/HeroIcon";
+import { sys_labels } from "../../utils/constants";
 
 const navItems = [
   {
     icon: "HomeIcon",
     iconType: "outline",
-    label: "Dashboard",
+    label: sys_labels.menus.DASHBOARD,
     link: "/dashboard",
   },
   {
     icon: "DesktopComputerIcon",
     iconType: "outline",
-    label: "Master Data",
+    label: sys_labels.menus.MASTER,
     dir: "/master-data",
     subMenu: [
       {
-        label: "Company",
+        label: sys_labels.menus.COMPANY,
         link: "/master-data/company",
       },
       {
-        label: "Branch",
+        label: sys_labels.menus.BRANCH,
         link: "/master-data/branch",
       },
       {
-        label: "Division",
+        label: sys_labels.menus.DIVISION,
         link: "/master-data/organization",
       },
       {
-        label: "Job Level",
+        label: sys_labels.menus.JOB_LEVEL,
         link: "/master-data/job_level",
       },
       {
-        label: "Job Position",
+        label: sys_labels.menus.JOB_POSITION,
         link: "/master-data/job_position",
       },
       {
-        label: "Employee",
+        label: sys_labels.menus.EMPLOYEE,
         link: "/master-data/employee",
       },
       {
-        label: "Leave Mass",
+        label: sys_labels.menus.SALARY_COMPONENT,
+        link: "/master-data/salary_component",
+      },
+      {
+        label: sys_labels.menus.LEAVE,
         link: "/master-data/leave_mass",
+      },
+    ],
+  },
+  
+  {
+    icon: "DesktopComputerIcon",
+    iconType: "outline",
+    label: sys_labels.menus.PAYROLL,
+    dir: "/payroll",
+    subMenu: [
+      {
+        label: sys_labels.menus.SALARY,
+        link: "/payroll/salary",
       },
     ],
   },
@@ -53,31 +71,31 @@ const navItems = [
     icon: "TableIcon",
     iconType: "solid",
 
-    label: "Transaksi",
+    label: sys_labels.menus.TRANSACTION,
     dir: "/transaction",
     subMenu: [
       {
-        label: "Kehadiran",
+        label: sys_labels.menus.ATTENDANCE,
         link: "/transaction/attendance",
       },
       {
-        label: "Cuti / Izin",
+        label: sys_labels.menus.LEAVE,
         link: "/transaction/leave",
       },
       {
-        label: "Insentif",
+        label: sys_labels.menus.INSENTIV,
         link: "/transaction/additional",
       },
       {
-        label: "Potongan",
+        label: sys_labels.menus.DEDUCTION,
         link: "/transaction/reduction",
       },
       {
-        label: "Kasbon",
+        label: sys_labels.menus.CASH_ADVANCE,
         link: "/transaction/cash",
       },
       {
-        label: "Reimbursement",
+        label: sys_labels.menus.REIMBURS,
         link: "/transaction/imbursement",
       },
     ],
@@ -85,47 +103,47 @@ const navItems = [
   {
     icon: "PresentationChartBarIcon",
     iconType: "outline",
-    label: "Laporan",
+    label: sys_labels.menus.REPORT,
     dir: "/report",
     subMenu: [
       {
-        label: "Karyawan",
+        label: sys_labels.menus.EMPLOYEE,
         link: "/report/employee",
       },
       {
-        label: "Kehadiran",
+        label: sys_labels.menus.ATTENDANCE,
         link: "/report/attendance",
       },
       {
-        label: "Cuti / Izin",
+        label: sys_labels.menus.LEAVE,
         link: "/report/leave",
       },
       {
-        label: "Lembur",
+        label: sys_labels.menus.OVERTIME,
         link: "/report/overtime",
       },
       {
-        label: "Insentif",
+        label: sys_labels.menus.INSENTIV,
         link: "/report/additional",
       },
       {
-        label: "Potongan",
+        label: sys_labels.menus.DEDUCTION,
         link: "/report/reduction",
       },
       {
-        label: "Kasbon",
+        label: sys_labels.menus.CASH_ADVANCE,
         link: "/report/cash",
       },
       {
-        label: "Reimbursement",
+        label: sys_labels.menus.REIMBURS,
         link: "/report/imbursement",
       },
       {
-        label: "Gaji",
+        label: sys_labels.menus.SALARY,
         link: "/report/salary",
       },
       {
-        label: "Pajak",
+        label: sys_labels.menus.TAX,
         link: "/report/tax",
       },
     ],
@@ -133,21 +151,21 @@ const navItems = [
   {
     icon: "ViewGridIcon",
     iconType: "solid",
-    label: "Config",
+    label: sys_labels.menus.CONFIG,
     dir: "/tool",
     subMenu: [
       {
-        label: "BPJS",
+        label: sys_labels.menus.BPJS,
         link: "/tool/bpjs",
       },
 
       {
-        label: "Late",
+        label: sys_labels.menus.LATE,
         link: "/tool/late",
       },
 
       {
-        label: "Overtime",
+        label: sys_labels.menus.OVERTIME,
         link: "/tool/overtime",
       },
     ],

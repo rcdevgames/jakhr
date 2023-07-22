@@ -13,13 +13,14 @@ import * as providers_branch from "../../../providers/master/branch";
 import * as providers_organization from "../../../providers/master/organization";
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
-import { SysDateTransform, showToast } from "../../../utils/global_store";
+import { SysDateTransform, SysReadData, showToast } from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
+import { sys_labels, sys_path_data } from "../../../utils/constants";
 const EmployeeForm = () => {
-  const gender = ["Laki-laki", "Perempuan"];
-  const religion = ["Islam", "Kristen", "Hindu", "Budha", "Konghucu"];
-  const marital_status = ["Lajang", "Suami", "Istri", "Duda", "Janda"];
-  const blood_type = ["A", "B", "AB", "O"];
+  const gender = SysReadData(sys_path_data.gender_data);
+  const religion = SysReadData(sys_path_data.religion_data);
+  const marital_status = SysReadData(sys_path_data.marital_status_data);
+  const blood_type = SysReadData(sys_path_data.blood_type_data);
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfemployeeModel({}));
@@ -34,7 +35,8 @@ const EmployeeForm = () => {
   const [job_position, set_job_position] = useState(
     convert_job_position.listOfjob_positionModel([])
   );
-  const title = "Employee " + (id ? "Edit Form" : "Form");
+  
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.EMPLOYEE}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -383,8 +385,8 @@ const EmployeeForm = () => {
                               Select Religion
                             </option>
                             {religion.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
+                              <option key={index} value={option.value}>
+                                {option.name}
                               </option>
                             ))}
                           </select>
@@ -489,6 +491,7 @@ const EmployeeForm = () => {
                             className="form-control"
                             type="text"
                             name="phone_number"
+                            maxLength={15}
                             value={data.phone_number}
                             onChange={handleChange}
                           />
@@ -520,8 +523,8 @@ const EmployeeForm = () => {
                               Select Gender
                             </option>
                             {gender.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
+                              <option key={index} value={option.value}>
+                                {option.name}
                               </option>
                             ))}
                           </select>
@@ -542,8 +545,8 @@ const EmployeeForm = () => {
                               Select Marital Status
                             </option>
                             {marital_status.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
+                              <option key={index} value={option.value}>
+                                {option.name}
                               </option>
                             ))}
                           </select>
@@ -564,8 +567,8 @@ const EmployeeForm = () => {
                               Select Blood Type
                             </option>
                             {blood_type.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
+                              <option key={index} value={option.value}>
+                                {option.name}
                               </option>
                             ))}
                           </select>

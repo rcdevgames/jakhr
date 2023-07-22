@@ -4,10 +4,11 @@ import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/bpjs_configModel";
 import * as providers from "../../../providers/config/bpjs";
 import { showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 const BpjsForm = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(convert.objectOfbpjs_configModel({}));
-  const title = "Bpjs Form";
+  const title = `${sys_labels.menus.BPJS} ${sys_labels.action.FORM}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

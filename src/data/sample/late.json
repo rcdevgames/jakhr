@@ -1,0 +1,11 @@
+{
+    "id": "f510e062-9ebd-4c2b-82c6-2922c738c332",
+    "branch_id": "9d1c10f8-e4b1-40e9-b052-8a77b44d4bba",
+    "calc_base": "custom",
+    "total_custom": 20000,
+    "created_at": "2023-07-19T06:52:53.720Z",
+    "created_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "updated_at": "2023-07-19T06:53:28.334Z",
+    "updated_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "deleted": false
+}

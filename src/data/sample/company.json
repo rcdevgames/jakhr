@@ -1,0 +1,10 @@
+{
+    "id": "f9822611-e385-4db5-8bd0-c0fb1e9038d3",
+    "name": "Company 3",
+    "address": "Full address of company 3",
+    "logo": "http://45.77.245.25:3006./public/uploads/companies/06zsnnrfnyqw.jpeg",
+    "alias": "company-3",
+    "is_active": true,
+    "parent_id": null,
+    "created_at": "2023-07-15T10:18:05.594Z"
+}

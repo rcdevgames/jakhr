@@ -1,3 +1,4 @@
 import JobLevel from './JobLevel'
+import JobLevelForm from './JobLevelForm'
 
-export {JobLevel}
+export {JobLevel,JobLevelForm}

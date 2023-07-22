@@ -4,6 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/job_levelModel";
 import * as providers from "../../../providers/master/job_level";
 import { showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 const JobLevelForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,7 +19,8 @@ const JobLevelForm = () => {
       showToast({ message: error.message, type: error });
     }
   };
-  const title = "Job Level " + (id ? "Edit Form" : "Form");
+  
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.JOB_LEVEL}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

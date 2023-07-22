@@ -6,6 +6,7 @@ import convert_job_level from "../../../model/job_levelModel";
 import * as providers from "../../../providers/master/job_position";
 import * as providers_job_level from "../../../providers/master/job_level";
 import { showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 const JobPositionForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,7 +25,7 @@ const JobPositionForm = () => {
   const [job_level, setJobLevel] = useState(
     convert_job_level.listOfjob_levelModel([])
   );
-  const title = "Job Position " + (id ? "Edit Form" : "Form");
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.JOB_POSITION}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

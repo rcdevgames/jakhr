@@ -6,12 +6,13 @@ import convert from "../../../model/companyModel";
 import * as providers from "../../../providers/master/company";
 import { showToast } from "../../../utils/global_store";
 import UploadFile from "../../../components/UploadFile";
+import { sys_labels } from "../../../utils/constants";
 const CompanyForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
-  const title = "Company " + (id ? "Edit Form" : "Form");
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.COMPANY}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

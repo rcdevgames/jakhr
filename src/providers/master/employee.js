@@ -26,7 +26,7 @@ export const getDetail = async (id) => {
 };
 export const insertData=async (body={})=>{
   try {
-    console.log(body);
+    // console.log(body);
     const response = await sys_post({
       auth:true,
       body,
@@ -39,7 +39,7 @@ export const insertData=async (body={})=>{
 }
 
 export const updateData=async (body={},id="")=>{
-  console.log(body);
+  // console.log(body);
   try {
     const response = await sys_put({
       auth:true,

@@ -10,15 +10,10 @@ import Login from "../pages/Login";
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
 import { Employee, CreateEmployee, EmployeeMultipleForm } from "../pages/MasterData/Employee";
-import { Salary, CreateSalary } from "../pages/MasterData/Salary";
-import { Record, CreateRecord } from "../pages/MasterData/TrackRecord";
-import { Kpi, CreateKpi } from "../pages/MasterData/Kpi";
-import { Schedule, CreateSchedule } from "../pages/MasterData/Schedule";
-import { Overtime, CreateOvertime } from "../pages/MasterData/Overtime";
-import { Vacancy, CreateVacancy } from "../pages/MasterData/Vacancy";
+import { SalaryComponent, SalaryComponentForm } from "../pages/MasterData/SalaryComponent";
 import { Organization, OrganizationForm } from "../pages/MasterData/Organisasi";
 import { LeaveMass,LeaveMassForm } from "../pages/MasterData/LeaveMass";
-import { JobLevel } from "../pages/MasterData/JobLevel";
+import { JobLevel,JobLevelForm } from "../pages/MasterData/JobLevel";
 import { JobPosition, JobPositionForm } from "../pages/MasterData/JobPosition";
 import {
   Announcement,
@@ -30,6 +25,9 @@ import {
   MultipleApplicant,
 } from "../pages/MasterData/Applicant";
 import LeaveBalance from "../pages/MasterData/LeaveBalance";
+// PAYROLL
+import { Salary } from "../pages/Payroll/Salary";
+
 // Transaction
 import { Attendance } from "../pages/Transaction/Attendance";
 import { Leave, CreateLeave } from "../pages/Transaction/Leave";
@@ -61,13 +59,12 @@ import { ReportSalary } from "../pages/Report/Salary";
 // Tools or CONFIG
 import { Setting } from "../pages/Tool/Setting";
 import { BpjsForm } from "../pages/Config/Bpjs";
-import { SystemLog } from "../pages/Tool/SystemLog";
+import { LateForm } from "../pages/Config/Late";
+import { OvertimeForm } from "../pages/Config/Overtime";
+// import { SystemLog } from "../pages/Tool/SystemLog";
 
 import PrivateRoute from "./PrivateRoute";
 import ScrollToTop from "./ScrollToTop";
-import JobLevelForm from "../pages/MasterData/JobLevel/JobLevelForm";
-import { LateForm } from "../pages/Config/Late";
-import { OvertimeForm } from "../pages/Config/Overtime";
 
 const Router = () => (
   <BrowserRouter>
@@ -123,41 +120,10 @@ const Router = () => (
               <Route path="create" element={<JobPositionForm />} />
               <Route path="detail/:id" element={<JobPositionForm />} />
             </Route>
-            <Route path="salary">
-              <Route path="" element={<Salary />} />
-              <Route path="create" element={<CreateSalary />} />
-            </Route>
-            <Route path="record">
-              <Route path="" element={<Record />} />
-              <Route path="create" element={<CreateRecord />} />
-            </Route>
-            <Route path="kpi">
-              <Route path="" element={<Kpi />} />
-              <Route path="create" element={<CreateKpi />} />
-            </Route>
-
-            <Route path="schedule">
-              <Route path="" element={<Schedule />} />
-              <Route path="create" element={<CreateSchedule />} />
-            </Route>
-            <Route path="overtime">
-              <Route path="" element={<Overtime />} />
-              <Route path="create" element={<CreateOvertime />} />
-            </Route>
-            <Route path="leave-balance" element={<LeaveBalance />} />
-
-            <Route path="announcement">
-              <Route path="" element={<Announcement />} />
-              <Route path="create" element={<CreateAnnouncement />} />
-            </Route>
-            <Route path="vacancy">
-              <Route path="" element={<Vacancy />} />
-              <Route path="create" element={<CreateVacancy />} />
-            </Route>
-            <Route path="applicant">
-              <Route path="" element={<Applicant />} />
-              <Route path="create" element={<CreateApplicant />} />
-              <Route path="multiple-create" element={<MultipleApplicant />} />
+            
+            <Route path="salary_component">
+              <Route path="" element={<SalaryComponent />} />
+              <Route path="detail/:id" element={<SalaryComponentForm />} />
             </Route>
           </Route>
           <Route path="transaction">
@@ -175,21 +141,6 @@ const Router = () => (
             <Route path="reduction">
               <Route path="" element={<Reduction />} />
               <Route path="create" element={<CreateReduction />} />
-            </Route>
-
-            <Route path="cash">
-              <Route path="" element={<Cash />} />
-              <Route path="create" element={<CreateCash />} />
-            </Route>
-
-            <Route path="imbursement">
-              <Route path="" element={<Imbursement />} />
-              <Route path="create" element={<CreateImbursement />} />
-            </Route>
-
-            <Route path="kpi">
-              <Route path="" element={<TransactionKpi />} />
-              <Route path="create" element={<TransactionCreateKpi />} />
             </Route>
           </Route>
 
@@ -236,17 +187,17 @@ const Router = () => (
             <Route path="bpjs">
               <Route path="" element={<BpjsForm />} />
             </Route>
-            
             <Route path="late">
               <Route path="" element={<LateForm />} />
             </Route>
-            
             <Route path="overtime">
               <Route path="" element={<OvertimeForm />} />
             </Route>
-            {/* <Route path="system-log">
-              <Route path="" element={<SystemLog />} />
-            </Route> */}
+          </Route>
+          <Route path="payroll">
+            <Route path="salary">
+              <Route path="" element={<Salary />} />
+            </Route>
           </Route>
         </Route>
       </Route>

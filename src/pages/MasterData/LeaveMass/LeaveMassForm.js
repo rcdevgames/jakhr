@@ -5,11 +5,12 @@ import DatePicker from "../../../components/DatePicker";
 import convert from "../../../model/leave_massModel";
 import * as providers from "../../../providers/master/leave_mass";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 const LeaveMassForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfleave_massModel({}));
-  const title = "Leave Mass " + (id ? "Edit Form" : "Form");
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.LEAVE}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

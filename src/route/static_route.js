@@ -1,5 +1,6 @@
 export const routes_name={
     DASHBOARD:"/dashboard",
+//--MASTER------------------------------------------------------
     M_LEAVE_MASS_CREATE:'/master-data/leave_mass/create',
     M_LEAVE_MASS_DETAIL:'/master-data/leave_mass/detail/',
     M_ORGANIZATION_CREATE:'/master-data/organization/create',
@@ -13,4 +14,9 @@ export const routes_name={
     M_EMPLOYEE_CREATE:'/master-data/employee/create',
     M_EMPLOYEE_DETAIL:'/master-data/employee/detail/',
     M_EMPLOYEE_CREATE_MULTIPLE:'/master-data/employee/multiple/',
+    M_SALARY_COMPONENT_DETAIL:'/master-data/salary_component/detail/',
+
+//--PAYROLL-------------------------------------------------------- 
+    PAYROLL_SALARY_CREATE:'/payroll/salary/create',
+    PAYROLL_SALARY_DETAIL:'/payroll/salary/detail/',
 }

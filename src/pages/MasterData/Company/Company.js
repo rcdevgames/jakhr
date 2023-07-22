@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const Company = () => {
       to={routes_name.M_COMPANY_CREATE}
       className="btn icon icon-left btn-primary"
     >
-      <i className="bi bi-plus" /> Tambah
+      <i className="bi bi-plus" /> {sys_labels.action.ADD}
     </Link>,
   ];
 
@@ -75,7 +76,7 @@ const Company = () => {
       <DataTablePagination
         fetchDataFunc={company_providers.getData}
         columns={columns}
-        title="Company"
+        title={`${sys_labels.menus.COMPANY}`}
         action={action}
       />
       <ActionModal

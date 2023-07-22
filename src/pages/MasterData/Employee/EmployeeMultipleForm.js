@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form, Input, Popconfirm, Table, Select } from "antd";
 import AdminDashboard from "../../AdminDashboard";
 import "./styles.css";
-import { file_template, sys_iamges } from "../../../utils/constants";
+import { file_template, sys_iamges, sys_path_data } from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import * as providers from "../../../providers/master/employee";
-import { showToast } from "../../../utils/global_store";
+import { SysReadData, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 
 const EditableContext = React.createContext(null);
@@ -30,10 +30,10 @@ const EditableCell = ({
 }) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
-  const gender = ["Laki-laki", "Perempuan"];
-  const religion = ["Islam", "Kristen", "Hindu", "Budha", "Konghucu"];
-  const marital_status = ["Lajang", "Suami", "Istri", "Duda", "Janda"];
-  const blood_type = ["A", "B", "AB", "O"];
+  const gender = SysReadData(sys_path_data.gender_data);
+  const religion = SysReadData(sys_path_data.religion_data);
+  const marital_status = SysReadData(sys_path_data.marital_status_data);
+  const blood_type = SysReadData(sys_path_data.blood_type_data);
 
   const form = useContext(EditableContext);
   useEffect(() => {
@@ -84,8 +84,8 @@ const EditableCell = ({
             style={{ minWidth: "150px" }}
           >
             {gender.map((val) => (
-              <option style={{ minWidth: "150px" }} value={val}>
-                {val}
+              <option style={{ minWidth: "150px" }} value={val.value}>
+                {val.name}
               </option>
             ))}
           </Select>
@@ -112,8 +112,8 @@ const EditableCell = ({
             style={{ minWidth: "150px" }}
           >
             {religion.map((val) => (
-              <option style={{ minWidth: "150px" }} value={val}>
-                {val}
+              <option style={{ minWidth: "150px" }} value={val.value}>
+                {val.name}
               </option>
             ))}
           </Select>
@@ -140,8 +140,8 @@ const EditableCell = ({
             // style={{ width: "100%" }}
           >
             {marital_status.map((val) => (
-              <option style={{ minWidth: "150px" }} value={val}>
-                {val}
+              <option style={{ minWidth: "150px" }} value={val.value}>
+                {val.name}
               </option>
             ))}
           </Select>
@@ -168,8 +168,8 @@ const EditableCell = ({
             // style={{ width: "100%" }}
           >
             {blood_type.map((val) => (
-              <option value={val} style={{ minWidth: "150px" }}>
-                {val}
+              <option value={val.value} style={{ minWidth: "150px" }}>
+                {val.name}
               </option>
             ))}
           </Select>
@@ -323,28 +323,6 @@ const EmployeeMultipleForm = () => {
         ) : null,
     },
   ];
-  // const handleAdd = () => {
-  //   const newData = {
-  //     key: count,
-  //     full_name: "",
-  //     employee_id: "",
-  //     nik: "",
-  //     npwp: "",
-  //     religion: "Islam",
-  //     place_of_birth: "",
-  //     phone_number: "",
-  //     gender: "Laki-laki",
-  //     marital_status: "Menikah",
-  //     blood_type: "A",
-  //     email: "",
-  //     account: "",
-  //     password: "",
-  //     address: "",
-  //     citizen_address: "",
-  //   };
-  //   setDataSource([...dataSource, newData]);
-  //   setCount(count + 1);
-  // };
   const handleSave = (row) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);

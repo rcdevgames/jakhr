@@ -1,0 +1,31 @@
+{
+    "id": "3d25da35-4446-4db2-a255-2101e5804c56",
+    "employee_id": "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
+    "basic_salary": "7000000",
+    "overtime_config": "config-1",
+    "late_deduction_config": "config-1",
+    "overtime": "10000",
+    "late_deduction": "10000",
+    "working_days": "5",
+    "leave_balance_incentive": "10000",
+    "jht": "2.3",
+    "kesehatan": "0",
+    "jp": "0",
+    "other_insurance": "0",
+    "jht_company": 1,
+    "kesehatan_company": 4,
+    "jp_company": 4,
+    "jkm_company": 4,
+    "jkk_company": 4,
+    "other_insurance_company": 0,
+    "bank_name": "BCA",
+    "bank_account": "987216321",
+    "created_at": "2023-07-19T06:17:20.357Z",
+    "created_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "updated_at": "2023-07-19T06:17:56.772Z",
+    "updated_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "deleted": false,
+    "employee": {
+        "full_name": "Employee 1"
+    }
+}

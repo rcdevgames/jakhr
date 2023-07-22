@@ -8,6 +8,7 @@ import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
+import { sys_labels } from "../../../utils/constants";
 
 const JobPosition = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const JobPosition = () => {
       to={routes_name.M_JOB_POSITION_CREATE}
       className="btn icon icon-left btn-primary"
     >
-      <i className="bi bi-plus" /> Tambah
+      <i className="bi bi-plus" /> {sys_labels.action.ADD}
     </Link>,
   ];
   const handleDelete = async () => {
@@ -71,7 +72,7 @@ const JobPosition = () => {
       <DataTablePagination
         fetchDataFunc={job_position_provider.getData}
         columns={columns}
-        title="Job Position"
+        title={sys_labels.menus.JOB_POSITION}
         action={action}
       />
       <ActionModal

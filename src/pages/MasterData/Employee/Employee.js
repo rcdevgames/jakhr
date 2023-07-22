@@ -7,6 +7,7 @@ import ActionModal from "../../../components/ActionModal";
 import { showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
+import { sys_labels } from "../../../utils/constants";
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Employee = () => {
     },
   ];
   const action = [
-    <Link to={routes_name.M_EMPLOYEE_CREATE} className="btn icon icon-left btn-primary"><i className="bi bi-plus"/> Tambah</Link>
+    <Link to={routes_name.M_EMPLOYEE_CREATE} className="btn icon icon-left btn-primary"><i className="bi bi-plus"/>{sys_labels.action.ADD}</Link>
     // ,
   ];
   return (
@@ -62,7 +63,7 @@ const Employee = () => {
       <DataTablePagination
         fetchDataFunc={employee_providers.getData}
         columns={columns}
-        title="Employee"
+        title={sys_labels.menus.EMPLOYEE}
         action={action}
       />
     </AdminDashboard>

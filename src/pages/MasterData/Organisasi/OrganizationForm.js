@@ -4,6 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/organizationModel";
 import * as providers from "../../../providers/master/organization";
 import { showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
 const OrganizationForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,8 +19,7 @@ const OrganizationForm = () => {
       showToast({ message: error.message, type: error });
     }
   };
-
-  const title = "Organization " + (id ? "Edit Form" : "Form");
+  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.DIVISION}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));

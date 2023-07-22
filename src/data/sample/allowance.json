@@ -1,0 +1,11 @@
+[
+    {
+        "id": "304ebf61-ce6d-4db0-b9c7-3cda458514dc",
+        "allowance_type": "tetap",
+        "name": "Tunjangan Harian",
+        "ammount": "500000",
+        "is_taxable": false,
+        "is_final_tax":false,
+        "employee_id":"aa"
+    }
+]
