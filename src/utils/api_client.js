@@ -52,6 +52,7 @@ export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
       body: JSON.stringify(body),
     });
     const data = await response.json();
+    console.log(API_URL + endpoint);
     console.log(body);
     console.log(data);
     callback.code = response.status;
@@ -118,9 +119,9 @@ export const sys_put = async ({
       body: JSON.stringify(body),
     });
     const data = await response.json();
-    // console.log(API_URL + endpoint);
-    // console.log(body);
-    // console.log(data);
+    console.log(API_URL + endpoint);
+    console.log(body);
+    console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";

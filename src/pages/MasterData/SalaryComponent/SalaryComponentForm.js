@@ -40,11 +40,11 @@ const SalaryComponentForm = () => {
   const [data_component, set_data_component] = useState(
     convert_component.listOfcomponent_nameModel([])
   );
-  
+
   const [data_component_daily, set_data_component_daily] = useState(
     convert_component.listOfcomponent_nameModel([])
   );
-  
+
   const [data_component_deduction, set_data_component_deduction] = useState(
     convert_component.listOfcomponent_nameModel([])
   );
@@ -67,16 +67,35 @@ const SalaryComponentForm = () => {
   const [show_modal_allowance, set_show_modal_allowance] = useState(false);
   const is_editing_allowance = (record) => record.id === allowance_editing_key;
   const handleInputChangeAllowance = (e, key, dataIndex) => {
-    console.log(dataIndex,key);
     if (key == "new") {
+      if (dataIndex == "component_name_id") {
+        const data = data_component.find((val) => val.id == e.target.value);
+        set_new_row_allowance((prev) => ({
+          ...prev,
+          component_name: {
+            id: data.id,
+            name: data.name,
+          },
+        }));
+      }
       set_new_row_allowance((prev) => ({
         ...prev,
         [dataIndex]: e.target.value,
       }));
     } else {
-      const updatedData = data_allowance.map((item) =>
-        item.id === key ? { ...item, [dataIndex]: e.target.value } : item
-      );
+      let updatedData = null;
+      if (dataIndex == "component_name_id") {
+        const data = data_component.find((val) => val.id == e.target.value);
+        updatedData = data_allowance.map((item) =>
+          item.id === key
+            ? { ...item, component_name: { id: data.id, name: data.name } }
+            : item
+        );
+      } else {
+        updatedData = data_allowance.map((item) =>
+          item.id === key ? { ...item, [dataIndex]: e.target.value } : item
+        );
+      }
       set_data_allowance(updatedData);
     }
   };
@@ -86,9 +105,10 @@ const SalaryComponentForm = () => {
       dataIndex: "component_name_id",
       editable: true,
       render: (val, record) => {
-        console.log(record);
         const is_edit = is_editing_allowance(record);
-        return !is_edit ? record.component_name.name: (
+        return !is_edit ? (
+          record.component_name.name
+        ) : (
           <select
             className="form-select"
             id="component_name_id"
@@ -137,7 +157,7 @@ const SalaryComponentForm = () => {
         return editable ? (
           <div className="btn-group" role="group">
             <a
-              onClick={() => handleSaveEditingAllowance()}
+              onClick={() => handleSaveEditingAllowance(record.id)}
               className="btn icon btn-success btn-sm"
             >
               <i className="bi bi-check"></i>
@@ -157,7 +177,7 @@ const SalaryComponentForm = () => {
             >
               <i className="bi bi-pencil"></i>
             </a>
-            <Popconfirm title="Sure to delete?" onConfirm={() => null}>
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDeleteAllowance(record.id)}>
               <a className="btn icon btn-danger btn-sm">
                 <i className="bi bi-trash"></i>
               </a>
@@ -173,8 +193,8 @@ const SalaryComponentForm = () => {
       id: newKey,
       component_name_id: "",
       component_name: {
-        "id":"",
-        "name":""
+        id: "",
+        name: "",
       },
       ammount: "",
     });
@@ -200,8 +220,10 @@ const SalaryComponentForm = () => {
         await providers_allowance.insertData(
           {
             allowance_type: "tetap",
-            component_name_id: new_row_allowance.component_name_id,
+            component_name_id: new_row_allowance.component_name.id,
             ammount: new_row_allowance.ammount,
+            is_taxable: false,
+            is_final_tax: false,
           },
           employee_data.id
         );
@@ -211,8 +233,10 @@ const SalaryComponentForm = () => {
           await providers_allowance.updateData(
             {
               allowance_type: "tetap",
-              component_name_id: new_row_allowance.component_name_id,
-              ammount: new_row_allowance.ammount,
+              component_name_id: data.component_name.id,
+              ammount: data.ammount,
+              is_taxable: data.is_taxable,
+              is_final_tax: false,
             },
             employee_data.id,
             data.id
@@ -220,32 +244,71 @@ const SalaryComponentForm = () => {
         }
       }
       await getAllowance(employee_data.id);
+      set_allowance_editing_key("");
+      set_new_row_allowance(null);
+    } catch (error) {
+      set_allowance_editing_key("");
+      set_new_row_allowance(null);
+      
+    }
+  };
+  const handleDeleteAllowance = async (id) => {
+    try {
+      if (allowance_editing_key != "new") {
+        const resp = await providers_allowance.deleteData(
+          data.employee_id,
+          id
+        );
+        await getAllowance(employee_data.id);
+        showToast({ message: resp.message });
+      }
+      set_allowance_editing_key("");
     } catch (error) {}
   };
+  
   const [deduction_editing_key, set_deduction_editing_key] = useState("");
   const [new_row_deduction, set_new_row_deduction] = useState(null);
   const [show_modal_deduction, set_show_modal_deduction] = useState(false);
   const is_editing_deduction = (record) => record.id === deduction_editing_key;
   const handleInputChangeDeduction = (e, key, dataIndex) => {
     if (key == "new") {
+      if (dataIndex == "component_name_id") {
+        const data = data_component_deduction.find((val) => val.id == e.target.value);
+        set_new_row_deduction((prev) => ({
+          ...prev,
+          component_name: {
+            id: data.id,
+            name: data.name,
+          },
+        }));
+      }
       set_new_row_deduction((prev) => ({
         ...prev,
         [dataIndex]: e.target.value,
       }));
     } else {
-      const updatedData = data_deduction.map((item) =>
-        item.id === key ? { ...item, [dataIndex]: e.target.value } : item
-      );
+      let updatedData = null;
+      if (dataIndex == "component_name_id") {
+        const data = data_component_deduction.find((val) => val.id == e.target.value);
+        updatedData = data_deduction.map((item) =>
+          item.id === key
+            ? { ...item, component_name: { id: data.id, name: data.name } }
+            : item
+        );
+      } else {
+        updatedData = data_deduction.map((item) =>
+          item.id === key ? { ...item, [dataIndex]: e.target.value } : item
+        );
+      }
       set_data_deduction(updatedData);
     }
   };
   const columns_deduction = [
     {
       title: "Nama Potongan",
-      dataIndex: "component",
+      dataIndex: "component_name_id",
       editable: true,
       render: (val, record) => {
-        console.log(record);
         const is_edit = is_editing_deduction(record);
         return !is_edit ? (
           record.component_name.name
@@ -267,6 +330,23 @@ const SalaryComponentForm = () => {
               </option>
             ))}
           </select>
+        );
+      },
+    },
+    
+    {
+      title: "Deskripsi",
+      dataIndex: "description",
+      editable: true,
+      render: (val, record) => {
+        const is_edit = is_editing_deduction(record);
+        return !is_edit ? record.description: (
+          <Input
+            value={val}
+            onChange={(e) =>
+              handleInputChangeDeduction(e, record.id, "description")
+            }
+          />
         );
       },
     },
@@ -298,7 +378,7 @@ const SalaryComponentForm = () => {
         return editable ? (
           <div className="btn-group" role="group">
             <a
-              onClick={() => handleSaveEditingDeduction()}
+              onClick={() => handleSaveEditingDeduction(record.id)}
               className="btn icon btn-success btn-sm"
             >
               <i className="bi bi-check"></i>
@@ -318,7 +398,7 @@ const SalaryComponentForm = () => {
             >
               <i className="bi bi-pencil"></i>
             </a>
-            <Popconfirm title="Sure to delete?" onConfirm={() => null}>
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDeleteDeduction(record.id)}>
               <a className="btn icon btn-danger btn-sm">
                 <i className="bi bi-trash"></i>
               </a>
@@ -333,8 +413,12 @@ const SalaryComponentForm = () => {
     set_new_row_deduction({
       id: newKey,
       component_name_id: "",
-      name: "",
-      ammount: "",
+      description:"",
+      component_name: {
+        id: "",
+        name: "",
+      },
+      amount: "",
     });
   };
   const handleEditRowDeduction = (record) => {
@@ -355,193 +439,50 @@ const SalaryComponentForm = () => {
   const handleSaveEditingDeduction = async (id) => {
     try {
       if (id == "new") {
+        console.log("INSERT BARU");
         await providers_deduction.insertData(
           {
-            allowance_type: "tetap",
-            component_name_id: new_row_deduction.component_name_id,
-            ammount: new_row_deduction.ammount,
-          },
-          employee_data.id
+            component_name_id: new_row_deduction.component_name.id,
+            amount: new_row_deduction.amount,
+            description:new_row_deduction.description,
+            employee_id:employee_data.id
+          }
         );
       } else {
         const data = data_deduction.find((item) => item.id === id);
         if (data) {
           await providers_deduction.updateData(
             {
-              allowance_type: "tetap",
-              component_name_id: new_row_allowance.component_name_id,
-              ammount: new_row_allowance.ammount,
+              component_name_id: data.component_name.id,
+              amount: data.amount,
+              description: data.description,
+              employee_id: employee_data.id,
             },
-            employee_data.id,
             data.id
           );
         }
       }
       await getDeduction(employee_data.id);
-    } catch (error) {}
-  };
-
-  const [allowance_daily_editing_key, set_allowance_daily_editing_key] =
-    useState("");
-  const [new_row_allowance_daily, set_new_row_allowance_daily] = useState(null);
-  const [show_modal_allowance_daily, set_show_modal_allowance_daily] =
-    useState(false);
-  const is_editing_allowance_daily = (record) =>
-    record.id === allowance_daily_editing_key;
-  const handleInputChangeAllowanceDaily = (e, key, dataIndex) => {
-    if (key == "new") {
-      set_new_row_allowance_daily((prev) => ({
-        ...prev,
-        [dataIndex]: e.target.value,
-      }));
-    } else {
-      const updatedData = data_allowance.map((item) =>
-        item.id === key ? { ...item, [dataIndex]: e.target.value } : item
-      );
-      set_data_allowance_daily(updatedData);
+      set_deduction_editing_key("");
+      set_new_row_deduction(null);
+    } catch (error) {
+      set_deduction_editing_key("");
+      set_new_row_deduction(null);
+      
     }
   };
-  const columns_allowance_daily = [
-    {
-      title: "Nama Tunjangan",
-      dataIndex: "component_name_id",
-      editable: true,
-      render: (val, record) => {
-        const is_edit = is_editing_allowance_daily(record);
-        return !is_edit ? (
-          record.name
-        ) : (
-          <select
-            className="form-select"
-            id="component_name_id"
-            name="component_name_id"
-            value={record.component_name_id}
-            onChange={(e) =>
-              handleInputChangeAllowanceDaily(e, record.id, "component_name_id")
-            }
-            aria-label="Nama Tunjangan"
-            required
-          >
-            {data_allowance_daily.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
-        );
-      },
-    },
-    {
-      title: "Nominal",
-      dataIndex: "ammount",
-      editable: true,
-      render: (val, record) => {
-        const is_edit = is_editing_allowance_daily(record);
-        return !is_edit ? (
-          SysCurrencyTransform({ num: record.ammount })
-        ) : (
-          <Input
-            value={val}
-            onKeyDown={onlyNumber}
-            onPaste={disablePaste}
-            onChange={(e) =>
-              handleInputChangeAllowanceDaily(e, record.id, "ammount")
-            }
-          />
-        );
-      },
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      render: (_, record) => {
-        const editable = is_editing_allowance_daily(record);
-        return editable ? (
-          <div className="btn-group" role="group">
-            <a
-              onClick={() => handleSaveEditingAllowanceDaily()}
-              className="btn icon btn-success btn-sm"
-            >
-              <i className="bi bi-check"></i>
-            </a>
-            <a
-              onClick={() => handleCancelEditAllowanceDaily()}
-              className="btn icon btn-info btn-sm"
-            >
-              <i className="bi bi-x"></i>
-            </a>
-          </div>
-        ) : (
-          <div className="btn-group" role="group">
-            <a
-              onClick={() => handleEditRowAllowanceDaily(record)}
-              className="btn icon btn-info btn-sm"
-            >
-              <i className="bi bi-pencil"></i>
-            </a>
-            <Popconfirm title="Sure to delete?" onConfirm={() => null}>
-              <a className="btn icon btn-danger btn-sm">
-                <i className="bi bi-trash"></i>
-              </a>
-            </Popconfirm>
-          </div>
-        );
-      },
-    },
-  ];
-  const handleAddRowAllowanceDaily = () => {
-    const newKey = "new";
-    set_new_row_allowance_daily({
-      id: newKey,
-      component_name_id: "",
-      name: "",
-      ammount: "",
-    });
-  };
-  const handleEditRowAllowanceDaily = (record) => {
-    set_allowance_daily_editing_key(record.id);
-  };
-  const handleCloseModalAllowanceDaily = () => {
-    set_show_modal_allowance_daily(false);
-    set_allowance_daily_editing_key("");
-    set_new_row_allowance_daily(null);
-    getAllowanceDaily(employee_data.id);
-  };
-
-  const handleCancelEditAllowanceDaily = () => {
-    set_allowance_daily_editing_key("");
-    set_new_row_allowance_daily(null);
-    getAllowanceDaily(employee_data.id);
-  };
-  const handleSaveEditingAllowanceDaily = async (id) => {
+  const handleDeleteDeduction = async (id) => {
     try {
-      if (id == "new") {
-        await providers_allowance.insertData(
-          {
-            allowance_type: "daily",
-            component_name_id: new_row_allowance.component_name_id,
-            ammount: new_row_allowance.ammount,
-          },
-          employee_data.id
+      if (deduction_editing_key != "new") {
+        const resp = await providers_deduction.deleteData(
+          id
         );
-      } else {
-        const data = data_allowance_daily.find((item) => item.id === id);
-        if (data) {
-          await providers_allowance.updateData(
-            {
-              allowance_type: "daily",
-              component_name_id: new_row_allowance.component_name_id,
-              ammount: new_row_allowance.ammount,
-            },
-            employee_data.id,
-            data.id
-          );
-        }
+        await getDeduction(employee_data.id);
+        showToast({ message: "Delete success" });
       }
-      await getAllowanceDaily(employee_data.id);
+      set_deduction_editing_key("");
     } catch (error) {}
   };
-
   const bank_data = SysReadData(sys_path_data.bank_data);
   const calc_base = SysReadData(sys_path_data.calc_base_data);
   const calc_mode = SysReadData(sys_path_data.calc_mode_data);
@@ -569,7 +510,6 @@ const SalaryComponentForm = () => {
   const handleChangeOvertime = (event) => {
     const { name, value } = event.target;
     const the_name = name.replace("_overtime", "");
-    console.log(the_name);
     set_overtime_date((prevState) => ({ ...prevState, [the_name]: value }));
   };
   const handleChangeLate = (event) => {
@@ -605,20 +545,20 @@ const SalaryComponentForm = () => {
       navigate(-1);
     }
   };
-  
+
   const getComponentDeduction = async () => {
     try {
       const resp = await providers_component.getDataDeductionMax();
-      set_data_component_deduction(resp.data.data)
+      set_data_component_deduction(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
   };
-  
+
   const getComponent = async () => {
     try {
       const resp = await providers_component.getDataAllowanceMax();
-      set_data_component(resp.data.data)
+      set_data_component(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
@@ -626,7 +566,7 @@ const SalaryComponentForm = () => {
   const getComponentDaily = async () => {
     try {
       const resp = await providers_component.getDataAllowanceDailyMax();
-      set_data_component_daily(resp.data.data)
+      set_data_component_daily(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
@@ -662,9 +602,7 @@ const SalaryComponentForm = () => {
   const getAllowance = async (id) => {
     try {
       const resp = await providers_allowance.getData(id);
-      set_data_allowance(
-        convert_allowance.listOfallowanceModel(resp.data.data)
-      );
+      set_data_allowance(resp.data.data);
       calculateAllowance(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -716,9 +654,7 @@ const SalaryComponentForm = () => {
         await handleDetail(resp.data.data[0].id);
         set_is_salary(true);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const handleSubmit = async () => {
     const resp_overtime = await providers_overtime.updateData(
@@ -767,7 +703,6 @@ const SalaryComponentForm = () => {
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
-      console.log(error);
       showToast({ message: error.message, type: "error" });
     }
   };
@@ -822,7 +757,6 @@ const SalaryComponentForm = () => {
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
-      console.log(error);
       showToast({ message: error.message, type: "error" });
     }
   };
@@ -968,12 +902,12 @@ const SalaryComponentForm = () => {
                         </div>
                       </div>
                       <div className="col-md-2">
-                        <button
+                        {/* <button
                           onClick={() => show_modal_allowance_daily(true)}
                           className="btn btn-primary mt-4"
                         >
                           Rincian
-                        </button>
+                        </button> */}
                       </div>
                       <div className="col-md-2">
                         <div className="form-group">
@@ -989,7 +923,7 @@ const SalaryComponentForm = () => {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>Total:</label>{" "}
@@ -997,7 +931,11 @@ const SalaryComponentForm = () => {
                             className="form-control"
                             type="text"
                             readOnly
-                            value={SysCurrencyTransform({num:allowance_total_daily * parseInt(data.working_days)})}
+                            value={SysCurrencyTransform({
+                              num:
+                                allowance_total_daily *
+                                parseInt(data.working_days),
+                            })}
                           />
                         </div>
                       </div>
