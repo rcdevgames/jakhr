@@ -171,15 +171,15 @@ const navItems = [
         link: "/tool/bpjs",
       },
 
-      {
-        label: sys_labels.menus.LATE,
-        link: "/tool/late",
-      },
+      // {
+      //   label: sys_labels.menus.LATE,
+      //   link: "/tool/late",
+      // },
 
-      {
-        label: sys_labels.menus.OVERTIME,
-        link: "/tool/overtime",
-      },
+      // {
+      //   label: sys_labels.menus.OVERTIME,
+      //   link: "/tool/overtime",
+      // },
     ],
   },
 ];
