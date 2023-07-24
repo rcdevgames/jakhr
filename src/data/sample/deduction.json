@@ -1,0 +1,15 @@
+[
+    {
+        "id": "fdeecff9-db8e-4610-b45f-f8403964c12e",
+        "amount": 150000,
+        "description": "Arisan divisi",
+        "employee": {
+            "id": "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
+            "name": "Employee 1"
+        },
+        "component_name": {
+            "id": "87380b96-d623-46a3-a736-d71622b0f02b",
+            "name": "Potongan Per-Divisi"
+        }
+    }
+]

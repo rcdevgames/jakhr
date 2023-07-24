@@ -45,6 +45,18 @@ const navItems = [
         link: "/master-data/employee",
       },
       {
+        label: sys_labels.menus.ALLOWANCE,
+        link: "/master-data/component_name/allowance",
+      },
+      {
+        label: sys_labels.menus.ALLOWANCE +'Harian',
+        link: "/master-data/component_name/allowance_daily",
+      },
+      {
+        label: sys_labels.menus.DEDUCTION,
+        link: "/master-data/component_name/deduction",
+      },
+      {
         label: sys_labels.menus.SALARY_COMPONENT,
         link: "/master-data/salary_component",
       },

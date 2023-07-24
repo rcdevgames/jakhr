@@ -1,13 +1,12 @@
 // HOW TO IMPORT ?
-// const Convert = require('location/allowanceModel.js'); 
+// const Convert = require('location/deductionModel.js'); 
 // OR
-// import Convert from 'location/allowanceModel.js'
+// import Convert from 'location/deductionModel.js'
 // HOW TO USE?
 // FOR OBJECT
-// const data = Convert.objectOfallowanceModel(data)
+// const data = Convert.objectOfdeductionModel(data)
 // FOR ARRAY
-// const data = Convert.listOfallowanceModel(data)
-
+// const data = Convert.listOfdeductionModel(data)
 const modelOfDataemployee = {
 	id: '',
 	name: ''
@@ -16,26 +15,22 @@ const modelOfDatacomponent_name = {
 	id: '',
 	name: ''
 };
-const modelOfDataallowanceModel = {
+const modelOfDatadeductionModel = {
 	id: '',
-	allowance_type: '',
-	ammount: '',
-	is_taxable: false,
-	created_at: '',
+	amount: 0,
+	description: '',
 	employee: modelOfDataemployee,
 	component_name: modelOfDatacomponent_name
 };
-function listOfallowanceModel(data = []) {
-  var listData = [modelOfDataallowanceModel];
+function listOfdeductionModel(data = []) {
+  var listData = [modelOfDatadeductionModel];
   listData = [];
   try {
     data.map((val) => {
       var object = {
 				id: val.id ?? null,
-				allowance_type: val.allowance_type ?? null,
-				ammount: val.ammount ?? null,
-				is_taxable: val.is_taxable ?? null,
-				created_at: val.created_at ?? null,
+				amount: val.amount ?? null,
+				description: val.description ?? null,
 				employee: objectOfemployee(val.employee ?? null),
 				component_name: objectOfcomponent_name(val.component_name ?? null)
       };
@@ -46,17 +41,15 @@ function listOfallowanceModel(data = []) {
   }
   return listData;
 }
-function objectOfallowanceModel(data = null) {
-  var objectData = modelOfDataallowanceModel;
+function objectOfdeductionModel(data = null) {
+  var objectData = modelOfDatadeductionModel;
   if (data == null) {
     return null;
   }
   try {
 		objectData.id = data.id ?? null;
-		objectData.allowance_type = data.allowance_type ?? null;
-		objectData.ammount = data.ammount ?? null;
-		objectData.is_taxable = data.is_taxable ?? null;
-		objectData.created_at = data.created_at ?? null;
+		objectData.amount = data.amount ?? null;
+		objectData.description = data.description ?? null;
 		objectData.employee = objectOfemployee(data.employee ?? null);
 		objectData.component_name = objectOfcomponent_name(data.component_name ?? null);
   } catch (error) {
@@ -65,8 +58,8 @@ function objectOfallowanceModel(data = null) {
   return objectData;
 }
 module.exports = {
-  listOfallowanceModel: listOfallowanceModel,
-  objectOfallowanceModel: objectOfallowanceModel,
+  listOfdeductionModel: listOfdeductionModel,
+  objectOfdeductionModel: objectOfdeductionModel,
 };
 
 function objectOfemployee(data = null) {

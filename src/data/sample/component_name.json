@@ -1,0 +1,11 @@
+{
+    "id": "87380b96-d623-46a3-a736-d71622b0f02b",
+    "name": "Potongan Per-Divisi",
+    "description": "Arisan divisii",
+    "type": "deduction",
+    "created_at": "2023-07-23T13:10:48.989Z",
+    "created_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "updated_at": "2023-07-23T13:12:40.380Z",
+    "updated_by": "2410d5f1-3f9c-4bb7-80be-a2688d24db97",
+    "deleted": false
+}

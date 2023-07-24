@@ -15,6 +15,12 @@ export const routes_name={
     M_EMPLOYEE_DETAIL:'/master-data/employee/detail/',
     M_EMPLOYEE_CREATE_MULTIPLE:'/master-data/employee/multiple/',
     M_SALARY_COMPONENT_DETAIL:'/master-data/salary_component/detail/',
+    M_COMPONENT_NAME_ALLOWANCE_CREATE:'/master-data/component_name/allowance/create/',
+    M_COMPONENT_NAME_ALLOWANCE_DETAIL:'/master-data/component_name/allowance/detail/',
+    M_COMPONENT_NAME_ALLOWANCE_DAILY_CREATE:'/master-data/component_name/allowance_daily/create/',
+    M_COMPONENT_NAME_ALLOWANCE_DAILY_DETAIL:'/master-data/component_name/allowance_daily/detail/',
+    M_COMPONENT_NAME_DEDUCTION_CREATE:'/master-data/component_name/deduction/create/',
+    M_COMPONENT_NAME_DEDUCTION_DETAIL:'/master-data/component_name/deduction/detail/',
 
 //--PAYROLL-------------------------------------------------------- 
     PAYROLL_SALARY_CREATE:'/payroll/salary/create',

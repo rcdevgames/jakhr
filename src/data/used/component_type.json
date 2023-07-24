@@ -1,0 +1,14 @@
+[
+  {
+    "value": "allowance",
+    "name": "Tunjangan Tetap"
+  },
+  {
+    "value": "allowance_daily",
+    "name": "Tunjangan Harian"
+  },
+  {
+    "value":"deduction",
+    "name":"Potongan"
+  }
+]

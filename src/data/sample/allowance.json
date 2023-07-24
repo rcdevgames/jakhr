@@ -1,11 +1,17 @@
 [
     {
-        "id": "304ebf61-ce6d-4db0-b9c7-3cda458514dc",
+        "id": "79d86ec3-b2e2-4052-8f5c-281f70337721",
         "allowance_type": "tetap",
-        "name": "Tunjangan Harian",
-        "ammount": "500000",
+        "ammount": "400000",
         "is_taxable": false,
-        "is_final_tax":false,
-        "employee_id":"aa"
+        "created_at": "2023-07-23T13:27:11.281Z",
+        "employee": {
+            "id": "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
+            "name": "Employee 1"
+        },
+        "component_name": {
+            "id": "e00b7067-6ec4-472f-9e03-01cb7c10424f",
+            "name": "Tunjangan Per-Divisi"
+        }
     }
 ]

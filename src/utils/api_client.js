@@ -23,6 +23,8 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
       },
     });
     const data = await response.json();
+    console.log(API_URL + endpoint);
+    console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";

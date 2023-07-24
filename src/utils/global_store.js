@@ -2,6 +2,10 @@ import Moment from "moment";
 import { toast } from "react-toastify";
 
 export function SysCurrencyTransform({ num = 0, currency = "IDR" }) {
+  num = parseInt(num??0)
+  if(isNaN(num)){
+    num =0;
+  }
   return (
     currency + " " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   );

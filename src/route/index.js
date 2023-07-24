@@ -9,11 +9,18 @@ import Login from "../pages/Login";
 // master data
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
-import { Employee, CreateEmployee, EmployeeMultipleForm } from "../pages/MasterData/Employee";
-import { SalaryComponent, SalaryComponentForm } from "../pages/MasterData/SalaryComponent";
+import {
+  Employee,
+  CreateEmployee,
+  EmployeeMultipleForm,
+} from "../pages/MasterData/Employee";
+import {
+  SalaryComponent,
+  SalaryComponentForm,
+} from "../pages/MasterData/SalaryComponent";
 import { Organization, OrganizationForm } from "../pages/MasterData/Organisasi";
-import { LeaveMass,LeaveMassForm } from "../pages/MasterData/LeaveMass";
-import { JobLevel,JobLevelForm } from "../pages/MasterData/JobLevel";
+import { LeaveMass, LeaveMassForm } from "../pages/MasterData/LeaveMass";
+import { JobLevel, JobLevelForm } from "../pages/MasterData/JobLevel";
 import { JobPosition, JobPositionForm } from "../pages/MasterData/JobPosition";
 import {
   Announcement,
@@ -65,6 +72,14 @@ import { OvertimeForm } from "../pages/Config/Overtime";
 
 import PrivateRoute from "./PrivateRoute";
 import ScrollToTop from "./ScrollToTop";
+import {
+  ComponentName,
+  ComponentNameDaily,
+  ComponentNameDeduction,
+  ComponentNameForm,
+  ComponentNameDailyForm,
+  ComponentNameDeductionForm,
+} from "../pages/MasterData/ComponentName";
 
 const Router = () => (
   <BrowserRouter>
@@ -95,32 +110,48 @@ const Router = () => (
               <Route path="detail/:id" element={<CreateEmployee />} />
               <Route path="multiple" element={<EmployeeMultipleForm />} />
             </Route>
-            
+
             <Route path="organization">
               <Route path="" element={<Organization />} />
               <Route path="create" element={<OrganizationForm />} />
               <Route path="detail/:id" element={<OrganizationForm />} />
             </Route>
-            
+
             <Route path="leave_mass">
               <Route path="" element={<LeaveMass />} />
               <Route path="create" element={<LeaveMassForm />} />
               <Route path="detail/:id" element={<LeaveMassForm />} />
-
             </Route>
-            
+
             <Route path="job_level">
               <Route path="" element={<JobLevel />} />
               <Route path="create" element={<JobLevelForm />} />
               <Route path="detail/:id" element={<JobLevelForm />} />
             </Route>
-            
+
             <Route path="job_position">
               <Route path="" element={<JobPosition />} />
               <Route path="create" element={<JobPositionForm />} />
               <Route path="detail/:id" element={<JobPositionForm />} />
             </Route>
-            
+
+            <Route path="component_name">
+              <Route path="allowance">
+                <Route path="" element={<ComponentName />} />
+                <Route path="create" element={<ComponentNameForm />} />
+                <Route path="detail/:id" element={<ComponentNameForm  />} />
+              </Route>
+              <Route path="allowance_daily">
+                <Route path="" element={<ComponentNameDaily />} />
+                <Route path="create" element={<ComponentNameDailyForm />} />
+                <Route path="detail/:id" element={<ComponentNameDailyForm  />} />
+              </Route>
+              <Route path="deduction">
+                <Route path="" element={<ComponentNameDeduction />} />
+                <Route path="create" element={<ComponentNameDeductionForm />} />
+                <Route path="detail/:id" element={<ComponentNameDeductionForm  />} />
+              </Route>
+            </Route>
             <Route path="salary_component">
               <Route path="" element={<SalaryComponent />} />
               <Route path="detail/:id" element={<SalaryComponentForm />} />
