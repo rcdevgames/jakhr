@@ -12,6 +12,7 @@ export const sys_path_data = {
   religion_data: require("../data/used/religion.json"),
   work_patern_data: require("../data/used/work_pateren.json"),
   allowance_type_data: require("../data/used/allowance_type.json"),
+  ptkp: require("../data/used/ptkp.json"),
 };
 export const sys_icons = {};
 export const sys_iamges = {
@@ -24,6 +25,7 @@ export const file_template = {
     process.env.PUBLIC_URL + "/assets/templates/employee_multiple.xlsx",
   ALLOWANCE: process.env.PUBLIC_URL + "/assets/templates/allowance.xlsx",
   DEDUCTION: process.env.PUBLIC_URL + "/assets/templates/deduction.xlsx",
+  ICENTIVE: process.env.PUBLIC_URL + "/assets/templates/incentive.xlsx",
 };
 
 export const sys_labels = {

@@ -23,6 +23,6 @@ export const routes_name={
     M_COMPONENT_NAME_DEDUCTION_DETAIL:'/master-data/component_name/deduction/detail/',
 
 //--PAYROLL-------------------------------------------------------- 
-    PAYROLL_SALARY_CREATE:'/payroll/salary/create',
+    PAYROLL_SALARY_GENERATE:'/payroll/salary/generate',
     PAYROLL_SALARY_DETAIL:'/payroll/salary/detail/',
 }

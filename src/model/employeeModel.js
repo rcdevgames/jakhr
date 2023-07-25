@@ -35,6 +35,7 @@ const modelOfDataemployeeModel = {
 	job_level_id: '',
 	job_position_id: '',
 	employee_status_id: '',
+	ptkp: '',
 	create_user: false,
 	emergency_contact_name: null,
 	emergency_contact_relationship: null,
@@ -55,6 +56,7 @@ function listOfemployeeModel(data = []) {
 				phone_number: val.phone_number ?? null,
 				email: val.email ?? null,
 				gender: val.gender ?? null,
+				ptkp: val.ptkp ?? null,
 				marital_status: val.marital_status ?? null,
 				religion: val.religion ?? null,
 				pob: val.pob ?? null,
@@ -100,6 +102,7 @@ function objectOfemployeeModel(data = null) {
 		objectData.phone_number = data.phone_number ?? null;
 		objectData.email = data.email ?? null;
 		objectData.gender = data.gender ?? null;
+		objectData.ptkp = data.ptkp ?? null;
 		objectData.marital_status = data.marital_status ?? null;
 		objectData.religion = data.religion ?? null;
 		objectData.pob = data.pob ?? null;

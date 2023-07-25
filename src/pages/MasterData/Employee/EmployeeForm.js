@@ -13,7 +13,12 @@ import * as providers_branch from "../../../providers/master/branch";
 import * as providers_organization from "../../../providers/master/organization";
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
-import { SysDateTransform, SysReadData, showToast } from "../../../utils/global_store";
+import * as providers_employee_status from "../../../providers/master/employee_statuses";
+import {
+  SysDateTransform,
+  SysReadData,
+  showToast,
+} from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels, sys_path_data } from "../../../utils/constants";
 const EmployeeForm = () => {
@@ -21,11 +26,13 @@ const EmployeeForm = () => {
   const religion = SysReadData(sys_path_data.religion_data);
   const marital_status = SysReadData(sys_path_data.marital_status_data);
   const blood_type = SysReadData(sys_path_data.blood_type_data);
+  const ptkp = SysReadData(sys_path_data.ptkp);
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfemployeeModel({}));
   const [password, set_password] = useState("");
   const [branch, set_branch] = useState(convert_branch.listOfbranchModel([]));
+  const [employee_status, set_employee_status] = useState([]);
   const [organization, set_organization] = useState(
     convert_organization.listOforganizationModel([])
   );
@@ -35,8 +42,10 @@ const EmployeeForm = () => {
   const [job_position, set_job_position] = useState(
     convert_job_position.listOfjob_positionModel([])
   );
-  
-  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.EMPLOYEE}`;
+
+  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
+    sys_labels.menus.EMPLOYEE
+  }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -54,6 +63,7 @@ const EmployeeForm = () => {
   };
   useEffect(() => {
     getBranch();
+    getEmployeeStatus();
     // getOrganization();
     if (id) {
       handleDetail(id);
@@ -122,7 +132,8 @@ const EmployeeForm = () => {
         organization_id: data.organization_id,
         job_level_id: data.job_level_id,
         job_position_id: data.job_position_id,
-        employee_status_id: null,
+        ptkp:data.ptkp,
+        employee_status_id: data.employee_status_id,
         create_user: true,
         emergency_contact_name: data.emergency_contact_name,
         emergency_contact_relationship: data.emergency_contact_relationship,
@@ -151,7 +162,8 @@ const EmployeeForm = () => {
           gender: data.gender,
           marital_status: data.marital_status,
           religion: data.religion,
-          pob: data.pob,
+        ptkp:data.ptkp,
+        pob: data.pob,
           dob: SysDateTransform({
             date: data.dob,
             withTime: false,
@@ -179,7 +191,7 @@ const EmployeeForm = () => {
           organization_id: data.organization_id,
           job_level_id: data.job_level_id,
           job_position_id: data.job_position_id,
-          employee_status_id: null,
+          employee_status_id: data.employee_status_id,
           create_user: false,
           emergency_contact_name: data.emergency_contact_name,
           emergency_contact_relationship: data.emergency_contact_relationship,
@@ -203,6 +215,16 @@ const EmployeeForm = () => {
     try {
       const resp = await providers_branch.getDataMax();
       set_branch(resp.data.data);
+      // setData(val=>({...val,branch_id:resp.data.data[0].id}))
+    } catch (error) {
+      showToast({ message: error.message, type: "error" });
+    }
+  };
+
+  const getEmployeeStatus = async () => {
+    try {
+      const resp = await providers_employee_status.getDataMax();
+      set_employee_status(resp.data.data);
       // setData(val=>({...val,branch_id:resp.data.data[0].id}))
     } catch (error) {
       showToast({ message: error.message, type: "error" });
@@ -385,6 +407,49 @@ const EmployeeForm = () => {
                               Select Religion
                             </option>
                             {religion.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>Employee Status:</label>
+                          <select
+                            className="form-select"
+                            id="employee_status_id"
+                            name="employee_status_id"
+                            value={data.employee_status_id}
+                            onChange={handleChange}
+                            aria-label="Status"
+                          >
+                            <option value="" disabled>
+                              Select Status
+                            </option>
+                            {employee_status.map((option, index) => (
+                              <option key={index} value={option.id}>
+                                {option.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div><div className="col-md-6">
+                        <div className="form-group">
+                          <label>PTKP:</label>
+                          <select
+                            className="form-select"
+                            id="ptkp"
+                            name="ptkp"
+                            value={data.ptkp}
+                            onChange={handleChange}
+                            aria-label="PTKP"
+                          >
+                            <option value="" disabled>
+                              Select Status
+                            </option>
+                            {ptkp.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.name}
                               </option>

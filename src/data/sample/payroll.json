@@ -1,0 +1,33 @@
+[
+    {
+        "id": "b705389e-758d-4326-b511-3c8720cd9267",
+        "employee_id": "898989",
+        "employee_name": "Cathleen Riley",
+        "final_salary": -200013.87,
+        "value_to_add": {
+            "gaji_pokok": 73,
+            "tunjangan_tetap": 0,
+            "tunjangan_harian": 0,
+            "lembur": 0,
+            "insentive_bonus": 100000,
+            "tunjangan_tidak_tetap": 100000
+        },
+        "value_to_reduce": {
+            "pajak": 0,
+            "late_penalty": 0,
+            "kasbon": 0,
+            "asuransi": {
+                "jht": 2.19,
+                "kesehatan": 38.69,
+                "jp": 18.25,
+                "other_insurance": 27.74
+            },
+            "fix_deduction": 200000,
+            "not_fix_deduction": 200000
+        },
+        "other_informations": {
+            "bank_name": "DANAMON",
+            "bank_account": "95"
+        }
+    }
+]

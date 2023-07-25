@@ -80,6 +80,7 @@ import {
   ComponentNameDailyForm,
   ComponentNameDeductionForm,
 } from "../pages/MasterData/ComponentName";
+import SalaryForm from "../pages/Payroll/Salary/SalaryForm";
 
 const Router = () => (
   <BrowserRouter>
@@ -228,6 +229,7 @@ const Router = () => (
           <Route path="payroll">
             <Route path="salary">
               <Route path="" element={<Salary />} />
+              <Route path="generate" element={<SalaryForm />} />
             </Route>
           </Route>
         </Route>
