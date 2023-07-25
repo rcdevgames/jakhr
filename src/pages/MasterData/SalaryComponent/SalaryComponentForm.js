@@ -177,7 +177,10 @@ const SalaryComponentForm = () => {
             >
               <i className="bi bi-pencil"></i>
             </a>
-            <Popconfirm title="Sure to delete?" onConfirm={() => handleDeleteAllowance(record.id)}>
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDeleteAllowance(record.id)}
+            >
               <a className="btn icon btn-danger btn-sm">
                 <i className="bi bi-trash"></i>
               </a>
@@ -198,6 +201,7 @@ const SalaryComponentForm = () => {
       },
       ammount: "",
     });
+    set_allowance_editing_key("new");
   };
   const handleEditRowAllowance = (record) => {
     set_allowance_editing_key(record.id);
@@ -249,23 +253,19 @@ const SalaryComponentForm = () => {
     } catch (error) {
       set_allowance_editing_key("");
       set_new_row_allowance(null);
-      
     }
   };
   const handleDeleteAllowance = async (id) => {
     try {
       if (allowance_editing_key != "new") {
-        const resp = await providers_allowance.deleteData(
-          data.employee_id,
-          id
-        );
+        const resp = await providers_allowance.deleteData(data.employee_id, id);
         await getAllowance(employee_data.id);
         showToast({ message: resp.message });
       }
       set_allowance_editing_key("");
     } catch (error) {}
   };
-  
+
   const [deduction_editing_key, set_deduction_editing_key] = useState("");
   const [new_row_deduction, set_new_row_deduction] = useState(null);
   const [show_modal_deduction, set_show_modal_deduction] = useState(false);
@@ -273,7 +273,9 @@ const SalaryComponentForm = () => {
   const handleInputChangeDeduction = (e, key, dataIndex) => {
     if (key == "new") {
       if (dataIndex == "component_name_id") {
-        const data = data_component_deduction.find((val) => val.id == e.target.value);
+        const data = data_component_deduction.find(
+          (val) => val.id == e.target.value
+        );
         set_new_row_deduction((prev) => ({
           ...prev,
           component_name: {
@@ -289,7 +291,9 @@ const SalaryComponentForm = () => {
     } else {
       let updatedData = null;
       if (dataIndex == "component_name_id") {
-        const data = data_component_deduction.find((val) => val.id == e.target.value);
+        const data = data_component_deduction.find(
+          (val) => val.id == e.target.value
+        );
         updatedData = data_deduction.map((item) =>
           item.id === key
             ? { ...item, component_name: { id: data.id, name: data.name } }
@@ -333,14 +337,16 @@ const SalaryComponentForm = () => {
         );
       },
     },
-    
+
     {
       title: "Deskripsi",
       dataIndex: "description",
       editable: true,
       render: (val, record) => {
         const is_edit = is_editing_deduction(record);
-        return !is_edit ? record.description: (
+        return !is_edit ? (
+          record.description
+        ) : (
           <Input
             value={val}
             onChange={(e) =>
@@ -363,9 +369,7 @@ const SalaryComponentForm = () => {
             value={val}
             onKeyDown={onlyNumber}
             onPaste={disablePaste}
-            onChange={(e) =>
-              handleInputChangeDeduction(e, record.id, "amount")
-            }
+            onChange={(e) => handleInputChangeDeduction(e, record.id, "amount")}
           />
         );
       },
@@ -398,7 +402,10 @@ const SalaryComponentForm = () => {
             >
               <i className="bi bi-pencil"></i>
             </a>
-            <Popconfirm title="Sure to delete?" onConfirm={() => handleDeleteDeduction(record.id)}>
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDeleteDeduction(record.id)}
+            >
               <a className="btn icon btn-danger btn-sm">
                 <i className="bi bi-trash"></i>
               </a>
@@ -413,13 +420,14 @@ const SalaryComponentForm = () => {
     set_new_row_deduction({
       id: newKey,
       component_name_id: "",
-      description:"",
+      description: "",
       component_name: {
         id: "",
         name: "",
       },
       amount: "",
     });
+    set_deduction_editing_key("new");
   };
   const handleEditRowDeduction = (record) => {
     set_deduction_editing_key(record.id);
@@ -440,14 +448,12 @@ const SalaryComponentForm = () => {
     try {
       if (id == "new") {
         console.log("INSERT BARU");
-        await providers_deduction.insertData(
-          {
-            component_name_id: new_row_deduction.component_name.id,
-            amount: new_row_deduction.amount,
-            description:new_row_deduction.description,
-            employee_id:employee_data.id
-          }
-        );
+        await providers_deduction.insertData({
+          component_name_id: new_row_deduction.component_name.id,
+          amount: new_row_deduction.amount,
+          description: new_row_deduction.description,
+          employee_id: employee_data.id,
+        });
       } else {
         const data = data_deduction.find((item) => item.id === id);
         if (data) {
@@ -468,15 +474,12 @@ const SalaryComponentForm = () => {
     } catch (error) {
       set_deduction_editing_key("");
       set_new_row_deduction(null);
-      
     }
   };
   const handleDeleteDeduction = async (id) => {
     try {
       if (deduction_editing_key != "new") {
-        const resp = await providers_deduction.deleteData(
-          id
-        );
+        const resp = await providers_deduction.deleteData(id);
         await getDeduction(employee_data.id);
         showToast({ message: "Delete success" });
       }
@@ -591,9 +594,11 @@ const SalaryComponentForm = () => {
   const getDeduction = async (id) => {
     try {
       const resp = await providers_deduction.getData(id);
-      set_data_deduction(
-        convert_deduction.listOfdeductionModel(resp.data.data)
-      );
+      if (resp.data.data) {
+        set_data_deduction(resp.data.data);
+      } else {
+        set_data_deduction([]);
+      }
       calculateDeduction(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -602,7 +607,11 @@ const SalaryComponentForm = () => {
   const getAllowance = async (id) => {
     try {
       const resp = await providers_allowance.getData(id);
-      set_data_allowance(resp.data.data);
+      if (resp.data.data) {
+        set_data_allowance(resp.data.data);
+      } else {
+        set_data_allowance([]);
+      }
       calculateAllowance(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -1306,6 +1315,7 @@ const SalaryComponentForm = () => {
           open={show_modal_allowance}
           onOk={() => handleCloseModalAllowance()}
           onCancel={() => handleCloseModalAllowance()}
+          width={1000}
         >
           <Table
             pagination={false}
@@ -1329,6 +1339,7 @@ const SalaryComponentForm = () => {
           open={show_modal_deduction}
           onOk={() => handleCloseModalDeduction()}
           onCancel={() => handleCloseModalDeduction()}
+          width={1000}
         >
           <Table
             pagination={false}
