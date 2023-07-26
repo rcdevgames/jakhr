@@ -8,7 +8,7 @@ import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import TimeInput from "../../../../../components/TimeInput";
 import * as company_providers from "../../../../../providers/master/company";
 import * as branch_providers from "../../../../../providers/master/branch";
-import { showToast } from "../../../../../utils/global_store";
+import { SysJWTDecoder, showToast } from "../../../../../utils/global_store";
 
 class LoadScriptComponent extends LoadScript {
   componentDidMount() {
@@ -59,12 +59,14 @@ class FormMap extends Component {
       branchSchOut: "",
       branchSchInHalf: "",
       branchSchOutHalf: "",
+      jwt: SysJWTDecoder(),
       company_id: "",
       company_list: [],
     };
   }
   componentDidMount() {
-    this.getCompanyList();
+    // this.getCompanyList();
+    this.handleGetCurrentLocationClick();
     console.log(this.props);
     if (this.props.id) {
       this.setState({ id: this.props.id });
@@ -99,19 +101,29 @@ class FormMap extends Component {
       this.props.navigate(-1);
     }
   };
-  getCompanyList = async () => {
-    try {
-      const resp = await company_providers.getDataMaximum();
-      this.setState({
-        company_list: resp.data.data,
-      });
-    } catch (error) {
-      showToast({ message: error.message, type: "error" });
-    }
-  };
+  // getCompanyList = async () => {
+  //   try {
+  //     const resp = await company_providers.getDataMaximum();
+  //     this.setState({
+  //       company_list: resp.data.data,
+  //     });
+  //   } catch (error) {
+  //     showToast({ message: error.message, type: "error" });
+  //   }
+  // };
   handleSubmit = async () => {
     try {
       //   console.log(this.props);
+      if(this.state.branchSchIn >= this.state.branchSchOut){
+        showToast({message:"Clock Out must be greater than Clock In"})
+        // console.log('JAM BENER');
+        return '';
+      }
+      if(this.state.branchSchInHalf >= this.state.branchSchOutHalf){
+        // console.log('JAM GAK BENER');
+        showToast({message:"Clock Out must be greater than Clock In"})
+        return '';
+      }
       const resp = await branch_providers.insertData({
         name: this.state.branch_name,
         address: this.state.address,
@@ -124,7 +136,7 @@ class FormMap extends Component {
         sch_out: this.state.branchSchOut,
         sch_in_half: this.state.branchSchInHalf,
         sch_out_half: this.state.branchSchOutHalf,
-        company_id: this.state.company_id,
+        company_id: this.state.jwt.companyId,
       });
       showToast({ message: resp.message, type: "success" });
       this.props.navigate(-1);
@@ -150,7 +162,8 @@ class FormMap extends Component {
           sch_out: this.state.branchSchOut,
           sch_in_half: this.state.branchSchInHalf,
           sch_out_half: this.state.branchSchOutHalf,
-          company_id: this.state.company_id,
+          // company_id: this.state.company_id,
+          company_id: this.state.jwt.companyId,
         },
         this.state.id
       );
@@ -285,12 +298,13 @@ class FormMap extends Component {
       company_list,
       company_id,
       branch_name,
+      jwt,
     } = this.state;
 
     return (
       <div className="form form-horizontal">
         <div className="form-body">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label for="company_id">Company</label>
             <select
               className="form-select"
@@ -309,7 +323,7 @@ class FormMap extends Component {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
           <div className="form-group">
             <label for="branch_name">Nama</label>
             <input
@@ -322,7 +336,7 @@ class FormMap extends Component {
               placeholder="Nama Cabang"
             />
           </div>
-          
+
           <div className="form-group">
             <label for="address">Address</label>
             <Input.TextArea

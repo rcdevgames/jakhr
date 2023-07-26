@@ -121,7 +121,7 @@ const CompanyForm = () => {
                         <label style={{ marginRight: 15 }}>Active</label>
                         <Switch
                           name="is_active"
-                          checked={data.is_active}
+                          checked={data.is_active}                          
                           onChange={handleChangeActive}
                         />
                       </div>

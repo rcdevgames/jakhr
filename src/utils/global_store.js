@@ -1,10 +1,12 @@
 import Moment from "moment";
 import { toast } from "react-toastify";
+import jwt_decode from "jwt-decode";
+import { getToken } from "./session";
 
 export function SysCurrencyTransform({ num = 0, currency = "IDR" }) {
-  num = parseInt(num??0)
-  if(isNaN(num)){
-    num =0;
+  num = parseInt(num ?? 0);
+  if (isNaN(num)) {
+    num = 0;
   }
   return (
     currency + " " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
@@ -235,4 +237,24 @@ export function SysReadData(file) {
     console.error("Error reading data:", err);
     return [];
   }
+}
+
+export function SysJWTDecoder() {
+  const my_jwt = jwt_decode(getToken());
+  return {
+    id: my_jwt?.id ?? "",
+    email: my_jwt?.email ?? "",
+    employee_id: my_jwt?.employee_id ?? "",
+    full_name: my_jwt?.full_name ?? "",
+    role: my_jwt?.role ?? "",
+    company: my_jwt?.company ?? "",
+    branchId: my_jwt?.branchId ?? "",
+    companyId: my_jwt?.companyId ?? "",
+    division: my_jwt?.division ?? "",
+    job_level: my_jwt?.job_level ?? "",
+    position: my_jwt?.position ?? "",
+    iat: my_jwt?.iat ?? "",
+    exp: my_jwt?.exp ?? "",
+  };
+  // console.log(my_jwt);
 }

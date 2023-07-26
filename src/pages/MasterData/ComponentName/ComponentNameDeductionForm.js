@@ -78,7 +78,7 @@ const ComponentNameDeductionForm = () => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Nama Tunjangan:</label>
+                      <label>Nama Potongan:</label>
                       <input
                         className="form-control"
                         type="text"

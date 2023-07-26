@@ -17,6 +17,8 @@ import { file_template, sys_labels } from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import { useRef } from "react";
 
+import { pdf } from "@react-pdf/renderer";
+import PayrollPdf from "../../PDF/payroll_pdf";
 const { TabPane } = Tabs;
 const { Item } = Form;
 
@@ -35,7 +37,7 @@ const SalaryForm = () => {
   }, []);
   const getEmployee = async () => {
     try {
-      const resp = await providers_employee.getData(1, 99999999, "");
+      const resp = await providers_employee.getDataHasComponent(1, 99999999, "");
       set_employee_data(resp.data.data);
     } catch (error) {
       showToast({ message: error.message });
@@ -91,12 +93,6 @@ const SalaryForm = () => {
             });
           }
         });
-        if (
-          emp_allowance.length <= 0 &&
-          emp_deduction.length <= 0 &&
-          emp_incentive <= 0
-        ) {
-        } else {
           payroll.push({
             employee_id: val_employee.employee_id,
             components: {
@@ -105,7 +101,6 @@ const SalaryForm = () => {
               deductions: emp_deduction,
             },
           });
-        }
       });
       const resp = await providers.generateData(payroll);
       set_payroll_data(resp.data);
@@ -224,6 +219,7 @@ const SalaryForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
+            <option value={null}>Pilih Karyawan</option>
             {employee_data.map((option, index) => (
               <option key={index} value={option.employee_id}>
                 {option.employee_id} - {option.full_name}
@@ -300,7 +296,7 @@ const SalaryForm = () => {
               set_edit_key_allowance("");
             }}
           >
-            <i className="bi bi-file-check"></i>
+            <i className="bi bi-check"></i>
           </a>
         );
       },
@@ -405,9 +401,11 @@ const SalaryForm = () => {
             onChange={(e) =>
               handleInputChangeDeduction(e, record.id, "employee_id")
             }
-            aria-label="Nama Potongan"
+            aria-label="Nama Karyawan"
             required
           >
+            <option value={null}>Pilih Karyawan</option>
+
             {employee_data.map((option, index) => (
               <option key={index} value={option.employee_id}>
                 {option.employee_id} - {option.full_name}
@@ -484,7 +482,7 @@ const SalaryForm = () => {
               set_edit_key_deduction("");
             }}
           >
-            <i className="bi bi-file-check"></i>
+            <i className="bi bi-check"></i>
           </a>
         );
       },
@@ -592,6 +590,8 @@ const SalaryForm = () => {
             aria-label="Nama"
             required
           >
+            <option value={null}>Pilih Karyawan</option>
+
             {employee_data.map((option, index) => (
               <option key={index} value={option.employee_id}>
                 {option.employee_id} - {option.full_name}
@@ -668,7 +668,7 @@ const SalaryForm = () => {
               set_edit_key_incentive("");
             }}
           >
-            <i className="bi bi-file-check"></i>
+            <i className="bi bi-check"></i>
           </a>
         );
       },
@@ -684,36 +684,229 @@ const SalaryForm = () => {
     {
       title: "Employee Id",
       dataIndex: "employee_id",
+      width: 200,
       render: (val, record) => {
         const is_edit = is_editing_allowance(record);
-        return record.employee_id;
+        return <p style={{ minWidth: "150px" }}>{record.employee_id}</p>;
       },
     },
     {
       title: "Nama",
+      width: 200,
       dataIndex: "employee_name",
       render: (val, record) => {
-        return record.employee_name;
+        return <p style={{ minWidth: "150px" }}>{record.employee_name}</p>;
+      },
+    },
+
+    {
+      title: "Gaji",
+      dataIndex: "final_salary",
+      width: 200,
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({ num: record.final_salary })}
+          </p>
+        );
       },
     },
     {
       title: "Gaji Pokok",
       dataIndex: "value_to_add",
+      width: 200,
       render: (val, record) => {
-        return SysCurrencyTransform({ num: record.value_to_add.gaji_pokok });
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({ num: record.value_to_add.gaji_pokok })}
+          </p>
+        );
       },
     },
     {
       title: "Tunjangan Tetap",
       dataIndex: "value_to_add",
+      width: 200,
       render: (val, record) => {
-        return SysCurrencyTransform({
-          num: record.value_to_add.tunjangan_tetap,
-        });
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_add.tunjangan_tetap,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Tunjangan Harian",
+      dataIndex: "value_to_add",
+      width: 200,
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_add.tunjangan_harian,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Lembur",
+      dataIndex: "value_to_add",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_add.lembur,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Insentif",
+      dataIndex: "value_to_add",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_add.insentive_bonus,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Tunjangan Tidak Tetap",
+      dataIndex: "value_to_add",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_add.tunjangan_tidak_tetap,
+            })}
+          </p>
+        );
+      },
+    },
+
+    {
+      title: "Pajak",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.pajak,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Terlambat",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.late_penalty,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "JHT",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.asuransi.jht,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Kesehatan",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.asuransi.kesehatan,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Asuransi Lain",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.asuransi.other_insurance,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Potongan Tetap",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.fix_deduction,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Potongan Tidak Tetap",
+      dataIndex: "value_to_reduce",
+      render: (val, record) => {
+        return (
+          <p style={{ minWidth: "150px" }}>
+            {SysCurrencyTransform({
+              num: record.value_to_reduce.no_fix_deduction,
+            })}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      render: (val, record) => {
+        return (
+          <a
+            className="btn icon btn-primary btn-sm"
+            onClick={() => {
+              handleOpenPDF(record);
+            }}
+          >
+            <i className="bi bi-file"></i>
+          </a>
+        );
       },
     },
   ];
+  const handleOpenPDF = async (record) => {
+    const pdfData = PayrollPdf(record); // Generate the PDF data
+    const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
+    // Open a new tab and display the PDF
+    const fileURL = URL.createObjectURL(pdfBlob);
+    window.open(fileURL, "_blank");
+  };
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -722,6 +915,7 @@ const SalaryForm = () => {
             <h3>{title}</h3>
 
             <button onClick={handleGenerate} className="btn btn-primary">
+              {/* <button onClick={handleOpenPDF} className="btn btn-primary"> */}
               Generate
             </button>
           </div>
@@ -729,36 +923,20 @@ const SalaryForm = () => {
             <div className="row mt-3">
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tunjangan" key="1">
-                  <div
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                      marginBottom: 15,
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        width: "30%",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
+                  <div className="row">
+                    <div className="col-md-3">
                       <Button
                         onClick={downloadTemplatesAllowance}
                         type="primary"
                       >
                         Download Templates
                       </Button>
+                    </div>
 
+                    <div className="col-md-3">
                       <Button
                         onClick={handleClickImportAllowance}
                         type="primary"
-                        style={{
-                          marginLeft: 10,
-                        }}
                       >
                         Import File
                       </Button>
@@ -784,37 +962,20 @@ const SalaryForm = () => {
                   </Button>
                 </TabPane>
                 <TabPane tab="Potongan" key="2">
-                  {" "}
-                  <div
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                      marginBottom: 15,
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        width: "30%",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
+                  <div className="row">
+                    <div className="col-md-3">
                       <Button
                         onClick={downloadTemplatesDeduction}
                         type="primary"
                       >
                         Download Templates
                       </Button>
+                    </div>
 
+                    <div className="col-md-3">
                       <Button
                         onClick={handleClickImportDeduction}
                         type="primary"
-                        style={{
-                          marginLeft: 10,
-                        }}
                       >
                         Import File
                       </Button>
@@ -840,36 +1001,20 @@ const SalaryForm = () => {
                   </Button>
                 </TabPane>
                 <TabPane tab="Insentif" key="3">
-                  <div
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                      marginBottom: 15,
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        width: "30%",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
+                  <div className="row">
+                    <div className="col-md-3">
                       <Button
                         onClick={downloadTemplatesIncentive}
                         type="primary"
                       >
                         Download Templates
                       </Button>
+                    </div>
 
+                    <div className="col-md-3">
                       <Button
                         onClick={handleClickImportIncentive}
                         type="primary"
-                        style={{
-                          marginLeft: 10,
-                        }}
                       >
                         Import File
                       </Button>
@@ -908,6 +1053,7 @@ const SalaryForm = () => {
               <div className="row mt-3">
                 <Table
                   pagination={false}
+                  className="overflow-scroll"
                   dataSource={payroll_data}
                   columns={columns_payroll}
                 />

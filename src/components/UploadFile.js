@@ -5,15 +5,31 @@ import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import "./style.css";
 registerPlugin(
   FilePondPluginImagePreview,
   FilePondPluginImageResize,
-  FilePondPluginImageTransform
+  FilePondPluginImageTransform,
+  FilePondPluginFileValidateType
 );
 
 const UploadFile = ({ onImageUpload, file }) => {
   // const [file, setFile] = useState(null);
+  let renderer_file = file;
+  // const accept_type = ["png", "jpg", "jpeg"];
+  // const getFileExtension = (filename) => {
+  //   // console.log(filename);
+  //   return !filename
+  //     ? false
+  //     : filename?.source?'png': filename
+  //         .slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2)
+  //         .toLowerCase();
+  // };
+  // const is_allow = accept_type.includes(getFileExtension(renderer_file));
+  // if (!is_allow) {
+  //   renderer_file = null;
+  // }
 
   const handleFileLoad = (file) => {
     try {
@@ -34,7 +50,13 @@ const UploadFile = ({ onImageUpload, file }) => {
     <div>
       <FilePond
         // server={serverEndpoint}
-        files={file ? [file] : []}
+        
+        allowFileTypeValidation={true}
+        acceptedFileTypes={['image/png', 'image/jpeg','image/jpg']}
+        // checkValidity={true}
+        // on
+        labelIdle="Input file type image"
+        files={renderer_file ? [renderer_file] : []}
         onupdatefiles={(fileItems) => {
           const selectedFile =
             fileItems && fileItems.length > 0 ? fileItems[0].file : null;

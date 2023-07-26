@@ -1,11 +1,24 @@
 import { sys_post, sys_put, sys_get,sys_del } from "../../utils/api_client";
 
 const uri = "master/";
+
 export const getData = async (page = 1,limit=10,search="") => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint: uri + `get_employees?page=${page}&perPage=${limit}&keywords=${search}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDataHasComponent = async (page = 1,limit=10,search="") => {
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint: uri + `get_employees?page=${page}&perPage=${limit}&keywords=${search}&hasComponent=true`,
     });
     return response;
   } catch (error) {

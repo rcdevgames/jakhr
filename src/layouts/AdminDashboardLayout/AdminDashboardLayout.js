@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import isEmpty from "../../utils/is-empty";
 import HeroIcon from "../../components/HeroIcon";
 import { sys_labels } from "../../utils/constants";
+import { SysJWTDecoder } from "../../utils/global_store";
 
 const navItems = [
   {
@@ -49,7 +50,7 @@ const navItems = [
         link: "/master-data/component_name/allowance",
       },
       {
-        label: sys_labels.menus.ALLOWANCE +'Harian',
+        label: sys_labels.menus.ALLOWANCE + "Harian",
         link: "/master-data/component_name/allowance_daily",
       },
       {
@@ -66,7 +67,7 @@ const navItems = [
       },
     ],
   },
-  
+
   {
     icon: "DesktopComputerIcon",
     iconType: "outline",
@@ -197,7 +198,7 @@ const AdminDashboardLayout = () => {
     script.id = id;
     document.head.appendChild(script);
   };
-
+  const sys_token = SysJWTDecoder();
   return (
     <div id="app">
       <Helmet>
@@ -210,14 +211,12 @@ const AdminDashboardLayout = () => {
         <div className="sidebar-wrapper active">
           <div className="sidebar-header position-relative">
             <div className="d-flex justify-content-between">
-              {/* <div className="logo"> */}
               <Link to="/">
                 <img
                   src={process.env.PUBLIC_URL + "/assets/images/logo/Jakhr.png"}
                   alt="Logo"
                 />
               </Link>
-              {/* </div> */}
 
               <div className="sidebar-toggler x">
                 <a href="#" className="sidebar-hide d-xl-none d-block">
@@ -225,6 +224,7 @@ const AdminDashboardLayout = () => {
                 </a>
               </div>
             </div>
+            <h5>{sys_token.company}</h5>
           </div>
           <div className="sidebar-menu">
             <ul className="menu">

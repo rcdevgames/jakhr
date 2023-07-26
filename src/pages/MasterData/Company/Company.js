@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React,{useState} from "react";
+import React, { useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
 import * as company_providers from "../../../providers/master/company";
 import DataTablePagination from "../../../components/DataTable";
@@ -22,6 +22,12 @@ const Company = () => {
     },
     { title: "Address", dataIndex: "address", key: "address" },
     { title: "Alias", dataIndex: "alias", key: "alias" },
+    {
+      title: "Status",
+      dataIndex: "is_active",
+      key: "is_active",
+      render: (val) => (val ? "Aktif" : "Tidak Aktif"),
+    },
 
     { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     {

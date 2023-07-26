@@ -50,7 +50,7 @@ const Salary = () => {
     set_modal(true);
   };
   const handleGet = async () => {
-    return [];
+    return { data: { data: [] } };
   };
 
   return (

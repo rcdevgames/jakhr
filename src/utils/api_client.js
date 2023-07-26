@@ -30,7 +30,7 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
     callback.message = data?.message ?? "ERROR!";
     callback.data = data?.totalData ? { ...data } : data.data;
     if (response.status != 201 && response.status != 200) {
-      callback.message=data?.details??data?.message??"";
+      callback.message=data?.error??data?.message??"";
       throw callback;
     }
     return callback;
@@ -61,7 +61,7 @@ export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
     callback.data = data?.data ?? {};
     if (endpoint == "auth/login") callback.data = { token: data.token };
     if (response.status != 201 && response.status != 200) {
-      callback.message=data?.details??data?.message??"";
+      callback.message=data?.error??data?.message??"";
       throw callback;
     }
     return callback;
@@ -89,7 +89,7 @@ export const sys_del = async ({ auth = false, endpoint = "" }) => {
     callback.data = data?.data ?? {};
     if (response.status != 201 && response.status != 200) {
       
-      callback.message=data?.details??data?.message??"";
+      callback.message=data?.error??data?.message??"";
       throw callback;
     }
     return callback;
@@ -128,7 +128,7 @@ export const sys_put = async ({
     callback.data = data?.data ?? {};
     if (response.status != 201 && response.status != 200) {
       
-      callback.message=data?.details??data?.message??"";
+      callback.message=data?.error??data?.message??"";
       throw callback;
     }
     return callback;

@@ -1,12 +1,14 @@
 import { sys_post, sys_put, sys_get, sys_del } from "../../utils/api_client";
 
 const uri = "payroll/";
-export const getData = async (employee_id = "") => {
+export const getData = async (employee_id = "",type='tetap') => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `allowances/${employee_id}`,
+      // endpoint: uri + `allowances/${employee_id}`,
+      endpoint: uri + `allowances/${employee_id}?type=${type}`,
     });
+
     return response;
   } catch (error) {
     throw error;
