@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout/AdminDashboardLayout";
 import Dashboard from "../pages/Dashboard";
-import Login from "../pages/Login";
+import Login, { Authentication } from "../pages/Login";
 // master data
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
@@ -81,6 +81,7 @@ import {
   ComponentNameDeductionForm,
 } from "../pages/MasterData/ComponentName";
 import SalaryForm from "../pages/Payroll/Salary/SalaryForm";
+import PayrollPdf from "../pages/PDF/payroll_pdf";
 
 const Router = () => (
   <BrowserRouter>
@@ -235,6 +236,8 @@ const Router = () => (
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="/authentication/:token" element={<Authentication />} />
+      <Route path="/pdf" element={<PayrollPdf />} />
     </Routes>
   </BrowserRouter>
 );

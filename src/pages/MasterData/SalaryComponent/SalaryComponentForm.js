@@ -120,6 +120,10 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
+            
+          <option  value={null}>
+            Pilih Tunjangan
+          </option>
             {data_component.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -251,6 +255,7 @@ const SalaryComponentForm = () => {
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     } catch (error) {
+      showToast({message:error.message})
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     }
@@ -328,6 +333,10 @@ const SalaryComponentForm = () => {
             aria-label="Nama Potongan"
             required
           >
+            
+          <option  value={null}>
+            Pilih Potongan
+          </option>
             {data_component_deduction.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -472,6 +481,7 @@ const SalaryComponentForm = () => {
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     } catch (error) {
+      showToast({message:error.message})
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     }
@@ -552,6 +562,9 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
+          <option  value={null}>
+            Pilih Tunjangan
+          </option>
             {data_component_daily.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -685,6 +698,7 @@ const SalaryComponentForm = () => {
       set_new_row_allowance_daily(null);
     } catch (error) {
       console.log(error);
+      showToast({message:error.message})
       set_allowance_daily_editing_key("");
       set_new_row_allowance_daily(null);
     }

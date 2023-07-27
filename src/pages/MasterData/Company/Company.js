@@ -43,12 +43,12 @@ const Company = () => {
           >
             <i className="bi bi-file-text"></i>
           </a>
-          <a
+          {/* <a
             onClick={() => openModal(record)}
             className="btn icon btn-danger btn-sm"
           >
             <i className="bi bi-trash"></i>
-          </a>
+          </a> */}
         </div>
       ),
     },

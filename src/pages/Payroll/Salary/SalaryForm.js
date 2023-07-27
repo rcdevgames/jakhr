@@ -3,11 +3,14 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/salaryModel";
 import convert_employee from "../../../model/employeeModel";
+import convert_company from "../../../model/companyModel";
 import * as providers from "../../../providers/payroll/salary";
 import * as providers_employee from "../../../providers/master/employee";
+import * as providers_company from "../../../providers/master/company";
 import {
   SysCurrencyTransform,
   SysDateTransform,
+  SysJWTDecoder,
   showToast,
 } from "../../../utils/global_store";
 import { Tabs, Form, Popconfirm, Input, Table, Button } from "antd";
@@ -32,13 +35,31 @@ const SalaryForm = () => {
   const [employee_data, set_employee_data] = useState(
     convert_employee.listOfemployeeModel([])
   );
+  const [company,set_company]= useState(convert_company.objectOfcompanyModel({}))
+  const token = SysJWTDecoder();
   useEffect(() => {
     getEmployee();
+    getCompany();
+    // console.log(a);
   }, []);
   const getEmployee = async () => {
     try {
-      const resp = await providers_employee.getDataHasComponent(1, 99999999, "");
+      const resp = await providers_employee.getDataHasComponent(
+        1,
+        99999999,
+        ""
+      );
       set_employee_data(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message });
+    }
+  };
+  
+  const getCompany = async () => {
+    try {
+      const resp = await providers_company.getDetail(token.companyId);
+      // console.log(resp.data);
+      set_company(resp.data);
     } catch (error) {
       showToast({ message: error.message });
     }
@@ -93,14 +114,14 @@ const SalaryForm = () => {
             });
           }
         });
-          payroll.push({
-            employee_id: val_employee.employee_id,
-            components: {
-              allowances: emp_allowance,
-              incentives: emp_incentive,
-              deductions: emp_deduction,
-            },
-          });
+        payroll.push({
+          employee_id: val_employee.employee_id,
+          components: {
+            allowances: emp_allowance,
+            incentives: emp_incentive,
+            deductions: emp_deduction,
+          },
+        });
       });
       const resp = await providers.generateData(payroll);
       set_payroll_data(resp.data);
@@ -335,7 +356,7 @@ const SalaryForm = () => {
       set_key_deduction(key_deduction + index_total);
     } else {
       const newData = {
-        id: key_allowance,
+        id: key_deduction,
         employee_id: "",
         full_name: "",
         description: "",
@@ -900,7 +921,7 @@ const SalaryForm = () => {
     },
   ];
   const handleOpenPDF = async (record) => {
-    const pdfData = PayrollPdf(record); // Generate the PDF data
+    const pdfData = PayrollPdf(record,company.logo); // Generate the PDF data
     const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
     // Open a new tab and display the PDF
@@ -924,8 +945,9 @@ const SalaryForm = () => {
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tunjangan" key="1">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesAllowance}
                         type="primary"
                       >
@@ -933,20 +955,21 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportAllowance}
                         type="primary"
                       >
                         Import File
                       </Button>
-                      <input
-                        type="file"
-                        ref={allowanceRef}
-                        style={{ display: "none" }}
-                        onChange={handleImportAllowance}
-                      ></input>
                     </div>
+
+                    <input
+                      type="file"
+                      ref={allowanceRef}
+                      style={{ display: "none" }}
+                      onChange={handleImportAllowance}
+                    ></input>
                   </div>
                   <Table
                     pagination={false}
@@ -963,8 +986,9 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Potongan" key="2">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesDeduction}
                         type="primary"
                       >
@@ -972,7 +996,7 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportDeduction}
                         type="primary"
@@ -1002,8 +1026,9 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Insentif" key="3">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesIncentive}
                         type="primary"
                       >
@@ -1011,7 +1036,7 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportIncentive}
                         type="primary"
