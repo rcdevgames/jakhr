@@ -14,7 +14,7 @@ pipeline {
                         docker stop jakhr-fe-staging
                         docker rm jakhr-fe-staging
                     fi
-                    docker build -t jakhr-be-staging .
+                    docker build -t jakhr-fe-staging .
                     docker run -d -p 8012:80 --name jakhr-fe-staging jakhr-fe-staging
                 '''
                 
