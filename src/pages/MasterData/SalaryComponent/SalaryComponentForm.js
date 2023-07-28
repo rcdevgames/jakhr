@@ -16,6 +16,8 @@ import * as providers_late from "../../../providers/payroll/late";
 import * as providers_overtime from "../../../providers/payroll/overtime";
 import * as providers_allowance from "../../../providers/payroll/allowance";
 import * as providers_deduction from "../../../providers/payroll/deduction";
+import { useLoadingContext } from "../../../components/Loading";
+
 import {
   SysCurrencyTransform,
   SysDateTransform,
@@ -33,6 +35,7 @@ import {
 const SalaryComponentForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { showLoading, hideLoading } = useLoadingContext();
   const [is_salary, set_is_salary] = useState(false);
   const [data_allowance, set_data_allowance] = useState(
     convert_allowance.listOfallowanceModel([])
@@ -120,10 +123,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
-            
-          <option  value={null}>
-            Pilih Tunjangan
-          </option>
+            <option value={null}>Pilih Tunjangan</option>
             {data_component.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -255,7 +255,7 @@ const SalaryComponentForm = () => {
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     } catch (error) {
-      showToast({message:error.message})
+      showToast({ message: error.message });
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     }
@@ -333,10 +333,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Potongan"
             required
           >
-            
-          <option  value={null}>
-            Pilih Potongan
-          </option>
+            <option value={null}>Pilih Potongan</option>
             {data_component_deduction.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -481,7 +478,7 @@ const SalaryComponentForm = () => {
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     } catch (error) {
-      showToast({message:error.message})
+      showToast({ message: error.message });
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     }
@@ -562,9 +559,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
-          <option  value={null}>
-            Pilih Tunjangan
-          </option>
+            <option value={null}>Pilih Tunjangan</option>
             {data_component_daily.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -698,7 +693,7 @@ const SalaryComponentForm = () => {
       set_new_row_allowance_daily(null);
     } catch (error) {
       console.log(error);
-      showToast({message:error.message})
+      showToast({ message: error.message });
       set_allowance_daily_editing_key("");
       set_new_row_allowance_daily(null);
     }
@@ -725,8 +720,11 @@ const SalaryComponentForm = () => {
   );
 
   useEffect(() => {
+    showLoading();
+
     getEmployee(id);
     getLateConfig(id);
+    checkEmployeeHaveConfig(id);
     getOvertimeConfig(id);
     getComponent();
     getComponentDaily();
@@ -766,7 +764,6 @@ const SalaryComponentForm = () => {
     try {
       const resp = await providers_employee.getDetail(id);
       set_employee_data(resp.data);
-      await checkEmployeeHaveConfig(id);
       await getDeduction(id);
       await getAllowance(id);
       await getAllowanceDaily(id);
@@ -783,6 +780,7 @@ const SalaryComponentForm = () => {
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
+    hideLoading();
   };
 
   const getComponent = async () => {
@@ -893,34 +891,42 @@ const SalaryComponentForm = () => {
     }
   };
   const checkEmployeeHaveConfig = async (id) => {
+    console.log("KESINI KGAK DAH");
     try {
       const resp = await providers.getData(1, 1, "", id);
       if (resp.data.data.length > 0) {
         await handleDetail(resp.data.data[0].id);
         set_is_salary(true);
       }
-    } catch (error) {}
+      console.log(is_salary);
+    } catch (error) {
+      console.log(is_salary);
+      console.log(error);
+    }
   };
   const handleSubmit = async () => {
-    const resp_overtime = await providers_overtime.updateData(
-      {
-        calc_base: overtime_date.calc_base,
-        calc_mode: overtime_date.calc_mode,
-        total_custom: overtime_date.total_custom,
-        work_pattern: data.working_days,
-        is_approval: overtime_date.is_approval,
-      },
-      employee_data.id,
-      overtime_date.id
-    );
-    const resp_late = await providers_late.updateData(
-      {
-        calc_base: late_data.calc_base,
-        total_custom: late_data.total_custom,
-      },
-      employee_data.id,
-      late_data.id
-    );
+    showLoading();
+    try {
+      const resp_overtime = await providers_overtime.updateData(
+        {
+          calc_base: overtime_date.calc_base,
+          calc_mode: overtime_date.calc_mode,
+          total_custom: overtime_date.total_custom,
+          work_pattern: data.working_days,
+          is_approval: overtime_date.is_approval,
+        },
+        employee_data.id,
+        overtime_date.id
+      );
+      const resp_late = await providers_late.updateData(
+        {
+          calc_base: late_data.calc_base,
+          total_custom: late_data.total_custom,
+        },
+        employee_data.id,
+        late_data.id
+      );
+    } catch (error) {}
     try {
       const resp = await providers.insertData({
         employee_id: employee_data.id,
@@ -945,14 +951,18 @@ const SalaryComponentForm = () => {
         bank_account: data.bank_account.toString(),
       });
 
+      hideLoading();
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
+      hideLoading();
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     const resp_overtime = await providers_overtime.updateData(
       {
         calc_base: overtime_date.calc_base,
@@ -999,11 +1009,14 @@ const SalaryComponentForm = () => {
         data.id
       );
 
+      hideLoading();
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
+      hideLoading();
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   return (
     <AdminDashboard label="">

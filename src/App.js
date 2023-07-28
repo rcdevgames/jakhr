@@ -1,10 +1,13 @@
 import Router from "./route";
 import Footer from "./components/Footer";
+import { LoadingProvider } from "./components/Loading";
 
-function  App() {
+function App() {
   return (
     <div className="App">
-        <Router />        
+      <LoadingProvider>
+        <Router />
+      </LoadingProvider>
     </div>
   );
 }

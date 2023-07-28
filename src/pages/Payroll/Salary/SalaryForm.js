@@ -35,7 +35,9 @@ const SalaryForm = () => {
   const [employee_data, set_employee_data] = useState(
     convert_employee.listOfemployeeModel([])
   );
-  const [company,set_company]= useState(convert_company.objectOfcompanyModel({}))
+  const [company, set_company] = useState(
+    convert_company.objectOfcompanyModel({})
+  );
   const token = SysJWTDecoder();
   useEffect(() => {
     getEmployee();
@@ -54,7 +56,7 @@ const SalaryForm = () => {
       showToast({ message: error.message });
     }
   };
-  
+
   const getCompany = async () => {
     try {
       const resp = await providers_company.getDetail(token.companyId);
@@ -921,7 +923,7 @@ const SalaryForm = () => {
     },
   ];
   const handleOpenPDF = async (record) => {
-    const pdfData = PayrollPdf(record,company.logo); // Generate the PDF data
+    const pdfData = PayrollPdf(record, company.logo); // Generate the PDF data
     const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
     // Open a new tab and display the PDF
@@ -936,7 +938,7 @@ const SalaryForm = () => {
             <h3>{title}</h3>
 
             <button onClick={handleGenerate} className="btn btn-primary">
-              {/* <button onClick={handleOpenPDF} className="btn btn-primary"> */}
+            {/* <button onClick={handleOpenPDF} className="btn btn-primary"> */}
               Generate
             </button>
           </div>

@@ -7,6 +7,9 @@ import isEmpty from "../../utils/is-empty";
 import HeroIcon from "../../components/HeroIcon";
 import { sys_labels } from "../../utils/constants";
 import { SysJWTDecoder } from "../../utils/global_store";
+import GlobalLoadingBlock, {
+  useLoadingContext,
+} from "../../components/Loading";
 
 const navItems = [
   {
@@ -188,6 +191,7 @@ const navItems = [
 const AdminDashboardLayout = () => {
   const location = useLocation();
 
+  const { isLoading } = useLoadingContext();
   const addScript = (src, id) => {
     const el = document.getElementById(id);
     if (el) return;
@@ -207,6 +211,7 @@ const AdminDashboardLayout = () => {
         <script src="/assets/js/mazer.js"></script>
         <script src="/assets/js/app.js"></script>
       </Helmet>
+      {isLoading && <GlobalLoadingBlock />}
       <div id="sidebar" className="active">
         <div className="sidebar-wrapper active">
           <div className="sidebar-header position-relative">
