@@ -469,7 +469,7 @@ const EmployeeForm = () => {
                             aria-label="Branch"
                           >
                             <option value={null}>Select Branch</option>
-                            {branch.map((option, index) => (
+                            {branch&&branch.map((option, index) => (
                               <option key={index} value={option.id}>
                                 {option.name}
                               </option>
@@ -489,7 +489,7 @@ const EmployeeForm = () => {
                             aria-label="Division"
                           >
                             <option value={null}>Select Division</option>
-                            {organization.map((option, index) => (
+                            {organization&&organization.map((option, index) => (
                               <option key={index} value={option.id}>
                                 {option.name}
                               </option>
@@ -509,7 +509,7 @@ const EmployeeForm = () => {
                             aria-label="Job Level"
                           >
                             <option value={null}>Select Job Level</option>
-                            {job_level.map((option, index) => (
+                            {job_level&&job_level.map((option, index) => (
                               <option key={index} value={option.id}>
                                 {option.name}
                               </option>
@@ -529,7 +529,7 @@ const EmployeeForm = () => {
                             aria-label="Job Position"
                           >
                             <option value={null}>Select Job Position</option>
-                            {job_position.map((option, index) => (
+                            {job_position&&job_position.map((option, index) => (
                               <option key={index} value={option.id}>
                                 {option.name}
                               </option>

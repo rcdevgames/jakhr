@@ -936,9 +936,7 @@ const SalaryForm = () => {
         <div className="card">
           <div className="card-header d-flex justify-content-between align-items-center">
             <h3>{title}</h3>
-
             <button onClick={handleGenerate} className="btn btn-primary">
-            {/* <button onClick={handleOpenPDF} className="btn btn-primary"> */}
               Generate
             </button>
           </div>
