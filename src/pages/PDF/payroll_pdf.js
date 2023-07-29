@@ -9,7 +9,13 @@ import {
 const borderColor = "#ECA5CB";
 const styles = StyleSheet.create({
   page: {
-    padding: 20,
+    // paddingTop: 50,
+    // paddingHorizontal:50
+    flexDirection: "column",
+    padding: 30,
+  },
+  content: {
+    paddingBottom: 10,
   },
   container: {
     width: "100%",
@@ -80,6 +86,7 @@ const styles = StyleSheet.create({
     borderBottomColor: borderColor,
     borderStyle: "dashed",
     paddingVertical: 10,
+    flexWrap: "wrap",
   },
   table: {
     display: "table",
@@ -110,107 +117,13 @@ const styles = StyleSheet.create({
 });
 const PayrollPdf = (data, logo) => {
   function toCamelCase(str) {
+    if (str == "value_to_add") return "Penerimaan";
+    if (str == "value_to_reduce") return "Potongan";
     return str
       .replace(/_([a-z])/g, (match, char) => " " + char.toUpperCase())
       .replace(/^./, (firstChar) => firstChar.toUpperCase());
   }
   const payroll_data = data;
-  // const payroll_data = convert.objectOfpayrollModel({
-  //   id: "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
-  //   employee_id: "004.2015.020",
-  //   employee_name: "Employee 1",
-  //   final_salary: 2711995.348837209,
-  //   value_to_add: {
-  //     gaji_pokok: 7000000,
-  //     lembur: 549418.6046511628,
-  //     tunjangan_tetap: {
-  //       total: 550000,
-  //       details: [
-  //         {
-  //           name: "Tunjangan Per-Divisi",
-  //           amount: 500000,
-  //         },
-  //         {
-  //           name: "Tunjangan Kesehatan",
-  //           amount: 10000,
-  //         },
-  //         {
-  //           name: "Tunjangan Kesehatan",
-  //           amount: 40000,
-  //         },
-  //       ],
-  //     },
-  //     tunjangan_harian: {
-  //       total: 0,
-  //       details: [],
-  //     },
-  //     insentive_bonus: {
-  //       total: 100000,
-  //       details: [
-  //         {
-  //           amount: 100000,
-  //           description: "Insentif perjalanan dinas",
-  //         },
-  //       ],
-  //     },
-  //     tunjangan_tidak_tetap: {
-  //       total: 100000,
-  //       details: [
-  //         {
-  //           amount: 100000,
-  //           description: "Tunjangan hari libur",
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   value_to_reduce: {
-  //     pajak: 156773.25581395347,
-  //     late_penalty: 1740000,
-  //     kasbon: {
-  //       total: 3000000,
-  //       details: [
-  //         {
-  //           title: "Kasbon pembayaran sekolah",
-  //           amount: 2000000,
-  //           description: "Pembayaran akan dilakukan 2 bulan kedepan",
-  //         },
-  //         {
-  //           title: "Test",
-  //           amount: 1000000,
-  //           description: "Desx",
-  //         },
-  //       ],
-  //     },
-  //     asuransi: {
-  //       jht: 98150,
-  //       kesehatan: 113250,
-  //       jp: 113250,
-  //       other_insurance: 151000,
-  //     },
-  //     fix_deduction: {
-  //       total: 15000,
-  //       details: [
-  //         {
-  //           name: "Zakat",
-  //           amount: 15000,
-  //         },
-  //       ],
-  //     },
-  //     not_fix_deduction: {
-  //       total: 200000,
-  //       details: [
-  //         {
-  //           amount: 200000,
-  //           description: "Potongan hari libur",
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   other_informations: {
-  //     bank_name: "BCA",
-  //     bank_account: "987216321",
-  //   },
-  // });
   const user = SysJWTDecoder();
   const date = new Date();
   let total_penerimaan = 0;
@@ -219,333 +132,254 @@ const PayrollPdf = (data, logo) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={[styles.textHeader]}>{user.company}</Text>
-        {/* {logo ? (
+        <View style={styles.content}>
+          <Text style={[styles.textHeader]}>{user.company}</Text>
+          {/* {logo ? (
           <img src={logo} height={30} style={{ objectFit: "contain" }}></img>
         ) : null} */}
 
-        <View style={[styles.border, { flexDirection: "row-reverse" }]}>
-          <Text style={styles.textEmployee}>
-            {payroll_data.employee_id} - {payroll_data.employee_name} -{" "}
-            {SysMonthTransform(date.getMonth() + 1, "long", "in")}{" "}
-            {date.getFullYear()}
-          </Text>
-        </View>
-        <View style={styles.container}>
-          <View style={styles.containerRow}>
-            <View style={styles.table}>
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}>Penerimaan</Text>
-              </View>
-              {Object.keys(payroll_data.value_to_add).map((key) => {
-                if (typeof payroll_data.value_to_add[key] == "object") {
-                  if (payroll_data.value_to_add[key].details != undefined) {
-                    total_penerimaan += payroll_data.value_to_add[key].total;
-                    return (
-                      <div>
-                        <View style={styles.tableRow}>
-                          <Text style={styles.textContentMedium}>
-                            {toCamelCase(key)}
-                          </Text>
-                        </View>
-                        {payroll_data.value_to_add[key].details.map((val) => {
+          <View style={[styles.border, { flexDirection: "row-reverse" }]}>
+            <Text style={styles.textEmployee}>
+              {payroll_data.employee_id} - {payroll_data.employee_name} -{" "}
+              {SysMonthTransform(date.getMonth() + 1, "long", "in")}{" "}
+              {date.getFullYear()}
+            </Text>
+          </View>
+          <View style={styles.container}>
+            <View style={styles.containerRow}>
+              {Object.keys(payroll_data).map((data_key) => {
+                if (
+                  typeof payroll_data[data_key] == "object" &&
+                  data_key != "other_informations"
+                ) {
+                  let total_key = 0;
+                  return (
+                    <View style={styles.table}>
+                      <View style={styles.tableRow}>
+                        <Text style={styles.textContentBorder}>
+                          {toCamelCase(data_key)}
+                        </Text>
+                      </View>
+                      {Object.keys(payroll_data[data_key]).map((key) => {
+                        if (typeof payroll_data[data_key][key] == "object") {
+                          if (
+                            payroll_data[data_key][key].details != undefined
+                          ) {
+                            total_key += payroll_data[data_key][key].total;
+                            if (data_key == "value_to_add") {
+                              total_penerimaan +=
+                                payroll_data[data_key][key].total;
+                            } else if (data_key == "value_to_reduce") {
+                              total_potongan +=
+                                payroll_data[data_key][key].total;
+                            }
+                            return (
+                              <div>
+                                <View style={styles.tableRow}>
+                                  <Text style={styles.textContentMedium}>
+                                    {toCamelCase(key)}
+                                  </Text>
+                                </View>
+                                {payroll_data[data_key][key].details.map(
+                                  (val) => {
+                                    return (
+                                      <View style={styles.tableRow}>
+                                        <Text
+                                          style={[styles.textContentMedium]}
+                                        >
+                                          {val.name
+                                            ? val.name
+                                            : val.title
+                                            ? val.title
+                                            : val.description}
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.textContentMedium,
+                                            styles.right_align,
+                                          ]}
+                                        >
+                                          {SysCurrencyTransform({
+                                            num: val.amount,
+                                            currency: "",
+                                          })}
+                                        </Text>
+                                      </View>
+                                    );
+                                  }
+                                )}
+                                <View style={styles.tableRowBorder}>
+                                  <Text
+                                    style={[
+                                      styles.textContentMedium,
+                                      styles.right_align,
+                                    ]}
+                                  >
+                                    Total
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.textContentMedium,
+                                      styles.right_align,
+                                    ]}
+                                  >
+                                    {SysCurrencyTransform({
+                                      num: payroll_data[data_key][key].total,
+                                      currency: "",
+                                    })}
+                                  </Text>
+                                </View>
+                                ;
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div>
+                                {Object.keys(payroll_data[data_key][key]).map(
+                                  (val) => {
+                                    total_key +=
+                                      payroll_data[data_key][key][val];
+
+                                    if (data_key == "value_to_add") {
+                                      total_penerimaan +=
+                                        payroll_data[data_key][key][val];
+                                    } else if (data_key == "value_to_reduce") {
+                                      total_potongan +=
+                                        payroll_data[data_key][key][val];
+                                    }
+                                    return (
+                                      <View style={styles.tableRowBorder}>
+                                        <Text style={styles.textContentMedium}>
+                                          {toCamelCase(val)}
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.textContent,
+                                            styles.right_align,
+                                          ]}
+                                        >
+                                          {SysCurrencyTransform({
+                                            num: payroll_data[data_key][key][
+                                              val
+                                            ],
+                                            currency: "",
+                                          })}
+                                        </Text>
+                                      </View>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            );
+                          }
+                        } else {
+                          total_key += payroll_data[data_key][key];
+
+                          if (data_key == "value_to_add") {
+                            total_penerimaan += payroll_data[data_key][key];
+                          } else if (data_key == "value_to_reduce") {
+                            total_potongan += payroll_data[data_key][key];
+                          }
                           return (
-                            <View style={styles.tableRow}>
-                              <Text style={[styles.textContentMedium]}>
-                                {val.name
-                                  ? val.name
-                                  : val.title
-                                  ? val.title
-                                  : val.description}
+                            <View style={styles.tableRowBorder}>
+                              <Text style={styles.textContentMedium}>
+                                {toCamelCase(key)}
                               </Text>
                               <Text
-                                style={[
-                                  styles.textContentMedium,
-                                  styles.right_align,
-                                ]}
+                                style={[styles.textContent, styles.right_align]}
                               >
                                 {SysCurrencyTransform({
-                                  num: val.amount,
+                                  num: payroll_data[data_key][key],
                                   currency: "",
                                 })}
                               </Text>
                             </View>
                           );
-                        })}
-                        <View style={styles.tableRowBorder}>
-                          <Text
-                            style={[
-                              styles.textContentMedium,
-                              styles.right_align,
-                            ]}
-                          >
-                            Total
-                          </Text>
-                          <Text
-                            style={[
-                              styles.textContentMedium,
-                              styles.right_align,
-                            ]}
-                          >
-                            {SysCurrencyTransform({
-                              num: payroll_data.value_to_add[key].total,
-                              currency: "",
-                            })}
-                          </Text>
-                        </View>
-                        ;
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div>
-                        {Object.keys(payroll_data.value_to_add[key]).map(
-                          (val) => {
-                            total_penerimaan +=
-                              payroll_data.value_to_add[key][val];
-                            return (
-                              <View style={styles.tableRowBorder}>
-                                <Text style={styles.textContentMedium}>
-                                  {toCamelCase(val)}
-                                </Text>
-                                <Text
-                                  style={[
-                                    styles.textContent,
-                                    styles.right_align,
-                                  ]}
-                                >
-                                  {SysCurrencyTransform({
-                                    num: payroll_data.value_to_add[key][val],
-                                    currency: "",
-                                  })}
-                                </Text>
-                              </View>
-                            );
-                          }
-                        )}
-                      </div>
-                    );
-                  }
-                } else {
-                  total_penerimaan += payroll_data.value_to_add[key];
-                  return (
-                    <View style={styles.tableRowBorder}>
-                      <Text style={styles.textContentMedium}>
-                        {toCamelCase(key)}
-                      </Text>
-                      <Text style={[styles.textContent, styles.right_align]}>
-                        {SysCurrencyTransform({
-                          num: payroll_data.value_to_add[key],
-                          currency: "",
-                        })}
-                      </Text>
+                        }
+                      })}
+
+                      <View style={styles.tableRow}>
+                        <Text style={styles.textContentBorder}></Text>
+                      </View>
+                      <View style={styles.tableRow}>
+                        <Text style={[styles.textContentMedium]}>
+                          Total {toCamelCase(data_key)}
+                        </Text>
+                        <Text
+                          style={[styles.textContentMedium, styles.right_align]}
+                        >
+                          {SysCurrencyTransform({
+                            num: total_key,
+                            currency: "",
+                          })}
+                        </Text>
+                      </View>
+                      <View style={styles.tableRow}>
+                        <Text style={styles.textContentBorder}></Text>
+                      </View>
                     </View>
                   );
                 }
               })}
-
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}></Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium]}>Total Penerimaan</Text>
-                <Text style={[styles.textContentMedium, styles.right_align]}>
-                  {SysCurrencyTransform({
-                    num: total_penerimaan,
-                    currency: "",
-                  })}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}></Text>
-              </View>
             </View>
 
-            <View style={styles.table}>
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}>Potongan</Text>
-              </View>
-              {Object.keys(payroll_data.value_to_reduce).map((key) => {
-                if (typeof payroll_data.value_to_reduce[key] == "object") {
-                  if (payroll_data.value_to_reduce[key].details != undefined) {
-                    total_potongan += payroll_data.value_to_reduce[key].total;
-                    return (
-                      <div>
-                        <View style={styles.tableRow}>
-                          <Text style={styles.textContentMedium}>
-                            {toCamelCase(key)}
-                          </Text>
-                        </View>
-                        {payroll_data.value_to_reduce[key].details.map(
-                          (val) => {
-                            return (
-                              <View style={styles.tableRow}>
-                                <Text style={[styles.textContentMedium]}>
-                                  {val.name
-                                    ? val.name
-                                    : val.title
-                                    ? val.title
-                                    : val.description}
-                                </Text>
-                                <Text
-                                  style={[
-                                    styles.textContentMedium,
-                                    styles.right_align,
-                                  ]}
-                                >
-                                  {SysCurrencyTransform({
-                                    num: val.amount,
-                                    currency: "",
-                                  })}
-                                </Text>
-                              </View>
-                            );
-                          }
-                        )}
-                        <View style={styles.tableRowBorder}>
-                          <Text
-                            style={[
-                              styles.textContentMedium,
-                              styles.right_align,
-                            ]}
-                          >
-                            Total
-                          </Text>
-                          <Text
-                            style={[
-                              styles.textContentMedium,
-                              styles.right_align,
-                            ]}
-                          >
-                            {SysCurrencyTransform({
-                              num: payroll_data.value_to_reduce[key].total,
-                              currency: "",
-                            })}
-                          </Text>
-                        </View>
-                        ;
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div>
-                        {Object.keys(payroll_data.value_to_reduce[key]).map(
-                          (val) => {
-                            total_potongan +=
-                              payroll_data.value_to_reduce[key][val];
-                            return (
-                              <View style={styles.tableRowBorder}>
-                                <Text style={styles.textContentMedium}>
-                                  {toCamelCase(val)}
-                                </Text>
-                                <Text
-                                  style={[
-                                    styles.textContent,
-                                    styles.right_align,
-                                  ]}
-                                >
-                                  {SysCurrencyTransform({
-                                    num: payroll_data.value_to_reduce[key][val],
-                                    currency: "",
-                                  })}
-                                </Text>
-                              </View>
-                            );
-                          }
-                        )}
-                      </div>
-                    );
-                  }
-                } else {
-                  total_potongan += payroll_data.value_to_reduce[key];
-                  return (
-                    <View style={styles.tableRowBorder}>
-                      <Text style={styles.textContentMedium}>
-                        {toCamelCase(key)}
-                      </Text>
-                      <Text style={[styles.textContent, styles.right_align]}>
-                        {SysCurrencyTransform({
-                          num: payroll_data.value_to_reduce[key],
-                          currency: "",
-                        })}
-                      </Text>
-                    </View>
-                  );
-                }
-              })}
+            <View style={styles.containerRow}>
+              <View style={styles.table}>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.textContentMedium]}>
+                    Total Penerimaan
+                  </Text>
+                  <Text style={[styles.textContentMedium, styles.right_align]}>
+                    {SysCurrencyTransform({
+                      num: total_penerimaan,
+                      currency: "",
+                    })}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.textContentMedium]}>Total Potongan</Text>
+                  <Text style={[styles.textContentMedium, styles.right_align]}>
+                    {SysCurrencyTransform({
+                      num: total_potongan,
+                      currency: "",
+                    })}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.textContentBorder}></Text>
+                </View>
 
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}></Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium]}>Total Potongan</Text>
-                <Text style={[styles.textContentMedium, styles.right_align]}>
-                  {SysCurrencyTransform({
-                    num: total_potongan,
-                    currency: "",
-                  })}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}></Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerRow}>
-            <View style={styles.table}>
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium]}>Total Penerimaan</Text>
-                <Text style={[styles.textContentMedium, styles.right_align]}>
-                  {SysCurrencyTransform({
-                    num: total_penerimaan,
-                    currency: "",
-                  })}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium]}>Total Potongan</Text>
-                <Text style={[styles.textContentMedium, styles.right_align]}>
-                  {SysCurrencyTransform({
-                    num: total_potongan,
-                    currency: "",
-                  })}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={styles.textContentBorder}></Text>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.textContentMedium]}>Gaji Bersih</Text>
+                  <Text style={[styles.textContentMedium, styles.right_align]}>
+                    {SysCurrencyTransform({
+                      num: total_penerimaan - total_potongan,
+                      currency: "",
+                    })}
+                  </Text>
+                </View>
               </View>
 
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium]}>Gaji Bersih</Text>
-                <Text style={[styles.textContentMedium, styles.right_align]}>
-                  {SysCurrencyTransform({
-                    num: total_penerimaan - total_potongan,
-                    currency: "",
-                  })}
-                </Text>
-              </View>
-            </View>
+              <View style={[styles.table]}>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.textContentMedium, styles.center_align]}>
+                    Dibuat Oleh
+                  </Text>
+                  <Text style={[styles.textContentMedium, styles.center_align]}>
+                    Diterima Oleh
+                  </Text>
+                </View>
 
-            <View style={[styles.table]}>
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium, styles.center_align]}>
-                  Dibuat Oleh
-                </Text>
-                <Text style={[styles.textContentMedium, styles.center_align]}>
-                  Diterima Oleh
-                </Text>
-              </View>
+                <View style={[styles.tableRow, { height: "40px" }]}></View>
 
-              <View style={[styles.tableRow, { height: "40px" }]}></View>
-
-              <View style={styles.tableRow}>
-                <Text style={[styles.textContentMedium, styles.center_align]}>
-                  {user.full_name}
-                </Text>
-                <Text style={[styles.textContentMedium, styles.center_align]}>
-                  {payroll_data.employee_name}
-                </Text>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.textContentMedium, styles.center_align]}>
+                    {user.full_name}
+                  </Text>
+                  <Text style={[styles.textContentMedium, styles.center_align]}>
+                    {payroll_data.employee_name}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
