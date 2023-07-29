@@ -20,37 +20,44 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    padding: 20,
+    padding: 10,
   },
   textHeader: {
-    fontSize: 14,
-    fontWeight: "bold",
-    paddingVertical: 10,
-    width: "50%",
-  },
-  textHeaderMedium: {
-    fontSize: 14,
-    fontWeight: "bold",
-    width: "50%",
-  },
-  textEmployee: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  textContent: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "bold",
     paddingVertical: 5,
     width: "50%",
   },
+  textHeaderMedium: {
+    fontSize: 12,
+    fontWeight: "bold",
+    width: "50%",
+  },
+  textEmployee: {
+    fontSize: 8,
+    fontWeight: "bold",
+  },
+  textContent: {
+    fontSize: 8,
+    fontWeight: "bold",
+    paddingVertical: 5,
+    width: "50%",
+  },
+
+  textContentSmall: {
+    fontSize: 6,
+    fontWeight: "bold",
+    paddingVertical: 5,
+    width: "100%",
+  },
   textContentMedium: {
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: "extralight",
     width: "50%",
     paddingVertical: 5,
   },
   textContentBorder: {
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: "extrabold",
     borderBottomWidth: 2,
     borderStyle: "solid",
@@ -61,20 +68,20 @@ const styles = StyleSheet.create({
   borderDash: {
     width: "100%",
     borderBottomWidth: 1,
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderBottomColor: borderColor,
     borderStyle: "dashed",
   },
   border: {
     width: "100%",
     borderBottomWidth: 1,
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderBottomColor: borderColor,
     borderStyle: "solid",
   },
   borderExtra: {
     width: "100%",
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: borderColor,
   },
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomColor: borderColor,
     borderStyle: "dashed",
-    paddingVertical: 10,
+    paddingVertical: 5,
     flexWrap: "wrap",
   },
   table: {
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
   },
 
   center_align: {
-    textAlign: "right",
+    textAlign: "center",
   },
 });
 const PayrollPdf = (data, logo) => {
@@ -126,9 +133,8 @@ const PayrollPdf = (data, logo) => {
   const payroll_data = data;
   const user = SysJWTDecoder();
   const date = new Date();
-  let total_penerimaan = 0;
-  let total_potongan = 0;
-  let total_pajak = 0;
+  let total_penerimaan = payroll_data.value_to_add.total_add;
+  let total_potongan = payroll_data.value_to_reduce.total_reduce;
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -152,7 +158,7 @@ const PayrollPdf = (data, logo) => {
                   typeof payroll_data[data_key] == "object" &&
                   data_key != "other_informations"
                 ) {
-                  let total_key = 0;
+                  // let total_key = 0;
                   return (
                     <View style={styles.table}>
                       <View style={styles.tableRow}>
@@ -165,14 +171,14 @@ const PayrollPdf = (data, logo) => {
                           if (
                             payroll_data[data_key][key].details != undefined
                           ) {
-                            total_key += payroll_data[data_key][key].total;
-                            if (data_key == "value_to_add") {
-                              total_penerimaan +=
-                                payroll_data[data_key][key].total;
-                            } else if (data_key == "value_to_reduce") {
-                              total_potongan +=
-                                payroll_data[data_key][key].total;
-                            }
+                            // total_key += payroll_data[data_key][key].total;
+                            // if (data_key == "value_to_add") {
+                            //   total_penerimaan +=
+                            //     payroll_data[data_key][key].total;
+                            // } else if (data_key == "value_to_reduce") {
+                            //   total_potongan +=
+                            //     payroll_data[data_key][key].total;
+                            // }
                             return (
                               <div>
                                 <View style={styles.tableRow}>
@@ -185,7 +191,10 @@ const PayrollPdf = (data, logo) => {
                                     return (
                                       <View style={styles.tableRow}>
                                         <Text
-                                          style={[styles.textContentMedium]}
+                                          style={[
+                                            styles.textContentMedium,
+                                            { marginLeft: 15 },
+                                          ]}
                                         >
                                           {val.name
                                             ? val.name
@@ -233,23 +242,34 @@ const PayrollPdf = (data, logo) => {
                               </div>
                             );
                           } else {
+                            let total = 0;
+
                             return (
                               <div>
+                                <View style={styles.tableRow}>
+                                  <Text style={[styles.textContentMedium]}>
+                                    {toCamelCase(key)}
+                                  </Text>
+                                </View>
                                 {Object.keys(payroll_data[data_key][key]).map(
                                   (val) => {
-                                    total_key +=
-                                      payroll_data[data_key][key][val];
+                                    total += payroll_data[data_key][key][val];
 
-                                    if (data_key == "value_to_add") {
-                                      total_penerimaan +=
-                                        payroll_data[data_key][key][val];
-                                    } else if (data_key == "value_to_reduce") {
-                                      total_potongan +=
-                                        payroll_data[data_key][key][val];
-                                    }
+                                    // if (data_key == "value_to_add") {
+                                    //   total_penerimaan +=
+                                    //     payroll_data[data_key][key][val];
+                                    // } else if (data_key == "value_to_reduce") {
+                                    //   total_potongan +=
+                                    //     payroll_data[data_key][key][val];
+                                    // }
                                     return (
-                                      <View style={styles.tableRowBorder}>
-                                        <Text style={styles.textContentMedium}>
+                                      <View style={styles.tableRow}>
+                                        <Text
+                                          style={[
+                                            styles.textContentMedium,
+                                            { marginLeft: 15 },
+                                          ]}
+                                        >
                                           {toCamelCase(val)}
                                         </Text>
                                         <Text
@@ -269,17 +289,43 @@ const PayrollPdf = (data, logo) => {
                                     );
                                   }
                                 )}
+                                <View style={styles.tableRowBorder}>
+                                  <Text
+                                    style={[
+                                      styles.textContentMedium,
+                                      styles.right_align,
+                                    ]}
+                                  >
+                                    Total
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.textContentMedium,
+                                      styles.right_align,
+                                    ]}
+                                  >
+                                    {SysCurrencyTransform({
+                                      num: total,
+                                      currency: "",
+                                    })}
+                                  </Text>
+                                </View>
                               </div>
                             );
                           }
                         } else {
-                          total_key += payroll_data[data_key][key];
-
-                          if (data_key == "value_to_add") {
-                            total_penerimaan += payroll_data[data_key][key];
-                          } else if (data_key == "value_to_reduce") {
-                            total_potongan += payroll_data[data_key][key];
+                          // total_key += payroll_data[data_key][key];
+                          if (
+                            data_key == "total_add" ||
+                            data_key == "total_reduce"
+                          ) {
+                            return null;
                           }
+                          // if (data_key == "value_to_add") {
+                          //   total_penerimaan += payroll_data[data_key][key];
+                          // } else if (data_key == "value_to_reduce") {
+                          //   total_potongan += payroll_data[data_key][key];
+                          // }
                           return (
                             <View style={styles.tableRowBorder}>
                               <Text style={styles.textContentMedium}>
@@ -309,7 +355,10 @@ const PayrollPdf = (data, logo) => {
                           style={[styles.textContentMedium, styles.right_align]}
                         >
                           {SysCurrencyTransform({
-                            num: total_key,
+                            num:
+                              data_key == "value_to_add"
+                                ? total_penerimaan
+                                : total_potongan,
                             currency: "",
                           })}
                         </Text>
@@ -382,6 +431,16 @@ const PayrollPdf = (data, logo) => {
                 </View>
               </View>
             </View>
+          </View>
+
+          <View style={styles.containerRow}>
+            <Text style={styles.textContentSmall}>
+              HARAP DIPERHATIKAN, ISI PERNYATAAN INI ADALAH RAHASIA KECUALI ANDA
+              DIMINTA UNTUK MENGUNGKAPKANNYA UNTUK KEPERLUAN PAJAK, HUKUM, ATAU
+              KEPENTINGAN PEMERINTAH. SETIAP PELANGGARAN ATAS KEWAJIBAN MENJAGA
+              KERAHASIAAN INI AKAN DIKENAKAN SANKSI, YANG MUNGKIN BERUPA
+              TINDAKAN KEDISIPLINAN.
+            </Text>
           </View>
         </View>
       </Page>
