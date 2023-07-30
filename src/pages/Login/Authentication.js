@@ -5,8 +5,9 @@ import { routes_name } from "../../route/static_route";
 import { clearSession, setSession } from "../../utils/session";
 import { showToast } from "../../utils/global_store";
 import * as providers from "../../providers/master/employee";
-import { SESSION } from "../../utils/constants";
-import { PacmanLoader } from "react-spinners";
+import { SESSION, sys_images } from "../../utils/constants";
+import Unauthorized from "../Unauthorized";
+// import { PacmanLoader } from "react-spinners";
 
 function Authentication() {
   const navigate = useNavigate();
@@ -43,9 +44,11 @@ function Authentication() {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        width:"100vw",
       }}
     >
-      <PacmanLoader color="red" size={50} />
+      <img src={sys_images.img_waiting} />
+      <h4>Waiting for authentication.....</h4>
     </div>
   ) : is_valid ? (
     <div
@@ -59,16 +62,7 @@ function Authentication() {
       <h4>Auth complete and redirecting.....</h4>
     </div>
   ) : (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <h4>Unauthorized!</h4>
-    </div>
+   <Unauthorized/>
   );
 }
 

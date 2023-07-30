@@ -21,6 +21,8 @@ export const routes_name={
     M_COMPONENT_NAME_ALLOWANCE_DAILY_DETAIL:'/master-data/component_name/allowance_daily/detail/',
     M_COMPONENT_NAME_DEDUCTION_CREATE:'/master-data/component_name/deduction/create/',
     M_COMPONENT_NAME_DEDUCTION_DETAIL:'/master-data/component_name/deduction/detail/',
+    M_MENU_CREATE:'/master-data/menu/create',
+    M_MENU_DETAIL:'/master-data/menu/detail/',
 
 //--PAYROLL-------------------------------------------------------- 
     PAYROLL_SALARY_GENERATE:'/payroll/salary/generate',

@@ -84,6 +84,14 @@ const navItems = [
         label: sys_labels.menus.LEAVE,
         link: "/master-data/leave_mass",
       },
+      {
+        label: 'Menu',
+        link: "/master-data/menu",
+      },
+      {
+        label: 'Role Menu',
+        link: "/master-data/role_menu",
+      },
     ],
   },
 

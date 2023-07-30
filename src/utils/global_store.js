@@ -260,6 +260,8 @@ export function SysJWTDecoder(token = null) {
   }else{
     my_jwt = jwt_decode(getToken());
   }
+
+  // console.log(my_jwt);
   return {
     id: my_jwt?.id ?? "",
     email: my_jwt?.email ?? "",

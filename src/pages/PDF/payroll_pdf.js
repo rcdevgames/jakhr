@@ -126,6 +126,19 @@ const PayrollPdf = (data, logo) => {
   function toCamelCase(str) {
     if (str == "value_to_add") return "Penerimaan";
     if (str == "value_to_reduce") return "Potongan";
+    if (str == "late_penalty") return "Terlambat";
+    if (str == "jht_by_employee") return "JHT oleh Karyawan";
+    if (str == "jht_by_company") return "JHT oleh Perusahaan";
+    if (str == "kesehatan_by_employee") return "Kesehatan oleh Karyawan";
+    if (str == "kesehatan_by_company") return "Kesehatan oleh Perusahaan";
+    if (str == "jp_by_company") return "JP oleh Perusahaan";
+    if (str == "jkm_by_company") return "JKM oleh Perusahaan";
+    if (str == "jkk_by_company") return "JKK oleh Perusahaan";
+    if (str == "jp_by_employee") return "JP oleh Karyawan";
+    if (str == "other_insurance_by_employee") return "Asuransi Lain oleh Karyawan";
+    if (str == "other_insurance_by_company") return "Asuransi Lain oleh Perusahaan";
+    if (str == "fix_deduction") return "Potongan Tetap";
+    if (str == "no_fix_deduction") return "Potongan Tidak Tetap";
     return str
       .replace(/_([a-z])/g, (match, char) => " " + char.toUpperCase())
       .replace(/^./, (firstChar) => firstChar.toUpperCase());
@@ -167,6 +180,9 @@ const PayrollPdf = (data, logo) => {
                         </Text>
                       </View>
                       {Object.keys(payroll_data[data_key]).map((key) => {
+                        if (key == "total_add" || key == "total_reduce") {
+                          return null;
+                        }
                         if (typeof payroll_data[data_key][key] == "object") {
                           if (
                             payroll_data[data_key][key].details != undefined
