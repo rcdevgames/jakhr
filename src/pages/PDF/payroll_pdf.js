@@ -138,7 +138,7 @@ const PayrollPdf = (data, logo) => {
     if (str == "other_insurance_by_employee") return "Asuransi Lain oleh Karyawan";
     if (str == "other_insurance_by_company") return "Asuransi Lain oleh Perusahaan";
     if (str == "fix_deduction") return "Potongan Tetap";
-    if (str == "no_fix_deduction") return "Potongan Tidak Tetap";
+    if (str == "not_fix_deduction") return "Potongan Tidak Tetap";
     return str
       .replace(/_([a-z])/g, (match, char) => " " + char.toUpperCase())
       .replace(/^./, (firstChar) => firstChar.toUpperCase());
