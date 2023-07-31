@@ -19,6 +19,8 @@ export const routes_name={
     M_COMPONENT_NAME_ALLOWANCE_DETAIL:'/master-data/component_name/allowance/detail/',
     M_COMPONENT_NAME_ALLOWANCE_DAILY_CREATE:'/master-data/component_name/allowance_daily/create/',
     M_COMPONENT_NAME_ALLOWANCE_DAILY_DETAIL:'/master-data/component_name/allowance_daily/detail/',
+    M_COMPONENT_NAME_ALLOWANCE_EX_CREATE:'/master-data/component_name/allowance_ex/create/',
+    M_COMPONENT_NAME_ALLOWANCE_EX_DETAIL:'/master-data/component_name/allowance_ex/detail/',
     M_COMPONENT_NAME_DEDUCTION_CREATE:'/master-data/component_name/deduction/create/',
     M_COMPONENT_NAME_DEDUCTION_DETAIL:'/master-data/component_name/deduction/detail/',
     M_MENU_CREATE:'/master-data/menu/create',

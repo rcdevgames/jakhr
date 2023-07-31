@@ -64,7 +64,9 @@ const EmployeeForm = () => {
   useEffect(() => {
     getBranch();
     getEmployeeStatus();
-    // getOrganization();
+    getOrganization();
+    getJobLevel();
+    getJobPosition();
     if (id) {
       handleDetail(id);
     }

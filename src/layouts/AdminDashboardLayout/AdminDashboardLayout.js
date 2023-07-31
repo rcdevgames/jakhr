@@ -69,8 +69,12 @@ const navItems = [
         link: "/master-data/component_name/allowance",
       },
       {
-        label: sys_labels.menus.ALLOWANCE + "Harian",
+        label: sys_labels.menus.ALLOWANCE + " Harian",
         link: "/master-data/component_name/allowance_daily",
+      },
+      {
+        label: sys_labels.menus.ALLOWANCE + " Lainnya",
+        link: "/master-data/component_name/allowance_ex",
       },
       {
         label: sys_labels.menus.DEDUCTION,

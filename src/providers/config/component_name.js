@@ -80,6 +80,33 @@ export const getDataDeductionMax = async () => {
     throw error;
   }
 };
+
+export const getDataAllowanceEx = async (page = 1, limit = 10, search = "") => {
+  const type = 'lainnya';
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint:
+        uri + `component_names?page=${page}&perPage=${limit}&type=${type}&keywords=${search}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getDataAllowanceExMax = async () => {
+  const type = 'lainnya';
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint:
+      uri + `component_names?page=1&perPage=999999999&type=${type}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getDetail = async (id) => {
   try {
     const response = await sys_get({

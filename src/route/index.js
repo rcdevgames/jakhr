@@ -86,6 +86,8 @@ import Unauthorized from "../pages/Unauthorized";
 import NotFound from "../pages/NotFound";
 import RoleMenu from "../pages/MasterData/RoleMenu/RoleMenu";
 import { Menu, MenuForm } from "../pages/MasterData/Menu";
+import ComponentNameEx from "../pages/MasterData/ComponentName/ComponentNameEx";
+import ComponentNameExForm from "../pages/MasterData/ComponentName/ComponentNameExForm";
 
 const Router = () => (
   <BrowserRouter>
@@ -96,11 +98,11 @@ const Router = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/authentication/:token" element={<Authentication />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>
         <Route element={<AdminDashboardLayout />}>
           <Route path="*" element={<NotFound />} />
-          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
 
           <Route element={<Dashboard />} path="/dashboard" />
 
@@ -157,6 +159,11 @@ const Router = () => (
                 <Route path="" element={<ComponentNameDaily />} />
                 <Route path="create" element={<ComponentNameDailyForm />} />
                 <Route path="detail/:id" element={<ComponentNameDailyForm />} />
+              </Route>
+              <Route path="allowance_ex">
+                <Route path="" element={<ComponentNameEx />} />
+                <Route path="create" element={<ComponentNameExForm />} />
+                <Route path="detail/:id" element={<ComponentNameExForm />} />
               </Route>
               <Route path="deduction">
                 <Route path="" element={<ComponentNameDeduction />} />

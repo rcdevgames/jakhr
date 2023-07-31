@@ -1,33 +1,108 @@
 [
     {
-        "id": "b705389e-758d-4326-b511-3c8720cd9267",
-        "employee_id": "898989",
-        "employee_name": "Cathleen Riley",
-        "final_salary": -200013.87,
+        "id": "3f2221b5-88cc-45cb-a45d-2d0ec8c155fc",
+        "employee_id": "002",
+        "employee_name": "Karyawan 002",
+        "final_salary": 30472001,
         "value_to_add": {
-            "gaji_pokok": 73,
-            "tunjangan_tetap": 0,
-            "tunjangan_harian": 0,
+            "total_add": 31940001,
+            "gaji_pokok": 27500000,
+            "total_attendance": 1,
+            "tunjangan_tetap": {
+                "total": 4200000,
+                "details": [
+                    {
+                        "name": "Jabatan",
+                        "total_tax": 0,
+                        "is_final_tax": false,
+                        "amount": 4000000,
+                        "amount_tax": 0
+                    },
+                    {
+                        "name": "Internet",
+                        "total_tax": 0,
+                        "is_final_tax": false,
+                        "amount": 200000,
+                        "amount_tax": 0
+                    }
+                ]
+            },
+            "tunjangan_harian": {
+                "total": 40000,
+                "details": [
+                    {
+                        "name": "Transportasi",
+                        "total_tax": 0,
+                        "is_final_tax": false,
+                        "amount": 10000,
+                        "amount_tax": 0
+                    },
+                    {
+                        "name": "Komunikasi",
+                        "total_tax": 0,
+                        "is_final_tax": false,
+                        "amount": 30000,
+                        "amount_tax": 0
+                    }
+                ]
+            },
             "lembur": 0,
-            "insentive_bonus": 100000,
-            "tunjangan_tidak_tetap": 100000
+            "insentive_bonus": {
+                "total": 100000,
+                "details": [
+                    {
+                        "amount": 100000,
+                        "description": "Insentif perjalanan dinas"
+                    }
+                ]
+            },
+            "tunjangan_tidak_tetap": {
+                "total": 100000,
+                "details": [
+                    {
+                        "amount": 100000,
+                        "description": "Tunjangan hari libur"
+                    }
+                ]
+            }
         },
         "value_to_reduce": {
-            "pajak": 0,
+            "total_reduce": 1468000,
+            "pajak": 5553782.682222222,
             "late_penalty": 0,
-            "kasbon": 0,
-            "asuransi": {
-                "jht": 2.19,
-                "kesehatan": 38.69,
-                "jp": 18.25,
-                "other_insurance": 27.74
+            "kasbon": {
+                "total": 0,
+                "details": []
             },
-            "fix_deduction": 200000,
-            "not_fix_deduction": 200000
+            "asuransi": {
+                "jht_by_employee": 634000,
+                "kesehatan_by_employee": 317000,
+                "jp_by_employee": 317000,
+                "other_insurance_by_employee": 0,
+                "jht_by_company": 1172900,
+                "kesehatan_by_company": 634000,
+                "jp_by_company": 1268000,
+                "jkm_by_company": 95100,
+                "jkk_by_company": 76080,
+                "other_insurance_by_company": 0
+            },
+            "fix_deduction": {
+                "total": 0,
+                "details": []
+            },
+            "not_fix_deduction": {
+                "total": 200000,
+                "details": [
+                    {
+                        "amount": 200000,
+                        "description": "Potongan hari libur"
+                    }
+                ]
+            }
         },
         "other_informations": {
-            "bank_name": "DANAMON",
-            "bank_account": "95"
+            "bank_name": "BNI_SYARIAH",
+            "bank_account": "63"
         }
     }
 ]
