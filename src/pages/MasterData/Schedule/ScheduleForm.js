@@ -1,0 +1,236 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import AdminDashboard from "../../AdminDashboard";
+import DatePicker from "../../../components/DatePicker";
+import UploadFile from "../../../components/UploadFile";
+import convert from "../../../model/scheduleModel";
+import convert_employee from "../../../model/employeeModel";
+import * as providers from "../../../providers/master/schedule";
+import * as providers_employee from "../../../providers/master/employee";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
+import { sys_labels } from "../../../utils/constants";
+import TimeInput from "../../../components/TimeInput";
+const ScheduleForm = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [data, setData] = useState(convert.objectOfscheduleModel({}));
+  const [data_employee, setData_employee] = useState(
+    convert_employee.listOfemployeeModel([])
+  );
+  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
+    sys_labels.menus.SCHEDULE
+  }`;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setData((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const handleDateStartChange = (val) => {
+    setData((prevState) => ({ ...prevState, start_date: val }));
+  };
+  // handleChangeTimeIn
+  const handleDateEndChange = (val) => {
+    setData((prevState) => ({ ...prevState, end_date: val }));
+  };
+  
+  const handleChangeTimeIn = (val) => {
+    setData((prevState) => ({ ...prevState, time_in: val }));
+  };
+  const handleChangeTimeOut = (val) => {
+    setData((prevState) => ({ ...prevState, time_out: val }));
+  };
+  useEffect(() => {
+    getEmployee();
+    if (id) {
+      // console.log(id);
+      handleDetail(id);
+    }
+  }, []);
+  const handleDetail = async (id) => {
+    try {
+      const resp = await providers.getDetail(id);
+      console.log(resp.data);
+      setData(resp.data);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+      navigate(-1);
+    }
+  };
+  const getEmployee = async () => {
+    try {
+      const resp = await providers_employee.getData(1, 99999999, "");
+      setData_employee(resp.data.data);
+    } catch (error) {}
+  };
+  const handleSubmit = async () => {
+    try {
+      const resp = await providers.insertData({
+        employee_id: data.employee_id,
+        start_date: SysDateTransform({
+          date: data.start_date,
+          withTime: false,
+          forSql: true,
+        }),
+        end_date: SysDateTransform({
+          date: data.end_date,
+          withTime: false,
+          forSql: true,
+        }),
+        time_in: data.time_in,
+        time_out: data.time_out,
+        title: data.title,
+        description: data.description,
+      });
+      showToast({ message: resp.message, type: "success" });
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message, type: "error" });
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const resp = await providers.updateData(
+        {
+          employee_id: data.employee_id,
+          start_date: SysDateTransform({
+            date: data.start_date,
+            withTime: false,
+            forSql: true,
+          }),
+          end_date: SysDateTransform({
+            date: data.end_date,
+            withTime: false,
+            forSql: true,
+          }),
+          time_in: data.time_in,
+          time_out: data.time_out,
+          title: data.title,
+          description: data.description,
+        },
+        id
+      );
+      showToast({ message: resp.message, type: "success" });
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message, type: "error" });
+    }
+  };
+
+  return (
+    <AdminDashboard label="">
+      <section className="section">
+        <div className="card">
+          <div className="card-header d-flex justify-content-between align-items-center">
+            <h3>{title}</h3>
+          </div>
+          <div className="card-body">
+            <div className="form form-horizontal">
+              <div className="form-body">
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Karyawan:</label>
+                      <select
+                        className="form-select"
+                        id="employee_id"
+                        name="employee_id"
+                        value={data.employee_id}
+                        onChange={handleChange}
+                        aria-label="Nama"
+                        required
+                      >
+                        <option value={null}>Pilih Karyawan</option>
+
+                        {data_employee.map((option, index) => (
+                          <option key={index} value={option.id}>
+                            {option.employee_id} - {option.full_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Title:</label>
+                      <input
+                        className="form-control"
+                        name="title"
+                        value={data.title}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>Description:</label>
+                      <input
+                        className="form-control"
+                        name="description"
+                        value={data.description}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Start Date:</label>
+                      <DatePicker
+                        name="start_date"
+                        onChange={handleDateStartChange}
+                        value={data.start_date}
+                        placeholder={"Start Date"}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>End Date:</label>
+                      <DatePicker
+                        name="end_date"
+                        onChange={handleDateEndChange}
+                        value={data.end_date}
+                        placeholder={"End Date"}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Time In:</label>
+                      <TimeInput
+                        className="form-control"
+                        onChange={handleChangeTimeIn}
+                        value={data.time_in}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Time Out:</label>
+                      <TimeInput
+                        className="form-control"
+                        onChange={handleChangeTimeOut}
+                        value={data.time_out}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                  className="btn btn-primary"
+                >
+                  {data.id ? "Update" : "Submit"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </AdminDashboard>
+  );
+};
+
+export default ScheduleForm;

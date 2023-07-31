@@ -88,6 +88,8 @@ import RoleMenu from "../pages/MasterData/RoleMenu/RoleMenu";
 import { Menu, MenuForm } from "../pages/MasterData/Menu";
 import ComponentNameEx from "../pages/MasterData/ComponentName/ComponentNameEx";
 import ComponentNameExForm from "../pages/MasterData/ComponentName/ComponentNameExForm";
+import { Schedule, ScheduleForm } from "../pages/MasterData/Schedule";
+import { CashAdvance, CashAdvanceForm } from "../pages/Transaction/CashAdvance";
 
 const Router = () => (
   <BrowserRouter>
@@ -101,7 +103,6 @@ const Router = () => (
       {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>
         <Route element={<AdminDashboardLayout />}>
-          <Route path="*" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
 
           <Route element={<Dashboard />} path="/dashboard" />
@@ -188,10 +189,22 @@ const Router = () => (
               <Route path="create" element={<MenuForm />} />
               <Route path="detail/:id" element={<MenuForm />} />
             </Route>
+
+            <Route path="schedule">
+              <Route path="" element={<Schedule />} />
+              <Route path="create" element={<ScheduleForm />} />
+              <Route path="detail/:id" element={<ScheduleForm />} />
+            </Route>
           </Route>
           <Route path="transaction">
             <Route path="attendance">
               <Route path="" element={<Attendance />} />
+            </Route>
+            
+            <Route path="cash_advance">
+              <Route path="" element={<CashAdvance />} />
+              <Route path="create" element={<CashAdvanceForm />} />
+              <Route path="detail/:id" element={<CashAdvanceForm />} />
             </Route>
             <Route path="leave">
               <Route path="" element={<Leave />} />

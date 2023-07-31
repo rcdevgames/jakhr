@@ -1,11 +1,25 @@
-import {sys_get } from "../../utils/api_client";
+import { sys_get, sys_del } from "../../utils/api_client";
 
 const uri = "transactions/";
-export const getData = async (page = 1,limit=10,search="") => {
+export const getData = async (page = 1, limit = 10, search = "",startDate,endDate) => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `get_attendances?page=${page}&perPage=${limit}&search=${search}&byEmployee=false`,
+      endpoint:
+        uri +
+        `get_attendances?page=${page}&perPage=${limit}&search=${search}&startDate=${startDate}&endDate=${endDate}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteData = async (id = "") => {
+  try {
+    const response = await sys_del({
+      auth: true,
+      endpoint: uri + `delete_attendance/${id}`,
     });
     return response;
   } catch (error) {

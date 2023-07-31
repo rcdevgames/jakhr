@@ -24,13 +24,15 @@ const DataTablePagination = ({
   }, [currentPage, pageSize, searchQuery]);
 
   const fetchData = () => {
+    // console.log("KESINI");
     fetchDataFunc(currentPage, pageSize, searchQuery)
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         setTableData(data.data.data);
         setTotalItems(data.data.totalData);
       })
       .catch((error) => {
+        console.log(error);
         showToast({ message: error.message, type: "error" });
         console.error("Error fetching data:", error);
       });
