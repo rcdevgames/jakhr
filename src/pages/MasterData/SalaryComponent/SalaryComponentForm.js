@@ -1468,14 +1468,14 @@ const SalaryComponentForm = () => {
 
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label>Total:</label>{" "}
+                          <label>Total Tunjangan Perhari:</label>{" "}
                           <input
                             className="form-control"
                             type="text"
                             readOnly
                             value={SysCurrencyTransform({
                               num:
-                                allowance_total_daily *
+                                allowance_total_daily /
                                 parseInt(data.working_days),
                             })}
                           />

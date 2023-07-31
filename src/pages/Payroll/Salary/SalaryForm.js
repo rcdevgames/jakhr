@@ -11,6 +11,7 @@ import {
   SysCurrencyTransform,
   SysDateTransform,
   SysJWTDecoder,
+  SysMonthTransform,
   showToast,
 } from "../../../utils/global_store";
 import { Tabs, Form, Popconfirm, Input, Table, Button } from "antd";
@@ -28,9 +29,24 @@ const { Item } = Form;
 const SalaryForm = () => {
   const navigate = useNavigate();
   const title = `${sys_labels.action.FORM} Payroll`;
+
+  const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  let year_data = [];
+  const date = new Date();
+  for (
+    let index = date.getFullYear();
+    index > date.getFullYear() - 5;
+    index--
+  ) {
+    year_data.push(index);
+  }
+  const [data, setData] = useState({
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  });
   const handleChange = (event) => {
     const { name, value } = event.target;
-    // setData((prevState) => ({ ...prevState, [name]: value }));
+    setData((prevState) => ({ ...prevState, [name]: value }));
   };
   const [employee_data, set_employee_data] = useState(
     convert_employee.listOfemployeeModel([])
@@ -125,7 +141,7 @@ const SalaryForm = () => {
           },
         });
       });
-      const resp = await providers.generateData(payroll);
+      const resp = await providers.generateData(payroll,data.month,data.year);
       set_payroll_data(resp.data);
       // const resp = await providers.insertData({
       //   leave_name: data.leave_name,
@@ -930,6 +946,7 @@ const SalaryForm = () => {
     const fileURL = URL.createObjectURL(pdfBlob);
     window.open(fileURL, "_blank");
   };
+
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -941,6 +958,52 @@ const SalaryForm = () => {
             </button>
           </div>
           <div className="card-body">
+            <div className="form form-horizontal">
+              <div className="form-body">
+                <div className="row mt-3">
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <label>Periode Bulan:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="month"
+                        name="month"
+                        value={data.month}
+                        onChange={handleChange}
+                        aria-label="Month"
+                      >
+                        <option value={null}>Pilih Periode Bulan</option>
+                        {month_data.map((option, index) => (
+                          <option key={index} value={option}>
+                            {SysMonthTransform(option, "long", "in")}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <label>Periode Tahun:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="year"
+                        name="year"
+                        value={data.year}
+                        onChange={handleChange}
+                        aria-label="year"
+                      >
+                        <option value={null}>Pilih Periode Tahun</option>
+                        {year_data.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="row mt-3">
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tunjangan" key="1">
