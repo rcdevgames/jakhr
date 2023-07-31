@@ -20,7 +20,7 @@ const ScheduleForm = () => {
     convert_employee.listOfemployeeModel([])
   );
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
-    sys_labels.menus.SCHEDULE
+    sys_labels.menus.CASH_ADVANCE
   }`;
   const handleChange = (event) => {
     const { name, value } = event.target;

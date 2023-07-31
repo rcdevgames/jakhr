@@ -74,7 +74,7 @@ const Schedule = () => {
       <DataTablePagination
         fetchDataFunc={providers.getData}
         columns={columns}
-        title="Jadwaal"
+        title="Kasbon"
         action={action}
       />
       <ActionModal
