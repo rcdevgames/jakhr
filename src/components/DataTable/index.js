@@ -1,1 +1,4 @@
-export { default } from "./DataTablePaginantion";
+import DataTablePaginantionFilter from "./DataTablePaginantionFilter";
+
+export { default } from "./DataTablePaginantion" 
+export {DataTablePaginantionFilter}

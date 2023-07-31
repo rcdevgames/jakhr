@@ -1,0 +1,9 @@
+{
+    "employee_id": "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
+    "title": "Kasbon pembayaran sekolah",
+    "amount": 2000000,
+    "description": "Pembayaran akan dilakukan 2 bulan kedepan",
+    "cash_date": "2023-07-14",
+    "due_date": "2023-09-14",
+    "is_paid": false
+}

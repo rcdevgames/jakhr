@@ -141,7 +141,7 @@ const PayrollPdf = (data, logo) => {
       return "Asuransi Lain oleh Perusahaan";
     if (str == "fix_deduction") return "Potongan Tetap";
     if (str == "not_fix_deduction") return "Potongan Tidak Tetap";
-    if (str == "pajak") return "PPH21";
+    if (str == "pajak") return "Pph21";
     return str
       .replace(/_([a-z])/g, (match, char) => " " + char.toUpperCase())
       .replace(/^./, (firstChar) => firstChar.toUpperCase());
@@ -157,7 +157,7 @@ const PayrollPdf = (data, logo) => {
         val.name +
         " " +
         `${data.value_to_add.total_attendance} hari x ${
-          val.amount / data.value_to_add.total_workday_per_month
+          parseInt(val.amount / data.value_to_add.total_workday_per_month)
         }`,
       total_tax: val.total_tax,
       is_final_tax: val.is_final_tax,
@@ -220,7 +220,7 @@ const PayrollPdf = (data, logo) => {
       pajak: data.value_to_reduce.pajak,
     },
 
-    asuransi_perusahaan: {
+    asuransi_dibayarkan_perusahaan: {
       jht_by_company: data.value_to_reduce.asuransi.jht_by_company,
       kesehatan_by_company: data.value_to_reduce.asuransi.kesehatan_by_company,
       jp_by_company: data.value_to_reduce.asuransi.jp_by_company,

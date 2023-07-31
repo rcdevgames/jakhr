@@ -29,6 +29,7 @@ const { Item } = Form;
 const SalaryForm = () => {
   const navigate = useNavigate();
   const title = `${sys_labels.action.FORM} Payroll`;
+  const [total_payroll, set_total_payroll] = useState(0);
 
   const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let year_data = [];
@@ -141,18 +142,13 @@ const SalaryForm = () => {
           },
         });
       });
-      const resp = await providers.generateData(payroll,data.month,data.year);
+      const resp = await providers.generateData(payroll, data.month, data.year);
       set_payroll_data(resp.data);
-      // const resp = await providers.insertData({
-      //   leave_name: data.leave_name,
-      //   leave_date: SysDateTransform({
-      //     date: data.leave_date,
-      //     withTime: false,
-      //     forSql: true,
-      //   }),
-      // });
-      // showToast({ message: resp.message, type: "success" });
-      // navigate(-1);
+      let total = 0;
+      resp.data.map((val) => {
+        total += val.final_salary;
+      });
+      set_total_payroll(total);
     } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: "error" });
@@ -762,73 +758,6 @@ const SalaryForm = () => {
         );
       },
     },
-    {
-      title: "Tunjangan Tetap",
-      dataIndex: "value_to_add",
-      width: 200,
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_add.tunjangan_tetap,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Tunjangan Harian",
-      dataIndex: "value_to_add",
-      width: 200,
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_add.tunjangan_harian,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Lembur",
-      dataIndex: "value_to_add",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_add.lembur,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Insentif",
-      dataIndex: "value_to_add",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_add.insentive_bonus,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Tunjangan Tidak Tetap",
-      dataIndex: "value_to_add",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_add.tunjangan_tidak_tetap,
-            })}
-          </p>
-        );
-      },
-    },
 
     {
       title: "Pajak",
@@ -838,84 +767,6 @@ const SalaryForm = () => {
           <p style={{ minWidth: "150px" }}>
             {SysCurrencyTransform({
               num: record.value_to_reduce.pajak,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Terlambat",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.late_penalty,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "JHT",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.asuransi.jht,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Kesehatan",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.asuransi.kesehatan,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Asuransi Lain",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.asuransi.other_insurance,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Potongan Tetap",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.fix_deduction,
-            })}
-          </p>
-        );
-      },
-    },
-    {
-      title: "Potongan Tidak Tetap",
-      dataIndex: "value_to_reduce",
-      render: (val, record) => {
-        return (
-          <p style={{ minWidth: "150px" }}>
-            {SysCurrencyTransform({
-              num: record.value_to_reduce.no_fix_deduction,
             })}
           </p>
         );
@@ -1008,31 +859,30 @@ const SalaryForm = () => {
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tunjangan" key="1">
                   <div className="row">
-                    <div className="col-md-2">
+                    <div className="col-md-6">
                       <Button
-                        className="btn-block"
                         onClick={downloadTemplatesAllowance}
+                        style={{ marginRight: 10 }}
                         type="primary"
                       >
                         Download Templates
                       </Button>
-                    </div>
-
-                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportAllowance}
                         type="primary"
                       >
                         Import File
                       </Button>
+
+                      <input
+                        type="file"
+                        ref={allowanceRef}
+                        style={{ display: "none" }}
+                        onChange={handleImportAllowance}
+                      ></input>
                     </div>
 
-                    <input
-                      type="file"
-                      ref={allowanceRef}
-                      style={{ display: "none" }}
-                      onChange={handleImportAllowance}
-                    ></input>
+                    <div className="col-md-2"></div>
                   </div>
                   <Table
                     pagination={false}
@@ -1049,17 +899,14 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Potongan" key="2">
                   <div className="row">
-                    <div className="col-md-2">
+                    <div className="col-md-6">
                       <Button
-                        className="btn-block"
                         onClick={downloadTemplatesDeduction}
+                        style={{ marginRight: 10 }}
                         type="primary"
                       >
                         Download Templates
                       </Button>
-                    </div>
-
-                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportDeduction}
                         type="primary"
@@ -1089,17 +936,14 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Insentif" key="3">
                   <div className="row">
-                    <div className="col-md-2">
+                    <div className="col-md-6">
                       <Button
-                        className="btn-block"
                         onClick={downloadTemplatesIncentive}
+                        style={{ marginRight: 10 }}
                         type="primary"
                       >
                         Download Templates
                       </Button>
-                    </div>
-
-                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportIncentive}
                         type="primary"
@@ -1139,12 +983,22 @@ const SalaryForm = () => {
             </div>
             <div className="card-body">
               <div className="row mt-3">
-                <Table
-                  pagination={false}
-                  className="overflow-scroll"
-                  dataSource={payroll_data}
-                  columns={columns_payroll}
-                />
+                <div className="col-md-12">
+                  <Table
+                    pagination={false}
+                    className="overflow-scroll"
+                    dataSource={payroll_data}
+                    columns={columns_payroll}
+                  />
+                </div>
+                <div className="col-md-3 mt-4">
+                  <h4>Total</h4>
+                </div>
+                <div className="col-md-6 mt-4">
+                  <h4>
+                    {SysCurrencyTransform({ num: total_payroll, currency: "" })}
+                  </h4>
+                </div>
               </div>
             </div>
           </div>

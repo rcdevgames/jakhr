@@ -49,6 +49,35 @@ const navItems = [
         link: "/master-data/branch",
       },
       {
+        label: sys_labels.menus.EMPLOYEE,
+        link: "/master-data/employee",
+      },
+      {
+        label: sys_labels.menus.LEAVE,
+        link: "/master-data/leave_mass",
+      },
+
+      {
+        label: sys_labels.menus.SCHEDULE,
+        link: "/master-data/schedule",
+      },
+      {
+        label: "Menu",
+        link: "/master-data/menu",
+      },
+      {
+        label: "Role Menu",
+        link: "/master-data/role_menu",
+      },
+    ],
+  },
+  {
+    icon: "DesktopComputerIcon",
+    iconType: "outline",
+    label: "Master Organisasi",
+    dir: "/master-organisasi",
+    subMenu: [
+      {
         label: sys_labels.menus.DIVISION,
         link: "/master-data/organization",
       },
@@ -60,10 +89,14 @@ const navItems = [
         label: sys_labels.menus.JOB_POSITION,
         link: "/master-data/job_position",
       },
-      {
-        label: sys_labels.menus.EMPLOYEE,
-        link: "/master-data/employee",
-      },
+    ],
+  },
+  {
+    icon: "DesktopComputerIcon",
+    iconType: "outline",
+    label: "Master Payroll",
+    dir: "/master-gaji",
+    subMenu: [
       {
         label: sys_labels.menus.ALLOWANCE,
         link: "/master-data/component_name/allowance",
@@ -84,21 +117,8 @@ const navItems = [
         label: sys_labels.menus.SALARY_COMPONENT,
         link: "/master-data/salary_component",
       },
-      {
-        label: sys_labels.menus.LEAVE,
-        link: "/master-data/leave_mass",
-      },
-      {
-        label: 'Menu',
-        link: "/master-data/menu",
-      },
-      {
-        label: 'Role Menu',
-        link: "/master-data/role_menu",
-      },
     ],
   },
-
   {
     icon: "DesktopComputerIcon",
     iconType: "outline",
@@ -123,6 +143,10 @@ const navItems = [
         link: "/transaction/attendance",
       },
       {
+        label: sys_labels.menus.CASH_ADVANCE,
+        link: "/transaction/cash_advance",
+      },
+      {
         label: sys_labels.menus.LEAVE,
         link: "/transaction/leave",
       },
@@ -133,10 +157,6 @@ const navItems = [
       {
         label: sys_labels.menus.DEDUCTION,
         link: "/transaction/reduction",
-      },
-      {
-        label: sys_labels.menus.CASH_ADVANCE,
-        link: "/transaction/cash",
       },
       {
         label: sys_labels.menus.REIMBURS,
