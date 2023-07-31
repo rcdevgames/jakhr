@@ -239,8 +239,29 @@ export function SysReadData(file) {
   }
 }
 
-export function SysJWTDecoder() {
-  const my_jwt = jwt_decode(getToken());
+export function SysJWTDecoder(token = null) {
+  let my_jwt = {
+    id: "",
+    email: "",
+    employee_id: "",
+    full_name: "",
+    role: "",
+    company: "",
+    branchId: "",
+    companyId: "",
+    division: "",
+    job_level: "",
+    position: "",
+    iat: "",
+    exp: "",
+  };
+  if(token){
+    my_jwt = jwt_decode(token)
+  }else{
+    my_jwt = jwt_decode(getToken());
+  }
+
+  // console.log(my_jwt);
   return {
     id: my_jwt?.id ?? "",
     email: my_jwt?.email ?? "",

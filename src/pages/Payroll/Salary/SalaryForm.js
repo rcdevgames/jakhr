@@ -3,11 +3,15 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/salaryModel";
 import convert_employee from "../../../model/employeeModel";
+import convert_company from "../../../model/companyModel";
 import * as providers from "../../../providers/payroll/salary";
 import * as providers_employee from "../../../providers/master/employee";
+import * as providers_company from "../../../providers/master/company";
 import {
   SysCurrencyTransform,
   SysDateTransform,
+  SysJWTDecoder,
+  SysMonthTransform,
   showToast,
 } from "../../../utils/global_store";
 import { Tabs, Form, Popconfirm, Input, Table, Button } from "antd";
@@ -25,20 +29,55 @@ const { Item } = Form;
 const SalaryForm = () => {
   const navigate = useNavigate();
   const title = `${sys_labels.action.FORM} Payroll`;
+
+  const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  let year_data = [];
+  const date = new Date();
+  for (
+    let index = date.getFullYear();
+    index > date.getFullYear() - 5;
+    index--
+  ) {
+    year_data.push(index);
+  }
+  const [data, setData] = useState({
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  });
   const handleChange = (event) => {
     const { name, value } = event.target;
-    // setData((prevState) => ({ ...prevState, [name]: value }));
+    setData((prevState) => ({ ...prevState, [name]: value }));
   };
   const [employee_data, set_employee_data] = useState(
     convert_employee.listOfemployeeModel([])
   );
+  const [company, set_company] = useState(
+    convert_company.objectOfcompanyModel({})
+  );
+  const token = SysJWTDecoder();
   useEffect(() => {
     getEmployee();
+    getCompany();
+    // console.log(a);
   }, []);
   const getEmployee = async () => {
     try {
-      const resp = await providers_employee.getDataHasComponent(1, 99999999, "");
+      const resp = await providers_employee.getDataHasComponent(
+        1,
+        99999999,
+        ""
+      );
       set_employee_data(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message });
+    }
+  };
+
+  const getCompany = async () => {
+    try {
+      const resp = await providers_company.getDetail(token.companyId);
+      // console.log(resp.data);
+      set_company(resp.data);
     } catch (error) {
       showToast({ message: error.message });
     }
@@ -93,16 +132,16 @@ const SalaryForm = () => {
             });
           }
         });
-          payroll.push({
-            employee_id: val_employee.employee_id,
-            components: {
-              allowances: emp_allowance,
-              incentives: emp_incentive,
-              deductions: emp_deduction,
-            },
-          });
+        payroll.push({
+          employee_id: val_employee.employee_id,
+          components: {
+            allowances: emp_allowance,
+            incentives: emp_incentive,
+            deductions: emp_deduction,
+          },
+        });
       });
-      const resp = await providers.generateData(payroll);
+      const resp = await providers.generateData(payroll,data.month,data.year);
       set_payroll_data(resp.data);
       // const resp = await providers.insertData({
       //   leave_name: data.leave_name,
@@ -335,7 +374,7 @@ const SalaryForm = () => {
       set_key_deduction(key_deduction + index_total);
     } else {
       const newData = {
-        id: key_allowance,
+        id: key_deduction,
         employee_id: "",
         full_name: "",
         description: "",
@@ -900,32 +939,78 @@ const SalaryForm = () => {
     },
   ];
   const handleOpenPDF = async (record) => {
-    const pdfData = PayrollPdf(record); // Generate the PDF data
+    const pdfData = PayrollPdf(record, company.logo); // Generate the PDF data
     const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
     // Open a new tab and display the PDF
     const fileURL = URL.createObjectURL(pdfBlob);
     window.open(fileURL, "_blank");
   };
+
   return (
     <AdminDashboard label="">
       <section className="section">
         <div className="card">
           <div className="card-header d-flex justify-content-between align-items-center">
             <h3>{title}</h3>
-
             <button onClick={handleGenerate} className="btn btn-primary">
-              {/* <button onClick={handleOpenPDF} className="btn btn-primary"> */}
               Generate
             </button>
           </div>
           <div className="card-body">
+            <div className="form form-horizontal">
+              <div className="form-body">
+                <div className="row mt-3">
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <label>Periode Bulan:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="month"
+                        name="month"
+                        value={data.month}
+                        onChange={handleChange}
+                        aria-label="Month"
+                      >
+                        <option value={null}>Pilih Periode Bulan</option>
+                        {month_data.map((option, index) => (
+                          <option key={index} value={option}>
+                            {SysMonthTransform(option, "long", "in")}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <label>Periode Tahun:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="year"
+                        name="year"
+                        value={data.year}
+                        onChange={handleChange}
+                        aria-label="year"
+                      >
+                        <option value={null}>Pilih Periode Tahun</option>
+                        {year_data.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="row mt-3">
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tunjangan" key="1">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesAllowance}
                         type="primary"
                       >
@@ -933,20 +1018,21 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportAllowance}
                         type="primary"
                       >
                         Import File
                       </Button>
-                      <input
-                        type="file"
-                        ref={allowanceRef}
-                        style={{ display: "none" }}
-                        onChange={handleImportAllowance}
-                      ></input>
                     </div>
+
+                    <input
+                      type="file"
+                      ref={allowanceRef}
+                      style={{ display: "none" }}
+                      onChange={handleImportAllowance}
+                    ></input>
                   </div>
                   <Table
                     pagination={false}
@@ -963,8 +1049,9 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Potongan" key="2">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesDeduction}
                         type="primary"
                       >
@@ -972,7 +1059,7 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportDeduction}
                         type="primary"
@@ -1002,8 +1089,9 @@ const SalaryForm = () => {
                 </TabPane>
                 <TabPane tab="Insentif" key="3">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
+                        className="btn-block"
                         onClick={downloadTemplatesIncentive}
                         type="primary"
                       >
@@ -1011,7 +1099,7 @@ const SalaryForm = () => {
                       </Button>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                       <Button
                         onClick={handleClickImportIncentive}
                         type="primary"

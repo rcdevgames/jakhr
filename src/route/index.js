@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout/AdminDashboardLayout";
 import Dashboard from "../pages/Dashboard";
-import Login from "../pages/Login";
+import Login, { Authentication } from "../pages/Login";
 // master data
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
@@ -81,14 +81,27 @@ import {
   ComponentNameDeductionForm,
 } from "../pages/MasterData/ComponentName";
 import SalaryForm from "../pages/Payroll/Salary/SalaryForm";
+import PayrollPdf from "../pages/PDF/payroll_pdf";
+import Unauthorized from "../pages/Unauthorized";
+import NotFound from "../pages/NotFound";
+import RoleMenu from "../pages/MasterData/RoleMenu/RoleMenu";
+import { Menu, MenuForm } from "../pages/MasterData/Menu";
+import ComponentNameEx from "../pages/MasterData/ComponentName/ComponentNameEx";
+import ComponentNameExForm from "../pages/MasterData/ComponentName/ComponentNameExForm";
 
 const Router = () => (
   <BrowserRouter>
     <ScrollToTop />
     <ToastContainer />
+
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/authentication/:token" element={<Authentication />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>
         <Route element={<AdminDashboardLayout />}>
+          <Route path="*" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
 
           <Route element={<Dashboard />} path="/dashboard" />
@@ -140,22 +153,40 @@ const Router = () => (
               <Route path="allowance">
                 <Route path="" element={<ComponentName />} />
                 <Route path="create" element={<ComponentNameForm />} />
-                <Route path="detail/:id" element={<ComponentNameForm  />} />
+                <Route path="detail/:id" element={<ComponentNameForm />} />
               </Route>
               <Route path="allowance_daily">
                 <Route path="" element={<ComponentNameDaily />} />
                 <Route path="create" element={<ComponentNameDailyForm />} />
-                <Route path="detail/:id" element={<ComponentNameDailyForm  />} />
+                <Route path="detail/:id" element={<ComponentNameDailyForm />} />
+              </Route>
+              <Route path="allowance_ex">
+                <Route path="" element={<ComponentNameEx />} />
+                <Route path="create" element={<ComponentNameExForm />} />
+                <Route path="detail/:id" element={<ComponentNameExForm />} />
               </Route>
               <Route path="deduction">
                 <Route path="" element={<ComponentNameDeduction />} />
                 <Route path="create" element={<ComponentNameDeductionForm />} />
-                <Route path="detail/:id" element={<ComponentNameDeductionForm  />} />
+                <Route
+                  path="detail/:id"
+                  element={<ComponentNameDeductionForm />}
+                />
               </Route>
             </Route>
             <Route path="salary_component">
               <Route path="" element={<SalaryComponent />} />
               <Route path="detail/:id" element={<SalaryComponentForm />} />
+            </Route>
+
+            <Route path="role_menu">
+              <Route path="" element={<RoleMenu />} />
+            </Route>
+
+            <Route path="menu">
+              <Route path="" element={<Menu />} />
+              <Route path="create" element={<MenuForm />} />
+              <Route path="detail/:id" element={<MenuForm />} />
             </Route>
           </Route>
           <Route path="transaction">
@@ -234,7 +265,6 @@ const Router = () => (
           </Route>
         </Route>
       </Route>
-      <Route path="/login" element={<Login />} />
     </Routes>
   </BrowserRouter>
 );

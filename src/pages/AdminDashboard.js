@@ -1,9 +1,11 @@
-import React from "react";
+import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import { BellIcon, MagnifyingGlassIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { SysJWTDecoder } from "../utils/global_store";
 
 const AdminDashboard = ({ label, subHeading, children }) => {
+  const [user,set_user]=useState(SysJWTDecoder())
   return (
     <div id="main" className="layout-navbar navbar-fixed">
      <header>
@@ -86,8 +88,8 @@ const AdminDashboard = ({ label, subHeading, children }) => {
                   <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                     <div className="user-menu d-flex">
                       <div className="user-name text-end me-3">
-                        <h6 className="mb-0 text-gray-600">John Ducky</h6>
-                        <p className="mb-0 text-sm text-gray-600">Administrator</p>
+                        <h6 className="mb-0 text-gray-600">{user.full_name}</h6>
+                        <p className="mb-0 text-sm text-gray-600">{user.role}</p>
                       </div>
                       <div className="user-img d-flex align-items-center">
                         <div className="avatar avatar-md">

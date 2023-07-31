@@ -16,6 +16,8 @@ import * as providers_late from "../../../providers/payroll/late";
 import * as providers_overtime from "../../../providers/payroll/overtime";
 import * as providers_allowance from "../../../providers/payroll/allowance";
 import * as providers_deduction from "../../../providers/payroll/deduction";
+import { useLoadingContext } from "../../../components/Loading";
+
 import {
   SysCurrencyTransform,
   SysDateTransform,
@@ -33,6 +35,7 @@ import {
 const SalaryComponentForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { showLoading, hideLoading } = useLoadingContext();
   const [is_salary, set_is_salary] = useState(false);
   const [data_allowance, set_data_allowance] = useState(
     convert_allowance.listOfallowanceModel([])
@@ -44,6 +47,9 @@ const SalaryComponentForm = () => {
   const [data_component_daily, set_data_component_daily] = useState(
     convert_component.listOfcomponent_nameModel([])
   );
+  const [data_component_ex, set_data_component_ex] = useState(
+    convert_component.listOfcomponent_nameModel([])
+  );
 
   const [data_component_deduction, set_data_component_deduction] = useState(
     convert_component.listOfcomponent_nameModel([])
@@ -51,17 +57,236 @@ const SalaryComponentForm = () => {
   const [data_allowance_daily, set_data_allowance_daily] = useState(
     convert_allowance.listOfallowanceModel([])
   );
+  const [data_allowance_ex, set_data_allowance_ex] = useState(
+    convert_allowance.listOfallowanceModel([])
+  );
   const [data_deduction, set_data_deduction] = useState(
     convert_deduction.listOfdeductionModel([])
   );
   const [allowance_total, set_allowance_total] = useState(0);
   const [allowance_total_daily, set_allowance_total_daily] = useState(0);
+  const [allowance_total_ex, set_allowance_total_ex] = useState(0);
   const [deduction_total, set_deduction_total] = useState(0);
   const [data, setData] = useState(convert.objectOfsalaryModel({}));
   const [late_data, set_late_data] = useState(
     convert_late.objectOflateModel({})
   );
 
+  const [allowance_ex_editing_key, set_allowance_ex_editing_key] =
+    useState("");
+  const [new_row_allowance_ex, set_new_row_allowance_ex] = useState(null);
+  const [show_modal_allowance_ex, set_show_modal_allowance_ex] =
+    useState(false);
+  const is_editing_allowance_ex = (record) =>
+    record.id === allowance_ex_editing_key;
+  const handleInputChangeAllowanceEx = (e, key, dataIndex) => {
+    if (key == "new") {
+      if (dataIndex == "component_name_id") {
+        const data = data_component_ex.find(
+          (val) => val.id == e.target.value
+        );
+        set_new_row_allowance_ex((prev) => ({
+          ...prev,
+          component_name: {
+            id: data.id,
+            name: data.name,
+          },
+        }));
+      }
+      set_new_row_allowance_ex((prev) => ({
+        ...prev,
+        [dataIndex]: e.target.value,
+      }));
+    } else {
+      let updatedData = null;
+      if (dataIndex == "component_name_id") {
+        const data = data_component_ex.find(
+          (val) => val.id == e.target.value
+        );
+        updatedData = data_allowance_ex.map((item) =>
+          item.id === key
+            ? { ...item, component_name: { id: data.id, name: data.name } }
+            : item
+        );
+      } else {
+        updatedData = data_allowance_ex.map((item) =>
+          item.id === key ? { ...item, [dataIndex]: e.target.value } : item
+        );
+      }
+      set_data_allowance_ex(updatedData);
+    }
+  };
+  const columns_allowance_ex = [
+    {
+      title: "Tunjangan Lainnya",
+      dataIndex: "component_name_id",
+      editable: true,
+      render: (val, record) => {
+        const is_edit = is_editing_allowance_ex(record);
+        return !is_edit ? (
+          record.component_name.name
+        ) : (
+          <select
+            className="form-select"
+            id="component_name_id"
+            name="component_name_id"
+            value={record.component_name.id}
+            onChange={(e) =>
+              handleInputChangeAllowanceEx(e, record.id, "component_name_id")
+            }
+            aria-label="Nama Tunjangan"
+            required
+          >
+            <option value={null}>Pilih Tunjangan</option>
+            {data_component_ex.map((option, index) => (
+              <option key={index} value={option.id}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        );
+      },
+    },
+    {
+      title: "Nominal",
+      dataIndex: "ammount",
+      editable: true,
+      render: (val, record) => {
+        const is_edit = is_editing_allowance_ex(record);
+        return !is_edit ? (
+          SysCurrencyTransform({ num: record.ammount })
+        ) : (
+          <Input
+            value={val}
+            onKeyDown={onlyNumber}
+            onPaste={disablePaste}
+            onChange={(e) =>
+              handleInputChangeAllowanceEx(e, record.id, "ammount")
+            }
+          />
+        );
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (_, record) => {
+        const editable = is_editing_allowance_ex(record);
+        return editable ? (
+          <div className="btn-group" role="group">
+            <a
+              onClick={() => handleSaveEditingAllowanceEx(record.id)}
+              className="btn icon btn-success btn-sm"
+            >
+              <i className="bi bi-check"></i>
+            </a>
+            <a
+              onClick={() => handleCancelEditAllowanceEx()}
+              className="btn icon btn-info btn-sm"
+            >
+              <i className="bi bi-x"></i>
+            </a>
+          </div>
+        ) : (
+          <div className="btn-group" role="group">
+            <a
+              onClick={() => handleEditRowAllowanceEx(record)}
+              className="btn icon btn-info btn-sm"
+            >
+              <i className="bi bi-pencil"></i>
+            </a>
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDeleteAllowanceEx(record.id)}
+            >
+              <a className="btn icon btn-danger btn-sm">
+                <i className="bi bi-trash"></i>
+              </a>
+            </Popconfirm>
+          </div>
+        );
+      },
+    },
+  ];
+  const handleAddRowAllowanceEx = () => {
+    const newKey = "new";
+    set_new_row_allowance_ex({
+      id: newKey,
+      component_name_id: "",
+      component_name: {
+        id: "",
+        name: "",
+      },
+      ammount: "",
+    });
+    set_allowance_ex_editing_key("new");
+  };
+  const handleEditRowAllowanceEx = (record) => {
+    set_allowance_ex_editing_key(record.id);
+  };
+  const handleCloseModalAllowanceEx = () => {
+    set_show_modal_allowance_ex(false);
+    set_allowance_ex_editing_key("");
+    set_new_row_allowance_ex(null);
+    getAllowanceEx(employee_data.id);
+  };
+
+  const handleCancelEditAllowanceEx = () => {
+    set_allowance_ex_editing_key("");
+    set_new_row_allowance_ex(null);
+    getAllowanceEx(employee_data.id);
+  };
+  const handleSaveEditingAllowanceEx = async (id) => {
+    try {
+      if (id == "new") {
+        console.log("KESINI");
+        await providers_allowance.insertData(
+          {
+            allowance_type: "lainnya",
+            component_name_id: new_row_allowance_ex.component_name.id,
+            ammount: new_row_allowance_ex.ammount,
+            is_taxable: false,
+            is_final_tax: false,
+          },
+          employee_data.id
+        );
+      } else {
+        const data = data_allowance_ex.find((item) => item.id === id);
+        if (data) {
+          await providers_allowance.updateData(
+            {
+              allowance_type: "lainnya",
+              component_name_id: data.component_name.id,
+              ammount: data.ammount,
+              is_taxable: data.is_taxable,
+              is_final_tax: false,
+            },
+            employee_data.id,
+            data.id
+          );
+        }
+      }
+      await getAllowanceEx(employee_data.id);
+      set_allowance_ex_editing_key("");
+      set_new_row_allowance_ex(null);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message });
+      set_allowance_ex_editing_key("");
+      set_new_row_allowance_ex(null);
+    }
+  };
+  const handleDeleteAllowanceEx = async (id) => {
+    try {
+      if (allowance_ex_editing_key != "new") {
+        const resp = await providers_allowance.deleteData(data.employee_id, id);
+        await getAllowanceEx(employee_data.id);
+        showToast({ message: resp.message });
+      }
+      set_allowance_ex_editing_key("");
+    } catch (error) {}
+  };
+  
   const [allowance_editing_key, set_allowance_editing_key] = useState("");
   const [new_row_allowance, set_new_row_allowance] = useState(null);
   const [show_modal_allowance, set_show_modal_allowance] = useState(false);
@@ -120,6 +345,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
+            <option value={null}>Pilih Tunjangan</option>
             {data_component.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -251,6 +477,7 @@ const SalaryComponentForm = () => {
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     } catch (error) {
+      showToast({ message: error.message });
       set_allowance_editing_key("");
       set_new_row_allowance(null);
     }
@@ -328,6 +555,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Potongan"
             required
           >
+            <option value={null}>Pilih Potongan</option>
             {data_component_deduction.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -472,6 +700,7 @@ const SalaryComponentForm = () => {
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     } catch (error) {
+      showToast({ message: error.message });
       set_deduction_editing_key("");
       set_new_row_deduction(null);
     }
@@ -552,6 +781,7 @@ const SalaryComponentForm = () => {
             aria-label="Nama Tunjangan"
             required
           >
+            <option value={null}>Pilih Tunjangan</option>
             {data_component_daily.map((option, index) => (
               <option key={index} value={option.id}>
                 {option.name}
@@ -685,6 +915,7 @@ const SalaryComponentForm = () => {
       set_new_row_allowance_daily(null);
     } catch (error) {
       console.log(error);
+      showToast({ message: error.message });
       set_allowance_daily_editing_key("");
       set_new_row_allowance_daily(null);
     }
@@ -711,11 +942,15 @@ const SalaryComponentForm = () => {
   );
 
   useEffect(() => {
+    showLoading();
+
     getEmployee(id);
     getLateConfig(id);
+    checkEmployeeHaveConfig(id);
     getOvertimeConfig(id);
     getComponent();
     getComponentDaily();
+    getComponentEx();
     getComponentDeduction();
   }, []);
   const title = `${sys_labels.action.EDIT_FORM} ${sys_labels.menus.SALARY}`;
@@ -752,7 +987,6 @@ const SalaryComponentForm = () => {
     try {
       const resp = await providers_employee.getDetail(id);
       set_employee_data(resp.data);
-      await checkEmployeeHaveConfig(id);
       await getDeduction(id);
       await getAllowance(id);
       await getAllowanceDaily(id);
@@ -769,6 +1003,7 @@ const SalaryComponentForm = () => {
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
+    hideLoading();
   };
 
   const getComponent = async () => {
@@ -783,6 +1018,14 @@ const SalaryComponentForm = () => {
     try {
       const resp = await providers_component.getDataAllowanceDailyMax();
       set_data_component_daily(resp.data.data);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+    }
+  };
+  const getComponentEx = async () => {
+    try {
+      const resp = await providers_component.getDataAllowanceExMax();
+      set_data_component_ex(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
@@ -847,6 +1090,32 @@ const SalaryComponentForm = () => {
       // showToast({ message: error.message, type: error });
     }
   };
+
+  const getAllowanceEx = async (id) => {
+    try {
+      const resp = await providers_allowance.getData(id, "lainnya");
+      // console.log(resp);
+      console.log(resp.data);
+      if (resp.data.data) {
+        set_data_allowance_ex(resp.data.data);
+      } else {
+        set_data_allowance_ex([]);
+      }
+      calculateAllowanceEx(resp.data.data);
+    } catch (error) {
+      // showToast({ message: error.message, type: error });
+    }
+  };
+  const calculateAllowanceEx = (data) => {
+    set_allowance_total_ex(0);
+    let new_total_ex = 0;
+    if (data) {
+      data.map((val) => {
+        new_total_ex += parseInt(val.ammount);
+      });
+    }
+    set_allowance_total_ex(new_total_ex);
+  };
   const calculateAllowanceDaily = (data) => {
     set_allowance_total_daily(0);
     let new_total_daily = 0;
@@ -879,34 +1148,42 @@ const SalaryComponentForm = () => {
     }
   };
   const checkEmployeeHaveConfig = async (id) => {
+    console.log("KESINI KGAK DAH");
     try {
       const resp = await providers.getData(1, 1, "", id);
       if (resp.data.data.length > 0) {
         await handleDetail(resp.data.data[0].id);
         set_is_salary(true);
       }
-    } catch (error) {}
+      console.log(is_salary);
+    } catch (error) {
+      console.log(is_salary);
+      console.log(error);
+    }
   };
   const handleSubmit = async () => {
-    const resp_overtime = await providers_overtime.updateData(
-      {
-        calc_base: overtime_date.calc_base,
-        calc_mode: overtime_date.calc_mode,
-        total_custom: overtime_date.total_custom,
-        work_pattern: data.working_days,
-        is_approval: overtime_date.is_approval,
-      },
-      employee_data.id,
-      overtime_date.id
-    );
-    const resp_late = await providers_late.updateData(
-      {
-        calc_base: late_data.calc_base,
-        total_custom: late_data.total_custom,
-      },
-      employee_data.id,
-      late_data.id
-    );
+    showLoading();
+    try {
+      const resp_overtime = await providers_overtime.updateData(
+        {
+          calc_base: overtime_date.calc_base,
+          calc_mode: overtime_date.calc_mode,
+          total_custom: overtime_date.total_custom,
+          work_pattern: data.working_days,
+          is_approval: overtime_date.is_approval,
+        },
+        employee_data.id,
+        overtime_date.id
+      );
+      const resp_late = await providers_late.updateData(
+        {
+          calc_base: late_data.calc_base,
+          total_custom: late_data.total_custom,
+        },
+        employee_data.id,
+        late_data.id
+      );
+    } catch (error) {}
     try {
       const resp = await providers.insertData({
         employee_id: employee_data.id,
@@ -931,14 +1208,18 @@ const SalaryComponentForm = () => {
         bank_account: data.bank_account.toString(),
       });
 
+      hideLoading();
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
+      hideLoading();
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     const resp_overtime = await providers_overtime.updateData(
       {
         calc_base: overtime_date.calc_base,
@@ -985,11 +1266,14 @@ const SalaryComponentForm = () => {
         data.id
       );
 
+      hideLoading();
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
+      hideLoading();
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   return (
     <AdminDashboard label="">
@@ -1140,6 +1424,30 @@ const SalaryComponentForm = () => {
                         </button>
                       </div>
                     </div>
+                    
+                    <div className="row">
+                      <div className="col-md-10">
+                        <div className="form-group">
+                          <label>Tunjangan Lainnya:</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            readOnly
+                            value={SysCurrencyTransform({
+                              num: allowance_total_ex,
+                            })}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-2">
+                        <button
+                          onClick={() => set_show_modal_allowance_ex(true)}
+                          className="btn btn-primary mt-4"
+                        >
+                          Rincian
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-md-12">
                     <div className="row">
@@ -1160,14 +1468,14 @@ const SalaryComponentForm = () => {
 
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label>Total:</label>{" "}
+                          <label>Total Tunjangan Perhari:</label>{" "}
                           <input
                             className="form-control"
                             type="text"
                             readOnly
                             value={SysCurrencyTransform({
                               num:
-                                allowance_total_daily *
+                                allowance_total_daily /
                                 parseInt(data.working_days),
                             })}
                           />
@@ -1553,6 +1861,30 @@ const SalaryComponentForm = () => {
           />
           <Button
             onClick={handleAddRowAllowance}
+            className="btn btn-sm btn-primary mt-4"
+            style={{ borderRadius: 100 }}
+          >
+            <i className="bi bi-plus"></i>
+          </Button>
+        </Modal>
+        <Modal
+          title="Tunjangan Lainnya"
+          open={show_modal_allowance_ex}
+          onOk={() => handleCloseModalAllowanceEx()}
+          onCancel={() => handleCloseModalAllowanceEx()}
+          width={1000}
+        >
+          <Table
+            pagination={false}
+            dataSource={
+              new_row_allowance_ex
+                ? [...data_allowance_ex, new_row_allowance_ex]
+                : data_allowance_ex
+            }
+            columns={columns_allowance_ex}
+          />
+          <Button
+            onClick={handleAddRowAllowanceEx}
             className="btn btn-sm btn-primary mt-4"
             style={{ borderRadius: 100 }}
           >

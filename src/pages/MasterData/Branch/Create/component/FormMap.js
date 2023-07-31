@@ -272,13 +272,11 @@ class FormMap extends Component {
           });
         },
         (error) => {
-          console.error("Error getting location", error);
-          alert("Error getting location");
+          showToast({message:"please enable location permission!"})
         }
-      );
-    } else {
-      console.error("Geolocation not supported");
-      alert("Geolocation not supported");
+        );
+      } else {
+      showToast({message:"location service not supported!"})
     }
   };
 

@@ -69,12 +69,15 @@ export const deleteData = async (id = "") => {
   }
 };
 
-export const generateData = async (data = []) => {
+export const generateData = async (data = [], m, year) => {
+  let month = parseInt(m) + 1;
   try {
     const response = await sys_post({
       auth: true,
       endpoint: uri + `generate`,
       body: {
+        month,
+        year,
         payroll: data,
       },
     });

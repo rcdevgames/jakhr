@@ -6,7 +6,10 @@ import { Helmet } from "react-helmet";
 import isEmpty from "../../utils/is-empty";
 import HeroIcon from "../../components/HeroIcon";
 import { sys_labels } from "../../utils/constants";
-import { SysJWTDecoder } from "../../utils/global_store";
+import { SysJWTDecoder, showToast } from "../../utils/global_store";
+import GlobalLoadingBlock, {
+  useLoadingContext,
+} from "../../components/Loading";
 
 const navItems = [
   {
@@ -21,6 +24,22 @@ const navItems = [
     label: sys_labels.menus.MASTER,
     dir: "/master-data",
     subMenu: [
+      // {
+      //   icon: "DesktopComputerIcon",
+      //   iconType: "outline",
+      //   label: sys_labels.menus.MASTER,
+      //   dir: "/master-data",
+      //   subMenu: [
+      //     {
+      //       label: sys_labels.menus.COMPANY,
+      //       link: "/master-data/company",
+      //     },
+      //     {
+      //       label: sys_labels.menus.BRANCH,
+      //       link: "/master-data/branch",
+      //     },
+      //   ],
+      // },
       {
         label: sys_labels.menus.COMPANY,
         link: "/master-data/company",
@@ -50,8 +69,12 @@ const navItems = [
         link: "/master-data/component_name/allowance",
       },
       {
-        label: sys_labels.menus.ALLOWANCE + "Harian",
+        label: sys_labels.menus.ALLOWANCE + " Harian",
         link: "/master-data/component_name/allowance_daily",
+      },
+      {
+        label: sys_labels.menus.ALLOWANCE + " Lainnya",
+        link: "/master-data/component_name/allowance_ex",
       },
       {
         label: sys_labels.menus.DEDUCTION,
@@ -64,6 +87,14 @@ const navItems = [
       {
         label: sys_labels.menus.LEAVE,
         link: "/master-data/leave_mass",
+      },
+      {
+        label: 'Menu',
+        link: "/master-data/menu",
+      },
+      {
+        label: 'Role Menu',
+        link: "/master-data/role_menu",
       },
     ],
   },
@@ -188,6 +219,7 @@ const navItems = [
 const AdminDashboardLayout = () => {
   const location = useLocation();
 
+  const { isLoading } = useLoadingContext();
   const addScript = (src, id) => {
     const el = document.getElementById(id);
     if (el) return;
@@ -199,6 +231,20 @@ const AdminDashboardLayout = () => {
     document.head.appendChild(script);
   };
   const sys_token = SysJWTDecoder();
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // showToast({message:'success get location'})
+        },
+        (error) => {
+          showToast({ message: "please enable location permission!" });
+        }
+      );
+    } else {
+      showToast({ message: "location service not supported!" });
+    }
+  }, []);
   return (
     <div id="app">
       <Helmet>
@@ -207,6 +253,7 @@ const AdminDashboardLayout = () => {
         <script src="/assets/js/mazer.js"></script>
         <script src="/assets/js/app.js"></script>
       </Helmet>
+      {isLoading && <GlobalLoadingBlock />}
       <div id="sidebar" className="active">
         <div className="sidebar-wrapper active">
           <div className="sidebar-header position-relative">

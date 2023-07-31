@@ -9,7 +9,6 @@ import { showToast } from "../../utils/global_store";
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("testingadmin@jakpro.co.id");
-  //   const [email, setEmail] = useState("admin@example.com");
   const [password, setPassword] = useState("123456");
   const [showDialog, setShowDialog] = useState(false);
 
