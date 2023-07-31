@@ -169,72 +169,76 @@ const PayrollPdf = (data, logo) => {
     tunjangan_harian.push(obj);
   });
   let payroll_data = {
-    id: data.id,
-    employee_id: data.employee_id,
-    employee_name: data.employee_name,
-    final_salary: data.final_salary,
+    id: data?.id??"",
+    employee_id: data?.employee_id??"",
+    employee_name: data?.employee_name??"",
+    final_salary: data?.final_salary??0,
     value_to_add: {
-      total_add: data.value_to_add.total_add,
-      gaji_pokok: data.value_to_add.gaji_pokok,
+      total_add: data?.value_to_add?.total_add??0,
+      gaji_pokok: data?.value_to_add?.gaji_pokok??0,
       tunjangan_tetap: {
-        total: data.value_to_add.tunjangan_tetap.total,
-        details: data.value_to_add.tunjangan_tetap.details,
+        total: data?.value_to_add?.tunjangan_tetap?.total??0,
+        details: data?.value_to_add?.tunjangan_tetap?.details??[],
       },
       tunjangan_harian: {
-        total: total_tunjangan_harian,
-        details: tunjangan_harian,
+        total: total_tunjangan_harian??0,
+        details: tunjangan_harian??[],
+      },
+      tunjangan_lainnya: {
+        total: data?.value_to_add?.tunjangan_lainnya?.total??0,
+        details: data?.value_to_add?.tunjangan_lainnya?.details??[],
       },
       insentive_bonus: {
-        total: data.value_to_add.insentive_bonus.total,
-        details: data.value_to_add.insentive_bonus.details,
+        total: data?.value_to_add?.insentive_bonus?.total??0,
+        details: data?.value_to_add?.insentive_bonus?.details??[],
       },
       tunjangan_tidak_tetap: {
-        total: data.value_to_add.tunjangan_tidak_tetap.total,
-        details: data.value_to_add.tunjangan_tidak_tetap.details,
+        total: data?.value_to_add?.tunjangan_tidak_tetap?.total??0,
+        details: data?.value_to_add?.tunjangan_tidak_tetap?.details??[],
       },
-      lembur: data.value_to_add.lembur,
+      lembur: data?.value_to_add?.lembur??0,
     },
     value_to_reduce: {
-      total_reduce: data.value_to_reduce.total_reduce,
-      late_penalty: data.value_to_reduce.late_penalty,
+      total_reduce: data?.value_to_reduce?.total_reduce??0,
+      late_penalty: data?.value_to_reduce?.late_penalty??0,
       kasbon: {
-        total: data.value_to_reduce.kasbon.total,
-        details: data.value_to_reduce.kasbon.details,
+        total: data?.value_to_reduce?.kasbon.total??0,
+        details: data?.value_to_reduce?.kasbon.details??[],
       },
       asuransi_karyawan: {
-        jht_by_employee: data.value_to_reduce.asuransi.jht_by_employee,
+        jht_by_employee: data?.value_to_reduce?.asuransi?.jht_by_employee??0,
         kesehatan_by_employee:
-          data.value_to_reduce.asuransi.kesehatan_by_employee,
-        jp_by_employee: data.value_to_reduce.asuransi.jp_by_employee,
+          data?.value_to_reduce?.asuransi?.kesehatan_by_employee??0,
+        jp_by_employee: data?.value_to_reduce?.asuransi?.jp_by_employee??0,
         other_insurance_by_employee:
-          data.value_to_reduce.asuransi.other_insurance_by_employee,
+          data?.value_to_reduce?.asuransi?.other_insurance_by_employee??0,
       },
       fix_deduction: {
-        total: data.value_to_reduce.fix_deduction.total,
-        details: data.value_to_reduce.fix_deduction.details,
+        total: data?.value_to_reduce?.fix_deduction?.total??0,
+        details: data?.value_to_reduce?.fix_deduction?.details??[],
       },
       not_fix_deduction: {
-        total: data.value_to_reduce.not_fix_deduction.total,
-        details: data.value_to_reduce.not_fix_deduction.details,
+        total: data?.value_to_reduce?.not_fix_deduction?.total??0,
+        details: data?.value_to_reduce?.not_fix_deduction?.details??[],
       },
-      pajak: data.value_to_reduce.pajak,
+      pajak: data?.value_to_reduce?.pajak??0,
     },
 
     asuransi_dibayarkan_perusahaan: {
-      jht_by_company: data.value_to_reduce.asuransi.jht_by_company,
-      kesehatan_by_company: data.value_to_reduce.asuransi.kesehatan_by_company,
-      jp_by_company: data.value_to_reduce.asuransi.jp_by_company,
-      jkm_by_company: data.value_to_reduce.asuransi.jkm_by_company,
-      jkk_by_company: data.value_to_reduce.asuransi.jkk_by_company,
+      jht_by_company: data?.value_to_reduce?.asuransi?.jht_by_company??0,
+      kesehatan_by_company: data?.value_to_reduce?.asuransi?.kesehatan_by_company??0,
+      jp_by_company: data?.value_to_reduce?.asuransi?.jp_by_company??0,
+      jkm_by_company: data?.value_to_reduce?.asuransi?.jkm_by_company??0,
+      jkk_by_company: data?.value_to_reduce?.asuransi?.jkk_by_company??0,
       other_insurance_by_company:
-        data.value_to_reduce.asuransi.other_insurance_by_company,
+        data?.value_to_reduce?.asuransi?.other_insurance_by_company??0,
     },
     other_informations: {
-      bank_name: data.other_informations.bank_name,
-      bank_account: data.other_informations.bank_account,
-      pajak_perusahaan: data.value_to_add.tax_paid_by_company,
-      total_attendance: data.value_to_add.total_attendance,
-      total_workday_per_month: data.value_to_add.total_workday_per_month,
+      bank_name: data?.other_informations?.bank_name??"",
+      bank_account: data?.other_informations?.bank_account??"",
+      pajak_perusahaan: data?.value_to_add?.tax_paid_by_company??0,
+      total_attendance: data?.value_to_add?.total_attendance??0,
+      total_workday_per_month: data?.value_to_add?.total_workday_per_month??0,
     },
   };
   const user = SysJWTDecoder();
@@ -274,6 +278,7 @@ const PayrollPdf = (data, logo) => {
                         </Text>
                       </View>
                       {Object.keys(payroll_data[data_key]).map((key) => {
+                        // console.log(key);
                         total_key += payroll_data[data_key][key];
                         if (key == "total_add" || key == "total_reduce") {
                           return null;
