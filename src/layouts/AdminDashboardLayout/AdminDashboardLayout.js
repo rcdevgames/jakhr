@@ -151,16 +151,8 @@ const navItems = [
         link: "/transaction/leave",
       },
       {
-        label: sys_labels.menus.INSENTIV,
-        link: "/transaction/additional",
-      },
-      {
-        label: sys_labels.menus.DEDUCTION,
-        link: "/transaction/reduction",
-      },
-      {
         label: sys_labels.menus.REIMBURS,
-        link: "/transaction/imbursement",
+        link: "/transaction/reimburst",
       },
     ],
   },

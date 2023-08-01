@@ -51,7 +51,7 @@ export const sys_labels = {
     TRANSACTION: "Transaksi",
     INSENTIV: "Insentif",
     DEDUCTION: "Potongan",
-    CASH_ADVANCE: "Kasbo",
+    CASH_ADVANCE: "Kasbon",
     REIMBURS: "Reimbursement",
     SALARY: "Gaji",
     SALARY_COMPONENT: "Komponen Gaji",
