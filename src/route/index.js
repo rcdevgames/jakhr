@@ -37,9 +37,10 @@ import { Salary } from "../pages/Payroll/Salary";
 
 // Transaction
 import { Attendance } from "../pages/Transaction/Attendance";
-import { Leave, CreateLeave } from "../pages/Transaction/Leave";
 import { Additional, CreateAdditional } from "../pages/Transaction/Additional";
 import { Reduction, CreateReduction } from "../pages/Transaction/Reduction";
+import { LeaveForm,Leave } from "../pages/Transaction/LeaveEmployee";
+
 import { Cash, CreateCash } from "../pages/Transaction/Cash";
 import {
   Imbursement,
@@ -90,6 +91,7 @@ import ComponentNameEx from "../pages/MasterData/ComponentName/ComponentNameEx";
 import ComponentNameExForm from "../pages/MasterData/ComponentName/ComponentNameExForm";
 import { Schedule, ScheduleForm } from "../pages/MasterData/Schedule";
 import { CashAdvance, CashAdvanceForm } from "../pages/Transaction/CashAdvance";
+import { Reimburst, ReimburstForm } from "../pages/Transaction/Reimburst";
 
 const Router = () => (
   <BrowserRouter>
@@ -208,7 +210,12 @@ const Router = () => (
             </Route>
             <Route path="leave">
               <Route path="" element={<Leave />} />
-              <Route path="create" element={<CreateLeave />} />
+              <Route path="create" element={<LeaveForm />} />
+            </Route>
+            <Route path="reimburst">
+              <Route path="" element={<Reimburst />} />
+              <Route path="create" element={<ReimburstForm />} />
+              <Route path="detail/:id" element={<ReimburstForm />} />
             </Route>
             <Route path="additional">
               <Route path="" element={<Additional />} />

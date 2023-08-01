@@ -138,7 +138,7 @@ const ScheduleForm = () => {
             <div className="form form-horizontal">
               <div className="form-body">
                 <div className="row mt-3">
-                <div className="col-md-6">
+                <div className="col-md-12">
                       <div className="form-group">
                         <div
                           style={{

@@ -42,4 +42,7 @@ export const routes_name = {
   //--TRANSACTION--------------------------------------------------------
   TRANSAC_CASH_ADVANCE_CREATE:"/transaction/cash_advance/create",
   TRANSAC_CASH_ADVANCE_DETAIL:"/transaction/cash_advance/detail/",
+  TRANSAC_LEAVE_CREATE:"/transaction/leave/create",
+  TRANSAC_REIMBURST_CREATE:"/transaction/reimburst/create",
+  TRANSAC_REIMBURST_DETAIL:"/transaction/reimburst/detail/",
 };

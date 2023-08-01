@@ -14,6 +14,7 @@ const ComponentNameExForm = () => {
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.ALLOWANCE + ' Lainnya'
   }`;
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
