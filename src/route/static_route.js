@@ -45,4 +45,5 @@ export const routes_name = {
   TRANSAC_LEAVE_CREATE:"/transaction/leave/create",
   TRANSAC_REIMBURST_CREATE:"/transaction/reimburst/create",
   TRANSAC_REIMBURST_DETAIL:"/transaction/reimburst/detail/",
+  TRANSAC_OVERTIME_CREATE:"/transaction/overtime/create",
 };
