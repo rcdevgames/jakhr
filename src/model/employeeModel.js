@@ -23,8 +23,8 @@ const modelOfDataemployeeModel = {
 	blood_type: '',
 	id_type: '',
 	id_number: '',
-	citizien_address: '',
-	address: '',
+	citizen_address: '',
+	residential_address: '',
 	employee_id: '',
 	employee_join_date: '',
 	employee_expired_date: '',
@@ -64,8 +64,8 @@ function listOfemployeeModel(data = []) {
 				blood_type: val.blood_type ?? null,
 				id_type: val.id_type ?? null,
 				id_number: val.id_number ?? null,
-				citizien_address: val.citizien_address ?? null,
-				address: val.address ?? null,
+				citizen_address: val.citizen_address ?? null,
+				residential_address: val.residential_address ?? null,
 				employee_id: val.employee_id ?? null,
 				employee_join_date: val.employee_join_date ?? null,
 				employee_expired_date: val.employee_expired_date ?? null,
@@ -110,8 +110,8 @@ function objectOfemployeeModel(data = null) {
 		objectData.blood_type = data.blood_type ?? null;
 		objectData.id_type = data.id_type ?? null;
 		objectData.id_number = data.id_number ?? null;
-		objectData.citizien_address = data.citizien_address ?? null;
-		objectData.address = data.address ?? null;
+		objectData.citizen_address = data.citizen_address ?? null;
+		objectData.residential_address = data.residential_address ?? null;
 		objectData.employee_id = data.employee_id ?? null;
 		objectData.employee_join_date = data.employee_join_date ?? null;
 		objectData.employee_expired_date = data.employee_expired_date ?? null;

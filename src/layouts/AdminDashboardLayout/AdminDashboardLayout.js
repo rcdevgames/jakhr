@@ -154,6 +154,10 @@ const navItems = [
         label: sys_labels.menus.REIMBURS,
         link: "/transaction/reimburst",
       },
+      {
+        label: sys_labels.menus.OVERTIME,
+        link: "/transaction/overtime",
+      },
     ],
   },
   {

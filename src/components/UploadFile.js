@@ -49,12 +49,8 @@ const UploadFile = ({ onImageUpload, file }) => {
   return (
     <div>
       <FilePond
-        // server={serverEndpoint}
-        
         allowFileTypeValidation={true}
         acceptedFileTypes={['image/png', 'image/jpeg','image/jpg']}
-        // checkValidity={true}
-        // on
         labelIdle="Input file type image"
         files={renderer_file ? [renderer_file] : []}
         onupdatefiles={(fileItems) => {

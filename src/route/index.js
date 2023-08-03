@@ -68,7 +68,7 @@ import { ReportSalary } from "../pages/Report/Salary";
 import { Setting } from "../pages/Tool/Setting";
 import { BpjsForm } from "../pages/Config/Bpjs";
 import { LateForm } from "../pages/Config/Late";
-import { OvertimeForm } from "../pages/Config/Overtime";
+// import { OvertimeForm } from "../pages/Config/Overtime";
 // import { SystemLog } from "../pages/Tool/SystemLog";
 
 import PrivateRoute from "./PrivateRoute";
@@ -92,6 +92,7 @@ import ComponentNameExForm from "../pages/MasterData/ComponentName/ComponentName
 import { Schedule, ScheduleForm } from "../pages/MasterData/Schedule";
 import { CashAdvance, CashAdvanceForm } from "../pages/Transaction/CashAdvance";
 import { Reimburst, ReimburstForm } from "../pages/Transaction/Reimburst";
+import { Overtime,OvertimeForm } from "../pages/Transaction/Overtime";
 
 const Router = () => (
   <BrowserRouter>
@@ -217,6 +218,11 @@ const Router = () => (
               <Route path="create" element={<ReimburstForm />} />
               <Route path="detail/:id" element={<ReimburstForm />} />
             </Route>
+            
+            <Route path="overtime">
+              <Route path="" element={<Overtime />} />
+              <Route path="create" element={<OvertimeForm />} />
+            </Route>
             <Route path="additional">
               <Route path="" element={<Additional />} />
               <Route path="create" element={<CreateAdditional />} />
@@ -270,12 +276,12 @@ const Router = () => (
             <Route path="bpjs">
               <Route path="" element={<BpjsForm />} />
             </Route>
-            <Route path="late">
+            {/* <Route path="late">
               <Route path="" element={<LateForm />} />
             </Route>
             <Route path="overtime">
               <Route path="" element={<OvertimeForm />} />
-            </Route>
+            </Route> */}
           </Route>
           <Route path="payroll">
             <Route path="salary">

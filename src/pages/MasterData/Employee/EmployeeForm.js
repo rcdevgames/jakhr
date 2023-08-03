@@ -115,8 +115,8 @@ const EmployeeForm = () => {
         blood_type: data.blood_type,
         id_type: "KTP",
         id_number: data.id_number,
-        citizen_address: data.citizien_address,
-        residential_address: data.address,
+        citizen_address: data.citizen_address,
+        residential_address: data.residential_address,
         employee_id: data.employee_id,
         employee_join_date: SysDateTransform({
           date: data.employee_join_date,
@@ -134,7 +134,7 @@ const EmployeeForm = () => {
         organization_id: data.organization_id,
         job_level_id: data.job_level_id,
         job_position_id: data.job_position_id,
-        ptkp:data.ptkp,
+        ptkp: data.ptkp,
         employee_status_id: data.employee_status_id,
         create_user: true,
         emergency_contact_name: data.emergency_contact_name,
@@ -164,8 +164,8 @@ const EmployeeForm = () => {
           gender: data.gender,
           marital_status: data.marital_status,
           religion: data.religion,
-        ptkp:data.ptkp,
-        pob: data.pob,
+          ptkp: data.ptkp,
+          pob: data.pob,
           dob: SysDateTransform({
             date: data.dob,
             withTime: false,
@@ -174,8 +174,8 @@ const EmployeeForm = () => {
           blood_type: data.blood_type,
           id_type: "KTP",
           id_number: data.id_number,
-          citizen_address: data.citizien_address,
-          residential_address: data.address,
+          citizen_address: data.citizen_address,
+          residential_address: data.residential_address,
           employee_id: data.employee_id,
           employee_join_date: SysDateTransform({
             date: data.employee_join_date,
@@ -298,7 +298,7 @@ const EmployeeForm = () => {
               <div className="form-body">
                 <div className="row mt-3">
                   <div className="col-md-6">
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                       <label>Logo:</label>
                       <UploadFile
                         onImageUpload={handleUpload}
@@ -323,13 +323,14 @@ const EmployeeForm = () => {
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Fullname:</label>
+                        <label>Fullname:*</label>
                         <input
                           className="form-control"
                           type="text"
                           name="full_name"
                           value={data.full_name}
                           onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
@@ -337,25 +338,27 @@ const EmployeeForm = () => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Employee ID:</label>
+                          <label>Employee ID:*</label>
                           <input
                             className="form-control"
                             type="text"
                             name="employee_id"
                             value={data.employee_id}
                             onChange={handleChange}
+                            required
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>NIK:</label>
+                          <label>NIK:*</label>
                           <input
                             className="form-control"
                             type="text"
                             name="id_number"
                             value={data.id_number}
                             onChange={handleChange}
+                            required
                           />
                         </div>
                       </div>
@@ -384,19 +387,20 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>NPWP:</label>
+                          <label>NPWP:*</label>
                           <input
                             className="form-control"
                             type="text"
                             name="tax_number"
                             value={data.tax_number}
                             onChange={handleChange}
+                            required
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Religion:</label>
+                          <label>Religion:*</label>
                           <select
                             className="form-select"
                             id="religion"
@@ -404,6 +408,7 @@ const EmployeeForm = () => {
                             value={data.religion}
                             onChange={handleChange}
                             aria-label="Religion"
+                            required
                           >
                             <option value="" disabled>
                               Select Religion
@@ -437,9 +442,10 @@ const EmployeeForm = () => {
                             ))}
                           </select>
                         </div>
-                      </div><div className="col-md-6">
+                      </div>
+                      <div className="col-md-6">
                         <div className="form-group">
-                          <label>PTKP:</label>
+                          <label>PTKP:*</label>
                           <select
                             className="form-select"
                             id="ptkp"
@@ -447,6 +453,7 @@ const EmployeeForm = () => {
                             value={data.ptkp}
                             onChange={handleChange}
                             aria-label="PTKP"
+                            required
                           >
                             <option value="" disabled>
                               Select Status
@@ -471,11 +478,12 @@ const EmployeeForm = () => {
                             aria-label="Branch"
                           >
                             <option value={null}>Select Branch</option>
-                            {branch&&branch.map((option, index) => (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
+                            {branch &&
+                              branch.map((option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -491,11 +499,12 @@ const EmployeeForm = () => {
                             aria-label="Division"
                           >
                             <option value={null}>Select Division</option>
-                            {organization&&organization.map((option, index) => (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
+                            {organization &&
+                              organization.map((option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -511,11 +520,12 @@ const EmployeeForm = () => {
                             aria-label="Job Level"
                           >
                             <option value={null}>Select Job Level</option>
-                            {job_level&&job_level.map((option, index) => (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
+                            {job_level &&
+                              job_level.map((option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -531,11 +541,12 @@ const EmployeeForm = () => {
                             aria-label="Job Position"
                           >
                             <option value={null}>Select Job Position</option>
-                            {job_position&&job_position.map((option, index) => (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
+                            {job_position &&
+                              job_position.map((option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -577,18 +588,17 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Gender:</label>
+                          <label>Gender:*</label>
                           <select
                             className="form-select"
                             id="gender"
+                            required
                             name="gender"
                             value={data.gender}
                             onChange={handleChange}
                             aria-label="gender"
                           >
-                            <option value="" disabled>
-                              Select Gender
-                            </option>
+                            <option value={null}>Select Gender</option>
                             {gender.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.name}
@@ -599,8 +609,9 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Marital Status:</label>
+                          <label>Marital Status:*</label>
                           <select
+                            required
                             className="form-select"
                             id="marital_status"
                             name="marital_status"
@@ -608,9 +619,7 @@ const EmployeeForm = () => {
                             onChange={handleChange}
                             aria-label="marital_status"
                           >
-                            <option value="" disabled>
-                              Select Marital Status
-                            </option>
+                            <option value={null}>Select Marital Status</option>
                             {marital_status.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.name}
@@ -621,8 +630,9 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Blood Type:</label>
+                          <label>Blood Type:*</label>
                           <select
+                            required
                             className="form-select"
                             id="blood_type"
                             name="blood_type"
@@ -630,9 +640,7 @@ const EmployeeForm = () => {
                             onChange={handleChange}
                             aria-label="Blood Type"
                           >
-                            <option value="" disabled>
-                              Select Blood Type
-                            </option>
+                            <option value={null}>Select Blood Type</option>
                             {blood_type.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.name}
@@ -643,9 +651,10 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label>Email</label>
+                          <label>Email:*</label>
                           <input
                             className="form-control"
+                            required
                             type="text"
                             name="email"
                             value={data.email}
@@ -668,27 +677,28 @@ const EmployeeForm = () => {
                         </div>
                       )}
                     </div>
-
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Address</label>
+                        <label>Citizen Address:*</label>
                         <input
                           className="form-control"
+                          required
                           type="text"
-                          name="address"
-                          value={data.address}
+                          name="citizien_address"
+                          value={data.citizen_address}
                           onChange={handleChange}
                         />
                       </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Citizen Address</label>
+                        <label>Address:*</label>
                         <input
                           className="form-control"
+                          required
                           type="text"
-                          name="citizien_address"
-                          value={data.citizien_address}
+                          name="residential_address"
+                          value={data.residential_address}
                           onChange={handleChange}
                         />
                       </div>
