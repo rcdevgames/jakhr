@@ -161,7 +161,7 @@ const EmployeeForm = () => {
         user: {
           password: password,
         },
-        photo: data.photo ?? "",
+        photo: data.photo,
       };
       const validateForm = SysValidateForm(required_field, data_submit);
       if (!validateForm.is_valid) {
@@ -221,7 +221,7 @@ const EmployeeForm = () => {
         emergency_contact_relationship: data.emergency_contact_relationship,
         emergency_contact_phone_number: data.emergency_contact_phone_number,
         is_payroll: true,
-        photo: data.photo ?? "",
+        photo: data.photo,
       };
       // console.log(data_submit);
       const validateForm = SysValidateForm(required_field, data_submit);
