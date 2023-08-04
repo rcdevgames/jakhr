@@ -254,7 +254,7 @@ const AdminDashboardLayout = () => {
           // showToast({message:'success get location'})
         },
         (error) => {
-          showToast({ message: "please enable location permission!" });
+          // showToast({ message: "please enable location permission!" });
         }
       );
     } else {

@@ -32,6 +32,11 @@ const UploadFile = ({ onImageUpload, file }) => {
   // }
 
   const handleFileLoad = (file) => {
+    console.log(file);
+    if(file==null){
+      onImageUpload(null);
+      return;
+    }
     try {
       const reader = new FileReader();
 
@@ -39,7 +44,6 @@ const UploadFile = ({ onImageUpload, file }) => {
       // if(file){
       reader.onloadend = () => {
         const base64String = reader.result;
-        console.log(base64String);
         onImageUpload(base64String);
       };
       reader.readAsDataURL(file);

@@ -4,15 +4,24 @@ import { Input, Switch } from "antd";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/companyModel";
 import * as providers from "../../../providers/master/company";
-import { showToast } from "../../../utils/global_store";
+import {
+  SysGenValueOption,
+  showToast,
+  SysValidateForm,
+} from "../../../utils/global_store";
 import UploadFile from "../../../components/UploadFile";
 import { sys_labels } from "../../../utils/constants";
+
+import Select from "react-select";
 const CompanyForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
-  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.COMPANY}`;
+  const required_field = ["address", "alias", "name"];
+  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
+    sys_labels.menus.COMPANY
+  }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -53,14 +62,20 @@ const CompanyForm = () => {
   };
   const handleSubmit = async () => {
     try {
-      const resp = await providers.insertData({
+      const data_submit = {
         name: data.name,
         alias: data.alias,
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
         parent_id: data.parent_id,
-      });
+      };
+      const validateFields = SysValidateForm(required_field, data_submit);
+      if (!validateFields.is_valid) {
+        showToast({ message: validateFields.message });
+        return false;
+      }
+      const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
@@ -71,17 +86,20 @@ const CompanyForm = () => {
 
   const handleUpdate = async () => {
     try {
-      const resp = await providers.updateData(
-        {
-          name: data.name,
-          alias: data.alias,
-          address: data.address,
-          is_active: data.is_active,
-          logo: data.logo,
-          parent_id: data.parent_id,
-        },
-        data.id
-      );
+      const data_submit = {
+        name: data.name,
+        alias: data.alias,
+        address: data.address,
+        is_active: data?.is_active ?? false,
+        logo: data.logo,
+        parent_id: data.parent_id,
+      };
+      const validateFields = SysValidateForm(required_field, data_submit);
+      if (!validateFields.is_valid) {
+        showToast({ message: validateFields.message });
+        return false;
+      }
+      const resp = await providers.updateData(data_submit, data.id);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
@@ -121,31 +139,37 @@ const CompanyForm = () => {
                         <label style={{ marginRight: 15 }}>Active</label>
                         <Switch
                           name="is_active"
-                          checked={data.is_active}                          
+                          checked={data.is_active}
                           onChange={handleChangeActive}
                         />
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Parent:</label>{" "}
-                        <select
-                          className="form-select"
-                          id="parent_id"
-                          name="parent_id"
-                          value={data.parent_id}
+                        <label>Parent:</label>
+                        <Select
                           onChange={handleChange}
-                          aria-label="Parent"
-                        >
-                          <option value={null}>Select Parent</option>
-                          {parent.map((option, index) =>
-                            option.id == data.id ? null : (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            )
+                          value={SysGenValueOption(
+                            parent,
+                            data.parent_id,
+                            "id",
+                            "name"
                           )}
-                        </select>
+                          formatOptionLabel={(val) => `${val.label}`}
+                          options={parent.map((option, index) => ({
+                            value: option.id,
+                            label: `${option.name}`,
+                            ext: index,
+                            target: {
+                              name: "parent_id",
+                              value: option.id,
+                            },
+                          }))}
+                          placeholder="Select Parent"
+                          aria-label="Nama"
+                          required
+                          isSearchable
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">

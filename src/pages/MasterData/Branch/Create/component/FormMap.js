@@ -8,7 +8,11 @@ import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import TimeInput from "../../../../../components/TimeInput";
 import * as company_providers from "../../../../../providers/master/company";
 import * as branch_providers from "../../../../../providers/master/branch";
-import { SysJWTDecoder, showToast } from "../../../../../utils/global_store";
+import {
+  SysJWTDecoder,
+  SysValidateForm,
+  showToast,
+} from "../../../../../utils/global_store";
 
 class LoadScriptComponent extends LoadScript {
   componentDidMount() {
@@ -67,12 +71,21 @@ class FormMap extends Component {
   componentDidMount() {
     // this.getCompanyList();
     this.handleGetCurrentLocationClick();
-    console.log(this.props);
     if (this.props.id) {
       this.setState({ id: this.props.id });
       this.getDetail(this.props.id);
     }
   }
+  required_field = [
+    "name as nama_cabang",
+    "address as alamat",
+    "radius",
+    "primary_phone as nomor_utama",
+    "longitude",
+    "latitude",
+    "sch_in as clock_in",
+    "sch_out as clock_out",
+  ];
   getDetail = async (id) => {
     try {
       const resp = await branch_providers.getDetail(id);
@@ -114,17 +127,7 @@ class FormMap extends Component {
   handleSubmit = async () => {
     try {
       //   console.log(this.props);
-      if(this.state.branchSchIn >= this.state.branchSchOut){
-        showToast({message:"Clock Out must be greater than Clock In"})
-        // console.log('JAM BENER');
-        return '';
-      }
-      if(this.state.branchSchInHalf >= this.state.branchSchOutHalf){
-        // console.log('JAM GAK BENER');
-        showToast({message:"Clock Out must be greater than Clock In"})
-        return '';
-      }
-      const resp = await branch_providers.insertData({
+      const data_submit = {
         name: this.state.branch_name,
         address: this.state.address,
         radius: this.state.radius,
@@ -137,7 +140,23 @@ class FormMap extends Component {
         sch_in_half: this.state.branchSchInHalf,
         sch_out_half: this.state.branchSchOutHalf,
         company_id: this.state.jwt.companyId,
-      });
+      };
+      const validateForm = SysValidateForm(this.required_field, data_submit);
+      if (!validateForm.is_valid) {
+        showToast({ message: validateForm.message });
+        return false;
+      }
+      if (this.state.branchSchIn >= this.state.branchSchOut) {
+        showToast({ message: "Clock Out must be greater than Clock In" });
+        // console.log('JAM BENER');
+        return "";
+      }
+      if (this.state.branchSchInHalf >= this.state.branchSchOutHalf) {
+        // console.log('JAM GAK BENER');
+        showToast({ message: "Clock Out must be greater than Clock In" });
+        return "";
+      }
+      const resp = await branch_providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       this.props.navigate(-1);
     } catch (error) {
@@ -148,23 +167,37 @@ class FormMap extends Component {
 
   handleUpdate = async () => {
     try {
-      //   console.log(this.props);
+      const data_submit = {
+        name: this.state.branch_name,
+        address: this.state.address,
+        radius: this.state.radius,
+        latitude: this.state.marker.lat,
+        longitude: this.state.marker.lng,
+        primary_phone: this.state.phone,
+        secondary_phone: this.state.phone2,
+        sch_in: this.state.branchSchIn,
+        sch_out: this.state.branchSchOut,
+        sch_in_half: this.state.branchSchInHalf,
+        sch_out_half: this.state.branchSchOutHalf,
+        company_id: this.state.jwt.companyId,
+      };
+      const validateForm = SysValidateForm(this.required_field, data_submit);
+      if (!validateForm.is_valid) {
+        showToast({ message: validateForm.message });
+        return false;
+      }
+      if (this.state.branchSchIn >= this.state.branchSchOut) {
+        showToast({ message: "Clock Out must be greater than Clock In" });
+        // console.log('JAM BENER');
+        return "";
+      }
+      if (this.state.branchSchInHalf >= this.state.branchSchOutHalf) {
+        // console.log('JAM GAK BENER');
+        showToast({ message: "Clock Out must be greater than Clock In" });
+        return "";
+      }
       const resp = await branch_providers.updateData(
-        {
-          name: this.state.branch_name,
-          address: this.state.address,
-          radius: this.state.radius,
-          latitude: this.state.marker.lat,
-          longitude: this.state.marker.lng,
-          primary_phone: this.state.phone,
-          secondary_phone: this.state.phone2,
-          sch_in: this.state.branchSchIn,
-          sch_out: this.state.branchSchOut,
-          sch_in_half: this.state.branchSchInHalf,
-          sch_out_half: this.state.branchSchOutHalf,
-          // company_id: this.state.company_id,
-          company_id: this.state.jwt.companyId,
-        },
+        data_submit,
         this.state.id
       );
       showToast({ message: resp.message, type: "success" });
@@ -272,11 +305,11 @@ class FormMap extends Component {
           });
         },
         (error) => {
-          showToast({message:"please enable location permission!"})
+          // showToast({message:"please enable location permission!"})
         }
-        );
-      } else {
-      showToast({message:"location service not supported!"})
+      );
+    } else {
+      showToast({ message: "location service not supported!" });
     }
   };
 

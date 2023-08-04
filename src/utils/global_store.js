@@ -255,9 +255,9 @@ export function SysJWTDecoder(token = null) {
     iat: "",
     exp: "",
   };
-  if(token){
-    my_jwt = jwt_decode(token)
-  }else{
+  if (token) {
+    my_jwt = jwt_decode(token);
+  } else {
     my_jwt = jwt_decode(getToken());
   }
 
@@ -278,4 +278,42 @@ export function SysJWTDecoder(token = null) {
     exp: my_jwt?.exp ?? "",
   };
   // console.log(my_jwt);
+}
+
+export function SystoCamelCase(text = "") {
+  let str = text.replace("id_", "");
+  str = str.replace("_id", "");
+  return str.replace(/_([a-z])/g, (match, char) => " " + char);
+}
+export function SysValidateForm(required_field = [], data = []) {
+  let message = "field ";
+  let is_valid = true;
+  required_field.map((val, index) => {
+    const alises = val.split(' as ');
+    const named =alises.length > 1?alises[1]:alises[0];
+    if (data[alises[0]] == null || data[alises[0]] == "" || data[alises[0]] == undefined) {
+      if (index == required_field.length - 1 || required_field.length == 0) {
+        message += SystoCamelCase(named) + " ";
+      } else {
+        message += SystoCamelCase(named) + ", ";
+      }
+      is_valid = false;
+    }
+  });
+  message += "is required!";
+  return {
+    is_valid,
+    message,
+  };
+}
+
+export function SysGenValueOption(data=[],value=null,id_index='value',index='name'){
+  var obj = data.find(val=>val[id_index]===value);
+  // console.log(data,value,obj);
+  if(!obj) return null;
+  return{
+      value,
+      label:obj[index],
+      ...obj
+  }
 }

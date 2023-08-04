@@ -25,6 +25,18 @@ export const getDataHasComponent = async (page = 1,limit=10,search="") => {
     throw error;
   }
 };
+
+export const getDataNotHasComponent = async (page = 1,limit=10,search="") => {
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint: uri + `get_employees?page=${page}&perPage=${limit}&keywords=${search}&hasComponent=false`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getDetail = async (id) => {
   try {
     const response = await sys_get({
