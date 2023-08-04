@@ -1,22 +1,26 @@
 [
   {
-    "value": "Suami",
+    "value": "suami",
     "name": "Suami"
   },
   {
-    "value": "Istri",
+    "value": "istri",
     "name": "Istri"
   },
   {
-    "value": "Lajang",
+    "value": "lajang",
     "name": "Lajang"
   },
   {
-    "value": "Janda",
+    "value": "menikah",
+    "name": "Menikah"
+  },
+  {
+    "value": "janda",
     "name": "Janda"
   },
   {
-    "value": "Duda",
+    "value": "duda",
     "name": "Duda"
   }
 ]

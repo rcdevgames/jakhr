@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
-import { Button, Form, Input, Popconfirm, Table, Select, Modal } from "antd";
+import { Button, Form, Input, Popconfirm, Table, Modal } from "antd";
 import convert from "../../../model/salaryModel";
 import convert_employee from "../../../model/employeeModel";
 import convert_overtime from "../../../model/overtimeModel";
@@ -18,9 +18,12 @@ import * as providers_allowance from "../../../providers/payroll/allowance";
 import * as providers_deduction from "../../../providers/payroll/deduction";
 import { useLoadingContext } from "../../../components/Loading";
 
+import Select from "react-select";
+
 import {
   SysCurrencyTransform,
   SysDateTransform,
+  SysGenValueOption,
   SysReadData,
   showToast,
 } from "../../../utils/global_store";
@@ -72,8 +75,7 @@ const SalaryComponentForm = () => {
     convert_late.objectOflateModel({})
   );
 
-  const [allowance_ex_editing_key, set_allowance_ex_editing_key] =
-    useState("");
+  const [allowance_ex_editing_key, set_allowance_ex_editing_key] = useState("");
   const [new_row_allowance_ex, set_new_row_allowance_ex] = useState(null);
   const [show_modal_allowance_ex, set_show_modal_allowance_ex] =
     useState(false);
@@ -82,9 +84,7 @@ const SalaryComponentForm = () => {
   const handleInputChangeAllowanceEx = (e, key, dataIndex) => {
     if (key == "new") {
       if (dataIndex == "component_name_id") {
-        const data = data_component_ex.find(
-          (val) => val.id == e.target.value
-        );
+        const data = data_component_ex.find((val) => val.id == e.target.value);
         set_new_row_allowance_ex((prev) => ({
           ...prev,
           component_name: {
@@ -100,9 +100,7 @@ const SalaryComponentForm = () => {
     } else {
       let updatedData = null;
       if (dataIndex == "component_name_id") {
-        const data = data_component_ex.find(
-          (val) => val.id == e.target.value
-        );
+        const data = data_component_ex.find((val) => val.id == e.target.value);
         updatedData = data_allowance_ex.map((item) =>
           item.id === key
             ? { ...item, component_name: { id: data.id, name: data.name } }
@@ -126,24 +124,30 @@ const SalaryComponentForm = () => {
         return !is_edit ? (
           record.component_name.name
         ) : (
-          <select
-            className="form-select"
-            id="component_name_id"
-            name="component_name_id"
-            value={record.component_name.id}
+          <Select
             onChange={(e) =>
               handleInputChangeAllowanceEx(e, record.id, "component_name_id")
             }
-            aria-label="Nama Tunjangan"
+            value={SysGenValueOption(
+              data_component_ex,
+              record.component_name.id,
+              "id",
+              "name"
+            )}
+            formatOptionLabel={(val) => `${val.label}`}
+            options={data_component_ex.map((option, index) => ({
+              value: option.id,
+              label: `${option.name}`,
+              target: {
+                name: "component_name_id",
+                value: option.id,
+              },
+            }))}
+            placeholder="Pilih Tunjangan"
+            aria-label="Nama"
             required
-          >
-            <option value={null}>Pilih Tunjangan</option>
-            {data_component_ex.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
+            isSearchable
+          />
         );
       },
     },
@@ -286,7 +290,7 @@ const SalaryComponentForm = () => {
       set_allowance_ex_editing_key("");
     } catch (error) {}
   };
-  
+
   const [allowance_editing_key, set_allowance_editing_key] = useState("");
   const [new_row_allowance, set_new_row_allowance] = useState(null);
   const [show_modal_allowance, set_show_modal_allowance] = useState(false);
@@ -334,24 +338,30 @@ const SalaryComponentForm = () => {
         return !is_edit ? (
           record.component_name.name
         ) : (
-          <select
-            className="form-select"
-            id="component_name_id"
-            name="component_name_id"
-            value={record.component_name.id}
+          <Select
             onChange={(e) =>
               handleInputChangeAllowance(e, record.id, "component_name_id")
             }
-            aria-label="Nama Tunjangan"
+            value={SysGenValueOption(
+              data_component,
+              record.component_name.id,
+              "id",
+              "name"
+            )}
+            formatOptionLabel={(val) => `${val.label}`}
+            options={data_component.map((option, index) => ({
+              value: option.id,
+              label: `${option.name}`,
+              target: {
+                name: "component_name_id",
+                value: option.id,
+              },
+            }))}
+            placeholder="Pilih Tunjangan"
+            aria-label="Nama"
             required
-          >
-            <option value={null}>Pilih Tunjangan</option>
-            {data_component.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
+            isSearchable
+          />
         );
       },
     },
@@ -544,24 +554,30 @@ const SalaryComponentForm = () => {
         return !is_edit ? (
           record.component_name.name
         ) : (
-          <select
-            className="form-select"
-            id="component_name_id"
-            name="component_name_id"
-            value={record.component_name.id}
+          <Select
             onChange={(e) =>
               handleInputChangeDeduction(e, record.id, "component_name_id")
             }
-            aria-label="Nama Potongan"
+            value={SysGenValueOption(
+              data_component_deduction,
+              record.component_name.id,
+              "id",
+              "name"
+            )}
+            formatOptionLabel={(val) => `${val.label}`}
+            options={data_component_deduction.map((option, index) => ({
+              value: option.id,
+              label: `${option.name}`,
+              target: {
+                name: "component_name_id",
+                value: option.id,
+              },
+            }))}
+            placeholder="Pilih Potongan"
+            aria-label="Nama"
             required
-          >
-            <option value={null}>Pilih Potongan</option>
-            {data_component_deduction.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
+            isSearchable
+          />
         );
       },
     },
@@ -770,24 +786,30 @@ const SalaryComponentForm = () => {
         return !is_edit ? (
           record.component_name.name
         ) : (
-          <select
-            className="form-select"
-            id="component_name_id"
-            name="component_name_id"
-            value={record.component_name.id}
+          <Select
             onChange={(e) =>
               handleInputChangeAllowanceDaily(e, record.id, "component_name_id")
             }
-            aria-label="Nama Tunjangan"
+            value={SysGenValueOption(
+              data_component_daily,
+              record.component_name.id,
+              "id",
+              "name"
+            )}
+            formatOptionLabel={(val) => `${val.label}`}
+            options={data_component_daily.map((option, index) => ({
+              value: option.id,
+              label: `${option.name}`,
+              target: {
+                name: "component_name_id",
+                value: option.id,
+              },
+            }))}
+            placeholder="Pilih Tunjangan"
+            aria-label="Nama"
             required
-          >
-            <option value={null}>Pilih Tunjangan</option>
-            {data_component_daily.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
+            isSearchable
+          />
         );
       },
     },
@@ -1193,7 +1215,7 @@ const SalaryComponentForm = () => {
         late_deduction_config: "config-1",
         late_deduction: late_data.total_custom ?? 0,
         working_days: data.working_days,
-        leave_balance_incentive: data.leave_balance_incentive,
+        leave_balance_incentive: data.leave_balance_incentive??0,
         jht: data.jht,
         kesehatan: data.kesehatan,
         jp: data.jp,
@@ -1249,7 +1271,7 @@ const SalaryComponentForm = () => {
           late_deduction_config: "config-1",
           late_deduction: late_data.total_custom ?? 0,
           working_days: data.working_days,
-          leave_balance_incentive: data.leave_balance_incentive,
+          leave_balance_incentive: data.leave_balance_incentive??0,
           jht: data.jht,
           kesehatan: data.kesehatan,
           jp: data.jp,
@@ -1322,21 +1344,28 @@ const SalaryComponentForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Nama Bank:</label>{" "}
-                      <select
-                        className="form-select"
-                        id="bank_name"
-                        name="bank_name"
-                        value={data.bank_name}
+                      <Select
                         onChange={handleChange}
-                        aria-label="Nama Bank"
-                      >
-                        <option value={null}>Select Bank</option>
-                        {bank_data.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.name}
-                          </option>
-                        ))}
-                      </select>
+                        value={SysGenValueOption(
+                          bank_data,
+                          data.bank_name,
+                          "value",
+                          "name"
+                        )}
+                        formatOptionLabel={(val) => `${val.label}`}
+                        options={bank_data.map((option, index) => ({
+                          value: option.value,
+                          label: `${option.name}`,
+                          target: {
+                            name: "bank_name",
+                            value: option.value,
+                          },
+                        }))}
+                        placeholder="Select Bank"
+                        aria-label="Nama"
+                        required
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -1424,7 +1453,7 @@ const SalaryComponentForm = () => {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="row">
                       <div className="col-md-10">
                         <div className="form-group">

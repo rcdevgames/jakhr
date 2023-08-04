@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form, Input, Popconfirm, Table, Select } from "antd";
 import AdminDashboard from "../../AdminDashboard";
 import "./styles.css";
-import { file_template, sys_iamges, sys_path_data } from "../../../utils/constants";
+import {
+  file_template,
+  sys_iamges,
+  sys_path_data,
+} from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import * as providers from "../../../providers/master/employee";
 import { SysReadData, showToast } from "../../../utils/global_store";
@@ -412,7 +416,7 @@ const EmployeeMultipleForm = () => {
     fileInputRef.current.click();
   };
   const handleSubmit = async () => {
-    let is_reject =false;
+    let is_reject = false;
     for (let index = 0; index < dataSource.length; index++) {
       try {
         const element = dataSource[index];
@@ -454,11 +458,11 @@ const EmployeeMultipleForm = () => {
       } catch (error) {
         is_reject = true;
       }
-      if(is_reject){
-        showToast({message:'Somedata is rejected, please cek data'});
-      }else{
-        showToast({message:'Data successfully insert',type:'success'});
-        navigate(-2)
+      if (is_reject) {
+        showToast({ message: "Somedata is rejected, please cek data" });
+      } else {
+        showToast({ message: "Data successfully insert", type: "success" });
+        navigate(-2);
       }
     }
   };
@@ -470,23 +474,8 @@ const EmployeeMultipleForm = () => {
             <h3>{title}</h3>
           </div>
           <div className="card-body">
-            <div
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                marginBottom: 15,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  flexDirection: "row",
-                  width: "30%",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
+            <div className="row mb-3 justify-content-between">
+              <div className="col-md-10">
                 <Button onClick={downloadTemplates} type="primary">
                   Download Templates
                 </Button>
@@ -507,10 +496,11 @@ const EmployeeMultipleForm = () => {
                   onChange={handleImport}
                 ></input>
               </div>
-
-              <Button type="primary" onClick={handleSubmit}>
-                Submit
-              </Button>
+              <div className="col-md-2 align-items-end">
+                <Button type="primary" onClick={handleSubmit}>
+                  Submit
+                </Button>
+              </div>
             </div>
 
             <Table

@@ -5,8 +5,11 @@ import convert from "../../../model/job_positionModel";
 import convert_job_level from "../../../model/job_levelModel";
 import * as providers from "../../../providers/master/job_position";
 import * as providers_job_level from "../../../providers/master/job_level";
-import { showToast } from "../../../utils/global_store";
+import { SysGenValueOption, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+
+import Select from "react-select";
+
 const JobPositionForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -25,7 +28,9 @@ const JobPositionForm = () => {
   const [job_level, setJobLevel] = useState(
     convert_job_level.listOfjob_levelModel([])
   );
-  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.JOB_POSITION}`;
+  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
+    sys_labels.menus.JOB_POSITION
+  }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -101,45 +106,55 @@ const JobPositionForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Parent:</label>{" "}
-                      <select
-                        className="form-select"
-                        id="parent_id"
-                        name="parent_id"
-                        value={data.parent_id}
+                      <Select
                         onChange={handleChange}
-                        aria-label="Parent"
-                      >
-                        <option value={null}>Select Parent</option>
-                        {parent.map((option, index) =>
-                          option.id == data.id ? null : (
-                            <option key={index} value={option.id}>
-                              {option.name}
-                            </option>
-                          )
+                        value={SysGenValueOption(
+                          parent,
+                          data.parent_id,
+                          "id",
+                          "name"
                         )}
-                      </select>
+                        formatOptionLabel={(val) => `${val.label}`}
+                        options={parent.map((option, index) => ({
+                          value: option.id,
+                          label: `${option.name}`,
+                          target: {
+                            name: "parent_id",
+                            value: option.id,
+                          },
+                        }))}
+                        placeholder="Select Parent"
+                        aria-label="Nama"
+                        required
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Job Level:</label>{" "}
-                      <select
-                        className="form-select"
-                        id="job_level_id"
-                        name="job_level_id"
-                        value={data.job_level_id}
+                      <Select
                         onChange={handleChange}
-                        aria-label="Job Level"
-                      >
-                        <option value="" disabled>
-                          Select Job Level
-                        </option>
-                        {job_level.map((option, index) => (
-                          <option key={index} value={option.id}>
-                            {option.name}
-                          </option>
-                        ))}
-                      </select>
+                        value={SysGenValueOption(
+                          job_level,
+                          data.job_level_id,
+                          "id",
+                          "name"
+                        )}
+                        formatOptionLabel={(val) => `${val.label}`}
+                        options={job_level.map((option, index) => ({
+                          value: option.id,
+                          label: `${option.name}`,
+                          target: {
+                            name: "job_level_id",
+                            value: option.id,
+                          },
+                        }))}
+                        placeholder="Select Job Level"
+                        aria-label="Nama"
+                        required
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">

@@ -16,12 +16,28 @@ import * as providers_job_position from "../../../providers/master/job_position"
 import * as providers_employee_status from "../../../providers/master/employee_statuses";
 import {
   SysDateTransform,
+  SysGenValueOption,
   SysReadData,
+  SysValidateForm,
   showToast,
 } from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels, sys_path_data } from "../../../utils/constants";
+
+import Select from "react-select";
+
 const EmployeeForm = () => {
+  const required_field = [
+    "full_name",
+    "phone_number",
+    "email",
+    "gender",
+    "marital_status",
+    "religion",
+    "id_number as NIK",
+    "employee_id as NIP",
+    "ptkp",
+  ];
   const gender = SysReadData(sys_path_data.gender_data);
   const religion = SysReadData(sys_path_data.religion_data);
   const marital_status = SysReadData(sys_path_data.marital_status_data);
@@ -47,6 +63,7 @@ const EmployeeForm = () => {
     sys_labels.menus.EMPLOYEE
   }`;
   const handleChange = (event) => {
+    // console.log(event.target);
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -62,7 +79,6 @@ const EmployeeForm = () => {
     setData((prevState) => ({ ...prevState, employee_expired_date: val }));
   };
   useEffect(() => {
-    getBranch();
     getEmployeeStatus();
     getOrganization();
     getJobLevel();
@@ -70,6 +86,9 @@ const EmployeeForm = () => {
     if (id) {
       handleDetail(id);
     }
+    setTimeout(() => {
+      getBranch();
+    }, 1000);
   }, []);
   const handleDetail = async (id) => {
     try {
@@ -78,9 +97,6 @@ const EmployeeForm = () => {
         ...resp.data,
         photo: resp.data.photo ? { source: resp.data.photo } : null,
       });
-      await getOrganization();
-      await getJobLevel();
-      await getJobPosition();
       // set_password(resp.data.user.password)
       // await handleBranchChange({ target: { value: data.branch_id, name: "" } });
       // await handleOrganizationChange({
@@ -93,13 +109,14 @@ const EmployeeForm = () => {
       //   target: { value: data.job_position_id, name: "job_position_id" },
       // });
     } catch (error) {
+      console.log(error);
       showToast({ message: error.message, type: error });
-      navigate(-1);
+      // navigate(-1);
     }
   };
   const handleSubmit = async () => {
     try {
-      const resp = await providers.insertData({
+      const data_submit = {
         full_name: data.full_name,
         phone_number: data.phone_number,
         email: data.email,
@@ -144,8 +161,14 @@ const EmployeeForm = () => {
         user: {
           password: password,
         },
-        photo: data.photo,
-      });
+        photo: data.photo ?? "",
+      };
+      const validateForm = SysValidateForm(required_field, data_submit);
+      if (!validateForm.is_valid) {
+        showToast({ message: validateForm.message });
+        return false;
+      }
+      const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
@@ -156,53 +179,57 @@ const EmployeeForm = () => {
 
   const handleUpdate = async () => {
     try {
-      const resp = await providers.updateData(
-        {
-          full_name: data.full_name,
-          phone_number: data.phone_number,
-          email: data.email,
-          gender: data.gender,
-          marital_status: data.marital_status,
-          religion: data.religion,
-          ptkp: data.ptkp,
-          pob: data.pob,
-          dob: SysDateTransform({
-            date: data.dob,
-            withTime: false,
-            forSql: true,
-          }),
-          blood_type: data.blood_type,
-          id_type: "KTP",
-          id_number: data.id_number,
-          citizen_address: data.citizen_address,
-          residential_address: data.residential_address,
-          employee_id: data.employee_id,
-          employee_join_date: SysDateTransform({
-            date: data.employee_join_date,
-            withTime: false,
-            forSql: true,
-          }),
-          employee_expired_date: SysDateTransform({
-            date: data.employee_expired_date,
-            withTime: false,
-            forSql: true,
-          }),
-          tax_config: 1,
-          tax_number: data.tax_number,
-          branch_id: data.branch_id,
-          organization_id: data.organization_id,
-          job_level_id: data.job_level_id,
-          job_position_id: data.job_position_id,
-          employee_status_id: data.employee_status_id,
-          create_user: false,
-          emergency_contact_name: data.emergency_contact_name,
-          emergency_contact_relationship: data.emergency_contact_relationship,
-          emergency_contact_phone_number: data.emergency_contact_phone_number,
-          is_payroll: true,
-          photo: data.photo,
-        },
-        data.id
-      );
+      const data_submit = {
+        full_name: data.full_name,
+        phone_number: data.phone_number,
+        email: data.email,
+        gender: data.gender,
+        marital_status: data.marital_status,
+        religion: data.religion,
+        ptkp: data.ptkp,
+        pob: data.pob,
+        dob: SysDateTransform({
+          date: data.dob,
+          withTime: false,
+          forSql: true,
+        }),
+        blood_type: data.blood_type,
+        id_type: "KTP",
+        id_number: data.id_number,
+        citizen_address: data.citizen_address,
+        residential_address: data.residential_address,
+        employee_id: data.employee_id,
+        employee_join_date: SysDateTransform({
+          date: data.employee_join_date,
+          withTime: false,
+          forSql: true,
+        }),
+        employee_expired_date: SysDateTransform({
+          date: data.employee_expired_date,
+          withTime: false,
+          forSql: true,
+        }),
+        tax_config: 1,
+        tax_number: data.tax_number,
+        branch_id: data.branch_id,
+        organization_id: data.organization_id,
+        job_level_id: data.job_level_id,
+        job_position_id: data.job_position_id,
+        employee_status_id: data.employee_status_id,
+        create_user: false,
+        emergency_contact_name: data.emergency_contact_name,
+        emergency_contact_relationship: data.emergency_contact_relationship,
+        emergency_contact_phone_number: data.emergency_contact_phone_number,
+        is_payroll: true,
+        photo: data.photo ?? "",
+      };
+      // console.log(data_submit);
+      const validateForm = SysValidateForm(required_field, data_submit);
+      if (!validateForm.is_valid) {
+        showToast({ message: validateForm.message });
+        return false;
+      }
+      const resp = await providers.updateData(data_submit, data.id);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
@@ -219,7 +246,7 @@ const EmployeeForm = () => {
       set_branch(resp.data.data);
       // setData(val=>({...val,branch_id:resp.data.data[0].id}))
     } catch (error) {
-      showToast({ message: error.message, type: "error" });
+      // showToast({ message: error.message, type: "error" });
     }
   };
 
@@ -229,7 +256,7 @@ const EmployeeForm = () => {
       set_employee_status(resp.data.data);
       // setData(val=>({...val,branch_id:resp.data.data[0].id}))
     } catch (error) {
-      showToast({ message: error.message, type: "error" });
+      // showToast({ message: error.message, type: "error" });
     }
   };
   const getOrganization = async () => {
@@ -237,7 +264,7 @@ const EmployeeForm = () => {
       const resp = await providers_organization.getDataMax(data.branch_id);
       set_organization(resp.data.data);
     } catch (error) {
-      showToast({ message: error.message, type: "error" });
+      // showToast({ message: error.message, type: "error" });
     }
   };
   const getJobLevel = async () => {
@@ -245,7 +272,7 @@ const EmployeeForm = () => {
       const resp = await providers_job_level.getDataMax(data.organization_id);
       set_job_level(resp.data.data);
     } catch (error) {
-      showToast({ message: error.message, type: "error" });
+      // showToast({ message: error.message, type: "error" });
     }
   };
   const getJobPosition = async () => {
@@ -253,7 +280,7 @@ const EmployeeForm = () => {
       const resp = await providers_job_position.getDataMax(data.job_level_id);
       set_job_position(resp.data.data);
     } catch (error) {
-      showToast({ message: error.message, type: "error" });
+      // showToast({ message: error.message, type: "error" });
     }
   };
 
@@ -401,153 +428,191 @@ const EmployeeForm = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Religion:*</label>
-                          <select
-                            className="form-select"
-                            id="religion"
-                            name="religion"
-                            value={data.religion}
+                          <Select
                             onChange={handleChange}
-                            aria-label="Religion"
+                            value={SysGenValueOption(
+                              religion,
+                              data.religion,
+                              "value",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={religion.map((option, index) => ({
+                              value: option.value,
+                              label: `${option.name}`,
+                              ext: index,
+                              target: {
+                                name: "religion",
+                                value: option.value,
+                              },
+                            }))}
+                            placeholder="Select Religion"
+                            aria-label="Nama"
                             required
-                          >
-                            <option value="" disabled>
-                              Select Religion
-                            </option>
-                            {religion.map((option, index) => (
-                              <option key={index} value={option.value}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Employee Status:</label>
-                          <select
-                            className="form-select"
-                            id="employee_status_id"
-                            name="employee_status_id"
-                            value={data.employee_status_id}
+                          <Select
                             onChange={handleChange}
-                            aria-label="Status"
-                          >
-                            <option value="" disabled>
-                              Select Status
-                            </option>
-                            {employee_status.map((option, index) => (
-                              <option key={index} value={option.id}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            value={SysGenValueOption(
+                              employee_status,
+                              data.employee_status_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={employee_status.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              target: {
+                                name: "employee_status_id",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Employee Status"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>PTKP:*</label>
-                          <select
-                            className="form-select"
-                            id="ptkp"
-                            name="ptkp"
-                            value={data.ptkp}
+                          <Select
                             onChange={handleChange}
-                            aria-label="PTKP"
+                            value={SysGenValueOption(
+                              ptkp,
+                              data.ptkp,
+                              "value",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={ptkp.map((option, index) => ({
+                              value: option.value,
+                              label: `${option.name}`,
+                              target: {
+                                name: "ptkp",
+                                value: option.value,
+                              },
+                            }))}
+                            placeholder="Select PTKP"
+                            aria-label="Nama"
                             required
-                          >
-                            <option value="" disabled>
-                              Select Status
-                            </option>
-                            {ptkp.map((option, index) => (
-                              <option key={index} value={option.value}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Branch:</label>
-                          <select
-                            className="form-select"
-                            id="branch_id"
-                            name="branch_id"
-                            value={data.branch_id}
+                          <Select
                             onChange={handleBranchChange}
-                            aria-label="Branch"
-                          >
-                            <option value={null}>Select Branch</option>
-                            {branch &&
-                              branch.map((option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
-                              ))}
-                          </select>
+                            value={SysGenValueOption(
+                              branch,
+                              data.branch_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={branch.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              target: {
+                                name: "branch_id",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Branch"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Division:</label>
-                          <select
-                            className="form-select"
-                            id="organization_id"
-                            name="organization_id"
-                            value={data.organization_id}
+                          <Select
                             onChange={handleOrganizationChange}
-                            aria-label="Division"
-                          >
-                            <option value={null}>Select Division</option>
-                            {organization &&
-                              organization.map((option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
-                              ))}
-                          </select>
+                            value={SysGenValueOption(
+                              organization,
+                              data.organization_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={organization.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              target: {
+                                name: "organization_id",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Division"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Job Level:</label>
-                          <select
-                            className="form-select"
-                            id="job_level_id"
-                            name="job_level_id"
-                            value={data.job_level_id}
+                          <Select
                             onChange={handleJobLevelChange}
-                            aria-label="Job Level"
-                          >
-                            <option value={null}>Select Job Level</option>
-                            {job_level &&
-                              job_level.map((option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
-                              ))}
-                          </select>
+                            value={SysGenValueOption(
+                              job_level,
+                              data.job_level_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={job_level.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              target: {
+                                name: "job_level_id",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Job Level"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Job Position:</label>
-                          <select
-                            className="form-select"
-                            id="job_position_id"
-                            name="job_position_id"
-                            value={data.job_position_id}
+                          <Select
                             onChange={handleChange}
-                            aria-label="Job Position"
-                          >
-                            <option value={null}>Select Job Position</option>
-                            {job_position &&
-                              job_position.map((option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
-                              ))}
-                          </select>
+                            value={SysGenValueOption(
+                              job_position,
+                              data.job_position_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={job_position.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              target: {
+                                name: "job_position_id",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Job Position"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -589,64 +654,82 @@ const EmployeeForm = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Gender:*</label>
-                          <select
-                            className="form-select"
-                            id="gender"
-                            required
-                            name="gender"
-                            value={data.gender}
+                          <Select
                             onChange={handleChange}
-                            aria-label="gender"
-                          >
-                            <option value={null}>Select Gender</option>
-                            {gender.map((option, index) => (
-                              <option key={index} value={option.value}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            value={SysGenValueOption(
+                              gender,
+                              data.gender,
+                              "value",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={gender.map((option, index) => ({
+                              value: option.value,
+                              label: `${option.name}`,
+                              target: {
+                                name: "gender",
+                                value: option.value,
+                              },
+                            }))}
+                            placeholder="Select Gender"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Marital Status:*</label>
-                          <select
-                            required
-                            className="form-select"
-                            id="marital_status"
-                            name="marital_status"
-                            value={data.marital_status}
+                          <Select
                             onChange={handleChange}
-                            aria-label="marital_status"
-                          >
-                            <option value={null}>Select Marital Status</option>
-                            {marital_status.map((option, index) => (
-                              <option key={index} value={option.value}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            value={SysGenValueOption(
+                              marital_status,
+                              data.marital_status,
+                              "value",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={marital_status.map((option, index) => ({
+                              value: option.value,
+                              label: `${option.name}`,
+                              target: {
+                                name: "marital_status",
+                                value: option.value,
+                              },
+                            }))}
+                            placeholder="Select Marital Status"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Blood Type:*</label>
-                          <select
-                            required
-                            className="form-select"
-                            id="blood_type"
-                            name="blood_type"
-                            value={data.blood_type}
+                          <Select
                             onChange={handleChange}
-                            aria-label="Blood Type"
-                          >
-                            <option value={null}>Select Blood Type</option>
-                            {blood_type.map((option, index) => (
-                              <option key={index} value={option.value}>
-                                {option.name}
-                              </option>
-                            ))}
-                          </select>
+                            value={SysGenValueOption(
+                              blood_type,
+                              data.blood_type,
+                              "value",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={blood_type.map((option, index) => ({
+                              value: option.value,
+                              label: `${option.name}`,
+                              target: {
+                                name: "blood_type",
+                                value: option.value,
+                              },
+                            }))}
+                            placeholder="Select Blood Type"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
                         </div>
                       </div>
                       <div className="col-md-12">

@@ -7,9 +7,14 @@ import convert from "../../../model/scheduleModel";
 import convert_employee from "../../../model/employeeModel";
 import * as providers from "../../../providers/master/schedule";
 import * as providers_employee from "../../../providers/master/employee";
-import { SysDateTransform, showToast } from "../../../utils/global_store";
+import {
+  SysDateTransform,
+  SysGenValueOption,
+  showToast,
+} from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import TimeInput from "../../../components/TimeInput";
+import Select from "react-select";
 const ScheduleForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -31,7 +36,7 @@ const ScheduleForm = () => {
   const handleDateEndChange = (val) => {
     setData((prevState) => ({ ...prevState, end_date: val }));
   };
-  
+
   const handleChangeTimeIn = (val) => {
     setData((prevState) => ({ ...prevState, time_in: val }));
   };
@@ -132,23 +137,28 @@ const ScheduleForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Karyawan:</label>
-                      <select
-                        className="form-select"
-                        id="employee_id"
-                        name="employee_id"
-                        value={data.employee_id}
+                      <Select
                         onChange={handleChange}
+                        value={SysGenValueOption(
+                          data_employee,
+                          data.employee_id,
+                          "id",
+                          "name"
+                        )}
+                        formatOptionLabel={(val) => `${val.label}`}
+                        options={data_employee.map((option, index) => ({
+                          value: option.id,
+                          label: `${option.full_name}`,
+                          target: {
+                            name: "employee_id",
+                            value: option.id,
+                          },
+                        }))}
+                        placeholder="Select Employee"
                         aria-label="Nama"
                         required
-                      >
-                        <option value={null}>Pilih Karyawan</option>
-
-                        {data_employee.map((option, index) => (
-                          <option key={index} value={option.id}>
-                            {option.employee_id} - {option.full_name}
-                          </option>
-                        ))}
-                      </select>
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -162,7 +172,7 @@ const ScheduleForm = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>Description:</label>

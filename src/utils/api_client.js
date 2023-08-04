@@ -14,17 +14,20 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
   try {
     let token = getToken();
     var callback = callbackModel;
-    const response = await fetch(API_URL + endpoint, {
+    // console.log(API_URL + endpoint);
+    // console.log(token);
+    const head = {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: auth ? "Bearer " + token : "",
       },
-    });
+    }
+    // console.log(head);
+    const response = await fetch(API_URL + endpoint,head );
     const data = await response.json();
-    console.log(API_URL + endpoint);
-    // console.log(data);
+    console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";

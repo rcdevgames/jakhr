@@ -3,8 +3,11 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/job_levelModel";
 import * as providers from "../../../providers/master/job_level";
-import { showToast } from "../../../utils/global_store";
+import { SysGenValueOption, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+
+import Select from "react-select";
+
 const JobLevelForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -19,8 +22,10 @@ const JobLevelForm = () => {
       showToast({ message: error.message, type: error });
     }
   };
-  
-  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.JOB_LEVEL}`;
+
+  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
+    sys_labels.menus.JOB_LEVEL
+  }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -86,23 +91,28 @@ const JobLevelForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Parent:</label>{" "}
-                      <select
-                        className="form-select"
-                        id="parent_id"
-                        name="parent_id"
-                        value={data.parent_id}
+                      <Select
                         onChange={handleChange}
-                        aria-label="Parent"
-                      >
-                        <option value={null}>Select Parent</option>
-                        {parent.map((option, index) =>
-                          option.id == data.id ? null : (
-                            <option key={index} value={option.id}>
-                              {option.name}
-                            </option>
-                          )
+                        value={SysGenValueOption(
+                          parent,
+                          data.parent_id,
+                          "id",
+                          "name"
                         )}
-                      </select>
+                        formatOptionLabel={(val) => `${val.label}`}
+                        options={parent.map((option, index) => ({
+                          value: option.id,
+                          label: `${option.name}`,
+                          target: {
+                            name: "parent_id",
+                            value: option.id,
+                          },
+                        }))}
+                        placeholder="Select Parent"
+                        aria-label="Nama"
+                        required
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
