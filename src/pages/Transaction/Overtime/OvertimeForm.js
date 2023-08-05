@@ -18,7 +18,6 @@ const OvertimeForm = () => {
   const navigate = useNavigate();
   const required_field = [
     "attendance_id",
-    "employee_id",
     "reason",
     "time_in",
     "time_out",
