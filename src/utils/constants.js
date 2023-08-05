@@ -30,6 +30,7 @@ export const file_template = {
   ALLOWANCE: process.env.PUBLIC_URL + "/assets/templates/allowance.xlsx",
   DEDUCTION: process.env.PUBLIC_URL + "/assets/templates/deduction.xlsx",
   ICENTIVE: process.env.PUBLIC_URL + "/assets/templates/incentive.xlsx",
+  SALARY_COMPONENT: process.env.PUBLIC_URL + "/assets/templates/salary_component.xlsx",
 };
 
 export const sys_labels = {
@@ -44,6 +45,9 @@ export const sys_labels = {
     JOB_POSITION: "Posisi Jabatan",
     EMPLOYEE: "Karyawan",
     LEAVE: "Cuti",
+    LEAVE_MASS: "Cuti Bersama",
+    LEAVE_TYPE: "Tipe Cuti",
+    LEAVE_BALLANCE: "Jatah Cuti",
     LATE: "Terlambat",
     OVERTIME: "Lembur",
     BPJS: "BPJS",

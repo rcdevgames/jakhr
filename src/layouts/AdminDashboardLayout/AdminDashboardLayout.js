@@ -53,8 +53,16 @@ const navItems = [
         link: "/master-data/employee",
       },
       {
-        label: sys_labels.menus.LEAVE,
+        label: sys_labels.menus.LEAVE_MASS,
         link: "/master-data/leave_mass",
+      },
+      {
+        label: sys_labels.menus.LEAVE_TYPE,
+        link: "/master-data/leave_type",
+      },
+      {
+        label: sys_labels.menus.LEAVE_BALLANCE,
+        link: "/master-data/leave_ballance",
       },
 
       {
@@ -75,19 +83,19 @@ const navItems = [
     icon: "DesktopComputerIcon",
     iconType: "outline",
     label: "Master Organisasi",
-    dir: "/master-organisasi",
+    dir: "/master-organization",
     subMenu: [
       {
         label: sys_labels.menus.DIVISION,
-        link: "/master-data/organization",
+        link: "/master-organization/organization",
       },
       {
         label: sys_labels.menus.JOB_LEVEL,
-        link: "/master-data/job_level",
+        link: "/master-organization/job_level",
       },
       {
         label: sys_labels.menus.JOB_POSITION,
-        link: "/master-data/job_position",
+        link: "/master-organization/job_position",
       },
     ],
   },
@@ -95,27 +103,27 @@ const navItems = [
     icon: "DesktopComputerIcon",
     iconType: "outline",
     label: "Master Payroll",
-    dir: "/master-gaji",
+    dir: "/master-payroll",
     subMenu: [
       {
         label: sys_labels.menus.ALLOWANCE,
-        link: "/master-data/component_name/allowance",
+        link: "/master-payroll/component_name/allowance",
       },
       {
         label: sys_labels.menus.ALLOWANCE + " Harian",
-        link: "/master-data/component_name/allowance_daily",
+        link: "/master-payroll/component_name/allowance_daily",
       },
       {
         label: sys_labels.menus.ALLOWANCE + " Lainnya",
-        link: "/master-data/component_name/allowance_ex",
+        link: "/master-payroll/component_name/allowance_ex",
       },
       {
         label: sys_labels.menus.DEDUCTION,
-        link: "/master-data/component_name/deduction",
+        link: "/master-payroll/component_name/deduction",
       },
       {
         label: sys_labels.menus.SALARY_COMPONENT,
-        link: "/master-data/salary_component",
+        link: "/master-payroll/salary_component",
       },
     ],
   },

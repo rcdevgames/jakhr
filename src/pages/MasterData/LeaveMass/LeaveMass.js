@@ -71,7 +71,7 @@ const LeaveMass = () => {
       <DataTablePagination
         fetchDataFunc={leave_mass_providers.getData}
         columns={columns}
-        title={sys_labels.menus.LEAVE}
+        title={sys_labels.menus.LEAVE_MASS}
         action={action}
       />
       <ActionModal

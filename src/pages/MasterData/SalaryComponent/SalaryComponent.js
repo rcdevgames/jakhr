@@ -55,6 +55,12 @@ const Employee = () => {
     },
   ];
   const action = [
+    // <Link
+    //   to={routes_name.M_SALARY_COMPONENT_MULTIPLE}
+    //   className="btn icon icon-left btn-primary"
+    // >
+    //   <i className="bi bi-plus" /> {sys_labels.action.ADD}
+    // </Link>,
   ];
   return (
     <AdminDashboard label="">

@@ -309,7 +309,7 @@ export function SysValidateForm(required_field = [], data = []) {
 
 export function SysGenValueOption(data=[],value=null,id_index='value',index='name'){
   var obj = data.find(val=>val[id_index]===value);
-  // console.log(data,value,obj);
+  console.log(obj);
   if(!obj) return null;
   return{
       value,

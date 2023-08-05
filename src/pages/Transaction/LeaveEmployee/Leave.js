@@ -9,6 +9,7 @@ import { routes_name } from "../../../route/static_route";
 const Leave = () => {
   const columns = [
     { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
+    { title: "Leave Type", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
     { title: "Leave No", dataIndex: "leave_no", key: "leave_no" },
     { title: "Date", dataIndex: "leave_date", key: "leave_date" },
     { title: "Day", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Day' },
