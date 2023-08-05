@@ -2,6 +2,7 @@
   "name": "web-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://45.77.245.25:3006/api/v1/",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^37.0.1",
     "@ckeditor/ckeditor5-react": "^6.0.0",

@@ -145,10 +145,11 @@ const ScheduleForm = () => {
                           "id",
                           "name"
                         )}
-                        formatOptionLabel={(val) => `${val.label}`}
+                        formatOptionLabel={(val) => `${val.full_name}`}
                         options={data_employee.map((option, index) => ({
                           value: option.id,
                           label: `${option.full_name}`,
+                          full_name:option.full_name,
                           target: {
                             name: "employee_id",
                             value: option.id,

@@ -4,13 +4,25 @@ import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/trans_overtimeModel";
 import * as providers from "../../../providers/transaction/overtime";
 import * as providers_attendance from "../../../providers/transaction/attendace";
-import { SysDateTransform, showToast } from "../../../utils/global_store";
+import {
+  SysDateTransform,
+  SysValidateForm,
+  showToast,
+} from "../../../utils/global_store";
 
 import Select from "react-select";
 
 import { sys_labels } from "../../../utils/constants";
+import TimeInput from "../../../components/TimeInput";
 const OvertimeForm = () => {
   const navigate = useNavigate();
+  const required_field = [
+    "attendance_id",
+    "employee_id",
+    "reason",
+    "time_in",
+    "time_out",
+  ];
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOftrans_overtimeModel({}));
   const [data_attendance, setData_attendance] = useState([]);
@@ -18,7 +30,6 @@ const OvertimeForm = () => {
     sys_labels.menus.OVERTIME
   }`;
   const handleChange = (event) => {
-    console.log(event);
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -36,10 +47,21 @@ const OvertimeForm = () => {
   const handleSubmit = async () => {
     try {
       const obj = data_attendance.find((val) => val.id == data.attendance_id);
+      const validateForm = SysValidateForm(required_field, data);
+      if (!validateForm.is_valid) {
+        showToast({ message: validateForm.message });
+        return;
+      }
+      if (data.time_in > data.time_out) {
+        showToast({ message: "Time End must be greater than Time Start" });
+        return;
+      }
       const resp = await providers.insertData({
         attendance_id: data.attendance_id,
         employee_id: obj.employee.id,
         reason: data.reason,
+        time_in: data.time_in,
+        time_out: data.time_out,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -48,7 +70,13 @@ const OvertimeForm = () => {
       showToast({ message: error.message, type: "error" });
     }
   };
+  const handleTimeInChange = (val) => {
+    setData((prev) => ({ ...prev, time_in: val }));
+  };
 
+  const handleTimeOutChange = (val) => {
+    setData((prev) => ({ ...prev, time_out: val }));
+  };
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -78,6 +106,29 @@ const OvertimeForm = () => {
                         aria-label="Nama"
                         required
                         isSearchable
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Time Start:</label>
+
+                      <TimeInput
+                        className="form-control"
+                        value={data.time_in}
+                        onChange={handleTimeInChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Time End:</label>
+
+                      <TimeInput
+                        className="form-control"
+                        value={data.time_out}
+                        onChange={handleTimeOutChange}
                       />
                     </div>
                   </div>

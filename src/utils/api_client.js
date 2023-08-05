@@ -1,6 +1,5 @@
 import { getSession, getToken } from "./session";
 import { SESSION } from "./constants";
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 const callbackModel = {
@@ -155,3 +154,9 @@ export const image_uri_to_base64 = async (uri = "") => {
     throw error;
   }
 };
+
+export const sys_cors =async(uri)=>{
+  const resp = await fetch('https://api.allorigins.win/get?url='+uri);
+  const data =await resp.json();
+  return data.content;
+}
