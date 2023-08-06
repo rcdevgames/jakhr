@@ -95,7 +95,7 @@ const LeaveForm = () => {
       navigate(-1);
     } catch (error) {
       console.log(error);
-      showToast({ message: error.message, type: "error" });
+      showToast({ message: "Maaf, kamu tidak punya saldo cuti, pengajuan dibatalkan!", type: "error" });
     }
   };
   const handleImageUpload = (val) => {

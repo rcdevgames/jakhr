@@ -30,7 +30,8 @@ const SalaryForm = () => {
   const navigate = useNavigate();
   const title = `${sys_labels.action.FORM} Payroll`;
   const [total_payroll, set_total_payroll] = useState(0);
-
+  const [month_generate,set_month_generate]=useState(0);
+  const [year_generate,set_year_generate]=useState(0);
   const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let year_data = [];
   const date = new Date();
@@ -143,6 +144,8 @@ const SalaryForm = () => {
         });
       });
       const resp = await providers.generateData(payroll, data.month, data.year);
+      set_month_generate(data.month);
+      set_year_generate(data.year)
       set_payroll_data(resp.data);
       let total = 0;
       resp.data.map((val) => {
@@ -790,7 +793,7 @@ const SalaryForm = () => {
     },
   ];
   const handleOpenPDF = async (record) => {
-    const pdfData = PayrollPdf(record, company.logo); // Generate the PDF data
+    const pdfData = PayrollPdf(record,month_generate,year_generate); // Generate the PDF data
     const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
     // Open a new tab and display the PDF

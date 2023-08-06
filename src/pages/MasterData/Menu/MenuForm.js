@@ -3,8 +3,9 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/menuModel";
 import * as providers from "../../../providers/master/menu";
-import { showToast } from "../../../utils/global_store";
+import { SysGenValueOption, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+import Select from "react-select";
 const MenuForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -89,23 +90,27 @@ const MenuForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Parent:</label>{" "}
-                      <select
-                        className="form-select"
-                        id="parent_id"
-                        name="parent_id"
-                        value={data.parent_id}
+                      <Select
                         onChange={handleChange}
-                        aria-label="Parent"
-                      >
-                        <option value={null}>Select Parent</option>
-                        {parent.map((option, index) =>
-                          option.id == data.id ? null : (
-                            <option key={index} value={option.id}>
-                              {option.title}
-                            </option>
-                          )
+                        value={SysGenValueOption(
+                          parent,
+                          data.parent_id,
+                          "id"
                         )}
-                      </select>
+                        formatOptionLabel={(val) => `${val.title}`}
+                        options={parent.map((option, index) => ({
+                          value: option.id,
+                          label: `${option.title}`,
+                          target: {
+                            value: option.id,
+                            name: "parent_id",
+                          },
+                        }))}
+                        placeholder="Select Parent"
+                        aria-label="Nama"
+                        required
+                        isSearchable
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">

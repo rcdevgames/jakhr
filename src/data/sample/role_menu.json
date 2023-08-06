@@ -1,0 +1,27 @@
+[
+    {
+        "id": "cbcd198c-954b-4d4d-a4cd-0e0f78bde677",
+        "parent_id": null,
+        "title": "Master",
+        "route": "/master-data",
+        "description": "Data Master",
+        "children": [
+            {
+                "id": "3b545450-c229-4f95-8fbf-30b01c86b075",
+                "parent_id": "cbcd198c-954b-4d4d-a4cd-0e0f78bde677",
+                "title": "Perusahaan",
+                "route": "/company",
+                "description": "Master Company",
+                "children": []
+            },
+            {
+                "id": "24f7c028-9f55-4d82-b091-70917654c40f",
+                "parent_id": "cbcd198c-954b-4d4d-a4cd-0e0f78bde677",
+                "title": "Cabang",
+                "route": "/branch",
+                "description": "Master Branch",
+                "children": []
+            }
+        ]
+    }
+]

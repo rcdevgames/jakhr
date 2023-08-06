@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-mazer-ui";
-import { useNavigate, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { routes_name } from "../../route/static_route";
 import { clearSession, setSession } from "../../utils/session";
-import { showToast } from "../../utils/global_store";
+import { SysGenMenuByRole, showToast } from "../../utils/global_store";
 import * as providers from "../../providers/master/employee";
+import * as providers_menu from "../../providers/master/menu";
 import { SESSION, sys_images } from "../../utils/constants";
 import Unauthorized from "../Unauthorized";
 // import { PacmanLoader } from "react-spinners";
@@ -18,6 +19,9 @@ function Authentication() {
     try {
       setSession(SESSION.ACCESS_TOKEN, token);
       const resp = await providers.getData(1, 1, "");
+      const menus = await providers_menu.getMenu();
+      const menu = SysGenMenuByRole(menus.data);
+      setSession(SESSION.MENUS,JSON.stringify(menu))
       setTimeout(() => {  
         set_loading(false);
       }, 1000)

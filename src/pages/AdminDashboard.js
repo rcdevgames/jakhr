@@ -104,7 +104,7 @@ const AdminDashboard = ({ label, subHeading, children }) => {
                     style={{'minWidth': '11rem'}}
                   >
                     <li>
-                      <h6 className="dropdown-header">Hello, John!</h6>
+                      <h6 className="dropdown-header">Hello, {user.full_name}!</h6>
                     </li>
                 
                     <li>

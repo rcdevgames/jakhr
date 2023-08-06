@@ -1,6 +1,7 @@
 export const SESSION = {
   ACCESS_TOKEN: "ACCESS_TOKEN",
   REFRESH_TOKEN: "REFRESH_TOKEN",
+  MENUS: "MENUS",
 };
 export const sys_path_data = {
   bank_data: require("../data/used/bank.json"),
@@ -47,7 +48,7 @@ export const sys_labels = {
     LEAVE: "Cuti",
     LEAVE_MASS: "Cuti Bersama",
     LEAVE_TYPE: "Tipe Cuti",
-    LEAVE_BALLANCE: "Jatah Cuti",
+    LEAVE_BALLANCE: "Saldo Cuti",
     LATE: "Terlambat",
     OVERTIME: "Lembur",
     BPJS: "BPJS",

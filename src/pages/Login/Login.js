@@ -3,9 +3,10 @@ import { Button } from "react-mazer-ui";
 import { useNavigate } from "react-router-dom";
 import { doLogin } from "../../providers/auth";
 import { routes_name } from "../../route/static_route";
-import { clearSession } from "../../utils/session";
-import { showToast } from "../../utils/global_store";
-
+import { clearSession, setSession } from "../../utils/session";
+import { SysGenMenuByRole, showToast } from "../../utils/global_store";
+import * as providers_menu from "../../providers/master/menu"
+import { SESSION } from "../../utils/constants";
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("testingadmin@jakpro.co.id");
@@ -15,6 +16,10 @@ function Login() {
   const handleLogin = async () => {
     try {
       const resp = await doLogin({ email, password });
+      
+      const menus = await providers_menu.getMenu();
+      const menu = SysGenMenuByRole(menus.data);
+      setSession(SESSION.MENUS,JSON.stringify(menu))
       navigate(routes_name.DASHBOARD);
       // console.log(resp);
     } catch (error) {

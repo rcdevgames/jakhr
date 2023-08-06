@@ -1,17 +1,23 @@
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import isEmpty from "../../utils/is-empty";
 import HeroIcon from "../../components/HeroIcon";
-import { sys_labels } from "../../utils/constants";
-import { SysJWTDecoder, showToast } from "../../utils/global_store";
+import { SESSION, sys_labels } from "../../utils/constants";
+import {
+  SysGenMenuByRole,
+  SysJWTDecoder,
+  showToast,
+} from "../../utils/global_store";
+import * as provider from "../../providers/master/menu";
 import GlobalLoadingBlock, {
   useLoadingContext,
 } from "../../components/Loading";
+import { getSession } from "../../utils/session";
 
-const navItems = [
+const defaultNav = [
   {
     icon: "HomeIcon",
     iconType: "outline",
@@ -24,22 +30,6 @@ const navItems = [
     label: sys_labels.menus.MASTER,
     dir: "/master-data",
     subMenu: [
-      // {
-      //   icon: "DesktopComputerIcon",
-      //   iconType: "outline",
-      //   label: sys_labels.menus.MASTER,
-      //   dir: "/master-data",
-      //   subMenu: [
-      //     {
-      //       label: sys_labels.menus.COMPANY,
-      //       link: "/master-data/company",
-      //     },
-      //     {
-      //       label: sys_labels.menus.BRANCH,
-      //       link: "/master-data/branch",
-      //     },
-      //   ],
-      // },
       {
         label: sys_labels.menus.COMPANY,
         link: "/master-data/company",
@@ -80,7 +70,7 @@ const navItems = [
     ],
   },
   {
-    icon: "DesktopComputerIcon",
+    icon: "UsersIcon",
     iconType: "outline",
     label: "Master Organisasi",
     dir: "/master-organization",
@@ -100,7 +90,7 @@ const navItems = [
     ],
   },
   {
-    icon: "DesktopComputerIcon",
+    icon: "CreditCardIcon",
     iconType: "outline",
     label: "Master Payroll",
     dir: "/master-payroll",
@@ -128,7 +118,7 @@ const navItems = [
     ],
   },
   {
-    icon: "DesktopComputerIcon",
+    icon: "CurrencyDollarIcon",
     iconType: "outline",
     label: sys_labels.menus.PAYROLL,
     dir: "/payroll",
@@ -226,23 +216,15 @@ const navItems = [
         label: sys_labels.menus.BPJS,
         link: "/tool/bpjs",
       },
-
-      // {
-      //   label: sys_labels.menus.LATE,
-      //   link: "/tool/late",
-      // },
-
-      // {
-      //   label: sys_labels.menus.OVERTIME,
-      //   link: "/tool/overtime",
-      // },
     ],
   },
 ];
-
+const myMenus = JSON.parse(getSession(SESSION.MENUS));
 const AdminDashboardLayout = () => {
+  console.log(myMenus);
   const location = useLocation();
-
+  const [navItems, setNavItems] = useState(defaultNav);
+  const [loading, set_loading] = useState(true);
   const { isLoading } = useLoadingContext();
   const addScript = (src, id) => {
     const el = document.getElementById(id);
@@ -256,6 +238,7 @@ const AdminDashboardLayout = () => {
   };
   const sys_token = SysJWTDecoder();
   useEffect(() => {
+    // handleGetMenu();
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -269,6 +252,21 @@ const AdminDashboardLayout = () => {
       showToast({ message: "location service not supported!" });
     }
   }, []);
+  const handleGetMenu = async () => {
+    try {
+      const resp = await provider.getMenu();
+      const menu = SysGenMenuByRole(resp.data);
+      // console.log(menu);
+      set_loading(false);
+      // setNavItems(menu);
+      // return menu;
+      // setTimeout(() => {
+
+      // },1000)
+    } catch (error) {
+      console.log("ERROR?", error);
+    }
+  };
   return (
     <div id="app">
       <Helmet>
@@ -299,60 +297,62 @@ const AdminDashboardLayout = () => {
           </div>
           <div className="sidebar-menu">
             <ul className="menu">
-              {navItems.map((el, idx) => {
-                const link = "" + (el.link ? el.link : "");
+              {/* {!loading && */}
+              {defaultNav.length > 0 &&
+                defaultNav.map((el, idx) => {
+                  const link = "" + (el.link ? el.link : "");
 
-                if (el.heading) {
+                  if (el.heading) {
+                    return (
+                      <li
+                        key={"sidebar-nav-item" + idx}
+                        className="sidebar-title"
+                      >
+                        {el.label}
+                      </li>
+                    );
+                  }
+
                   return (
                     <li
                       key={"sidebar-nav-item" + idx}
-                      className="sidebar-title"
+                      className={clsx(
+                        el.heading ? "sidebar-title" : "sidebar-item",
+                        !isEmpty(el.subMenu) && "has-sub",
+                        location.pathname.includes(el.link) && "active",
+                        !isEmpty(el.subMenu) &&
+                          el.dir &&
+                          location.pathname.includes(el.dir) &&
+                          "active"
+                      )}
                     >
-                      {el.label}
+                      <Link to={link} className="sidebar-link">
+                        <HeroIcon iconName={el.icon} iconType={el.iconType} />
+
+                        <span>{el.label}</span>
+                      </Link>
+                      {!isEmpty(el.subMenu) && (
+                        <ul className="submenu">
+                          {el.subMenu.map((el2, idx2) => {
+                            const link2 = "" + (el2.link ? el2.link : "");
+
+                            return (
+                              <li
+                                key={"sub-menu" + idx + idx2}
+                                className={clsx(
+                                  "submenu-item",
+                                  location.pathname === link2 && "active"
+                                )}
+                              >
+                                <Link to={link2}>{el2.label}</Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
                     </li>
                   );
-                }
-
-                return (
-                  <li
-                    key={"sidebar-nav-item" + idx}
-                    className={clsx(
-                      el.heading ? "sidebar-title" : "sidebar-item",
-                      !isEmpty(el.subMenu) && "has-sub",
-                      location.pathname.includes(el.link) && "active",
-                      !isEmpty(el.subMenu) &&
-                        el.dir &&
-                        location.pathname.includes(el.dir) &&
-                        "active"
-                    )}
-                  >
-                    <Link to={link} className="sidebar-link">
-                      <HeroIcon iconName={el.icon} iconType={el.iconType} />
-
-                      <span>{el.label}</span>
-                    </Link>
-                    {!isEmpty(el.subMenu) && (
-                      <ul className="submenu">
-                        {el.subMenu.map((el2, idx2) => {
-                          const link2 = "" + (el2.link ? el2.link : "");
-
-                          return (
-                            <li
-                              key={"sub-menu" + idx + idx2}
-                              className={clsx(
-                                "submenu-item",
-                                location.pathname === link2 && "active"
-                              )}
-                            >
-                              <Link to={link2}>{el2.label}</Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  </li>
-                );
-              })}
+                })}
             </ul>
           </div>
         </div>

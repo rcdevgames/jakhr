@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-const PayrollPdf = (data, logo) => {
+const PayrollPdf = (data, month,year) => {
+  console.log(month,year);
   function toCamelCase(str) {
     if (str == "value_to_add") return "Penerimaan";
     if (str == "value_to_reduce") return "Potongan";
@@ -258,8 +259,8 @@ const PayrollPdf = (data, logo) => {
           <View style={[styles.border, { flexDirection: "row-reverse" }]}>
             <Text style={styles.textEmployee}>
               {payroll_data.employee_id} - {payroll_data.employee_name} -{" "}
-              {SysMonthTransform(date.getMonth() + 1, "long", "in")}{" "}
-              {date.getFullYear()}
+              {SysMonthTransform(month, "long", "in")}{" "}
+              {year}
             </Text>
           </View>
           <View style={styles.container}>

@@ -70,3 +70,15 @@ export const getDetail = async (id) => {
       throw error
     }
   }
+  
+export const getMenu = async () => {
+  try {
+    const response = await sys_get({
+      auth: true,
+      endpoint: uri + `menus_pretify`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

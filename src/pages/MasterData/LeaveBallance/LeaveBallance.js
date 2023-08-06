@@ -80,7 +80,7 @@ const LeaveBallance = () => {
       <DataTablePagination
         fetchDataFunc={providers.getData}
         columns={columns}
-        title={sys_labels.menus.LEAVE_TYPE}
+        title={sys_labels.menus.LEAVE_BALLANCE}
         action={action}
       />
       <ActionModal
