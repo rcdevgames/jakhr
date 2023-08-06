@@ -46,13 +46,13 @@ class FormMap extends Component {
       id: null,
       branch_name: "",
       center: {
-        lat: 0,
-        lng: 0,
+        lat: -6.1943955,
+        lng: 106.8145921,
       },
       zoom: 16,
       marker: {
-        lat: 0,
-        lng: 0,
+        lat: -6.1943955,
+        lng: 106.8145921,
       },
       radius: 100,
       address: "",
@@ -70,7 +70,7 @@ class FormMap extends Component {
   }
   componentDidMount() {
     // this.getCompanyList();
-    this.handleGetCurrentLocationClick();
+    // this.handleGetCurrentLocationClick();
     if (this.props.id) {
       this.setState({ id: this.props.id });
       this.getDetail(this.props.id);
