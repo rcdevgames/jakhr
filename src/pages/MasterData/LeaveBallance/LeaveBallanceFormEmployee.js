@@ -54,7 +54,7 @@ const LeaveBallanceFormEmployee = () => {
       const resp = await providers.updateData(
         {
           leave_type_id: data.leave_type_id,
-          employee_id: data.employee.employee_id,
+          employee_id: data.employee_id,
           periode: data.periode,
           balance: data.balance,
         },
