@@ -51,12 +51,15 @@ const LeaveBallanceFormEmployee = () => {
   const handleSubmit = async () => {
     showLoading();
     try {
-      const resp = await providers.updateData({
-        leave_type_id: data.leave_type_id,
-        employee_id: data.employee.employee_id,
-        periode: data.periode,
-        balance: data.balance,
-      });
+      const resp = await providers.updateData(
+        {
+          leave_type_id: data.leave_type_id,
+          employee_id: data.employee.employee_id,
+          periode: data.periode,
+          balance: data.balance,
+        },
+        id
+      );
 
       showToast({ message: resp.message });
       navigate(-1);
@@ -84,7 +87,7 @@ const LeaveBallanceFormEmployee = () => {
                         className="form-control"
                         type="text"
                         name="employee"
-                        value={data.employee?.full_name??""}
+                        value={data.employee?.full_name ?? ""}
                         // onChange={handleChange}
                         disabled
                       />
@@ -98,7 +101,7 @@ const LeaveBallanceFormEmployee = () => {
                         className="form-control"
                         type="text"
                         name="leave_type"
-                        value={data?.leave_type?.name??""}
+                        value={data?.leave_type?.name ?? ""}
                         // onChange={handleChange}
                         disabled
                       />
