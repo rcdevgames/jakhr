@@ -19,15 +19,18 @@ class LoadScriptComponent extends LoadScript {
         window.google &&
         window.google.maps &&
         document.querySelector("body.first-hit-completed"); // AJAX page loading system is adding this class the first time the app is loaded
-      if (!isAlreadyLoaded && isBrowser) {
-        // @ts-ignore
-        if (window.google && !cleaningUp) {
-          console.error("google api is already presented");
-          return;
-        }
 
-        this.isCleaningUp().then(this.injectScript);
-      }
+      setTimeout(() => {
+        if (!isAlreadyLoaded && isBrowser) {
+          // @ts-ignore
+          if (window.google && !cleaningUp) {
+            console.error("google api is already presented");
+            return;
+          }
+
+          this.isCleaningUp().then(this.injectScript);
+        }
+      }, 400);
 
       if (isAlreadyLoaded) {
         this.setState({ loaded: true });
@@ -67,6 +70,8 @@ class FormMap extends Component {
   componentDidMount() {
     // this.getCompanyList();
     this.handleGetCurrentLocationClick();
+    // this.handleGetCurrentLocationClick();
+    // this.handleGetCurrentLocationClick();
     if (this.props.id) {
       this.setState({ id: this.props.id });
       this.getDetail(this.props.id);
@@ -212,7 +217,6 @@ class FormMap extends Component {
     this.setState({ [name]: value });
   };
 
-
   onMapClick = (val) => {
     // console.log(val.latLng.lat());
     this.setState({
@@ -347,7 +351,7 @@ class FormMap extends Component {
               placeholder="Address"
             />
           </div>
-         
+
           <div className="row">
             <div className="col-sm-8">
               <LoadScriptComponent
