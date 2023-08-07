@@ -7,7 +7,9 @@ import { clearSession, setSession } from "../../utils/session";
 import { SysGenMenuByRole, showToast } from "../../utils/global_store";
 import * as providers_menu from "../../providers/master/menu"
 import { SESSION } from "../../utils/constants";
+import {useLoadingContext} from '../../components/Loading'
 function Login() {
+  const {showLoading,hideLoading} = useLoadingContext()
   const navigate = useNavigate();
   const [email, setEmail] = useState("testingadmin@jakpro.co.id");
   const [password, setPassword] = useState("123456");
@@ -15,15 +17,16 @@ function Login() {
 
   const handleLogin = async () => {
     try {
+      showLoading();
       const resp = await doLogin({ email, password });
       
       const menus = await providers_menu.getMenu();
       const menu = SysGenMenuByRole(menus.data);
       setSession(SESSION.MENUS,JSON.stringify(menu))
-      setTimeout(() => { 
-
+      // setTimeout(() => { 
+      hideLoading();
         navigate(routes_name.DASHBOARD);
-      }, 1000)
+      // }, 1000)
       // console.log(resp);
     } catch (error) {
       showToast({ message: error.message, type: "error" });
