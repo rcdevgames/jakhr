@@ -70,7 +70,7 @@ class FormMap extends Component {
   }
   componentDidMount() {
     // this.getCompanyList();
-    // this.handleGetCurrentLocationClick();
+    this.handleGetCurrentLocationClick();
     if (this.props.id) {
       this.setState({ id: this.props.id });
       this.getDetail(this.props.id);

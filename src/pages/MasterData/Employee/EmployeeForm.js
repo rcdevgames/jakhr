@@ -170,7 +170,7 @@ const EmployeeForm = () => {
         user: {
           password: password,
         },
-        photo: data.photo,
+        photo: data.photo??"empty",
         role: { id: data.role.id },
       };
       const validateForm = SysValidateForm(required_field, data_submit);
@@ -227,12 +227,12 @@ const EmployeeForm = () => {
         job_position_id: data.job_position_id,
         employee_status_id: data.employee_status_id,
         create_user: false,
-        user: { password: "" },
+        user: { password: null },
         emergency_contact_name: data.emergency_contact_name,
         emergency_contact_relationship: data.emergency_contact_relationship,
         emergency_contact_phone_number: data.emergency_contact_phone_number,
         is_payroll: true,
-        photo: data.photo,
+        photo: data.photo??"empty",
         role: { id: data.role.id },
       };
       // console.log(data_submit);
