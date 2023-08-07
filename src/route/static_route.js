@@ -16,6 +16,7 @@ export const routes_name = {
   M_MENU_DETAIL: "/master-data/menu/detail/",
   M_SCHEDULE_CREATE: "/master-data/schedule/create",
   M_SCHEDULE_DETAIL: "/master-data/schedule/detail/",
+  M_ROLE_MENU_DETAIL: "/master-data/role_menu/detail/",
   //--MASTER PAYROLL------------------------------------------------------
   
   M_EMPLOYEE_CREATE_MULTIPLE: "/master-payroll/employee/multiple/",

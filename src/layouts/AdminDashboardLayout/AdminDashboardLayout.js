@@ -298,8 +298,8 @@ const AdminDashboardLayout = () => {
           <div className="sidebar-menu">
             <ul className="menu">
               {/* {!loading && */}
-              {defaultNav.length > 0 &&
-                defaultNav.map((el, idx) => {
+              {myMenus.length > 0 &&
+                myMenus.map((el, idx) => {
                   const link = "" + (el.link ? el.link : "");
 
                   if (el.heading) {

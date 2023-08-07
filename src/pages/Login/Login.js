@@ -20,7 +20,10 @@ function Login() {
       const menus = await providers_menu.getMenu();
       const menu = SysGenMenuByRole(menus.data);
       setSession(SESSION.MENUS,JSON.stringify(menu))
-      navigate(routes_name.DASHBOARD);
+      setTimeout(() => { 
+
+        navigate(routes_name.DASHBOARD);
+      }, 1000)
       // console.log(resp);
     } catch (error) {
       showToast({ message: error.message, type: "error" });

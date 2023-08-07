@@ -95,6 +95,7 @@ import { Reimburst, ReimburstForm } from "../pages/Transaction/Reimburst";
 import { Overtime, OvertimeForm } from "../pages/Transaction/Overtime";
 import { LeaveType, LeaveTypeForm } from "../pages/MasterData/LeaveType";
 import { LeaveBallance, LeaveBallanceForm, LeaveBallanceFormEmployee, LeaveBallanceGenerate } from "../pages/MasterData/LeaveBallance";
+import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
 
 const Router = () => (
   <BrowserRouter>
@@ -204,6 +205,7 @@ const Router = () => (
 
             <Route path="role_menu">
               <Route path="" element={<RoleMenu />} />
+              <Route path="detail/:id" element={<RoleMenuForm />} />
             </Route>
 
             <Route path="menu">

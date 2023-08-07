@@ -10,6 +10,7 @@ import convert_job_level from "../../../model/job_levelModel";
 import convert_job_position from "../../../model/job_positionModel";
 import * as providers from "../../../providers/master/employee";
 import * as providers_branch from "../../../providers/master/branch";
+import * as providers_role from "../../../providers/master/role";
 import * as providers_organization from "../../../providers/master/organization";
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
@@ -58,6 +59,7 @@ const EmployeeForm = () => {
   const [job_position, set_job_position] = useState(
     convert_job_position.listOfjob_positionModel([])
   );
+  const [role, set_role] = useState([]);
 
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.EMPLOYEE
@@ -66,6 +68,12 @@ const EmployeeForm = () => {
     // console.log(event.target);
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleChangeRole = (event) => {
+    // console.log(event.target);
+    const { name, value } = event.target;
+    setData((prevState) => ({ ...prevState, role: { id: value } }));
   };
   const handleDateChange = (val) => {
     setData((prevState) => ({ ...prevState, dob: val }));
@@ -82,6 +90,7 @@ const EmployeeForm = () => {
     getEmployeeStatus();
     getOrganization();
     getJobLevel();
+    getRole();
     getJobPosition();
     if (id) {
       handleDetail(id);
@@ -162,6 +171,7 @@ const EmployeeForm = () => {
           password: password,
         },
         photo: data.photo,
+        role: { id: data.role.id },
       };
       const validateForm = SysValidateForm(required_field, data_submit);
       if (!validateForm.is_valid) {
@@ -217,11 +227,13 @@ const EmployeeForm = () => {
         job_position_id: data.job_position_id,
         employee_status_id: data.employee_status_id,
         create_user: false,
+        user: { password: "" },
         emergency_contact_name: data.emergency_contact_name,
         emergency_contact_relationship: data.emergency_contact_relationship,
         emergency_contact_phone_number: data.emergency_contact_phone_number,
         is_payroll: true,
         photo: data.photo,
+        role: { id: data.role.id },
       };
       // console.log(data_submit);
       const validateForm = SysValidateForm(required_field, data_submit);
@@ -254,6 +266,16 @@ const EmployeeForm = () => {
     try {
       const resp = await providers_employee_status.getDataMax();
       set_employee_status(resp.data.data);
+      // setData(val=>({...val,branch_id:resp.data.data[0].id}))
+    } catch (error) {
+      // showToast({ message: error.message, type: "error" });
+    }
+  };
+
+  const getRole = async () => {
+    try {
+      const resp = await providers_role.getData(1, 99999, "");
+      set_role(resp.data.data);
       // setData(val=>({...val,branch_id:resp.data.data[0].id}))
     } catch (error) {
       // showToast({ message: error.message, type: "error" });
@@ -386,6 +408,35 @@ const EmployeeForm = () => {
                             value={data.id_number}
                             onChange={handleChange}
                             required
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>Role:*</label>
+                          <Select
+                            onChange={handleChangeRole}
+                            value={SysGenValueOption(
+                              role,
+                              data?.role?.id ?? "",
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.name}`}
+                            options={role.map((option, index) => ({
+                              value: option.id,
+                              label: `${option.name}`,
+                              ext: index,
+                              name: option.name,
+                              target: {
+                                name: "role",
+                                value: option.id,
+                              },
+                            }))}
+                            placeholder="Select Role"
+                            aria-label="Nama"
+                            required
+                            isSearchable
                           />
                         </div>
                       </div>

@@ -549,24 +549,205 @@ export function SysGenMenu() {
     ],
   };
 }
+export function SysGenRouting() {
+  return [
+    {
+      route: "/dashboard",
+      name: "Dashboard",
+    },
+    {
+      route: "/master-data",
+      name: "Master Data",
+    },
+    {
+      route: "/master-data/company",
+      name: "Perusahaan",
+    },
+    {
+      route: "/master-data/branch",
+      name: "Kantor",
+    },
+    {
+      route: "/master-data/employee",
+      name: "Karyawan",
+    },
+    {
+      route: "/master-data/leave_mass",
+      name: "Cuti Bersama",
+    },
+    {
+      route: "/master-data/leave_type",
+      name: "Tipe Cuti",
+    },
+    {
+      route: "/master-data/leave_ballance",
+      name: "Saldo Cuti",
+    },
+    {
+      route: "/master-data/schedule",
+      name: "Jadwal",
+    },
+    {
+      route: "/master-data/menu",
+      name: "Menu",
+    },
+    {
+      route: "/master-data/role_menu",
+      name: "Role Menu",
+    },
+    {
+      route: "/master-organization",
+      name: "Master Organisasi",
+    },
+
+    {
+      route: "/master-organization/organization",
+      name: "Divisi",
+    },
+
+    {
+      route: "/master-organization/job_level",
+      name: "Level Jabatan",
+    },
+    {
+      route: "/master-organization/job_position",
+      name: "Posisi Jabatan",
+    },
+    {
+      route: "/master-payroll",
+      name: "Master Payroll",
+    },
+    {
+      route: "/master-payroll/component_name/allowance",
+      name: "Tunjangan Tetap",
+    },
+    {
+      route: "/master-payroll/component_name/allowance_daily",
+      name: "Tunjangan Harian",
+    },
+    {
+      route: "/master-payroll/component_name/allowance_ex",
+      name: "Tunjangan Lain",
+    },
+    {
+      route: "/master-payroll/component_name/deduction",
+      name: "Potongan",
+    },
+    {
+      route: "/master-payroll/salary_component",
+      name: "Komponen Gaji",
+    },
+    {
+      route: "/payroll",
+      name: "Payroll",
+    },
+    {
+      route: "/payroll/salary",
+      name: "Gaji",
+    },
+    {
+      route: "/transaction",
+      name: "Transaksi",
+    },
+    {
+      route: "/transaction/attendance",
+      name: "Kehadiran",
+    },
+    {
+      route: "/transaction/cash_advance",
+      name: "Cash Advance",
+    },
+    {
+      route: "/transaction/leave",
+      name: "Cuti",
+    },
+    {
+      route: "/transaction/reimburst",
+      name: "Reimburstment",
+    },
+    {
+      route: "/transaction/overtime",
+      name: "Lembur",
+    },
+    {
+      route: "/report",
+      name: "Laporan",
+    },
+
+    {
+      route: "/report/employee",
+      name: "Karyawan",
+    },
+    {
+      route: "/report/attendance",
+      name: "Kehadiran",
+    },
+    {
+      route: "/report/leave",
+      name: "Cuti",
+    },
+    {
+      route: "/report/overtime",
+      name: "Lembur",
+    },
+    {
+      route: "/report/additional",
+      name: "Insentif",
+    },
+    {
+      route: "/report/reduction",
+      name: "Potongan",
+    },
+    {
+      route: "/report/cash",
+      name: "Cash Advance",
+    },
+    {
+      route: "/report/imbursement",
+      name: "Reimbursment",
+    },
+    {
+      route: "/report/salary",
+      name: "Gaji",
+    },
+    {
+      route: "/report/tax",
+      name: "Pajak",
+    },
+    {
+      route: "/tool",
+      name: "Pengaturan",
+    },
+
+    {
+      route: "/tool/bpjs",
+      name: "BPJS",
+    },
+  ];
+}
 export function SysGenMenuByRole(role_menu = []) {
   const menus = convert.listOfrole_menuModel(role_menu);
-  console.log(role_menu);
+  // console.log(role_menu);
   const my_menus = SysGenMenu();
   const menu_route = [];
   menus.map((val) => {
     const route = my_menus[val.route];
-    let relate_menu = {
-      ...route,
-      subMenu:[]
-    };
-    val.children.map(child=>{
-      relate_menu.subMenu.push({
-        label:child.title,
-        link:val.route+child.route
-      })
-    })
-    menu_route.push(relate_menu);
+    if (val.route != "/dashboard") {
+      // return;
+      let relate_menu = {
+        ...route,
+        subMenu: [],
+      };
+      val.children.map((child) => {
+        relate_menu.subMenu.push({
+          label: child.title,
+          link:child.route,
+        });
+      });
+      if(relate_menu.dir){
+        menu_route.push(relate_menu);
+      }
+    }
   });
-  return [my_menus["/dasboard"],...menu_route];
+  return [my_menus["/dasboard"], ...menu_route];
 }

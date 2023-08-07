@@ -26,7 +26,7 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
     // console.log(head);
     const response = await fetch(API_URL + endpoint,head );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";
@@ -54,9 +54,9 @@ export const sys_post = async ({ auth = false, endpoint = "", body = {} }) => {
       body: JSON.stringify(body),
     });
     const data = await response.json();
-    console.log(API_URL + endpoint);
-    console.log(body);
-    console.log(data);
+    // console.log(API_URL + endpoint);
+    // console.log(body);
+    // console.log(data);
     callback.code = response.status;
     callback.message = data?.message ?? "ERROR!";
     callback.success = response.status == 200 ? true : false;
@@ -121,9 +121,9 @@ export const sys_put = async ({
       body: JSON.stringify(body),
     });
     const data = await response.json();
-    console.log(API_URL + endpoint);
-    console.log(body);
-    console.log(data);
+    // console.log(API_URL + endpoint);
+    // console.log(body);
+    // console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";

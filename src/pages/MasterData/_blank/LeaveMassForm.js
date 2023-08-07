@@ -27,7 +27,7 @@ const LeaveMassForm = () => {
   const handleDetail = async (id) => {
     try {
       const resp = await providers.getDetail(id);
-      console.log(resp.data);
+      // console.log(resp.data);
       setData(resp.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
