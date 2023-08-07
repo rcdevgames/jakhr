@@ -10,6 +10,9 @@
 const modelOfDatauser = {
 	password: ''
 };
+const modelOfDatarole = {
+	id: ''
+};
 const modelOfDataemployeeModel = {
 	id: '',
 	full_name: '',
@@ -42,7 +45,8 @@ const modelOfDataemployeeModel = {
 	emergency_contact_phone_number: null,
 	is_payroll: false,
     "photo":"",
-	user: modelOfDatauser
+	user: modelOfDatauser,
+	role: modelOfDatarole
 };
 function listOfemployeeModel(data = []) {
   var listData = [modelOfDataemployeeModel];
@@ -81,7 +85,8 @@ function listOfemployeeModel(data = []) {
 				emergency_contact_relationship: val.emergency_contact_relationship ?? null,
 				emergency_contact_phone_number: val.emergency_contact_phone_number ?? null,
 				is_payroll: val.is_payroll ?? null,
-				user: objectOfuser(val.user ?? null)
+				user: objectOfuser(val.user ?? null),
+				role: objectOfrole(val.role ?? null)
       };
       listData.push(object);
     });
@@ -128,6 +133,7 @@ function objectOfemployeeModel(data = null) {
 		objectData.emergency_contact_phone_number = data.emergency_contact_phone_number ?? null;
 		objectData.is_payroll = data.is_payroll ?? null;
 		objectData.user = objectOfuser(data.user ?? null);
+		objectData.role = objectOfrole(data.role ?? null);
   } catch (error) {
     console.log(error.message);
   }
@@ -150,6 +156,19 @@ function objectOfuser(data = null) {
   }
   return objectData;
 }
+
+function objectOfrole(data = null) {
+	var objectData = modelOfDatarole;
+	if (data == null) {
+	  return null;
+	}
+	try {
+		  objectData.id = data.id ?? null;
+	} catch (error) {
+	  console.log(error.message);
+	}
+	return objectData;
+  }
 
 
 

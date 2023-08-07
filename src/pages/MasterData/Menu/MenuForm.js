@@ -101,6 +101,7 @@ const MenuForm = () => {
                         options={parent.map((option, index) => ({
                           value: option.id,
                           label: `${option.title}`,
+                          title:option.title,
                           target: {
                             value: option.id,
                             name: "parent_id",

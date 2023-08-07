@@ -32,7 +32,7 @@ const UploadFile = ({ onImageUpload, file }) => {
   // }
 
   const handleFileLoad = (file) => {
-    console.log(file);
+    // console.log(file);
     if(file==null){
       onImageUpload(null);
       return;

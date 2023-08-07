@@ -37,7 +37,7 @@ const LeaveBallanceFormEmployee = () => {
     showLoading();
     try {
       const resp = await providers.getDetail(id);
-      console.log(resp);
+      // console.log(resp);
       setData(resp.data);
     } catch (error) {
       console.log(error);

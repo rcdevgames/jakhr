@@ -221,7 +221,10 @@ const defaultNav = [
 ];
 const myMenus = JSON.parse(getSession(SESSION.MENUS));
 const AdminDashboardLayout = () => {
-  console.log(myMenus);
+  // console.log(myMenus);
+  if(myMenus ==undefined){
+    window.location.reload();
+  }
   const location = useLocation();
   const [navItems, setNavItems] = useState(defaultNav);
   const [loading, set_loading] = useState(true);
@@ -298,8 +301,8 @@ const AdminDashboardLayout = () => {
           <div className="sidebar-menu">
             <ul className="menu">
               {/* {!loading && */}
-              {defaultNav.length > 0 &&
-                defaultNav.map((el, idx) => {
+              { myMenus.length > 0 &&
+                myMenus.map((el, idx) => {
                   const link = "" + (el.link ? el.link : "");
 
                   if (el.heading) {

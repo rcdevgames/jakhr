@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import PlacesAutocomplete, {
-  geocodeByPlaceId,
-  getLatLng,
-} from "react-places-autocomplete";
 import { Input } from "antd";
 import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import TimeInput from "../../../../../components/TimeInput";
@@ -23,15 +19,18 @@ class LoadScriptComponent extends LoadScript {
         window.google &&
         window.google.maps &&
         document.querySelector("body.first-hit-completed"); // AJAX page loading system is adding this class the first time the app is loaded
-      if (!isAlreadyLoaded && isBrowser) {
-        // @ts-ignore
-        if (window.google && !cleaningUp) {
-          console.error("google api is already presented");
-          return;
-        }
 
-        this.isCleaningUp().then(this.injectScript);
-      }
+      setTimeout(() => {
+        if (!isAlreadyLoaded && isBrowser) {
+          // @ts-ignore
+          if (window.google && !cleaningUp) {
+            console.error("google api is already presented");
+            return;
+          }
+
+          this.isCleaningUp().then(this.injectScript);
+        }
+      }, 400);
 
       if (isAlreadyLoaded) {
         this.setState({ loaded: true });
@@ -70,6 +69,8 @@ class FormMap extends Component {
   }
   componentDidMount() {
     // this.getCompanyList();
+    this.handleGetCurrentLocationClick();
+    // this.handleGetCurrentLocationClick();
     // this.handleGetCurrentLocationClick();
     if (this.props.id) {
       this.setState({ id: this.props.id });
@@ -216,15 +217,6 @@ class FormMap extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSelect = (address, placeId) => {
-    geocodeByPlaceId(placeId)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => {
-        this.setState({ center: latLng, marker: latLng, address });
-      })
-      .catch((error) => console.error("Error", error));
-  };
-
   onMapClick = (val) => {
     // console.log(val.latLng.lat());
     this.setState({
@@ -335,26 +327,6 @@ class FormMap extends Component {
     return (
       <div className="form form-horizontal">
         <div className="form-body">
-          {/* <div className="form-group">
-            <label for="company_id">Company</label>
-            <select
-              className="form-select"
-              id="company_id"
-              value={company_id}
-              onChange={this.handleCompanyChange}
-              aria-label="Company"
-            >
-              <option value="" disabled>
-                Select Company
-              </option>
-
-              {company_list.map((option, index) => (
-                <option key={index} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <div className="form-group">
             <label for="branch_name">Nama</label>
             <input
@@ -379,56 +351,7 @@ class FormMap extends Component {
               placeholder="Address"
             />
           </div>
-          {/* {setTimeout(() => {
-            return (
-              <PlacesAutocomplete
-                value={address}
-                onChange={this.handleChangeAddress}
-                onSelect={(address, placeId) => {
-                  this.handleSelect(address, placeId);
-                }}
-                getSuggestionValue={(suggestion) => suggestion.description}
-              >
-                {({
-                  getInputProps,
-                  suggestions,
-                  getSuggestionItemProps,
-                  loading,
-                }) => (
-                  <div className="form-group">
-                    <label>Alamat:</label>
 
-                    <input
-                      className="form-control"
-                      {...getInputProps({ placeholder: "Masukan alamat" })}
-                    />
-                    <div>
-                      {loading ? <div>Loading...</div> : null}
-
-                      {suggestions.map((suggestion) => {
-                        const style = {
-                          backgroundColor: suggestion.active
-                            ? "#445ebe"
-                            : "#fff",
-                          cursor: "pointer",
-                          padding: "15px",
-                          textColor: "white",
-                        };
-
-                        return (
-                          <div
-                            {...getSuggestionItemProps(suggestion, { style })}
-                          >
-                            {suggestion.description}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </PlacesAutocomplete>
-            );
-          }, 100)} */}
           <div className="row">
             <div className="col-sm-8">
               <LoadScriptComponent

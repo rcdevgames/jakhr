@@ -23,13 +23,13 @@ const RoleMenu = () => {
       key: "id",
       render: (val, record) => (
         <div className="btn-group" role="group">
-          {/* <a
-            onClick={() => navigate(`${routes_name.M_JOB_LEVEL_DETAIL}${val}`)}
+          <a
+            onClick={() => navigate(`${routes_name.M_ROLE_MENU_DETAIL}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
-          </a> */}
+          </a>
         
         </div>
       ),
