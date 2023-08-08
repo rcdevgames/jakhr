@@ -4,7 +4,7 @@ import { json, useNavigate, useParams } from "react-router-dom";
 import { routes_name } from "../../route/static_route";
 import { clearSession, setSession } from "../../utils/session";
 import { SysGenMenuByRole, showToast } from "../../utils/global_store";
-import * as providers from "../../providers/master/employee";
+import * as providers from "../../providers/auth/verify";
 import * as providers_menu from "../../providers/master/menu";
 import { SESSION, sys_images } from "../../utils/constants";
 import Unauthorized from "../Unauthorized";
@@ -18,7 +18,7 @@ function Authentication() {
   const handleAuthentication = async () => {
     try {
       setSession(SESSION.ACCESS_TOKEN, token);
-      const resp = await providers.getData(1, 1, "");
+      const resp = await providers.verify(token);
       const menus = await providers_menu.getMenu();
       const menu = SysGenMenuByRole(menus.data);
       setSession(SESSION.MENUS,JSON.stringify(menu))
