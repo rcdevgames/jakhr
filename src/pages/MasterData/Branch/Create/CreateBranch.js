@@ -1,5 +1,5 @@
 import AdminDashboard from "../../../AdminDashboard";
-import FormMap from "./component/FormMap";
+import BranchMapForm from "./component/BranchMapForm";
 import { useNavigate,useParams } from "react-router-dom";
 
 const CreateBranch = () => {
@@ -13,7 +13,7 @@ const CreateBranch = () => {
             <h3>Cabang</h3>
           </div>
           <div className="card-body">
-            <FormMap navigate={navigate} id={id??null} />
+            <BranchMapForm navigate={navigate} id={id??null} />
           </div>
         </div>
       </section>

@@ -44,6 +44,7 @@ const modelOfDataemployeeModel = {
 	emergency_contact_relationship: null,
 	emergency_contact_phone_number: null,
 	is_payroll: false,
+	attend_out_of_range:false,
     "photo":"",
 	user: modelOfDatauser,
 	role: modelOfDatarole
@@ -85,6 +86,7 @@ function listOfemployeeModel(data = []) {
 				emergency_contact_relationship: val.emergency_contact_relationship ?? null,
 				emergency_contact_phone_number: val.emergency_contact_phone_number ?? null,
 				is_payroll: val.is_payroll ?? null,
+				attend_out_of_range: val.attend_out_of_range ?? false,
 				user: objectOfuser(val.user ?? null),
 				role: objectOfrole(val.role ?? null)
       };
@@ -132,6 +134,7 @@ function objectOfemployeeModel(data = null) {
 		objectData.emergency_contact_relationship = data.emergency_contact_relationship ?? null;
 		objectData.emergency_contact_phone_number = data.emergency_contact_phone_number ?? null;
 		objectData.is_payroll = data.is_payroll ?? null;
+		objectData.attend_out_of_range = data.attend_out_of_range ?? false;
 		objectData.user = objectOfuser(data.user ?? null);
 		objectData.role = objectOfrole(data.role ?? null);
   } catch (error) {

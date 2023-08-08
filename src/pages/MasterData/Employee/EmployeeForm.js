@@ -24,6 +24,7 @@ import {
 } from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels, sys_path_data } from "../../../utils/constants";
+import { Switch } from "antd";
 
 import Select from "react-select";
 
@@ -38,6 +39,7 @@ const EmployeeForm = () => {
     "id_number as NIK",
     "employee_id as NIP",
     "ptkp",
+    "attend_out_of_range as absen_diluar_radius"
   ];
   const gender = SysReadData(sys_path_data.gender_data);
   const religion = SysReadData(sys_path_data.religion_data);
@@ -170,6 +172,7 @@ const EmployeeForm = () => {
         user: {
           password: password,
         },
+        attend_out_of_range:data.attend_out_of_range,
         photo: data.photo??"empty",
         role: { id: data.role.id },
       };
@@ -232,6 +235,7 @@ const EmployeeForm = () => {
         emergency_contact_relationship: data.emergency_contact_relationship,
         emergency_contact_phone_number: data.emergency_contact_phone_number,
         is_payroll: true,
+        attend_out_of_range:data.attend_out_of_range,
         photo: data.photo??"empty",
         role: { id: data.role.id },
       };
@@ -335,6 +339,10 @@ const EmployeeForm = () => {
     }));
     await getJobPosition();
   };
+  
+  const handleChangeActive = (value) => {
+    setData((prevState) => ({ ...prevState, attend_out_of_range: value }));
+  };
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -366,10 +374,26 @@ const EmployeeForm = () => {
                         </Link>
                       </div>
                     ) : null}
-                    <div className="col-md-12">
+                    <div className="col-md-12 mb-3">
                       <h4>Employee Information</h4>
                     </div>
-
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <div
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                            alignItems: "center",
+                          }}
+                        ></div>
+                        <label style={{ marginRight: 15 }}>Absen Diluar Radius</label>
+                        <Switch
+                          name="attend_out_of_range"
+                          checked={data.attend_out_of_range}
+                          onChange={handleChangeActive}
+                        />
+                      </div>
+                    </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Fullname:*</label>
