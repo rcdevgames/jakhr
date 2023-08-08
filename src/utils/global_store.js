@@ -727,27 +727,50 @@ export function SysGenRouting() {
 }
 export function SysGenMenuByRole(role_menu = []) {
   const menus = convert.listOfrole_menuModel(role_menu);
-  // console.log(role_menu);
+  console.log(role_menu);
   const my_menus = SysGenMenu();
-  const menu_route = [];
-  menus.map((val) => {
-    const route = my_menus[val.route];
-    if (val.route != "/dashboard") {
-      // return;
+  let menu_route = [];
+  Object.keys(my_menus).map((val) => {
+    // console.log(val);
+    const route = menus.find(m_val=>m_val.route==val);
+    console.log(route);
+    if (val != "/dashboard" && route) {
       let relate_menu = {
-        ...route,
+        ...my_menus[val],
         subMenu: [],
       };
-      val.children.map((child) => {
-        relate_menu.subMenu.push({
-          label: child.title,
-          link:child.route,
-        });
+      my_menus[val].subMenu.map((child_menu) => {
+        const find_child = route.children.find(
+          (val_child) => val_child.route == child_menu.link
+        );
+        if (find_child) {
+          relate_menu.subMenu.push({
+            label: find_child.title,
+            link: find_child.route,
+          });
+        }
       });
-      if(relate_menu.dir){
-        menu_route.push(relate_menu);
-      }
+      menu_route.push(relate_menu);
     }
   });
+  // menus.map((val) => {
+  //   const route = my_menus[val.route];
+  //   if (val.route != "/dashboard") {
+  //     // return;
+  //     let relate_menu = {
+  //       ...route,
+  //       subMenu: [],
+  //     };
+  //     val.children.map((child) => {
+  //       relate_menu.subMenu.push({
+  //         label: child.title,
+  //         link:child.route,
+  //       });
+  //     });
+  //     if(relate_menu.dir){
+  //       menu_route.push(relate_menu);
+  //     }
+  //   }
+  // });
   return [my_menus["/dasboard"], ...menu_route];
 }
