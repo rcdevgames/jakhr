@@ -9,6 +9,7 @@ import {
   SysValidateForm,
   showToast,
 } from "../../../utils/global_store";
+import {useLoadingContext}from "../../../components/Loading"
 
 import Select from "react-select";
 
@@ -25,6 +26,7 @@ const OvertimeForm = () => {
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOftrans_overtimeModel({}));
   const [data_attendance, setData_attendance] = useState([]);
+  const {showLoading,hideLoading}= useLoadingContext();
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.OVERTIME
   }`;
@@ -38,12 +40,15 @@ const OvertimeForm = () => {
     setData((prevState) => ({ ...prevState, is_paid: false }));
   }, []);
   const getAttendance = async () => {
+    showLoading();
     try {
       const resp = await providers_attendance.getDataMax();
       setData_attendance(resp.data.data);
     } catch (error) {}
+      hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const obj = data_attendance.find((val) => val.id == data.attendance_id);
       const validateForm = SysValidateForm(required_field, data);
@@ -68,6 +73,7 @@ const OvertimeForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   const handleTimeInChange = (val) => {
     setData((prev) => ({ ...prev, time_in: val }));

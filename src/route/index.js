@@ -104,7 +104,8 @@ const Router = () => (
 
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/authentication/:token" element={<Authentication />} />
+      <Route path="/authentication/:token/:uri" element={<Authentication />} />
+      <Route path="/authentication" element={<Authentication />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
       {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>

@@ -4,7 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as branch_providers from "../../../providers/master/branch";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { sys_labels } from "../../../utils/constants";
 
@@ -33,7 +33,7 @@ const Branch = () => {
       dataIndex: "secondary_phone",
       key: "secondary_phone",
     },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
     {
       title: "Action",
       dataIndex: "id",

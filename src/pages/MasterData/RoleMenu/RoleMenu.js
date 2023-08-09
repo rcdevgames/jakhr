@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/master/role";
 import DataTablePagination from "../../../components/DataTable";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
@@ -16,7 +16,9 @@ const RoleMenu = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+// SysDateTransform    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+
     {
       title: "Action",
       dataIndex: "id",

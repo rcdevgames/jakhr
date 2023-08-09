@@ -5,7 +5,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/config/component_name";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
@@ -15,10 +15,12 @@ const ComponentName = () => {
   const [message, set_message] = useState("");
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
+  // SysDateTransform
   const columns = [
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Description", dataIndex: "description", key: "description" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+
     {
       title: "Action",
       dataIndex: "id",

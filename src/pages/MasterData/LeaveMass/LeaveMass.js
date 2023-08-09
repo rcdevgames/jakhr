@@ -5,7 +5,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as leave_mass_providers from "../../../providers/master/leave_mass";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
@@ -18,7 +18,10 @@ const LeaveMass = () => {
   const columns = [
     { title: "Leave Event", dataIndex: "leave_name", key: "leave_name" },
     { title: "Leave Date", dataIndex: "leave_date", key: "leave_date" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // SysDateTransform
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+
     {
       title: "Action",
       dataIndex: "id",

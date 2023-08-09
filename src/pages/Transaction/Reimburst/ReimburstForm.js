@@ -11,6 +11,8 @@ import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
 import { Switch } from "antd";
 import UploadFile from "../../../components/UploadFile";
+import {useLoadingContext}from "../../../components/Loading"
+
 const ReimburstForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,6 +20,7 @@ const ReimburstForm = () => {
   const [data_employee, setData_employee] = useState(
     convert_employee.listOfemployeeModel([])
   );
+  const {showLoading,hideLoading}=useLoadingContext();
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.REIMBURS
   }`;
@@ -40,12 +43,15 @@ const ReimburstForm = () => {
     }
   }, []);
   const getEmployee = async () => {
+    showLoading();
     try {
       const resp = await providers_employee.getData(1, 99999999, "");
       setData_employee(resp.data.data);
     } catch (error) {}
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const resp = await providers.insertData({
         employee_id: data.employee_id,
@@ -65,9 +71,11 @@ const ReimburstForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData({
@@ -82,9 +90,11 @@ const ReimburstForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -107,6 +117,7 @@ const ReimburstForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   return (

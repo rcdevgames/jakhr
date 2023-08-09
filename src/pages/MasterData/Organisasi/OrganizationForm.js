@@ -5,6 +5,7 @@ import convert from "../../../model/organizationModel";
 import * as providers from "../../../providers/master/organization";
 import { SysGenValueOption, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+import {useLoadingContext}from "../../../components/Loading"
 
 import Select from "react-select";
 
@@ -13,14 +14,16 @@ const OrganizationForm = () => {
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
   const [parent, set_parent] = useState(convert.listOforganizationModel([]));
-
+  const {showLoading,hideLoading}=useLoadingContext();
   const getParent = async () => {
+    showLoading();
     try {
       const resp = await providers.getDataMax();
       set_parent(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
+    hideLoading();
   };
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.DIVISION
@@ -37,6 +40,7 @@ const OrganizationForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData(resp.data);
@@ -44,8 +48,10 @@ const OrganizationForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const resp = await providers.insertData({
         name: data.name,
@@ -57,9 +63,11 @@ const OrganizationForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -67,13 +75,14 @@ const OrganizationForm = () => {
           parent_id: data.parent_id,
         },
         data.id
-      );
-      showToast({ message: resp.message, type: "success" });
-      navigate(-1);
-    } catch (error) {
-      console.log(error);
-      showToast({ message: error.message, type: "error" });
-    }
+        );
+        showToast({ message: resp.message, type: "success" });
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+        showToast({ message: error.message, type: "error" });
+      }
+      hideLoading();
   };
 
   return (

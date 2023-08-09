@@ -7,13 +7,17 @@ import DataTablePagination from "../../../components/DataTable";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
+import { SysDateTransform } from "../../../utils/global_store";
 
 const Menu = () => {
   const navigate = useNavigate();
   const columns = [
     { title: "Title", dataIndex: "title", key: "title" },
     { title: "Route", dataIndex: "route", key: "route" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+// SysDateTransform
+{ title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+
     {
       title: "Action",
       dataIndex: "id",

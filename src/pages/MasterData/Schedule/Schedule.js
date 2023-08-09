@@ -4,7 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/master/schedule";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { sys_labels } from "../../../utils/constants";
 import { routes_name } from "../../../route/static_route";
@@ -16,11 +16,13 @@ const Schedule = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     { title: "Title", dataIndex: "title", key: "title" },
-    { title: "Start Date", dataIndex: "start_date", key: "start_date" },
-    { title: "End Date", dataIndex: "end_date", key: "end_date" },
+    { title: "Start Date", dataIndex: "start_date", key: "start_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
+    { title: "End Date", dataIndex: "end_date", key: "end_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
     { title: "Time In", dataIndex: "time_in", key: "time_in" },
     { title: "Time Out", dataIndex: "time_out", key: "time_out" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // SysDateTransform{ title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    
     {
       title: "Action",
       dataIndex: "id",

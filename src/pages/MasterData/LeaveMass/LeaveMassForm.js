@@ -5,12 +5,14 @@ import DatePicker from "../../../components/DatePicker";
 import convert from "../../../model/leave_massModel";
 import * as providers from "../../../providers/master/leave_mass";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
+import {useLoadingContext}from "../../../components/Loading"
 import { sys_labels } from "../../../utils/constants";
 const LeaveMassForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfleave_massModel({}));
   const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} ${sys_labels.menus.LEAVE_MASS}`;
+  const {showLoading,hideLoading}= useLoadingContext()
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -24,6 +26,7 @@ const LeaveMassForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       // console.log(resp.data);
@@ -32,8 +35,10 @@ const LeaveMassForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const resp = await providers.insertData({
         leave_name: data.leave_name,
@@ -45,9 +50,11 @@ const LeaveMassForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -55,13 +62,14 @@ const LeaveMassForm = () => {
           leave_date: SysDateTransform({date:data.leave_date,withTime:false,forSql:true}),
         },
         data.id
-      );
-      showToast({ message: resp.message, type: "success" });
-      navigate(-1);
-    } catch (error) {
-      console.log(error);
-      showToast({ message: error.message, type: "error" });
-    }
+        );
+        showToast({ message: resp.message, type: "success" });
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+        showToast({ message: error.message, type: "error" });
+      }
+      hideLoading();
   };
 
   return (

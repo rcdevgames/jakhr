@@ -15,6 +15,8 @@ import {
 import { sys_labels } from "../../../utils/constants";
 import TimeInput from "../../../components/TimeInput";
 import Select from "react-select";
+import {useLoadingContext}from "../../../components/Loading"
+
 const ScheduleForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -25,6 +27,7 @@ const ScheduleForm = () => {
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.SCHEDULE
   }`;
+  const {showLoading,hideLoading}= useLoadingContext();
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -61,12 +64,17 @@ const ScheduleForm = () => {
     }
   };
   const getEmployee = async () => {
+    showLoading();
     try {
       const resp = await providers_employee.getData(1, 99999999, "");
       setData_employee(resp.data.data);
     } catch (error) {}
+    // showLoading();
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
+
     try {
       const resp = await providers.insertData({
         employee_id: data.employee_id,
@@ -91,9 +99,11 @@ const ScheduleForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -121,6 +131,7 @@ const ScheduleForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   return (

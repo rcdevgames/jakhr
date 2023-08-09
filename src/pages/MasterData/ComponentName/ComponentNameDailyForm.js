@@ -6,10 +6,12 @@ import convert from "../../../model/component_nameModel";
 import * as providers from "../../../providers/config/component_name";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+import {useLoadingContext} from "../../../components/Loading"
 const ComponentNameDailyForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   // console.log("KESINI",id);
+  const{showLoading,hideLoading} = useLoadingContext();
   const [data, setData] = useState(convert.objectOfcomponent_nameModel({}));
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.ALLOWANCE + ' Harian'
@@ -24,6 +26,8 @@ const ComponentNameDailyForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData(resp.data);
@@ -31,8 +35,11 @@ const ComponentNameDailyForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    
+    showLoading();
     try {
       const resp = await providers.insertData({
         type: "allowance_daily",
@@ -45,9 +52,11 @@ const ComponentNameDailyForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -56,13 +65,14 @@ const ComponentNameDailyForm = () => {
           description: data.description,
         },
         data.id
-      );
-      showToast({ message: resp.message, type: "success" });
-      navigate(-1);
-    } catch (error) {
-      console.log(error);
-      showToast({ message: error.message, type: "error" });
-    }
+        );
+        showToast({ message: resp.message, type: "success" });
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+        showToast({ message: error.message, type: "error" });
+      }
+      hideLoading();
   };
 
   return (

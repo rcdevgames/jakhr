@@ -11,8 +11,11 @@ import {
 } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
+import {useLoadingContext}from "../../../components/Loading"
+
 const LeaveMassForm = () => {
   const required_field = ["name", "description", "default_total_leave"];
+  const {showLoading,hideLoading} = useLoadingContext()
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfleave_typeModel({}));
@@ -32,6 +35,7 @@ const LeaveMassForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData(resp.data);
@@ -39,8 +43,10 @@ const LeaveMassForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const data_submit = {
         name: data.name,
@@ -59,9 +65,11 @@ const LeaveMassForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const data_submit = {
         name: data.name,
@@ -80,8 +88,9 @@ const LeaveMassForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
-
+  
   return (
     <AdminDashboard label="">
       <section className="section">

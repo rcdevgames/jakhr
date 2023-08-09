@@ -11,11 +11,12 @@ import {
 } from "../../../utils/global_store";
 import UploadFile from "../../../components/UploadFile";
 import { sys_labels } from "../../../utils/constants";
-
+import {useLoadingContext}from "../../../components/Loading"
 import Select from "react-select";
 const CompanyForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const {showLoading,hideLoading}= useLoadingContext()
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
   const required_field = ["address", "alias", "name"];
@@ -37,14 +38,18 @@ const CompanyForm = () => {
     }
   }, []);
   const getParent = async () => {
+    showLoading();
     try {
       const resp = await providers.getDataMaximum();
       set_parent(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
+    hideLoading();
   };
   const handleDetail = async (id) => {
+    
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData({
@@ -59,8 +64,11 @@ const CompanyForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    
+    showLoading();
     try {
       const data_submit = {
         name: data.name,
@@ -82,9 +90,12 @@ const CompanyForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    
+    showLoading();
     try {
       const data_submit = {
         name: data.name,
@@ -106,6 +117,7 @@ const CompanyForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   const handleUpload = (value) => {
     setData((val) => ({ ...val, logo: value }));
