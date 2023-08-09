@@ -11,6 +11,7 @@ import * as XLSX from "xlsx";
 import * as providers from "../../../providers/master/employee";
 import { SysReadData, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
+import {useLoadingContext}from "../../../components/Loading"
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -219,6 +220,7 @@ const EmployeeMultipleForm = () => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
+  const{showLoading,hideLoading}= useLoadingContext()
   const defaultColumns = [
     {
       title: "Fullname",
@@ -416,6 +418,7 @@ const EmployeeMultipleForm = () => {
     fileInputRef.current.click();
   };
   const handleSubmit = async () => {
+    showLoading();
     let is_reject = false;
     for (let index = 0; index < dataSource.length; index++) {
       try {
@@ -465,6 +468,7 @@ const EmployeeMultipleForm = () => {
         navigate(-2);
       }
     }
+    hideLoading();
   };
   return (
     <AdminDashboard label="">

@@ -2,6 +2,7 @@ export const SESSION = {
   ACCESS_TOKEN: "ACCESS_TOKEN",
   REFRESH_TOKEN: "REFRESH_TOKEN",
   MENUS: "MENUS",
+  URI:"URI"
 };
 export const sys_path_data = {
   bank_data: require("../data/used/bank.json"),

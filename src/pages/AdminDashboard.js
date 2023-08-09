@@ -111,7 +111,7 @@ const AdminDashboard = ({ label, subHeading, children }) => {
                       <hr className="dropdown-divider" />
                     </li>
                     <li>
-                   <Link to="/login" className="dropdown-item" 
+                   <Link to="/authentication/log/out" className="dropdown-item" 
                         ><i className="icon-mid bi bi-box-arrow-left me-2"></i>
                         Logout</Link>
                       

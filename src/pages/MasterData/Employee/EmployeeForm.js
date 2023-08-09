@@ -25,7 +25,7 @@ import {
 import { routes_name } from "../../../route/static_route";
 import { sys_labels, sys_path_data } from "../../../utils/constants";
 import { Switch } from "antd";
-
+import {useLoadingContext} from "../../../components/Loading"
 import Select from "react-select";
 
 const EmployeeForm = () => {
@@ -38,9 +38,9 @@ const EmployeeForm = () => {
     "religion",
     "id_number as NIK",
     "employee_id as NIP",
-    "ptkp",
-    "attend_out_of_range as absen_diluar_radius"
+    "ptkp"
   ];
+  const {showLoading,hideLoading}= useLoadingContext()
   const gender = SysReadData(sys_path_data.gender_data);
   const religion = SysReadData(sys_path_data.religion_data);
   const marital_status = SysReadData(sys_path_data.marital_status_data);
@@ -67,7 +67,7 @@ const EmployeeForm = () => {
     sys_labels.menus.EMPLOYEE
   }`;
   const handleChange = (event) => {
-    // console.log(event.target);
+    console.log(event.target);
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -102,30 +102,24 @@ const EmployeeForm = () => {
     }, 1000);
   }, []);
   const handleDetail = async (id) => {
+    
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData({
         ...resp.data,
         photo: resp.data.photo ? { source: resp.data.photo } : null,
       });
-      // set_password(resp.data.user.password)
-      // await handleBranchChange({ target: { value: data.branch_id, name: "" } });
-      // await handleOrganizationChange({
-      //   target: { value: data.organization_id, name: "" },
-      // });
-      // await handleJobLevelChange({
-      //   target: { value: data.job_level_id, name: "" },
-      // });
-      // handleChange({
-      //   target: { value: data.job_position_id, name: "job_position_id" },
-      // });
-    } catch (error) {
+      } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: error });
       // navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    
+    showLoading();
     try {
       const data_submit = {
         full_name: data.full_name,
@@ -188,9 +182,11 @@ const EmployeeForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const data_submit = {
         full_name: data.full_name,
@@ -252,6 +248,7 @@ const EmployeeForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   const handleUpload = (value) => {
     setData((val) => ({ ...val, photo: value }));
@@ -267,6 +264,8 @@ const EmployeeForm = () => {
   };
 
   const getEmployeeStatus = async () => {
+    
+    showLoading();
     try {
       const resp = await providers_employee_status.getDataMax();
       set_employee_status(resp.data.data);
@@ -274,6 +273,7 @@ const EmployeeForm = () => {
     } catch (error) {
       // showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const getRole = async () => {
@@ -302,12 +302,15 @@ const EmployeeForm = () => {
     }
   };
   const getJobPosition = async () => {
+    
+    showLoading();
     try {
       const resp = await providers_job_position.getDataMax(data.job_level_id);
       set_job_position(resp.data.data);
     } catch (error) {
       // showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleBranchChange = async (event) => {
@@ -842,7 +845,7 @@ const EmployeeForm = () => {
                           className="form-control"
                           required
                           type="text"
-                          name="citizien_address"
+                          name="citizen_address"
                           value={data.citizen_address}
                           onChange={handleChange}
                         />

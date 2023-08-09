@@ -71,12 +71,12 @@ export function SysDateTransform({
       Moment(current).format("yyyy-MM-DD") ==
       Moment(dateFormat).format("yyyy-MM-DD")
     ) {
-      fullOfdate =
-        addZero({ num: hour }) +
-        ":" +
-        addZero({ num: minutes }) +
-        ":" +
-        addZero({ num: seconds });
+      fullOfdate ='Today '
+        // addZero({ num: hour }) +
+        // ":" +
+        // addZero({ num: minutes }) +
+        // ":" +
+        // addZero({ num: seconds });
     } else {
       fullOfdate =
         addZero({ num: day }) +
@@ -727,12 +727,11 @@ export function SysGenRouting() {
 }
 export function SysGenMenuByRole(role_menu = []) {
   const menus = convert.listOfrole_menuModel(role_menu);
-  console.log(role_menu);
   const my_menus = SysGenMenu();
   let menu_route = [];
   Object.keys(my_menus).map((val) => {
     // console.log(val);
-    const route = menus.find(m_val=>m_val.route==val);
+    const route = menus.find((m_val) => m_val.route == val);
     console.log(route);
     if (val != "/dashboard" && route) {
       let relate_menu = {
@@ -753,24 +752,19 @@ export function SysGenMenuByRole(role_menu = []) {
       menu_route.push(relate_menu);
     }
   });
-  // menus.map((val) => {
-  //   const route = my_menus[val.route];
-  //   if (val.route != "/dashboard") {
-  //     // return;
-  //     let relate_menu = {
-  //       ...route,
-  //       subMenu: [],
-  //     };
-  //     val.children.map((child) => {
-  //       relate_menu.subMenu.push({
-  //         label: child.title,
-  //         link:child.route,
-  //       });
-  //     });
-  //     if(relate_menu.dir){
-  //       menu_route.push(relate_menu);
-  //     }
-  //   }
-  // });
   return [my_menus["/dasboard"], ...menu_route];
+
+  // "/dasboard": dashboard,
+  // "/master-data": master_data,
+  // "/master-organization": master_organization,
+  // "/master-payroll": master_payroll,
+  // "/payroll": payroll,
+  // "/transaction": transaction,
+  // "/report": report,
+  // "/tool": tool,
+  // return [
+  //   my_menus["/dasboard"],
+  //   my_menus["/master-data"],
+  //   my_menus["/master-organization"],
+  // ];
 }

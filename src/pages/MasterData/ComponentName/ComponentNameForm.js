@@ -6,9 +6,11 @@ import convert from "../../../model/component_nameModel";
 import * as providers from "../../../providers/config/component_name";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+import {useLoadingContext} from "../../../components/Loading"
 const ComponentNameForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const{showLoading,hideLoading}=useLoadingContext();
   // console.log("KESINI",id);
   const [data, setData] = useState(convert.objectOfcomponent_nameModel({}));
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
@@ -24,6 +26,7 @@ const ComponentNameForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData(resp.data);
@@ -31,8 +34,10 @@ const ComponentNameForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
       const resp = await providers.insertData({
         type: "allowance",
@@ -45,9 +50,12 @@ const ComponentNameForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -56,15 +64,16 @@ const ComponentNameForm = () => {
           description: data.description,
         },
         data.id
-      );
+        );
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
-
+  
   return (
     <AdminDashboard label="">
       <section className="section">

@@ -11,6 +11,8 @@ import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import TimeInput from "../../../components/TimeInput";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
+import {useLoadingContext}from "../../../components/Loading"
+
 import { Switch } from "antd";
 const ScheduleForm = () => {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ const ScheduleForm = () => {
   const [data_employee, setData_employee] = useState(
     convert_employee.listOfemployeeModel([])
   );
+  const {showLoading,hideLoading} = useLoadingContext()
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.CASH_ADVANCE
   }`;
@@ -47,6 +50,7 @@ const ScheduleForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
+    showLoading();
     try {
       const resp = await providers.getDetail(id);
       setData(resp.data);
@@ -54,14 +58,18 @@ const ScheduleForm = () => {
       showToast({ message: error.message, type: error });
       navigate(-1);
     }
+    hideLoading();
   };
   const getEmployee = async () => {
+    showLoading();
     try {
       const resp = await providers_employee.getData(1, 99999999, "");
       setData_employee(resp.data.data);
     } catch (error) {}
+    hideLoading();
   };
   const handleSubmit = async () => {
+    showLoading();
     try {
     //   {
     //     "employee_id": "c81d9b58-d25b-4f23-be96-d6818f8a7f3d",
@@ -95,9 +103,11 @@ const ScheduleForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
 
   const handleUpdate = async () => {
+    showLoading();
     try {
       const resp = await providers.updateData(
         {
@@ -118,15 +128,16 @@ const ScheduleForm = () => {
           is_paid:data.is_paid
         },
         id
-      );
-      showToast({ message: resp.message, type: "success" });
-      navigate(-1);
-    } catch (error) {
-      console.log(error);
-      showToast({ message: error.message, type: "error" });
-    }
+        );
+        showToast({ message: resp.message, type: "success" });
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+        showToast({ message: error.message, type: "error" });
+      }
+      hideLoading();
   };
-
+  
   return (
     <AdminDashboard label="">
       <section className="section">

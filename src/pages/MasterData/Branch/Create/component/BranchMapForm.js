@@ -9,8 +9,9 @@ import {
   SysValidateForm,
   showToast,
 } from "../../../../../utils/global_store";
-
+import {useLoadingContext} from "../../../../../components/Loading"
 class LoadScriptComponent extends LoadScript {
+
   componentDidMount() {
     try {
       const cleaningUp = true;
@@ -71,6 +72,7 @@ class BranchMapForm extends Component {
     };
 
   }
+  loader =useLoadingContext();
   componentDidMount() {
     // this.getCompanyList();
     this.handleGetCurrentLocationClick();
@@ -90,6 +92,7 @@ class BranchMapForm extends Component {
     "sch_out as clock_out",
   ];
   getDetail = async (id) => {
+    this.loader.showLoading();
     try {
       const resp = await branch_providers.getDetail(id);
       this.setState({
@@ -116,6 +119,7 @@ class BranchMapForm extends Component {
       showToast({ message: error.message, type: "error" });
       this.props.navigate(-1);
     }
+    this.loader.hideLoading();
   };
   // getCompanyList = async () => {
   //   try {
@@ -128,6 +132,7 @@ class BranchMapForm extends Component {
   //   }
   // };
   handleSubmit = async () => {
+    this.loader.showLoading();
     try {
       //   console.log(this.props);
       const data_submit = {
@@ -154,11 +159,6 @@ class BranchMapForm extends Component {
         // console.log('JAM BENER');
         return "";
       }
-      if (this.state.branchSchInHalf >= this.state.branchSchOutHalf) {
-        // console.log('JAM GAK BENER');
-        showToast({ message: "Clock Out must be greater than Clock In" });
-        return "";
-      }
       const resp = await branch_providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       this.props.navigate(-1);
@@ -166,9 +166,11 @@ class BranchMapForm extends Component {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    this.loader.hideLoading();
   };
 
   handleUpdate = async () => {
+    this.loader.showLoading();
     try {
       const data_submit = {
         name: this.state.branch_name,
@@ -209,6 +211,7 @@ class BranchMapForm extends Component {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    this.loader.hideLoading();
   };
   handleChangeAddress = (address) => {
     this.setState({ address });

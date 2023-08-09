@@ -5,7 +5,7 @@ const PrivateRoutes = () => {
     let auth = {'token': false}
     const token = getToken();
     return(
-        token !=null ? <Outlet/> : <Navigate to="/login"/>
+        token !=null ? <Outlet/> : <Navigate to="/authentication"/>
     )
 }
 

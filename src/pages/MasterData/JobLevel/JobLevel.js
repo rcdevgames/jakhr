@@ -5,7 +5,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as job_level_providers from "../../../providers/master/job_level";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
@@ -18,7 +18,9 @@ const JobLevel = () => {
   const columns = [
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Company", dataIndex: "company", key: "company",render:(val)=>val.company_name },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+// SysDateTransform
     {
       title: "Action",
       dataIndex: "id",

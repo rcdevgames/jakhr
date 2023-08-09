@@ -5,7 +5,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/master/leave_ballance";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { routes_name } from "../../../route/static_route";
 import { sys_labels } from "../../../utils/constants";
@@ -20,7 +20,10 @@ const LeaveBallance = () => {
     { title: "Employee", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.full_name },
     { title: "Periode", dataIndex: "periode", key: "periode" },
     { title: "Balance", dataIndex: "balance", key: "balance" },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
+    // SysDateTransform
+    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+
     {
       title: "Action",
       dataIndex: "id",

@@ -20,6 +20,7 @@ import "./styles.css";
 import { file_template, sys_labels } from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import { useRef } from "react";
+import {useLoadingContext}from "../../../components/Loading"
 
 import { pdf } from "@react-pdf/renderer";
 import PayrollPdf from "../../PDF/payroll_pdf";
@@ -33,6 +34,7 @@ const SalaryForm = () => {
   const [month_generate,set_month_generate]=useState(0);
   const [year_generate,set_year_generate]=useState(0);
   const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const {showLoading,hideLoading}=useLoadingContext();
   let year_data = [];
   const date = new Date();
   for (
@@ -85,6 +87,7 @@ const SalaryForm = () => {
     }
   };
   const handleGenerate = async () => {
+    showLoading();
     try {
       const date = new Date();
       let payroll = [];
@@ -156,6 +159,7 @@ const SalaryForm = () => {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    hideLoading();
   };
   const [key_allowance, set_key_allowance] = useState(0);
   const [edit_key_allowance, set_edit_key_allowance] = useState("");

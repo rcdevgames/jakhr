@@ -3,7 +3,7 @@ import { Button } from "react-mazer-ui";
 import { useNavigate } from "react-router-dom";
 import { doLogin } from "../../providers/auth";
 import { routes_name } from "../../route/static_route";
-import { clearSession, setSession } from "../../utils/session";
+import { clearSession, getSession, setSession } from "../../utils/session";
 import { SysGenMenuByRole, showToast } from "../../utils/global_store";
 import * as providers_menu from "../../providers/master/menu"
 import { SESSION } from "../../utils/constants";
@@ -34,7 +34,9 @@ function Login() {
     }
   };
   useEffect(() => {
-    console.log("KESINI?");
+    // console.log(getSession(SESSION.URI));
+    // 'https://www.new-website.com'
+    // window.location.href= 'https://'+getSession(SESSION.URI);
     clearSession();
   }, []);
   return (

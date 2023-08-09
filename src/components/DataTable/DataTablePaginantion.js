@@ -18,16 +18,23 @@ const DataTablePagination = ({
   const [totalItems, setTotalItems] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, pageSize, searchQuery]);
+  }, [currentPage, pageSize, searchQuery,sortField,sortOrder]);
 
   const fetchData = () => {
     // console.log("KESINI");
-    fetchDataFunc(currentPage, pageSize, searchQuery)
+    console.log(sortOrder);
+    let sort =`${sortField}:${sortOrder=='ascend'?'asc':'desc'}`
+    if(sortField==""||sortField==null ||sortField==undefined){
+      sort =""
+    }
+    fetchDataFunc(currentPage, pageSize, searchQuery,sort)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setTableData(data.data.data);
         setTotalItems(data.data.totalData);
       })
@@ -51,6 +58,11 @@ const DataTablePagination = ({
     setSearchQuery(value);
   };
 
+  const handleTableChange = (pagination, filters, sorter) => {
+    const { field, order } = sorter;
+    setSortField(field);
+    setSortOrder(order);
+  };
   return (
     <section className="section">
       <div className="card">
@@ -77,7 +89,11 @@ const DataTablePagination = ({
             <Table
               dataSource={tableData}
               pagination={false}
-              columns={columns}
+              onChange={handleTableChange}
+              columns={columns.map((col) => ({
+                ...col,
+                sorter: col.sortable??false,
+              }))}
               style={{marginBottom:30}}
             />
 
