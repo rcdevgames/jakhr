@@ -13,7 +13,7 @@ import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
 import {useLoadingContext}from "../../../components/Loading"
 
-const LeaveMassForm = () => {
+const LeaveMassForm = ({readOnly=false}) => {
   const required_field = ["name", "description", "default_total_leave"];
   const {showLoading,hideLoading} = useLoadingContext()
   const navigate = useNavigate();
@@ -109,7 +109,8 @@ const LeaveMassForm = () => {
                         className="form-control"
                         type="text"
                         name="name"
-                        value={data.name}
+                            disabled={readOnly}
+                            value={data.name}
                         onChange={handleChange}
                       />
                     </div>
@@ -121,7 +122,8 @@ const LeaveMassForm = () => {
                       <input
                         className="form-control"
                         type="text"
-                        name="description"
+                            disabled={readOnly}
+                            name="description"
                         value={data.description}
                         onChange={handleChange}
                       />
@@ -133,7 +135,8 @@ const LeaveMassForm = () => {
                       <input
                         className="form-control"
                         type="text"
-                        onKeyDown={onlyNumber}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumber}
                         onPaste={disablePaste}
                         name="default_total_leave"
                         value={data.default_total_leave}
@@ -142,12 +145,15 @@ const LeaveMassForm = () => {
                     </div>
                   </div>
                 </div>
+                {
+                  readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

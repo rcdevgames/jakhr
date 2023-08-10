@@ -27,7 +27,7 @@ const DataTablePagination = ({
 
   const fetchData = () => {
     // console.log("KESINI");
-    console.log(sortOrder);
+    // console.log(sortOrder);
     let sort =`${sortField}:${sortOrder=='ascend'?'asc':'desc'}`
     if(sortField==""||sortField==null ||sortField==undefined){
       sort =""

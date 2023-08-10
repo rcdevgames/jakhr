@@ -20,7 +20,7 @@ import { Switch } from "antd";
 import Select from "react-select";
 import { useLoadingContext } from "../../../components/Loading";
 import UploadFile from "../../../components/UploadFile";
-const LeaveForm = () => {
+const LeaveForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoadingContext();
   const required_field = [

@@ -7,6 +7,7 @@ import ActionModal from "../../../components/ActionModal";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { sys_labels } from "../../../utils/constants";
+import { routes_name } from "../../../route/static_route";
 
 const Branch = () => {
   const navigate = useNavigate();
@@ -17,23 +18,23 @@ const Branch = () => {
     {
       title: "Company",
       dataIndex: "company",
-      key: "company",
+      key: "company", 
       render: (val) => val.company_name,
     },
-    { title: "Branch", dataIndex: "name", key: "name" },
-    { title: "Address", dataIndex: "address", key: "address" },
-    { title: "Radius", dataIndex: "radius", key: "radius" },
+    { title: "Branch", dataIndex: "name", key: "name", sortable: true },
+    { title: "Address", dataIndex: "address", key: "address", sortable: true },
+    { title: "Radius", dataIndex: "radius", key: "radius" , sortable: true},
     {
       title: "Primary Phone",
       dataIndex: "primary_phone",
-      key: "primary_phone",
+      key: "primary_phone", sortable: true,
     },
     {
       title: "Secondary Phone",
       dataIndex: "secondary_phone",
-      key: "secondary_phone",
+      key: "secondary_phone", sortable: true,
     },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
     {
       title: "Action",
       dataIndex: "id",
@@ -41,11 +42,19 @@ const Branch = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`/master-data/branch/detail/${val}`)}
+            onClick={() => navigate(`/master-data/branch/show/${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`/master-data/branch/detail/${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

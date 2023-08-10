@@ -8,6 +8,7 @@ import { routes_name } from "../../../route/static_route";
 import ActionModal from "../../../components/ActionModal";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
+import { Badge } from "antd";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -22,17 +23,26 @@ const Company = () => {
       sortable: true,
     },
     { title: "Address", dataIndex: "address", key: "address", sortable: true },
-    { title: "Alias", dataIndex: "alias", key: "alias" },
+    { title: "Alias", dataIndex: "alias", key: "alias", sortable: true },
     {
       title: "Status",
       dataIndex: "is_active",
       key: "is_active",
-      render: (val) => (val ? "Aktif" : "Tidak Aktif"),
+      sortable: true,
+
+      render: (val) => (
+        <Badge
+          status={val ? "success" : "warning"}
+          text={val ? "Aktif" : "Tidak Aktif"}
+          showZero
+        ></Badge>
+      ),
     },
     {
       title: "Created Date",
       dataIndex: "created_at",
       key: "created_at",
+      sortable: true,
       render: (val, record) =>
         SysDateTransform({
           date: val,
@@ -49,11 +59,18 @@ const Company = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_COMPANY_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_COMPANY_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
-          >
+            >
             <i className="bi bi-file-text"></i>
+          </a>
+          <a
+            onClick={() => navigate(`${routes_name.M_COMPANY_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           {/* <a
             onClick={() => openModal(record)}

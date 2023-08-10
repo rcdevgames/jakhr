@@ -6,14 +6,14 @@ import * as providers from "../../../providers/master/menu";
 import { SysGenValueOption, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import Select from "react-select";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
-const MenuForm = () => {
+const MenuForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfmenuModel({}));
   const [parent, set_parent] = useState(convert.listOfmenuModel([]));
-  const {showLoading,hideLoading} =useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
   const getParent = async () => {
     showLoading();
     try {
@@ -24,8 +24,10 @@ const MenuForm = () => {
     }
     hideLoading();
   };
-  
-  const title = `${id?sys_labels.action.EDIT_FORM:sys_labels.action.FORM} Menu`;
+
+  const title = `${
+    id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM
+  } Menu`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -76,7 +78,7 @@ const MenuForm = () => {
           parent_id: data.parent_id,
         },
         data.id
-        );
+      );
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
@@ -85,7 +87,7 @@ const MenuForm = () => {
     }
     hideLoading();
   };
-  
+
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -101,17 +103,14 @@ const MenuForm = () => {
                     <div className="form-group">
                       <label>Parent:</label>{" "}
                       <Select
+                        isDisabled={readOnly}
                         onChange={handleChange}
-                        value={SysGenValueOption(
-                          parent,
-                          data.parent_id,
-                          "id"
-                        )}
+                        value={SysGenValueOption(parent, data.parent_id, "id")}
                         formatOptionLabel={(val) => `${val.title}`}
                         options={parent.map((option, index) => ({
                           value: option.id,
                           label: `${option.title}`,
-                          title:option.title,
+                          title: option.title,
                           target: {
                             value: option.id,
                             name: "parent_id",
@@ -131,6 +130,7 @@ const MenuForm = () => {
                         className="form-control"
                         type="text"
                         name="title"
+                        disabled={readOnly}
                         value={data.title}
                         onChange={handleChange}
                       />
@@ -142,6 +142,7 @@ const MenuForm = () => {
                       <input
                         className="form-control"
                         type="text"
+                        disabled={readOnly}
                         name="description"
                         value={data.description}
                         onChange={handleChange}
@@ -153,6 +154,7 @@ const MenuForm = () => {
                       <label>Route:</label>
                       <input
                         className="form-control"
+                        disabled={readOnly}
                         type="text"
                         name="route"
                         value={data.route}
@@ -161,12 +163,14 @@ const MenuForm = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

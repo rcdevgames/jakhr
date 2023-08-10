@@ -5,7 +5,7 @@ import * as providers from "../../../providers/transaction/reimburs";
 import {DataTablePaginantionFilter} from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
 import { routes_name } from "../../../route/static_route";
-import { SysCurrencyTransform, showToast } from "../../../utils/global_store";
+import { SysCurrencyTransform, SysDateTransform, showToast } from "../../../utils/global_store";
 import {useNavigate} from "react-router-dom"
 import ActionModal from "../../../components/ActionModal";
 
@@ -16,12 +16,13 @@ const Reimburst = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const [modal_image, set_modal_image] = useState(false);
+  // SysDateTransform
   const columns = [
     { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
-    { title: "Description", dataIndex: "description", key: "description" },
-    { title: "Date", dataIndex: "date", key: "date" },
-    { title: "Amount", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:val}) },
-    { title: "Status", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>val?'PAID':'NO PAID' },
+    { title: "Description", dataIndex: "description", key: "description",sortable:true },
+    { title: "Date", dataIndex: "date", key: "date" ,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'})},
+    { title: "Amount", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:val}),sortable:true },
+    { title: "Status", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>val?'PAID':'NO PAID',sortable:true },
     {
       title: "Action",
       dataIndex: "id",
@@ -31,13 +32,21 @@ const Reimburst = () => {
           <a
             onClick={() =>
               navigate(
-                `${routes_name.TRANSAC_REIMBURST_DETAIL}${val}`
+                `${routes_name.TRANSAC_REIMBURST_SHOW}${val}`
               )
             }
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
             >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.TRANSAC_REIMBURST_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             style={{ marginRight: 10 }}

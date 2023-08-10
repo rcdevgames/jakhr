@@ -6,15 +6,15 @@ import convert from "../../../model/component_nameModel";
 import * as providers from "../../../providers/config/component_name";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
-import {useLoadingContext} from "../../../components/Loading"
-const ComponentNameDailyForm = () => {
+import { useLoadingContext } from "../../../components/Loading";
+const ComponentNameDailyForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   // console.log("KESINI",id);
-  const{showLoading,hideLoading} = useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
   const [data, setData] = useState(convert.objectOfcomponent_nameModel({}));
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
-    sys_labels.menus.ALLOWANCE + ' Harian'
+    sys_labels.menus.ALLOWANCE + " Harian"
   }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -26,7 +26,6 @@ const ComponentNameDailyForm = () => {
     }
   }, []);
   const handleDetail = async (id) => {
-    
     showLoading();
     try {
       const resp = await providers.getDetail(id);
@@ -38,7 +37,6 @@ const ComponentNameDailyForm = () => {
     hideLoading();
   };
   const handleSubmit = async () => {
-    
     showLoading();
     try {
       const resp = await providers.insertData({
@@ -65,14 +63,14 @@ const ComponentNameDailyForm = () => {
           description: data.description,
         },
         data.id
-        );
-        showToast({ message: resp.message, type: "success" });
-        navigate(-1);
-      } catch (error) {
-        console.log(error);
-        showToast({ message: error.message, type: "error" });
-      }
-      hideLoading();
+      );
+      showToast({ message: resp.message, type: "success" });
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message, type: "error" });
+    }
+    hideLoading();
   };
 
   return (
@@ -94,6 +92,7 @@ const ComponentNameDailyForm = () => {
                         type="text"
                         name="name"
                         value={data.name}
+                        disabled={readOnly}
                         onChange={handleChange}
                       />
                     </div>
@@ -105,6 +104,7 @@ const ComponentNameDailyForm = () => {
                       <input
                         className="form-control"
                         type="text"
+                        disabled={readOnly}
                         name="description"
                         value={data.description}
                         onChange={handleChange}
@@ -112,12 +112,14 @@ const ComponentNameDailyForm = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

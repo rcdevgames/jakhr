@@ -18,7 +18,7 @@ const Employee = () => {
     {
       title: "Fullname",
       dataIndex: "full_name",
-      key: "full_name",
+      key: "full_name", sortable: true,
     },
     
     {
@@ -34,9 +34,9 @@ const Employee = () => {
       key: "company",
       render: (val) => val.company.name,
     },
-    { title: "Division", dataIndex: "division", key: "division" },
-    { title: "Position", dataIndex: "position", key: "position" },
-    { title: "Job", dataIndex: "job_level", key: "job_level" },
+    { title: "Division", dataIndex: "division", key: "division", sortable: true },
+    { title: "Position", dataIndex: "position", key: "position", sortable: true },
+    { title: "Job", dataIndex: "job_level", key: "job_level", sortable: true },
     {
       title: "Action",
       dataIndex: "id",
@@ -44,11 +44,19 @@ const Employee = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_SALARY_COMPONENT_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_SALARY_COMPONENT_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.M_SALARY_COMPONENT_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
         </div>
       ),

@@ -1,11 +1,11 @@
 import { sys_del, sys_get, sys_post } from "../../utils/api_client";
 
 const uri = "master/";
-export const getData = async (page = 1,limit=10,search="") => {
+export const getData = async (page = 1,limit=10,search="",sort="") => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `roles?page=${page}&perPage=${limit}&keywords=${search}`,
+      endpoint: uri + `roles?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}`,
     });
     return response;
   } catch (error) {

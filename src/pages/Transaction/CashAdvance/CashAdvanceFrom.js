@@ -14,7 +14,7 @@ import { disablePaste, onlyNumber } from "../../../utils/validation";
 import {useLoadingContext}from "../../../components/Loading"
 
 import { Switch } from "antd";
-const ScheduleForm = () => {
+const ScheduleForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfcash_advanceModel({}));
@@ -161,6 +161,8 @@ const ScheduleForm = () => {
                         <label style={{ marginRight: 15 }}>Lunas</label>
                         <Switch
                           name="is_paid"
+                          disabled={readOnly}
+
                           checked={data.is_paid}                          
                           onChange={handleChangeActive}
                         />
@@ -173,7 +175,8 @@ const ScheduleForm = () => {
                         className="form-select"
                         id="employee_id"
                         name="employee_id"
-                        value={data.employee_id}
+                            disabled={readOnly}
+                            value={data.employee_id}
                         onChange={handleChange}
                         aria-label="Nama"
                         required
@@ -193,7 +196,8 @@ const ScheduleForm = () => {
                       <label>Title:</label>
                       <input
                         className="form-control"
-                        name="title"
+                            disabled={readOnly}
+                            name="title"
                         value={data.title}
                         onChange={handleChange}
                       />
@@ -207,7 +211,8 @@ const ScheduleForm = () => {
                         className="form-control"
                         name="description"
                         value={data.description}
-                        onChange={handleChange}
+                            disabled={readOnly}
+                            onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -219,7 +224,8 @@ const ScheduleForm = () => {
                         name="amount"
                         onKeyDown={onlyNumber}
                         onPaste={disablePaste}
-                        value={data.amount}
+                            disabled={readOnly}
+                            value={data.amount}
                         onChange={handleChange}
                       />
                     </div>
@@ -232,7 +238,8 @@ const ScheduleForm = () => {
                         name="cash_date"
                         onChange={handleDateStartChange}
                         value={data.cash_date}
-                        placeholder={"Start Date"}
+                            disabled={readOnly}
+                            placeholder={"Start Date"}
                       />
                     </div>
                   </div>
@@ -242,19 +249,22 @@ const ScheduleForm = () => {
                       <DatePicker
                         name="due_date"
                         onChange={handleDateEndChange}
-                        value={data.due_date}
+                            disabled={readOnly}
+                            value={data.due_date}
                         placeholder={"End Date"}
                       />
                     </div>
                   </div>
                  
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import * as providers from "../../../providers/transaction/attendace";
 import {DataTablePaginantionFilter} from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
 import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
+import { SysDateTransform, showToast } from "../../../utils/global_store";
 
 const Attendance = () => {
   const [message, set_message] = useState("");
@@ -19,11 +19,11 @@ const Attendance = () => {
       key: "employee",
       render: (val) => val.name,
     },
-    { title: "Description", dataIndex: "description", key: "description" },
-    { title: "Date In", dataIndex: "date_in", key: "date_in" },
-    { title: "Time In", dataIndex: "time_in", key: "time_in" },
-    { title: "Date Out", dataIndex: "date_out", key: "date_out" },
-    { title: "Time Out", dataIndex: "time_out", key: "time_out" },
+    { title: "Description", dataIndex: "description", key: "description", sortable: true },
+    { title: "Date In", dataIndex: "date_in", key: "date_in",render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}), sortable: true },
+    { title: "Time In", dataIndex: "time_in", key: "time_in", sortable: true },
+    { title: "Date Out", dataIndex: "date_out", key: "date_out", sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Time Out", dataIndex: "time_out", key: "time_out", sortable: true },
     {
       title: "Action",
       dataIndex: "id",

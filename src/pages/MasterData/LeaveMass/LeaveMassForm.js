@@ -7,7 +7,7 @@ import * as providers from "../../../providers/master/leave_mass";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import {useLoadingContext}from "../../../components/Loading"
 import { sys_labels } from "../../../utils/constants";
-const LeaveMassForm = () => {
+const LeaveMassForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfleave_massModel({}));
@@ -89,7 +89,8 @@ const LeaveMassForm = () => {
                       <input
                         className="form-control"
                         type="text"
-                        name="leave_name"
+                            disabled={readOnly}
+                            name="leave_name"
                         value={data.leave_name}
                         onChange={handleChange}
                       />
@@ -99,18 +100,23 @@ const LeaveMassForm = () => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Leave Date:</label>
-                      <DatePicker name="leave_date" onChange={handleDateChange} value={data.leave_date} placeholder={'Leave Date'} />
+                      <DatePicker 
+                            disabled={readOnly}
+                      
+                      name="leave_date" onChange={handleDateChange} value={data.leave_date} placeholder={'Leave Date'} />
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={()=>
-                    data.id ? handleUpdate() : handleSubmit()
-                  }
-                  className="btn btn-primary"
+                onClick={()=>
+                  data.id ? handleUpdate() : handleSubmit()
+                }
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

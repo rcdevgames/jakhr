@@ -14,16 +14,19 @@ function Authentication() {
   const navigate = useNavigate();
   const [is_valid, set_valid] = useState(false);
   const [is_loading, set_loading] = useState(true);
-  const { token, uri } = useParams();
+  const { token, uri,protocol } = useParams();
   const handleAuthentication = async () => {
     try {
       if (token == "log" && uri == "out") {
-        window.location.href = "https://" + getSession(SESSION.URI);
+        let url = getSession(SESSION.URI)??"www.google.com";
+        let protocol_uri = getSession(SESSION.PROTOCOL_URI)??"https:"
+        window.location.href = protocol_uri+"//" + url;
         clearSession();
         return;
       }
       setSession(SESSION.ACCESS_TOKEN, token);
       setSession(SESSION.URI, uri);
+      setSession(SESSION.PROTOCOL_URI, protocol);
       const resp = await providers.verify(token);
       const menus = await providers_menu.getMenu();
       const menu = SysGenMenuByRole(menus.data);

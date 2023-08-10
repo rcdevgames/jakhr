@@ -28,7 +28,7 @@ import { Switch } from "antd";
 import {useLoadingContext} from "../../../components/Loading"
 import Select from "react-select";
 
-const EmployeeForm = () => {
+const EmployeeForm = ({readOnly=false}) => {
   const required_field = [
     "full_name",
     "phone_number",
@@ -360,10 +360,13 @@ const EmployeeForm = () => {
                   <div className="col-md-6">
                     <div className="col-md-12">
                       <label>Logo:</label>
+                      {
+                        readOnly?<img src={data.photo?.source??""} style={{objectFit:"contain"}} className="col-md-12"></img>:
                       <UploadFile
-                        onImageUpload={handleUpload}
-                        file={data.photo}
+                      onImageUpload={handleUpload}
+                      file={data.photo}
                       />
+                    }
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -392,6 +395,8 @@ const EmployeeForm = () => {
                         <label style={{ marginRight: 15 }}>Absen Diluar Radius</label>
                         <Switch
                           name="attend_out_of_range"
+                        disabled={readOnly}
+                          
                           checked={data.attend_out_of_range}
                           onChange={handleChangeActive}
                         />
@@ -402,7 +407,8 @@ const EmployeeForm = () => {
                         <label>Fullname:*</label>
                         <input
                           className="form-control"
-                          type="text"
+                        disabled={readOnly}
+                        type="text"
                           name="full_name"
                           value={data.full_name}
                           onChange={handleChange}
@@ -417,7 +423,8 @@ const EmployeeForm = () => {
                           <label>Employee ID:*</label>
                           <input
                             className="form-control"
-                            type="text"
+                        disabled={readOnly}
+                        type="text"
                             name="employee_id"
                             value={data.employee_id}
                             onChange={handleChange}
@@ -431,7 +438,8 @@ const EmployeeForm = () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="id_number"
+                        disabled={readOnly}
+                        name="id_number"
                             value={data.id_number}
                             onChange={handleChange}
                             required
@@ -443,6 +451,7 @@ const EmployeeForm = () => {
                           <label>Role:*</label>
                           <Select
                             onChange={handleChangeRole}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               role,
                               data?.role?.id ?? "",
@@ -474,6 +483,8 @@ const EmployeeForm = () => {
                             name="employee_join_date"
                             onChange={handleDateChangeEmployeeJoinDate}
                             value={data.employee_join_date}
+                        disabled={readOnly}
+
                             placeholder={"Date of Birth"}
                           />
                         </div>
@@ -485,7 +496,8 @@ const EmployeeForm = () => {
                           <DatePicker
                             name="employee_expired_date"
                             onChange={handleDateChangeEmployeeExpiredDate}
-                            value={data.employee_expired_date}
+                        disabled={readOnly}
+                        value={data.employee_expired_date}
                             placeholder={"Date of Birth"}
                           />
                         </div>
@@ -496,7 +508,8 @@ const EmployeeForm = () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="tax_number"
+                        disabled={readOnly}
+                        name="tax_number"
                             value={data.tax_number}
                             onChange={handleChange}
                             required
@@ -508,6 +521,7 @@ const EmployeeForm = () => {
                           <label>Religion:*</label>
                           <Select
                             onChange={handleChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               religion,
                               data.religion,
@@ -536,6 +550,7 @@ const EmployeeForm = () => {
                           <label>Employee Status:</label>
                           <Select
                             onChange={handleChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               employee_status,
                               data.employee_status_id,
@@ -563,6 +578,7 @@ const EmployeeForm = () => {
                           <label>PTKP:*</label>
                           <Select
                             onChange={handleChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               ptkp,
                               data.ptkp,
@@ -590,6 +606,7 @@ const EmployeeForm = () => {
                           <label>Branch:</label>
                           <Select
                             onChange={handleBranchChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               branch,
                               data.branch_id,
@@ -617,6 +634,7 @@ const EmployeeForm = () => {
                           <label>Division:</label>
                           <Select
                             onChange={handleOrganizationChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               organization,
                               data.organization_id,
@@ -644,6 +662,7 @@ const EmployeeForm = () => {
                           <label>Job Level:</label>
                           <Select
                             onChange={handleJobLevelChange}
+                            isDisabled={readOnly}
                             value={SysGenValueOption(
                               job_level,
                               data.job_level_id,
@@ -670,6 +689,7 @@ const EmployeeForm = () => {
                         <div className="form-group">
                           <label>Job Position:</label>
                           <Select
+                            isDisabled={readOnly}
                             onChange={handleChange}
                             value={SysGenValueOption(
                               job_position,
@@ -698,6 +718,7 @@ const EmployeeForm = () => {
                           <label>Place of Birth:</label>
                           <input
                             className="form-control"
+                            disabled={readOnly}
                             type="text"
                             name="pob"
                             value={data.pob}
@@ -710,6 +731,7 @@ const EmployeeForm = () => {
                           <label>Phone Number:</label>
                           <input
                             className="form-control"
+                            disabled={readOnly}
                             type="text"
                             name="phone_number"
                             maxLength={15}
@@ -723,6 +745,7 @@ const EmployeeForm = () => {
                           <label>Date of Birth:</label>
                           <DatePicker
                             name="dob"
+                            disabled={readOnly}
                             onChange={handleDateChange}
                             value={data.dob}
                             placeholder={"Date of Birth"}
@@ -733,6 +756,7 @@ const EmployeeForm = () => {
                         <div className="form-group">
                           <label>Gender:*</label>
                           <Select
+                          isDisabled={readOnly}
                             onChange={handleChange}
                             value={SysGenValueOption(
                               gender,
@@ -760,7 +784,8 @@ const EmployeeForm = () => {
                         <div className="form-group">
                           <label>Marital Status:*</label>
                           <Select
-                            onChange={handleChange}
+                          isDisabled={readOnly}
+                          onChange={handleChange}
                             value={SysGenValueOption(
                               marital_status,
                               data.marital_status,
@@ -787,7 +812,8 @@ const EmployeeForm = () => {
                         <div className="form-group">
                           <label>Blood Type:*</label>
                           <Select
-                            onChange={handleChange}
+                          isDisabled={readOnly}
+                          onChange={handleChange}
                             value={SysGenValueOption(
                               blood_type,
                               data.blood_type,
@@ -816,6 +842,7 @@ const EmployeeForm = () => {
                           <input
                             className="form-control"
                             required
+                            disabled={readOnly}
                             type="text"
                             name="email"
                             value={data.email}
@@ -843,7 +870,8 @@ const EmployeeForm = () => {
                         <label>Citizen Address:*</label>
                         <input
                           className="form-control"
-                          required
+                            disabled={readOnly}
+                            required
                           type="text"
                           name="citizen_address"
                           value={data.citizen_address}
@@ -857,7 +885,8 @@ const EmployeeForm = () => {
                         <input
                           className="form-control"
                           required
-                          type="text"
+                            disabled={readOnly}
+                            type="text"
                           name="residential_address"
                           value={data.residential_address}
                           onChange={handleChange}
@@ -866,12 +895,14 @@ const EmployeeForm = () => {
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

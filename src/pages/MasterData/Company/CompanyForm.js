@@ -11,12 +11,12 @@ import {
 } from "../../../utils/global_store";
 import UploadFile from "../../../components/UploadFile";
 import { sys_labels } from "../../../utils/constants";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 import Select from "react-select";
-const CompanyForm = () => {
+const CompanyForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const {showLoading,hideLoading}= useLoadingContext()
+  const { showLoading, hideLoading } = useLoadingContext();
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
   const required_field = ["address", "alias", "name"];
@@ -48,7 +48,6 @@ const CompanyForm = () => {
     hideLoading();
   };
   const handleDetail = async (id) => {
-    
     showLoading();
     try {
       const resp = await providers.getDetail(id);
@@ -67,7 +66,6 @@ const CompanyForm = () => {
     hideLoading();
   };
   const handleSubmit = async () => {
-    
     showLoading();
     try {
       const data_submit = {
@@ -94,7 +92,6 @@ const CompanyForm = () => {
   };
 
   const handleUpdate = async () => {
-    
     showLoading();
     try {
       const data_submit = {
@@ -136,7 +133,18 @@ const CompanyForm = () => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <label>Logo:</label>
-                    <UploadFile onImageUpload={handleUpload} file={data.logo} />
+                    {readOnly ? (
+                      <img
+                        src={data.logo?.source ?? ""}
+                        style={{ objectFit: "contain" }}
+                        className="col-md-12"
+                      ></img>
+                    ) : (
+                      <UploadFile
+                        onImageUpload={handleUpload}
+                        file={data.logo}
+                      />
+                    )}
                   </div>
                   <div className="col-md-6">
                     <div className="col-md-6">
@@ -151,6 +159,7 @@ const CompanyForm = () => {
                         <label style={{ marginRight: 15 }}>Active</label>
                         <Switch
                           name="is_active"
+                          disabled={readOnly}
                           checked={data.is_active}
                           onChange={handleChangeActive}
                         />
@@ -167,6 +176,7 @@ const CompanyForm = () => {
                             "id",
                             "name"
                           )}
+                          isDisabled={readOnly}
                           formatOptionLabel={(val) => `${val.label}`}
                           options={parent.map((option, index) => ({
                             value: option.id,
@@ -192,6 +202,7 @@ const CompanyForm = () => {
                           type="text"
                           name="name"
                           value={data.name}
+                          disabled={readOnly}
                           onChange={handleChange}
                         />
                       </div>
@@ -203,6 +214,7 @@ const CompanyForm = () => {
                           className="form-control"
                           type="text"
                           name="alias"
+                          disabled={readOnly}
                           value={data.alias}
                           onChange={handleChange}
                         />
@@ -214,6 +226,7 @@ const CompanyForm = () => {
                         <Input.TextArea
                           rows={4}
                           className="form-control"
+                          disabled={readOnly}
                           type="text"
                           name="address"
                           value={data.address}
@@ -223,12 +236,14 @@ const CompanyForm = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

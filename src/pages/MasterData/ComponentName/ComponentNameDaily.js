@@ -16,12 +16,12 @@ const ComponentName = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Description", dataIndex: "description", key: "description" },
+    { title: "Name", dataIndex: "name", key: "name", sortable: true },
+    { title: "Description", dataIndex: "description", key: "description", sortable: true },
     {
       title: "Created Date",
       dataIndex: "created_at",
-      key: "created_at",
+      key: "created_at", sortable: true,
       render: (val, record) =>
         SysDateTransform({
           date: val,
@@ -41,13 +41,21 @@ const ComponentName = () => {
           <a
             onClick={() =>
               navigate(
-                `${routes_name.M_COMPONENT_NAME_ALLOWANCE_DAILY_DETAIL}${val}`
+                `${routes_name.M_COMPONENT_NAME_ALLOWANCE_DAILY_SHOW}${val}`
               )
             }
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.M_COMPONENT_NAME_ALLOWANCE_DAILY_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

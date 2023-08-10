@@ -35,7 +35,7 @@ import {
   onlyNumberAndDot,
 } from "../../../utils/validation";
 
-const SalaryComponentForm = () => {
+const SalaryComponentForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { showLoading, hideLoading } = useLoadingContext();
@@ -176,6 +176,9 @@ const SalaryComponentForm = () => {
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance_ex(record);
+        if(readOnly){
+          return
+        }
         return editable ? (
           <div className="btn-group" role="group">
             <a
@@ -390,6 +393,7 @@ const SalaryComponentForm = () => {
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance(record);
+        if(readOnly)return;
         return editable ? (
           <div className="btn-group" role="group">
             <a
@@ -623,6 +627,7 @@ const SalaryComponentForm = () => {
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_deduction(record);
+        if(readOnly)return;
         return editable ? (
           <div className="btn-group" role="group">
             <a
@@ -838,6 +843,7 @@ const SalaryComponentForm = () => {
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance_daily(record);
+        if(readOnly)return;
         return editable ? (
           <div className="btn-group" role="group">
             <a
@@ -1333,7 +1339,8 @@ const SalaryComponentForm = () => {
                       <input
                         className="form-control"
                         type="text"
-                        onKeyDown={onlyNumber}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumber}
                         onPaste={disablePaste}
                         name="basic_salary"
                         value={data.basic_salary}
@@ -1346,6 +1353,7 @@ const SalaryComponentForm = () => {
                       <label>Nama Bank:</label>{" "}
                       <Select
                         onChange={handleChange}
+                        isDisabled={readOnly}
                         value={SysGenValueOption(
                           bank_data,
                           data.bank_name,
@@ -1373,7 +1381,8 @@ const SalaryComponentForm = () => {
                       <label>Rekening:</label>
                       <input
                         className="form-control"
-                        type="text"
+                            disabled={readOnly}
+                            type="text"
                         onKeyDown={onlyNumber}
                         onPaste={disablePaste}
                         name="bank_account"
@@ -1389,6 +1398,7 @@ const SalaryComponentForm = () => {
                           <label>Tunjangan Tetap:</label>
                           <input
                             className="form-control"
+                            disabled={readOnly}
                             type="text"
                             readOnly
                             value={SysCurrencyTransform({
@@ -1485,6 +1495,7 @@ const SalaryComponentForm = () => {
                           <label>Hari Kerja:</label>{" "}
                           <input
                             className="form-control"
+                            disabled={readOnly}
                             type="text"
                             onKeyDown={onlyNumber}
                             onPaste={disablePaste}
@@ -1526,6 +1537,8 @@ const SalaryComponentForm = () => {
                               <label>Berdasarkan:</label>{" "}
                               <select
                                 className="form-select"
+                            disabled={readOnly}
+                                
                                 id="calc_base_overtime"
                                 name="calc_base_overtime"
                                 value={overtime_date.calc_base}
@@ -1555,7 +1568,8 @@ const SalaryComponentForm = () => {
                               <input
                                 className="form-control"
                                 type="text"
-                                onKeyDown={onlyNumber}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumber}
                                 onPaste={disablePaste}
                                 name="total_custom_overtime"
                                 value={overtime_date.total_custom}
@@ -1572,7 +1586,8 @@ const SalaryComponentForm = () => {
                             <div className="form-group">
                               <label>Lembur Harus Disertai Persetujuan:</label>{" "}
                               <select
-                                className="form-select"
+                            disabled={readOnly}
+                            className="form-select"
                                 id="is_approval_overtime"
                                 name="is_approval_overtime"
                                 value={overtime_date.is_approval}
@@ -1590,7 +1605,8 @@ const SalaryComponentForm = () => {
                               <label>Mode Perhitungan Lembur:</label>{" "}
                               <select
                                 className="form-select"
-                                id="calc_mode_overtime"
+                            disabled={readOnly}
+                            id="calc_mode_overtime"
                                 name="calc_mode_overtime"
                                 value={overtime_date.calc_mode}
                                 onChange={handleChangeOvertime}
@@ -1611,7 +1627,8 @@ const SalaryComponentForm = () => {
                               <select
                                 className="form-select"
                                 id="work_pattern_overtime"
-                                name="work_pattern_overtime"
+                            disabled={readOnly}
+                            name="work_pattern_overtime"
                                 value={overtime_date.work_pattern}
                                 onChange={handleChangeOvertime}
                                 aria-label="Calc Mode"
@@ -1638,7 +1655,8 @@ const SalaryComponentForm = () => {
                           <div className="form-group">
                             <label>Berdasarkan:</label>{" "}
                             <select
-                              className="form-select"
+                            disabled={readOnly}
+                            className="form-select"
                               id="calc_base_late"
                               name="calc_base_late"
                               value={late_data.calc_base}
@@ -1666,7 +1684,8 @@ const SalaryComponentForm = () => {
                             <input
                               className="form-control"
                               type="text"
-                              onKeyDown={onlyNumber}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumber}
                               onPaste={disablePaste}
                               name="total_custom_late"
                               value={late_data.total_custom}
@@ -1687,7 +1706,8 @@ const SalaryComponentForm = () => {
                               className="form-control"
                               type="text"
                               onKeyDown={onlyNumber}
-                              onPaste={disablePaste}
+                            disabled={readOnly}
+                            onPaste={disablePaste}
                               name="leave_balance_incentive"
                               value={data.leave_balance_incentive}
                               onChange={handleChange}
@@ -1713,7 +1733,8 @@ const SalaryComponentForm = () => {
                               type="text"
                               onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
-                              name="jht"
+                            disabled={readOnly}
+                            name="jht"
                               value={data.jht}
                               onChange={handleChange}
                             />
@@ -1725,7 +1746,8 @@ const SalaryComponentForm = () => {
                             <input
                               className="form-control"
                               type="text"
-                              onKeyDown={onlyNumberAndDot}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="kesehatan"
                               value={data.kesehatan}
@@ -1740,7 +1762,8 @@ const SalaryComponentForm = () => {
                             <input
                               className="form-control"
                               type="text"
-                              onKeyDown={onlyNumberAndDot}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="jp"
                               value={data.jp}
@@ -1754,7 +1777,8 @@ const SalaryComponentForm = () => {
                             <input
                               className="form-control"
                               type="text"
-                              onKeyDown={onlyNumberAndDot}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="other_insurance"
                               value={data.other_insurance}
@@ -1777,7 +1801,8 @@ const SalaryComponentForm = () => {
                               type="text"
                               onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
-                              name="jht_company"
+                            disabled={readOnly}
+                            name="jht_company"
                               value={data.jht_company}
                               onChange={handleChange}
                             />
@@ -1791,7 +1816,8 @@ const SalaryComponentForm = () => {
                               className="form-control"
                               type="text"
                               onKeyDown={onlyNumberAndDot}
-                              onPaste={disablePaste}
+                            disabled={readOnly}
+                            onPaste={disablePaste}
                               name="kesehatan_company"
                               value={data.kesehatan_company}
                               onChange={handleChange}
@@ -1805,7 +1831,8 @@ const SalaryComponentForm = () => {
                             <input
                               className="form-control"
                               type="text"
-                              onKeyDown={onlyNumberAndDot}
+                            disabled={readOnly}
+                            onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="jp_company"
                               value={data.jp_company}
@@ -1823,7 +1850,8 @@ const SalaryComponentForm = () => {
                               onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="jkm_company"
-                              value={data.jkm_company}
+                            disabled={readOnly}
+                            value={data.jkm_company}
                               onChange={handleChange}
                             />
                           </div>
@@ -1837,7 +1865,8 @@ const SalaryComponentForm = () => {
                               type="text"
                               onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
-                              name="jkk_company"
+                            disabled={readOnly}
+                            name="jkk_company"
                               value={data.jkk_company}
                               onChange={handleChange}
                             />
@@ -1849,7 +1878,8 @@ const SalaryComponentForm = () => {
                             <label>Lainnya (%):</label>
                             <input
                               className="form-control"
-                              type="text"
+                            disabled={readOnly}
+                            type="text"
                               onKeyDown={onlyNumberAndDot}
                               onPaste={disablePaste}
                               name="other_insurance_company"
@@ -1864,12 +1894,14 @@ const SalaryComponentForm = () => {
                 </div>
               </div>
             </div>
+            {readOnly?null:
             <button
-              onClick={() => (is_salary ? handleUpdate() : handleSubmit())}
-              className="btn btn-primary"
+            onClick={() => (is_salary ? handleUpdate() : handleSubmit())}
+            className="btn btn-primary"
             >
               Submit
             </button>
+            }
           </div>
         </div>
         <Modal
@@ -1888,13 +1920,15 @@ const SalaryComponentForm = () => {
             }
             columns={columns_allowance}
           />
+          {readOnly?null:
           <Button
-            onClick={handleAddRowAllowance}
-            className="btn btn-sm btn-primary mt-4"
-            style={{ borderRadius: 100 }}
+          onClick={handleAddRowAllowance}
+          className="btn btn-sm btn-primary mt-4"
+          style={{ borderRadius: 100 }}
           >
             <i className="bi bi-plus"></i>
           </Button>
+          }
         </Modal>
         <Modal
           title="Tunjangan Lainnya"
@@ -1912,13 +1946,15 @@ const SalaryComponentForm = () => {
             }
             columns={columns_allowance_ex}
           />
+          {readOnly?null:
           <Button
-            onClick={handleAddRowAllowanceEx}
-            className="btn btn-sm btn-primary mt-4"
-            style={{ borderRadius: 100 }}
+          onClick={handleAddRowAllowanceEx}
+          className="btn btn-sm btn-primary mt-4"
+          style={{ borderRadius: 100 }}
           >
             <i className="bi bi-plus"></i>
           </Button>
+          }
         </Modal>
         <Modal
           title="Tunjangan Harian"
@@ -1936,13 +1972,15 @@ const SalaryComponentForm = () => {
             }
             columns={columns_allowance_daily}
           />
+          {readOnly?null:
           <Button
-            onClick={handleAddRowAllowanceDaily}
-            className="btn btn-sm btn-primary mt-4"
-            style={{ borderRadius: 100 }}
+          onClick={handleAddRowAllowanceDaily}
+          className="btn btn-sm btn-primary mt-4"
+          style={{ borderRadius: 100 }}
           >
             <i className="bi bi-plus"></i>
           </Button>
+          }
         </Modal>
         <Modal
           title="Potongan"
@@ -1960,13 +1998,15 @@ const SalaryComponentForm = () => {
             }
             columns={columns_deduction}
           />
+          {readOnly?null:
           <Button
-            onClick={handleAddRowDeduction}
-            className="btn btn-sm btn-primary mt-4"
-            style={{ borderRadius: 100 }}
+          onClick={handleAddRowDeduction}
+          className="btn btn-sm btn-primary mt-4"
+          style={{ borderRadius: 100 }}
           >
             <i className="bi bi-plus"></i>
           </Button>
+          }
         </Modal>
       </section>
     </AdminDashboard>

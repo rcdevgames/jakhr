@@ -6,17 +6,17 @@ import convert from "../../../model/component_nameModel";
 import * as providers from "../../../providers/config/component_name";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
-import {useLoadingContext} from "../../../components/Loading"
-const ComponentNameExForm = () => {
+import { useLoadingContext } from "../../../components/Loading";
+const ComponentNameExForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const {showLoading,hideLoading}= useLoadingContext()
+  const { showLoading, hideLoading } = useLoadingContext();
   // console.log("KESINI",id);
   const [data, setData] = useState(convert.objectOfcomponent_nameModel({}));
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
-    sys_labels.menus.ALLOWANCE + ' Lainnya'
+    sys_labels.menus.ALLOWANCE + " Lainnya"
   }`;
-  
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -90,6 +90,7 @@ const ComponentNameExForm = () => {
                       <label>Nama Tunjangan:</label>
                       <input
                         className="form-control"
+                        disabled={readOnly}
                         type="text"
                         name="name"
                         value={data.name}
@@ -103,6 +104,7 @@ const ComponentNameExForm = () => {
                       <label>Deskripsi:</label>
                       <input
                         className="form-control"
+                        disabled={readOnly}
                         type="text"
                         name="description"
                         value={data.description}
@@ -111,12 +113,14 @@ const ComponentNameExForm = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

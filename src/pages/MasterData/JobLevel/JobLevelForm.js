@@ -9,7 +9,7 @@ import {useLoadingContext} from "../../../components/Loading"
 
 import Select from "react-select";
 
-const JobLevelForm = () => {
+const JobLevelForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfjob_levelModel({}));
@@ -105,6 +105,7 @@ const JobLevelForm = () => {
                     <div className="form-group">
                       <label>Parent:</label>{" "}
                       <Select
+                        isDisabled={readOnly}
                         onChange={handleChange}
                         value={SysGenValueOption(
                           parent,
@@ -133,7 +134,8 @@ const JobLevelForm = () => {
                       <label>Job Level:</label>
                       <input
                         className="form-control"
-                        type="text"
+                            disabled={readOnly}
+                            type="text"
                         name="name"
                         value={data.name}
                         onChange={handleChange}
@@ -141,12 +143,14 @@ const JobLevelForm = () => {
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

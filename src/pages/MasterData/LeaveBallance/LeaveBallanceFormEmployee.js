@@ -18,7 +18,7 @@ import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
 import { useLoadingContext } from "../../../components/Loading";
 import Select from "react-select";
-const LeaveBallanceFormEmployee = () => {
+const LeaveBallanceFormEmployee = ({readOnly =false}) => {
   const { id } = useParams();
   const { showLoading, hideLoading } = useLoadingContext();
   const required_field = ["leave_type_id", "balance", "periode"];
@@ -130,7 +130,8 @@ const LeaveBallanceFormEmployee = () => {
                         className="form-control"
                         type="text"
                         onKeyDown={onlyNumber}
-                        onPaste={disablePaste}
+                            disabled={readOnly}
+                            onPaste={disablePaste}
                         name="balance"
                         value={data.balance}
                         onChange={handleChange}

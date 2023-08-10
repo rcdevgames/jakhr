@@ -766,5 +766,10 @@ export function SysGenMenuByRole(role_menu = []) {
   //   my_menus["/dasboard"],
   //   my_menus["/master-data"],
   //   my_menus["/master-organization"],
+  //   my_menus["/master-payroll"],
+  //   my_menus["/payroll"],
+  //   my_menus["/report"],
+  //   my_menus["/tool"],
+
   // ];
 }

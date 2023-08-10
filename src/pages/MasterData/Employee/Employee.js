@@ -18,7 +18,7 @@ const Employee = () => {
     {
       title: "Fullname",
       dataIndex: "full_name",
-      key: "full_name",
+      key: "full_name", sortable: true,
     },
     
     {
@@ -44,11 +44,19 @@ const Employee = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_EMPLOYEE_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_EMPLOYEE_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.M_EMPLOYEE_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
         </div>
       ),

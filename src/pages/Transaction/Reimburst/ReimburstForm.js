@@ -13,7 +13,7 @@ import { Switch } from "antd";
 import UploadFile from "../../../components/UploadFile";
 import {useLoadingContext}from "../../../components/Loading"
 
-const ReimburstForm = () => {
+const ReimburstForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfreimburstModel({}));
@@ -147,7 +147,8 @@ const ReimburstForm = () => {
                           id="employee_id"
                           name="employee_id"
                           value={data.employee_id}
-                          onChange={handleChange}
+                            disabled={readOnly}
+                            onChange={handleChange}
                           aria-label="Nama"
                           required
                         >
@@ -168,7 +169,8 @@ const ReimburstForm = () => {
                         <DatePicker
                           name="date"
                           onChange={handleDateStartChange}
-                          value={data.date}
+                            disabled={readOnly}
+                            value={data.date}
                           placeholder={"Start Date"}
                         />
                       </div>
@@ -179,7 +181,8 @@ const ReimburstForm = () => {
                         <label>Amount:</label>
                         <input
                           className="form-control"
-                          name="amount"
+                            disabled={readOnly}
+                            name="amount"
                           onKeyDown={onlyNumber}
                           onPaste={disablePaste}
                           value={data.amount}
@@ -193,7 +196,8 @@ const ReimburstForm = () => {
                         <label>Description:</label>
                         <input
                           className="form-control"
-                          name="description"
+                            disabled={readOnly}
+                            name="description"
                           value={data.description}
                           onChange={handleChange}
                         />
@@ -201,12 +205,14 @@ const ReimburstForm = () => {
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import AdminDashboard from "../../../AdminDashboard";
 import BranchMapForm from "./component/BranchMapForm";
 import { useNavigate,useParams } from "react-router-dom";
 
-const CreateBranch = () => {
+const CreateBranch = ({readOnly=false}) => {
   const navigate = useNavigate();
   const {id}= useParams();
   return (
@@ -13,7 +13,7 @@ const CreateBranch = () => {
             <h3>Cabang</h3>
           </div>
           <div className="card-body">
-            <BranchMapForm navigate={navigate} id={id??null} />
+            <BranchMapForm navigate={navigate} id={id??null} readOnly={readOnly} />
           </div>
         </div>
       </section>

@@ -16,10 +16,10 @@ const Organization = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Name", dataIndex: "name", key: "name", sortable: true },
     { title: "Company", dataIndex: "company", key: "company",render:(val)=>val.company_name },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },SysDateTransform
-    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Created Date", dataIndex: "created_at", sortable: true, key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
       title: "Action",
@@ -28,11 +28,19 @@ const Organization = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_ORGANIZATION_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_ORGANIZATION_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.M_ORGANIZATION_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

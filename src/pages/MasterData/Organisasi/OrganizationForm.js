@@ -9,7 +9,7 @@ import {useLoadingContext}from "../../../components/Loading"
 
 import Select from "react-select";
 
-const OrganizationForm = () => {
+const OrganizationForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
@@ -101,6 +101,7 @@ const OrganizationForm = () => {
                       <label>Parent:</label>{" "}
                       <Select
                         onChange={handleChange}
+                        isDisabled={readOnly}
                         value={SysGenValueOption(
                           parent,
                           data.parent_id,
@@ -129,19 +130,22 @@ const OrganizationForm = () => {
                       <input
                         className="form-control"
                         type="text"
-                        name="name"
+                            disabled={readOnly}
+                            name="name"
                         value={data.name}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>
