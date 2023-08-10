@@ -7,7 +7,7 @@ import * as providers from "../../../providers/config/component_name";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import {useLoadingContext} from "../../../components/Loading"
-const ComponentNameForm = () => {
+const ComponentNameForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const{showLoading,hideLoading}=useLoadingContext();
@@ -91,6 +91,7 @@ const ComponentNameForm = () => {
                       <input
                         className="form-control"
                         type="text"
+                        disabled={readOnly}
                         name="name"
                         value={data.name}
                         onChange={handleChange}
@@ -104,6 +105,7 @@ const ComponentNameForm = () => {
                       <input
                         className="form-control"
                         type="text"
+                        disabled={readOnly}
                         name="description"
                         value={data.description}
                         onChange={handleChange}
@@ -111,12 +113,14 @@ const ComponentNameForm = () => {
                     </div>
                   </div>
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

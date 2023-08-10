@@ -12,7 +12,7 @@ import {
 import { sys_labels } from "../../../utils/constants";
 import { Checkbox } from "antd";
 import { useLoadingContext } from "../../../components/Loading";
-const RoleMenuForm = () => {
+const RoleMenuForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoadingContext();
   const { id } = useParams();
@@ -146,6 +146,8 @@ const RoleMenuForm = () => {
                           <Checkbox
                             key={val.id}
                             // className={ml}
+                            disabled={readOnly}
+                            
                             // className="form-control"
                             style={{ ...ml, fontSize: 16 }}
                             checked={selectedItems.includes(val.id)}
@@ -191,13 +193,15 @@ const RoleMenuForm = () => {
                     </div>
                   </div> */}
                 </div>
+                {readOnly?null:
                 <button
-                  onClick={() => handleUpdate()}
-                  className="btn btn-primary mt-3"
+                onClick={() => handleUpdate()}
+                className="btn btn-primary mt-3"
                 >
                   Submit
                   {/* {data.id ? "Update" : "Submit"} */}
                 </button>
+                }
               </div>
             </div>
           </div>

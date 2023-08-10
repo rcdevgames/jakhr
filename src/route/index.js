@@ -94,7 +94,12 @@ import { CashAdvance, CashAdvanceForm } from "../pages/Transaction/CashAdvance";
 import { Reimburst, ReimburstForm } from "../pages/Transaction/Reimburst";
 import { Overtime, OvertimeForm } from "../pages/Transaction/Overtime";
 import { LeaveType, LeaveTypeForm } from "../pages/MasterData/LeaveType";
-import { LeaveBallance, LeaveBallanceForm, LeaveBallanceFormEmployee, LeaveBallanceGenerate } from "../pages/MasterData/LeaveBallance";
+import {
+  LeaveBallance,
+  LeaveBallanceForm,
+  LeaveBallanceFormEmployee,
+  LeaveBallanceGenerate,
+} from "../pages/MasterData/LeaveBallance";
 import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
 
 const Router = () => (
@@ -104,7 +109,10 @@ const Router = () => (
 
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/authentication/:token/:uri" element={<Authentication />} />
+      <Route
+        path="/authentication/:token/:uri/:protocol"
+        element={<Authentication />}
+      />
       <Route path="/authentication" element={<Authentication />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
       {/* <Route path="*" element={<NotFound />} /> */}
@@ -119,16 +127,28 @@ const Router = () => (
                 <Route path="" element={<ComponentName />} />
                 <Route path="create" element={<ComponentNameForm />} />
                 <Route path="detail/:id" element={<ComponentNameForm />} />
+                <Route
+                  path="show/:id"
+                  element={<ComponentNameForm readOnly={true} />}
+                />
               </Route>
               <Route path="allowance_daily">
                 <Route path="" element={<ComponentNameDaily />} />
                 <Route path="create" element={<ComponentNameDailyForm />} />
                 <Route path="detail/:id" element={<ComponentNameDailyForm />} />
+                <Route
+                  path="show/:id"
+                  element={<ComponentNameDailyForm readOnly={true} />}
+                />
               </Route>
               <Route path="allowance_ex">
                 <Route path="" element={<ComponentNameEx />} />
                 <Route path="create" element={<ComponentNameExForm />} />
                 <Route path="detail/:id" element={<ComponentNameExForm />} />
+                <Route
+                  path="show/:id"
+                  element={<ComponentNameExForm readOnly={true} />}
+                />
               </Route>
               <Route path="deduction">
                 <Route path="" element={<ComponentNameDeduction />} />
@@ -137,10 +157,18 @@ const Router = () => (
                   path="detail/:id"
                   element={<ComponentNameDeductionForm />}
                 />
+                <Route
+                  path="show/:id"
+                  element={<ComponentNameDeductionForm readOnly={true} />}
+                />
               </Route>
             </Route>
             <Route path="salary_component">
               <Route path="" element={<SalaryComponent />} />
+              <Route
+                path="show/:id"
+                element={<SalaryComponentForm readOnly={true} />}
+              />
               <Route path="detail/:id" element={<SalaryComponentForm />} />
               <Route
                 path="multiple"
@@ -151,11 +179,19 @@ const Router = () => (
           <Route path="master-organization">
             <Route path="organization">
               <Route path="" element={<Organization />} />
+              <Route
+                path="show/:id"
+                element={<OrganizationForm readOnly={true} />}
+              />
               <Route path="create" element={<OrganizationForm />} />
               <Route path="detail/:id" element={<OrganizationForm />} />
             </Route>
             <Route path="job_level">
               <Route path="" element={<JobLevel />} />
+              <Route
+                path="show/:id"
+                element={<JobLevelForm readOnly={true} />}
+              />
               <Route path="create" element={<JobLevelForm />} />
               <Route path="detail/:id" element={<JobLevelForm />} />
             </Route>
@@ -163,6 +199,11 @@ const Router = () => (
             <Route path="job_position">
               <Route path="" element={<JobPosition />} />
               <Route path="create" element={<JobPositionForm />} />
+              <Route
+                path="show/:id"
+                element={<JobPositionForm readOnly={true} />}
+              />
+
               <Route path="detail/:id" element={<JobPositionForm />} />
             </Route>
           </Route>
@@ -170,42 +211,77 @@ const Router = () => (
             <Route path="company">
               <Route path="" element={<Company />} />
               <Route path="create" element={<CompanyForm />} />
+              <Route
+                path="show/:id"
+                element={<CompanyForm readOnly={true} />}
+              />
+
               <Route path="detail/:id" element={<CompanyForm />} />
             </Route>
             <Route path="branch">
               <Route path="" element={<Branch />} />
               <Route path="create" element={<CreateBranch />} />
+              <Route
+                path="show/:id"
+                element={<CreateBranch readOnly={true} />}
+              />
               <Route path="detail/:id" element={<CreateBranch />} />
             </Route>
 
             <Route path="employee">
               <Route path="" element={<Employee />} />
               <Route path="create" element={<CreateEmployee />} />
+              <Route
+                path="show/:id"
+                element={<CreateEmployee readOnly={true} />}
+              />
+
               <Route path="detail/:id" element={<CreateEmployee />} />
               <Route path="multiple" element={<EmployeeMultipleForm />} />
             </Route>
 
             <Route path="leave_mass">
               <Route path="" element={<LeaveMass />} />
+              <Route
+                path="show/:id"
+                element={<LeaveMassForm readOnly={true} />}
+              />
               <Route path="create" element={<LeaveMassForm />} />
               <Route path="detail/:id" element={<LeaveMassForm />} />
             </Route>
-            
+
             <Route path="leave_type">
               <Route path="" element={<LeaveType />} />
               <Route path="create" element={<LeaveTypeForm />} />
+              <Route
+                path="show/:id"
+                element={<LeaveTypeForm readOnly={true} />}
+              />
+
               <Route path="detail/:id" element={<LeaveTypeForm />} />
             </Route>
-            
+
             <Route path="leave_ballance">
               <Route path="" element={<LeaveBallance />} />
               <Route path="create" element={<LeaveBallanceForm />} />
               <Route path="generate" element={<LeaveBallanceGenerate />} />
-              <Route path="detail/:id" element={<LeaveBallanceFormEmployee />} />
+              <Route
+                path="detail/:id"
+                element={<LeaveBallanceFormEmployee />}
+              />
+              <Route
+                path="show/:id"
+                element={<LeaveBallanceFormEmployee readOnly={true} />}
+              />
             </Route>
 
             <Route path="role_menu">
               <Route path="" element={<RoleMenu />} />
+              <Route
+                path="show/:id"
+                element={<RoleMenuForm readOnly={true} />}
+              />
+
               <Route path="detail/:id" element={<RoleMenuForm />} />
             </Route>
 
@@ -213,12 +289,17 @@ const Router = () => (
               <Route path="" element={<Menu />} />
               <Route path="create" element={<MenuForm />} />
               <Route path="detail/:id" element={<MenuForm />} />
+              <Route path="show/:id" element={<MenuForm readOnly={true} />} />
             </Route>
 
             <Route path="schedule">
               <Route path="" element={<Schedule />} />
               <Route path="create" element={<ScheduleForm />} />
               <Route path="detail/:id" element={<ScheduleForm />} />
+              <Route
+                path="show/:id"
+                element={<ScheduleForm readOnly={true} />}
+              />
             </Route>
           </Route>
           <Route path="transaction">
@@ -230,6 +311,10 @@ const Router = () => (
               <Route path="" element={<CashAdvance />} />
               <Route path="create" element={<CashAdvanceForm />} />
               <Route path="detail/:id" element={<CashAdvanceForm />} />
+              <Route
+                path="show/:id"
+                element={<CashAdvanceForm readOnly={true} />}
+              />
             </Route>
             <Route path="leave">
               <Route path="" element={<Leave />} />
@@ -239,6 +324,10 @@ const Router = () => (
               <Route path="" element={<Reimburst />} />
               <Route path="create" element={<ReimburstForm />} />
               <Route path="detail/:id" element={<ReimburstForm />} />
+              <Route
+                path="show/:id"
+                element={<ReimburstForm readOnly={true} />}
+              />
             </Route>
 
             <Route path="overtime">

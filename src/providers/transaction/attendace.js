@@ -1,13 +1,13 @@
 import { sys_get, sys_del } from "../../utils/api_client";
 
 const uri = "transactions/";
-export const getData = async (page = 1, limit = 10, search = "",startDate,endDate) => {
+export const getData = async (page = 1, limit = 10, search = "",startDate,endDate,sort="") => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
         uri +
-        `get_attendances?page=${page}&perPage=${limit}&search=${search}&startDate=${startDate}&endDate=${endDate}`,
+        `get_attendances?page=${page}&perPage=${limit}&search=${search}&startDate=${startDate}&endDate=${endDate}&sort_by=${sort}`,
     });
     return response;
   } catch (error) {

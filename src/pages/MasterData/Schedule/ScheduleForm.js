@@ -17,7 +17,7 @@ import TimeInput from "../../../components/TimeInput";
 import Select from "react-select";
 import {useLoadingContext}from "../../../components/Loading"
 
-const ScheduleForm = () => {
+const ScheduleForm = ({readOnly=false}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfscheduleModel({}));
@@ -150,6 +150,7 @@ const ScheduleForm = () => {
                       <label>Karyawan:</label>
                       <Select
                         onChange={handleChange}
+                        isDisabled={readOnly}
                         value={SysGenValueOption(
                           data_employee,
                           data.employee_id,
@@ -178,7 +179,8 @@ const ScheduleForm = () => {
                       <label>Title:</label>
                       <input
                         className="form-control"
-                        name="title"
+                            disabled={readOnly}
+                            name="title"
                         value={data.title}
                         onChange={handleChange}
                       />
@@ -190,7 +192,8 @@ const ScheduleForm = () => {
                       <label>Description:</label>
                       <input
                         className="form-control"
-                        name="description"
+                            disabled={readOnly}
+                            name="description"
                         value={data.description}
                         onChange={handleChange}
                       />
@@ -203,7 +206,8 @@ const ScheduleForm = () => {
                       <DatePicker
                         name="start_date"
                         onChange={handleDateStartChange}
-                        value={data.start_date}
+                            disabled={readOnly}
+                            value={data.start_date}
                         placeholder={"Start Date"}
                       />
                     </div>
@@ -214,7 +218,8 @@ const ScheduleForm = () => {
                       <DatePicker
                         name="end_date"
                         onChange={handleDateEndChange}
-                        value={data.end_date}
+                            disabled={readOnly}
+                            value={data.end_date}
                         placeholder={"End Date"}
                       />
                     </div>
@@ -240,12 +245,15 @@ const ScheduleForm = () => {
                     </div>
                   </div>
                 </div>
+                {
+                  readOnly?null:
                 <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
+                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                className="btn btn-primary"
                 >
                   {data.id ? "Update" : "Submit"}
                 </button>
+                }
               </div>
             </div>
           </div>

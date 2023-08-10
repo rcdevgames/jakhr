@@ -6,14 +6,15 @@ export const getData = async (
   limit = 10,
   search = "",
   startDate,
-  endDate
+  endDate,
+  sort=""
 ) => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
         uri +
-        `?page=${page}&perPage=${limit}&search=${search}&startDate=${startDate}&endDate=${endDate}`,
+        `?page=${page}&perPage=${limit}&search=${search}&startDate=${startDate}&endDate=${endDate}&sort_by=${sort}`,
     });
     return response;
   } catch (error) {

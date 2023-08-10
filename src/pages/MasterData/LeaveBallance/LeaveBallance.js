@@ -18,11 +18,11 @@ const LeaveBallance = () => {
   const columns = [
     { title: "Leave Type", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
     { title: "Employee", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.full_name },
-    { title: "Periode", dataIndex: "periode", key: "periode" },
-    { title: "Balance", dataIndex: "balance", key: "balance" },
+    { title: "Periode", dataIndex: "periode", key: "periode", sortable: true },
+    { title: "Balance", dataIndex: "balance", key: "balance", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     // SysDateTransform
-    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
       title: "Action",
@@ -36,6 +36,13 @@ const LeaveBallance = () => {
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          <a
+            onClick={() => navigate(`${routes_name.M_LEAVE_BALLANCE_SHOW}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

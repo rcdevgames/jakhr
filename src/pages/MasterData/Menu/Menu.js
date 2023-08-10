@@ -12,11 +12,11 @@ import { SysDateTransform } from "../../../utils/global_store";
 const Menu = () => {
   const navigate = useNavigate();
   const columns = [
-    { title: "Title", dataIndex: "title", key: "title" },
-    { title: "Route", dataIndex: "route", key: "route" },
+    { title: "Title", dataIndex: "title", key: "title" , sortable: true},
+    { title: "Route", dataIndex: "route", key: "route", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
 // SysDateTransform
-{ title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+{ title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
       title: "Action",
@@ -25,11 +25,18 @@ const Menu = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_MENU_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_MENU_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          <a
+            onClick={() => navigate(`${routes_name.M_MENU_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
         </div>
       ),

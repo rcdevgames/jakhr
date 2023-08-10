@@ -16,12 +16,12 @@ const LeaveType = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Leave Type", dataIndex: "name", key: "name" },
-    { title: "Description", dataIndex: "description", key: "description" },
-    { title: "Amount", dataIndex: "default_total_leave", key: "default_total_leave" },
+    { title: "Leave Type", dataIndex: "name", key: "name" , sortable: true},
+    { title: "Description", dataIndex: "description", key: "description", sortable: true },
+    { title: "Amount", dataIndex: "default_total_leave", key: "default_total_leave", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     // SysDateTransform
-    { title: "Created Date", dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Created Date", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
       title: "Action",
@@ -30,11 +30,18 @@ const LeaveType = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_LEAVE_TYPE_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_LEAVE_TYPE_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          <a
+            onClick={() => navigate(`${routes_name.M_LEAVE_TYPE_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

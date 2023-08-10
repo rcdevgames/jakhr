@@ -5,17 +5,19 @@ import * as providers from "../../../providers/transaction/leave";
 import {DataTablePaginantionFilter} from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
 import { routes_name } from "../../../route/static_route";
+import { SysDateTransform } from "../../../utils/global_store";
 
 const Leave = () => {
+  // SysDateTransform
   const columns = [
     { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
     { title: "Leave Type", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
-    { title: "Leave No", dataIndex: "leave_no", key: "leave_no" },
-    { title: "Date", dataIndex: "leave_date", key: "leave_date" },
-    { title: "Day", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Day' },
-    { title: "Reason", dataIndex: "reason", key: "reason" },
-    { title: "Approved", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>val?'Yes':'No' },
-    { title: "Rejected", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>val?'Yes':'No' },
+    { title: "Leave No", dataIndex: "leave_no", key: "leave_no",sortable:true },
+    { title: "Date", dataIndex: "leave_date", key: "leave_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Day", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Day',sortable:true },
+    { title: "Reason", dataIndex: "reason", key: "reason",sortable:true },
+    { title: "Approved", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>val?'Yes':'No',sortable:true },
+    { title: "Rejected", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>val?'Yes':'No',sortable:true },
   ];
   const action = [
     <Link

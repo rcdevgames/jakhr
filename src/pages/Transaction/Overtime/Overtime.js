@@ -9,10 +9,10 @@ import { routes_name } from "../../../route/static_route";
 const Overtime = () => {
   const columns = [
     { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
-    { title: "Overtime No", dataIndex: "overtime_no", key: "overtime_no" },
-    { title: "Reason", dataIndex: "reason", key: "reason" },
-    { title: "Approve", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>record.is_approved?'APPROVED':"NO APPROVED" },
-    { title: "Reject", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>record.is_rejected?'REJECTED':"NO REJECTED" },
+    { title: "Overtime No", dataIndex: "overtime_no", key: "overtime_no",sortable:true },
+    { title: "Reason", dataIndex: "reason", key: "reason",sortable:true },
+    { title: "Approve", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>record.is_approved?'APPROVED':"NO APPROVED",sortable:true },
+    { title: "Reject", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>record.is_rejected?'REJECTED':"NO REJECTED",sortable:true },
     { title: "Date Attendance", dataIndex: "attendance", key: "attendance",render:(val,record)=>record.attendance.date_in },
    
   ];

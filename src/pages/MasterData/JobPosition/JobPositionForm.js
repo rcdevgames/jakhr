@@ -11,7 +11,7 @@ import { useLoadingContext } from "../../../components/Loading";
 
 import Select from "react-select";
 
-const JobPositionForm = () => {
+const JobPositionForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfjob_positionModel({}));
@@ -119,6 +119,7 @@ const JobPositionForm = () => {
                       <label>Parent:</label>{" "}
                       <Select
                         onChange={handleChange}
+                        isDisabled={readOnly}
                         value={SysGenValueOption(
                           parent,
                           data.parent_id,
@@ -146,6 +147,7 @@ const JobPositionForm = () => {
                       <label>Job Level:</label>{" "}
                       <Select
                         onChange={handleChange}
+                        isDisabled={readOnly}
                         value={SysGenValueOption(
                           job_level,
                           data.job_level_id,
@@ -173,6 +175,7 @@ const JobPositionForm = () => {
                       <label>Job Position:</label>
                       <input
                         className="form-control"
+                        disabled={readOnly}
                         type="text"
                         name="name"
                         value={data.name}
@@ -181,12 +184,14 @@ const JobPositionForm = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                  className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

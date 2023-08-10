@@ -4,7 +4,7 @@ import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/payroll/cash_advance";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
-import { SysCurrencyTransform, showToast } from "../../../utils/global_store";
+import { SysCurrencyTransform, SysDateTransform, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { sys_labels } from "../../../utils/constants";
 import { routes_name } from "../../../route/static_route";
@@ -13,14 +13,15 @@ const Schedule = () => {
   const navigate = useNavigate();
   const [message, set_message] = useState("");
   const [id, set_id] = useState("");
+  // SysDateTransform
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
-    { title: "Title", dataIndex: "title", key: "title" },
-    { title: "Description", dataIndex: "description", key: "description" },
+    { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name,sortable:true },
+    { title: "Title", dataIndex: "title", key: "title",sortable:true },
+    { title: "Description", dataIndex: "description", key: "description",sortable:true},
     { title: "Amount", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:record.amount,currency:""}) },
-    { title: "Cash Date", dataIndex: "cash_date", key: "cash_date" },
-    { title: "Due Date", dataIndex: "due_date", key: "due_date" },
+    { title: "Cash Date", dataIndex: "cash_date", key: "cash_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Due Date", dataIndex: "due_date", key: "due_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
     { title: "Paid Status", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>record.is_paid?'LUNAS':"BELUM" },
     {
       title: "Action",
@@ -29,11 +30,19 @@ const Schedule = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.TRANSAC_CASH_ADVANCE_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.TRANSAC_CASH_ADVANCE_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
+          </a>
+          
+          <a
+            onClick={() => navigate(`${routes_name.TRANSAC_CASH_ADVANCE_DETAIL}${val}`)}
+            className="btn icon btn-warning btn-sm"
+            style={{ marginRight: 10 }}
+          >
+            <i className="bi bi-pencil"></i>
           </a>
           <a
             onClick={() => openModal(record)}

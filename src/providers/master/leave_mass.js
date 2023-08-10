@@ -1,11 +1,11 @@
 import { sys_post, sys_put, sys_get,sys_del } from "../../utils/api_client";
 
 const uri = "master/";
-export const getData = async (page = 1,limit=10,search="") => {
+export const getData = async (page = 1,limit=10,search="",sort="") => {
   try {
     const response = await sys_get({
       auth: true,
-      endpoint: uri + `leave_masses?page=${page}&perPage=${limit}&keywords=${search}`,
+      endpoint: uri + `leave_masses?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}`,
     });
     return response;
   } catch (error) {

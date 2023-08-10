@@ -9,9 +9,8 @@ import {
   SysValidateForm,
   showToast,
 } from "../../../../../utils/global_store";
-import {useLoadingContext} from "../../../../../components/Loading"
+import { useLoadingContext } from "../../../../../components/Loading";
 class LoadScriptComponent extends LoadScript {
-
   componentDidMount() {
     try {
       const cleaningUp = true;
@@ -36,14 +35,12 @@ class LoadScriptComponent extends LoadScript {
       }
     } catch (error) {
       // console.log(error);
-      
       // this.isCleaningUp().then(this.injectScript);
     }
   }
 }
 class BranchMapForm extends Component {
   constructor(props) {
-    // console.log(props);
     super(props);
     this.state = {
       id: null,
@@ -70,9 +67,7 @@ class BranchMapForm extends Component {
       company_id: "",
       company_list: [],
     };
-
   }
-  loader =useLoadingContext();
   componentDidMount() {
     // this.getCompanyList();
     this.handleGetCurrentLocationClick();
@@ -339,6 +334,7 @@ class BranchMapForm extends Component {
               value={branch_name}
               onChange={this.handleChange}
               id="branch_name"
+              disabled={this.props.readOnly}
               name="branch_name"
               className="form-control"
               placeholder="Nama Cabang"
@@ -351,6 +347,7 @@ class BranchMapForm extends Component {
               value={this.state.address}
               onChange={this.handleChange}
               id="address"
+              disabled={this.props.readOnly}
               name="address"
               className="form-control"
               placeholder="Address"
@@ -428,12 +425,15 @@ class BranchMapForm extends Component {
                   onChange={this.onLatLngChange("lng")}
                 />
               </div>
+              {this.props.readOnly?null:
+                
               <button
-                className="btn btn-primary mt-2"
-                onClick={this.handleGetCurrentLocationClick}
+              className="btn btn-primary mt-2"
+              onClick={this.handleGetCurrentLocationClick}
               >
                 Ambil lokasi saat ini
               </button>
+              }
             </div>
           </div>
           <div className="row mt-3">
@@ -445,6 +445,8 @@ class BranchMapForm extends Component {
                   type="number"
                   name="phone"
                   value={phone}
+              disabled={this.props.readOnly}
+
                   onChange={this.handleChange}
                 />
               </div>
@@ -457,6 +459,8 @@ class BranchMapForm extends Component {
                   className="form-control"
                   type="number"
                   name="phone2"
+              disabled={this.props.readOnly}
+
                   value={phone2}
                   onChange={(e) => {
                     this.handleChange(e);
@@ -479,6 +483,7 @@ class BranchMapForm extends Component {
                 <label>Jam Keluar (Senin - Jumat):</label>
                 <TimeInput
                   className="form-control"
+                  
                   value={branchSchOut}
                   onChange={this.handleTimeOutChange}
                 />
@@ -506,12 +511,14 @@ class BranchMapForm extends Component {
               </div>
             </div>
           </div>
+          {this.props.readOnly?null:
           <button
-            onClick={this.state.id ? this.handleUpdate : this.handleSubmit}
-            className="btn btn-primary"
+          onClick={this.state.id ? this.handleUpdate : this.handleSubmit}
+          className="btn btn-primary"
           >
             {this.state.id ? "Update" : "Submit"}
           </button>
+          }
         </div>
       </div>
     );

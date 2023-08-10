@@ -1,8 +1,8 @@
 import { sys_post, sys_put, sys_get,sys_del } from "../../utils/api_client";
 
 const uri = "schedules";
-export const getData = async (page = 1, limit = 10, search = "") => {
-  console.log(uri + `?page=${page}&perPage=${limit}&keywords=${search}`);
+export const getData = async (page = 1, limit = 10, search = "",sort="") => {
+  console.log(uri + `?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}`);
   try {
     const response = await sys_get({
       auth: true,
