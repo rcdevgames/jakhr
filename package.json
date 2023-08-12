@@ -51,7 +51,8 @@
     "simple-datatables": "^3.0.0",
     "styled-components": "^6.0.5",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0"
   },
   "scripts": {
     "start": "set PORT=3006 && react-scripts start",

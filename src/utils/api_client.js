@@ -13,8 +13,6 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
   try {
     let token = getToken();
     var callback = callbackModel;
-    // console.log(API_URL + endpoint);
-    // console.log(token);
     const head = {
       method: "GET",
       headers: {
@@ -31,6 +29,37 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";
     callback.data = data?.totalData ? { ...data } : data.data;
+    if (response.status != 201 && response.status != 200) {
+      callback.message=data?.error??data?.message??"";
+      throw callback;
+    }
+    return callback;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sys_get_report = async ({ auth = false, endpoint = "" }) => {
+  try {
+    let token = getToken();
+    var callback = callbackModel;
+    const head = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: auth ? "Bearer " + token : "",
+      },
+    }
+    // console.log(API_URL+endpoint);
+    const response = await fetch(API_URL + endpoint,head );
+    const data = await response.json();
+    // console.log(data);
+    callback.code = response.status;
+    callback.success = response.status == 200 ? true : false;
+    callback.message = data?.message ?? "ERROR!";
+    callback.data =  data.datas;
+    callback.totalData= data.totalPages
     if (response.status != 201 && response.status != 200) {
       callback.message=data?.error??data?.message??"";
       throw callback;

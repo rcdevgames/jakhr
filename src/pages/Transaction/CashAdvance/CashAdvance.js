@@ -83,7 +83,7 @@ const Schedule = () => {
       <DataTablePagination
         fetchDataFunc={providers.getData}
         columns={columns}
-        title="Kasbon"
+        title={sys_labels.menus.CASH_ADVANCE}
         action={action}
       />
       <ActionModal

@@ -1,3 +1,3 @@
-import Employee from './Employee'
+import ReportEmployee from './Employee'
 
-export {Employee as ReportEmployee}
+export {ReportEmployee}
