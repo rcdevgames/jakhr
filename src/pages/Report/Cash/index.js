@@ -1,3 +1,3 @@
-import Cash from './Cash'
+import ReportCash from './Cash'
 
-export {Cash as ReportCash}
+export {ReportCash}

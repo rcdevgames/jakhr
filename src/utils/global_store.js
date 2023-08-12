@@ -58,7 +58,7 @@ export function SysDateTransform({
   }
   const current = new Date();
   const dateFormat = new Date(date);
-  const month = dateFormat.getMonth() + 1;
+  const month = dateFormat.getMonth() ;
   const year = dateFormat.getFullYear();
   const day = dateFormat.getDate();
   const hour = dateFormat.getHours();
@@ -71,12 +71,12 @@ export function SysDateTransform({
       Moment(current).format("yyyy-MM-DD") ==
       Moment(dateFormat).format("yyyy-MM-DD")
     ) {
-      fullOfdate ='Today '
-        // addZero({ num: hour }) +
-        // ":" +
-        // addZero({ num: minutes }) +
-        // ":" +
-        // addZero({ num: seconds });
+      fullOfdate = "Today ";
+      // addZero({ num: hour }) +
+      // ":" +
+      // addZero({ num: minutes }) +
+      // ":" +
+      // addZero({ num: seconds });
     } else {
       fullOfdate =
         addZero({ num: day }) +
@@ -105,7 +105,7 @@ export function SysDateTransform({
   }
   if (forSql) {
     fullOfdate = `${addZero({ num: year })}-${addZero({
-      num: month,
+      num: month +1,
     })}-${addZero({
       num: day,
     })}`;
@@ -318,8 +318,9 @@ export function SysGenValueOption(
   id_index = "value",
   index = "name"
 ) {
+  // console.log(data,value);
   var obj = data.find((val) => val[id_index] === value);
-  console.log(obj);
+  // console.log(obj);
   if (!obj) return null;
   return {
     value,
@@ -490,10 +491,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.OVERTIME,
         link: "/report/overtime",
       },
-      {
-        label: sys_labels.menus.INSENTIV,
-        link: "/report/additional",
-      },
+      // {
+      //   label: sys_labels.menus.INSENTIV,
+      //   link: "/report/additional",
+      // },
       {
         label: sys_labels.menus.DEDUCTION,
         link: "/report/reduction",
@@ -506,14 +507,14 @@ export function SysGenMenu() {
         label: sys_labels.menus.REIMBURS,
         link: "/report/imbursement",
       },
-      {
-        label: sys_labels.menus.SALARY,
-        link: "/report/salary",
-      },
-      {
-        label: sys_labels.menus.TAX,
-        link: "/report/tax",
-      },
+      // {
+      //   label: sys_labels.menus.SALARY,
+      //   link: "/report/salary",
+      // },
+      // {
+      //   label: sys_labels.menus.TAX,
+      //   link: "/report/tax",
+      // },
     ],
   };
   const tool = {
@@ -768,8 +769,8 @@ export function SysGenMenuByRole(role_menu = []) {
   //   my_menus["/master-organization"],
   //   my_menus["/master-payroll"],
   //   my_menus["/payroll"],
+  //   my_menus["/transaction"],
   //   my_menus["/report"],
   //   my_menus["/tool"],
-
   // ];
 }

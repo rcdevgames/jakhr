@@ -18,16 +18,17 @@ const Employee = () => {
     {
       title: "Fullname",
       dataIndex: "full_name",
-      key: "full_name", sortable: true,
+      key: "full_name",
+      sortable: true,
     },
-    
+
     {
       title: "Branch",
       dataIndex: "branch",
       key: "branch",
       render: (val) => val.name,
     },
-    
+
     {
       title: "Company",
       dataIndex: "branch",
@@ -50,7 +51,7 @@ const Employee = () => {
           >
             <i className="bi bi-file-text"></i>
           </a>
-          
+
           <a
             onClick={() => navigate(`${routes_name.M_EMPLOYEE_DETAIL}${val}`)}
             className="btn icon btn-warning btn-sm"
@@ -63,7 +64,13 @@ const Employee = () => {
     },
   ];
   const action = [
-    <Link to={routes_name.M_EMPLOYEE_CREATE} className="btn icon icon-left btn-primary"><i className="bi bi-plus"/>{sys_labels.action.ADD}</Link>
+    <Link
+      to={routes_name.M_EMPLOYEE_CREATE}
+      className="btn icon icon-left btn-primary"
+    >
+      <i className="bi bi-plus" />
+      {sys_labels.action.ADD}
+    </Link>,
     // ,
   ];
   return (

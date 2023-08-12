@@ -58,7 +58,7 @@ export const sys_labels = {
     TRANSACTION: "Transaksi",
     INSENTIV: "Insentif",
     DEDUCTION: "Potongan",
-    CASH_ADVANCE: "Kasbon",
+    CASH_ADVANCE: "Cash Advance",
     REIMBURS: "Reimbursement",
     SALARY: "Gaji",
     SALARY_COMPONENT: "Komponen Gaji",
@@ -77,6 +77,8 @@ export const sys_labels = {
     UPLOAD: "Upload",
     IMPORT: "Import",
     DOWNLOAD: "Download",
+    EXPORT: "Export",
+    EXPORT_EXCEL: "Export Excel",
   },
   labels: {
     FULLNAME: "Nama Lengkap",
