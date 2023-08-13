@@ -30,6 +30,23 @@ const LeaveBallanceForm = () => {
     convert_leave_type.listOfleave_typeModel([])
   );
   const [selected_employee, set_selected_employee] = useState([]);
+  let year_data = [];
+  const date = new Date();
+  
+  for (
+    let index = date.getFullYear()-1;
+    index > date.getFullYear() -2;
+    index--
+  ) {
+    year_data.push(index);
+  }
+  for (
+    let index = date.getFullYear();
+    index < date.getFullYear() + 3;
+    index++
+  ) {
+    year_data.push(index);
+  }
   const title = `${sys_labels.action.FORM} ${sys_labels.menus.LEAVE_BALLANCE}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -150,16 +167,22 @@ const LeaveBallanceForm = () => {
 
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Periode:</label>
-                      <input
-                        className="form-control"
-                        type="text"
+                      <label>Periode Tahun:</label>{" "}
+                      <select
+                        className="form-select"
+                        id="periode"
                         name="periode"
-                        onKeyDown={onlyNumber}
-                        onPaste={disablePaste}
                         value={data.periode}
                         onChange={handleChange}
-                      />
+                        aria-label="periode"
+                      >
+                        <option value={null}>Pilih Periode Tahun</option>
+                        {year_data.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <div className="col-md-3">
