@@ -6,10 +6,15 @@ import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
 import * as providers_branch from "../../../providers/master/branch";
 import * as providers_organization from "../../../providers/master/organization";
-import DataTablePagination, { DataTablePaginationReport } from "../../../components/DataTable";
+import DataTablePagination, {
+  DataTablePaginationReport,
+} from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
+import { routes_name } from "../../../route/static_route";
 
+import { useNavigate } from "react-router-dom";
 const ReportEmployee = () => {
+  const navigate = useNavigate();
   const [data_branch, set_data_branch] = useState([]);
   const [data_organization, set_data_organization] = useState([]);
   const [data_job_level, set_data_job_level] = useState([]);
@@ -48,6 +53,25 @@ const ReportEmployee = () => {
       title: "Job Position",
       dataIndex: "job_position_name",
       key: "job_position_name",
+      // type:"hidden"
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "action",
+      render: (val, record) => (
+        <div className="btn-group" role="group">
+          <a
+            onClick={() =>
+              navigate(`${routes_name.M_EMPLOYEE_SHOW}${record.id}`)
+            }
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
+            <i className="bi bi-file-text"></i>
+          </a>
+        </div>
+      ),
     },
   ];
   const getBranch = async () => {

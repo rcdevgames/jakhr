@@ -122,3 +122,8 @@ body, h6{
       width: 100%;
     }
   }
+
+  .validate-error{
+    border-color: #C00000 !important;
+    border-width: 1px;
+  }

@@ -91,6 +91,7 @@ const LeaveBallanceForm = () => {
     const validateForm = SysValidateForm(required_field, data);
     if (!validateForm.is_valid) {
       showToast({ message: validateForm.message });
+      hideLoading();
       return;
     }
     for (let index = 0; index < selected_employee.length; index++) {

@@ -54,6 +54,7 @@ const OvertimeForm = () => {
       const validateForm = SysValidateForm(required_field, data);
       if (!validateForm.is_valid) {
         showToast({ message: validateForm.message });
+        hideLoading();
         return;
       }
       if (data.time_in > data.time_out) {

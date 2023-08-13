@@ -57,7 +57,7 @@ const CompanyForm = ({ readOnly = false }) => {
           ? {
               source: resp.data.logo,
             }
-          : null,
+            : null,
       });
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -79,15 +79,17 @@ const CompanyForm = ({ readOnly = false }) => {
       const validateFields = SysValidateForm(required_field, data_submit);
       if (!validateFields.is_valid) {
         showToast({ message: validateFields.message });
+        hideLoading();
         return false;
       }
       const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
-      console.log(error);
+      hideLoading();
       showToast({ message: error.message, type: "error" });
     }
+    console.log("LEWAT KGAK DAH");
     hideLoading();
   };
 
@@ -111,9 +113,12 @@ const CompanyForm = ({ readOnly = false }) => {
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
     } catch (error) {
+      hideLoading();
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
+    // hideLoading();
+    // console.log("LEWAT KGK DAH?");
     hideLoading();
   };
   const handleUpload = (value) => {

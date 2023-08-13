@@ -51,13 +51,13 @@ const DataTablePaginationReport = ({
 
   useEffect(() => {
     fetchData();
-  // }, [currentPage, pageSize, searchQuery, sortField, sortOrder, filter]);
+    // }, [currentPage, pageSize, searchQuery, sortField, sortOrder, filter]);
   }, [currentPage, pageSize, searchQuery, filter]);
 
   const fetchData = () => {
     // let sort = `${sortField}:${sortOrder == "ascend" ? "asc" : "desc"}`;
     // if (sortField == "" || sortField == null || sortField == undefined) {
-      let sort = "";
+    let sort = "";
     // }
     const my_filter = genFilter();
     fetchDataFunc(currentPage, pageSize, searchQuery, sort, my_filter)
@@ -67,13 +67,16 @@ const DataTablePaginationReport = ({
         for (let index = 0; index < my_data.length; index++) {
           let clean_data = {};
           Object.keys(my_data[index]).map((key) => {
-            if ( typeof my_data[index][key] === "object" &&my_data[index][key] !=null) {
+            if (
+              typeof my_data[index][key] === "object" &&
+              my_data[index][key] != null
+            ) {
               Object.keys(my_data[index][key]).map((key_child) => {
                 clean_data[`${key}_${key_child}`] =
-                  my_data[index][key][key_child]??"";
+                  my_data[index][key][key_child] ?? "";
               });
             } else {
-              clean_data[key] = my_data[index][key]??"";
+              clean_data[key] = my_data[index][key] ?? "";
             }
           });
           the_datas.push(clean_data);
@@ -282,10 +285,13 @@ const DataTablePaginationReport = ({
       for (let index = 0; index < my_data.length; index++) {
         let clean_data_structure = {};
         Object.keys(my_data[index]).map((key) => {
-          if ( typeof my_data[index][key] === "object" &&my_data[index][key] !=null) {
+          if (
+            typeof my_data[index][key] === "object" &&
+            my_data[index][key] != null
+          ) {
             Object.keys(my_data[index][key]).map((key_child) => {
               clean_data_structure[`${key}_${key_child}`] =
-              my_data[index][key][key_child];
+                my_data[index][key][key_child];
               console.log(clean_data_structure);
             });
           } else {
@@ -298,7 +304,9 @@ const DataTablePaginationReport = ({
       the_datas.map((val) => {
         let obj_data = {};
         columns.map((col_value) => {
-          obj_data[col_value.title] = val[col_value.key];
+          if (col_value.key != "action") {
+            obj_data[col_value.title] = val[col_value.key];
+          }
         });
         clean_data.push(obj_data);
       });
@@ -306,8 +314,7 @@ const DataTablePaginationReport = ({
       const wb = XLSX.utils.book_new();
       const headerStyle = {
         alignment: { horizontal: "center", vertical: "center" },
-        font: { sz: 14, bold: true },
-        fill: { fgColor: { rgb: "67B7DC" } },
+        font: { sz: 12, bold: true },
       };
       for (let colIndex = 0; colIndex < columns.length; colIndex++) {
         const cellRef = XLSX.utils.encode_cell({ r: 4, c: colIndex }); // Row 5 is index 4
@@ -394,10 +401,12 @@ const DataTablePaginationReport = ({
               pagination={false}
               className="table-responsive"
               onChange={handleTableChange}
-              
-              columns={columns.map((col) => ({
+              columns={columns.filter(val=>val.type != 'hidden').map((col) => ({
                 ...col,
-                sorter: (a,b)=>a[col["key"]].localeCompare(b[col["key"]]),
+                sorter:
+                  col.key === "action"
+                    ? false
+                    : (a, b) => a[col["key"]].localeCompare(b[col["key"]]),
               }))}
               style={{ marginBottom: 30 }}
             />

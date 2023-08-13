@@ -1,4 +1,5 @@
 import Moment from "moment";
+import {useLoadingContext} from "../components/Loading"
 import { toast } from "react-toastify";
 import jwt_decode from "jwt-decode";
 import { getToken } from "./session";
@@ -287,6 +288,7 @@ export function SystoCamelCase(text = "") {
   return str.replace(/_([a-z])/g, (match, char) => " " + char);
 }
 export function SysValidateForm(required_field = [], data = []) {
+  const {hideLoading} = useLoadingContext();
   let message = "field ";
   let is_valid = true;
   required_field.map((val, index) => {
@@ -302,7 +304,17 @@ export function SysValidateForm(required_field = [], data = []) {
       } else {
         message += SystoCamelCase(named) + ", ";
       }
+      document.getElementsByName(alises[0]).forEach(val=>{
+        val.classList.add('validate-error')
+      })
       is_valid = false;
+      hideLoading();
+    }else{
+      
+      document.getElementsByName(alises[0]).forEach(val=>{
+        val.classList.remove('validate-error');
+      })
+      // document.getElementsByName(data[alises[0]]).classList.remove('validate-error')
     }
   });
   message += "is required!";

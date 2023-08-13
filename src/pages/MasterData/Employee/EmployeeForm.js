@@ -173,6 +173,7 @@ const EmployeeForm = ({readOnly=false}) => {
       const validateForm = SysValidateForm(required_field, data_submit);
       if (!validateForm.is_valid) {
         showToast({ message: validateForm.message });
+        hideLoading();
         return false;
       }
       const resp = await providers.insertData(data_submit);
@@ -239,6 +240,7 @@ const EmployeeForm = ({readOnly=false}) => {
       const validateForm = SysValidateForm(required_field, data_submit);
       if (!validateForm.is_valid) {
         showToast({ message: validateForm.message });
+        hideLoading();
         return false;
       }
       const resp = await providers.updateData(data_submit, data.id);

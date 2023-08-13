@@ -77,6 +77,7 @@ const LeaveForm = ({readOnly=false}) => {
       const validateForm = SysValidateForm(required_field, data);
       if (!validateForm.is_valid) {
         showToast({ message: validateForm.message });
+        hideLoading();
         return;
       }
       const resp = await providers.insertData({
