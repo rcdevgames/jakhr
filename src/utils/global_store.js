@@ -1,5 +1,5 @@
 import Moment from "moment";
-import React from "react";
+import {useLoadingContext} from "../components/Loading"
 import { toast } from "react-toastify";
 import jwt_decode from "jwt-decode";
 import { getToken } from "./session";
@@ -288,6 +288,7 @@ export function SystoCamelCase(text = "") {
   return str.replace(/_([a-z])/g, (match, char) => " " + char);
 }
 export function SysValidateForm(required_field = [], data = []) {
+  const {hideLoading} = useLoadingContext();
   let message = "field ";
   let is_valid = true;
   required_field.map((val, index) => {
@@ -307,6 +308,7 @@ export function SysValidateForm(required_field = [], data = []) {
         val.classList.add('validate-error')
       })
       is_valid = false;
+      hideLoading();
     }else{
       
       document.getElementsByName(alises[0]).forEach(val=>{
