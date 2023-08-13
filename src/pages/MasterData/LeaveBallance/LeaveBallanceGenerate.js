@@ -88,6 +88,7 @@ const LeaveBallanceGenerate = () => {
     const validateForm = SysValidateForm(required_field, data);
     if (!validateForm.is_valid) {
       showToast({ message: validateForm.message });
+      hideLoading();
       return;
     }
     for (let index = 0; index < data_employee.length; index++) {

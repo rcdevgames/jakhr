@@ -1,4 +1,5 @@
 import Moment from "moment";
+import React from "react";
 import { toast } from "react-toastify";
 import jwt_decode from "jwt-decode";
 import { getToken } from "./session";
@@ -302,7 +303,16 @@ export function SysValidateForm(required_field = [], data = []) {
       } else {
         message += SystoCamelCase(named) + ", ";
       }
+      document.getElementsByName(alises[0]).forEach(val=>{
+        val.classList.add('validate-error')
+      })
       is_valid = false;
+    }else{
+      
+      document.getElementsByName(alises[0]).forEach(val=>{
+        val.classList.remove('validate-error');
+      })
+      // document.getElementsByName(data[alises[0]]).classList.remove('validate-error')
     }
   });
   message += "is required!";

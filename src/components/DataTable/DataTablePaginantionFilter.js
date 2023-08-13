@@ -19,7 +19,9 @@ const DataTablePaginantionFilter = ({
   const [totalItems, setTotalItems] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  let date =   new Date();
+  date.setDate(1);
+  const [startDate, setStartDate] = useState(date);
   const [endDate, setendDate] = useState(new Date());
   const [sortField, setSortField] = useState("");
   const [sortOrder, setSortOrder] = useState("");

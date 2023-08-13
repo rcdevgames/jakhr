@@ -127,7 +127,7 @@ class BranchMapForm extends Component {
   //   }
   // };
   handleSubmit = async () => {
-    this.loader.showLoading();
+    // this.loader.showLoading();
     try {
       //   console.log(this.props);
       const data_submit = {
@@ -161,11 +161,11 @@ class BranchMapForm extends Component {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
-    this.loader.hideLoading();
+    // this.loader.hideLoading();
   };
 
   handleUpdate = async () => {
-    this.loader.showLoading();
+    // this.loader.showLoading();
     try {
       const data_submit = {
         name: this.state.branch_name,
@@ -206,7 +206,7 @@ class BranchMapForm extends Component {
       console.log(error);
       showToast({ message: error.message, type: "error" });
     }
-    this.loader.hideLoading();
+    // this.loader.hideLoading();
   };
   handleChangeAddress = (address) => {
     this.setState({ address });
