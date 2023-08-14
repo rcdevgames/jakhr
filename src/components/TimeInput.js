@@ -1,34 +1,24 @@
 import React, { useState } from 'react';
-
+import dayjs from 'dayjs';
+import {TimePicker} from "antd"
+import { SysDateTransform } from '../utils/global_store';
 function TimeInput(props) {
-    const { value, onChange, placeholder } = props;
-  
-    const hours = [...Array(24).keys()];
-    const minutes = ['00', '30'];
-    const options = [];
-  
-    hours.forEach((hour) => {
-      minutes.forEach((minute) => {
-        const time = `${hour.toString().padStart(2, '0')}:${minute}:00`;
-        options.push(time);
-      });
-    });
-  
+    const { value, onChange, placeholder,name } = props;
+    const handleChange =(val,str)=>{
+      onChange(str)
+    }
     return (
       
-      <select
-        className="form-select"
-        value={value}
-        onChange={(event) => {
-          onChange(event.target.value);
-        }}
-        aria-label={placeholder}
-      >
-        <option value="" disabled>{placeholder}</option>
-        {options.map((option, index) => (
-          <option key={index} value={option}>{option}</option>
-        ))}
-      </select>
+      <TimePicker
+        onChange={handleChange}
+        value={dayjs(value =='' ||value==null||value == undefined?'00:00:00':value,'HH:mm:ss')}
+        name={name??'input_time'}
+        className='form-control'
+        format="HH:mm:ss"
+        // minuteStep={1}
+        
+        placeholder={placeholder}
+      />
     );
 }
 

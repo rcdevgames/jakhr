@@ -84,13 +84,7 @@ const LeaveBallanceGenerate = () => {
 
   const handleSubmit = async () => {
     showLoading();
-
-    const validateForm = SysValidateForm(required_field, data);
-    if (!validateForm.is_valid) {
-      showToast({ message: validateForm.message });
-      hideLoading();
-      return;
-    }
+ SysValidateForm(required_field, data);
     for (let index = 0; index < data_employee.length; index++) {
       try {
         const resp = await providers.insertData({

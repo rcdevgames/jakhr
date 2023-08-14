@@ -1,2 +1,3 @@
 import Attendance from './Attendance'
-export {Attendance }
+import AttendanceForm from './AttendanceForm'
+export {Attendance,AttendanceForm }

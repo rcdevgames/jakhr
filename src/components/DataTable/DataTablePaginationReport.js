@@ -292,7 +292,7 @@ const DataTablePaginationReport = ({
             Object.keys(my_data[index][key]).map((key_child) => {
               clean_data_structure[`${key}_${key_child}`] =
                 my_data[index][key][key_child];
-              console.log(clean_data_structure);
+              // console.log(clean_data_structure);
             });
           } else {
             clean_data_structure[key] = my_data[index][key];
@@ -301,27 +301,31 @@ const DataTablePaginationReport = ({
         the_datas.push(clean_data_structure);
       }
       let clean_data = [];
+      // let col_length=0;
       the_datas.map((val) => {
         let obj_data = {};
         columns.map((col_value) => {
           if (col_value.key != "action") {
-            obj_data[col_value.title] = val[col_value.key];
+            obj_data[col_value.title] = val[col_value.key]??"";
+            // col_length++;
           }
         });
         clean_data.push(obj_data);
       });
+      // console.log(clean_data);
       const ws = XLSX.utils.json_to_sheet(clean_data, { origin: "A5" });
       const wb = XLSX.utils.book_new();
       const headerStyle = {
         alignment: { horizontal: "center", vertical: "center" },
         font: { sz: 12, bold: true },
       };
-      for (let colIndex = 0; colIndex < columns.length; colIndex++) {
+      for (let colIndex = 0; colIndex < columns.filter(val=>val.key != 'action').length; colIndex++) {
+        // console.log(colIndex);
         const cellRef = XLSX.utils.encode_cell({ r: 4, c: colIndex }); // Row 5 is index 4
         ws[cellRef].s = headerStyle; // Apply the style to the cell
       }
       ws["!merges"] = [
-        { s: { r: 0, c: 0 }, e: { r: 0, c: columns.length - 1 } },
+        { s: { r: 0, c: 0 }, e: { r: 0, c: columns.filter(val=>val.key != 'action').length -1 } },
       ];
       ws["A1"] = {
         t: "s",

@@ -9,7 +9,7 @@ import {
   SysValidateForm,
   showToast,
 } from "../../../../../utils/global_store";
-import { useLoadingContext } from "../../../../../components/Loading";
+import { useLoadingContext,LoadingProvider } from "../../../../../components/Loading";
 class LoadScriptComponent extends LoadScript {
   componentDidMount() {
     try {
@@ -39,7 +39,9 @@ class LoadScriptComponent extends LoadScript {
     }
   }
 }
+// BranchMapForm.contextType =useLoadingContext;
 class BranchMapForm extends Component {
+  // static loadingContext = useLoadingContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -70,10 +72,11 @@ class BranchMapForm extends Component {
   }
   componentDidMount() {
     // this.getCompanyList();
-    this.handleGetCurrentLocationClick();
     if (this.props.id) {
       this.setState({ id: this.props.id });
       this.getDetail(this.props.id);
+    } else {
+      this.handleGetCurrentLocationClick();
     }
   }
   required_field = [
@@ -87,7 +90,12 @@ class BranchMapForm extends Component {
     "sch_out as clock_out",
   ];
   getDetail = async (id) => {
-    this.loader.showLoading();
+    // this.lo();
+    // const a = this.context;
+    // showLoading();
+    // console.log(this.loadingContext);
+    // this.context.showLoading();
+    // this.loadingContext.showLoading();
     try {
       const resp = await branch_providers.getDetail(id);
       this.setState({
@@ -114,7 +122,7 @@ class BranchMapForm extends Component {
       showToast({ message: error.message, type: "error" });
       this.props.navigate(-1);
     }
-    this.loader.hideLoading();
+    // this.loadingContext.hideLoading();
   };
   // getCompanyList = async () => {
   //   try {
@@ -144,15 +152,12 @@ class BranchMapForm extends Component {
         sch_out_half: this.state.branchSchOutHalf,
         company_id: this.state.jwt.companyId,
       };
-      const validateForm = SysValidateForm(this.required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        return false;
-      }
+      SysValidateForm(this.required_field, data_submit);
       if (this.state.branchSchIn >= this.state.branchSchOut) {
-        showToast({ message: "Clock Out must be greater than Clock In" });
-        // console.log('JAM BENER');
-        return "";
+        throw {
+          message: "Clock Out must be greater than Clock In",
+          error: 400,
+        };
       }
       const resp = await branch_providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
@@ -181,20 +186,12 @@ class BranchMapForm extends Component {
         sch_out_half: this.state.branchSchOutHalf,
         company_id: this.state.jwt.companyId,
       };
-      const validateForm = SysValidateForm(this.required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        return false;
-      }
+      SysValidateForm(this.required_field, data_submit);
       if (this.state.branchSchIn >= this.state.branchSchOut) {
-        showToast({ message: "Clock Out must be greater than Clock In" });
-        // console.log('JAM BENER');
-        return "";
-      }
-      if (this.state.branchSchInHalf >= this.state.branchSchOutHalf) {
-        // console.log('JAM GAK BENER');
-        showToast({ message: "Clock Out must be greater than Clock In" });
-        return "";
+        throw {
+          message: "Clock Out must be greater than Clock In",
+          error: 400,
+        };
       }
       const resp = await branch_providers.updateData(
         data_submit,
@@ -425,15 +422,14 @@ class BranchMapForm extends Component {
                   onChange={this.onLatLngChange("lng")}
                 />
               </div>
-              {this.props.readOnly?null:
-                
-              <button
-              className="btn btn-primary mt-2"
-              onClick={this.handleGetCurrentLocationClick}
-              >
-                Ambil lokasi saat ini
-              </button>
-              }
+              {this.props.readOnly ? null : (
+                <button
+                  className="btn btn-primary mt-2"
+                  onClick={this.handleGetCurrentLocationClick}
+                >
+                  Ambil lokasi saat ini
+                </button>
+              )}
             </div>
           </div>
           <div className="row mt-3">
@@ -445,8 +441,7 @@ class BranchMapForm extends Component {
                   type="number"
                   name="phone"
                   value={phone}
-              disabled={this.props.readOnly}
-
+                  disabled={this.props.readOnly}
                   onChange={this.handleChange}
                 />
               </div>
@@ -459,8 +454,7 @@ class BranchMapForm extends Component {
                   className="form-control"
                   type="number"
                   name="phone2"
-              disabled={this.props.readOnly}
-
+                  disabled={this.props.readOnly}
                   value={phone2}
                   onChange={(e) => {
                     this.handleChange(e);
@@ -483,7 +477,6 @@ class BranchMapForm extends Component {
                 <label>Jam Keluar (Senin - Jumat):</label>
                 <TimeInput
                   className="form-control"
-                  
                   value={branchSchOut}
                   onChange={this.handleTimeOutChange}
                 />
@@ -511,14 +504,14 @@ class BranchMapForm extends Component {
               </div>
             </div>
           </div>
-          {this.props.readOnly?null:
-          <button
-          onClick={this.state.id ? this.handleUpdate : this.handleSubmit}
-          className="btn btn-primary"
-          >
-            {this.state.id ? "Update" : "Submit"}
-          </button>
-          }
+          {this.props.readOnly ? null : (
+            <button
+              onClick={this.state.id ? this.handleUpdate : this.handleSubmit}
+              className="btn btn-primary"
+            >
+              {this.state.id ? "Update" : "Submit"}
+            </button>
+          )}
         </div>
       </div>
     );

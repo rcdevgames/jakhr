@@ -1,5 +1,5 @@
 import Moment from "moment";
-import {useLoadingContext} from "../components/Loading"
+import { useLoadingContext } from "../components/Loading";
 import { toast } from "react-toastify";
 import jwt_decode from "jwt-decode";
 import { getToken } from "./session";
@@ -59,7 +59,7 @@ export function SysDateTransform({
   }
   const current = new Date();
   const dateFormat = new Date(date);
-  const month = dateFormat.getMonth() ;
+  const month = dateFormat.getMonth();
   const year = dateFormat.getFullYear();
   const day = dateFormat.getDate();
   const hour = dateFormat.getHours();
@@ -106,7 +106,7 @@ export function SysDateTransform({
   }
   if (forSql) {
     fullOfdate = `${addZero({ num: year })}-${addZero({
-      num: month +1,
+      num: month + 1,
     })}-${addZero({
       num: day,
     })}`;
@@ -288,7 +288,6 @@ export function SystoCamelCase(text = "") {
   return str.replace(/_([a-z])/g, (match, char) => " " + char);
 }
 export function SysValidateForm(required_field = [], data = []) {
-  const {hideLoading} = useLoadingContext();
   let message = "field ";
   let is_valid = true;
   required_field.map((val, index) => {
@@ -304,20 +303,18 @@ export function SysValidateForm(required_field = [], data = []) {
       } else {
         message += SystoCamelCase(named) + ", ";
       }
-      document.getElementsByName(alises[0]).forEach(val=>{
-        val.classList.add('validate-error')
-      })
+      document.getElementsByName(alises[0]).forEach((val) => {
+        val.classList.add("validate-error");
+      });
       is_valid = false;
-      hideLoading();
-    }else{
-      
-      document.getElementsByName(alises[0]).forEach(val=>{
-        val.classList.remove('validate-error');
-      })
-      // document.getElementsByName(data[alises[0]]).classList.remove('validate-error')
+    } else {
+      document.getElementsByName(alises[0]).forEach((val) => {
+        val.classList.remove("validate-error");
+      });
     }
   });
   message += "is required!";
+  if (!is_valid) throw { is_valid, message };
   return {
     is_valid,
     message,

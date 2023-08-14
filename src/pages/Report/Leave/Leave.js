@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
 import * as providers from "../../../providers/report/global";
@@ -9,8 +9,10 @@ import * as providers_organization from "../../../providers/master/organization"
 import DataTablePagination, { DataTablePaginationReport } from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
 import { SysCurrencyTransform } from "../../../utils/global_store";
+import { routes_name } from "../../../route/static_route";
 
 const ReportLeave = () => {
+  const navigate = useNavigate();
   const [data_branch, set_data_branch] = useState([]);
   const [data_organization, set_data_organization] = useState([]);
   const [data_job_level, set_data_job_level] = useState([]);
@@ -55,6 +57,21 @@ const ReportLeave = () => {
       title: "Leaves",
       dataIndex: "totalLeaves",
       key: "totalLeaves",
+    },,{
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      render: (val, record) => (
+        <div className="btn-group" role="group">
+          <a
+            onClick={() => navigate(`${routes_name.REPORT_LEAVE_DETAIL}${val}`)}
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+            >
+            <i className="bi bi-file-text"></i>
+          </a>
+        </div>
+      ),
     },
   ];
   const getBranch = async () => {

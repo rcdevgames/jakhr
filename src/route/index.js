@@ -36,7 +36,7 @@ import {
 import { Salary } from "../pages/Payroll/Salary";
 
 // Transaction
-import { Attendance } from "../pages/Transaction/Attendance";
+import { Attendance, AttendanceForm } from "../pages/Transaction/Attendance";
 import { Additional, CreateAdditional } from "../pages/Transaction/Additional";
 import { Reduction, CreateReduction } from "../pages/Transaction/Reduction";
 import { LeaveForm, Leave } from "../pages/Transaction/LeaveEmployee";
@@ -54,12 +54,12 @@ import {
 import { ReportEmployee } from "../pages/Report/Employee";
 import { ReportApplicant } from "../pages/Report/Applicant";
 import { ReportAttendance } from "../pages/Report/Attendance";
-import { ReportLeave } from "../pages/Report/Leave";
+import { ReportLeave, ReportLeaveDetail } from "../pages/Report/Leave";
 import { ReportOvertime } from "../pages/Report/Overtime";
 import { ReportAdditional } from "../pages/Report/Additional";
-import { ReportReduction } from "../pages/Report/Reduction";
-import { ReportCash } from "../pages/Report/Cash";
-import { ReportImbursement } from "../pages/Report/Imbursement";
+import { ReportReduction, ReportReductionDetail } from "../pages/Report/Reduction";
+import { ReportCash, ReportCashDetail } from "../pages/Report/Cash";
+import { ReportImbursement, ReportImbursementDetail } from "../pages/Report/Imbursement";
 import { ReportKpi } from "../pages/Report/Kpi";
 import { ReportTax } from "../pages/Report/Tax";
 import { ReportSalary } from "../pages/Report/Salary";
@@ -101,6 +101,7 @@ import {
   LeaveBallanceGenerate,
 } from "../pages/MasterData/LeaveBallance";
 import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
+import ReportOvertimeDetail from "../pages/Report/Overtime/OvertimeDetail";
 
 const Router = () => (
   <BrowserRouter>
@@ -305,6 +306,7 @@ const Router = () => (
           <Route path="transaction">
             <Route path="attendance">
               <Route path="" element={<Attendance />} />
+              <Route path="detail/:id" element={<AttendanceForm />} />
             </Route>
 
             <Route path="cash_advance">
@@ -357,21 +359,26 @@ const Router = () => (
 
             <Route path="leave">
               <Route path="" element={<ReportLeave />} />
+              <Route path="detail/:employee_id" element={<ReportLeaveDetail />} />
             </Route>
             <Route path="overtime">
               <Route path="" element={<ReportOvertime />} />
+              <Route path="detail/:employee_id" element={<ReportOvertimeDetail />} />
             </Route>
             <Route path="additional">
               <Route path="" element={<ReportAdditional />} />
             </Route>
             <Route path="reduction">
               <Route path="" element={<ReportReduction />} />
+              <Route path="detail/:employee_id" element={<ReportReductionDetail />} />
             </Route>
             <Route path="cash">
               <Route path="" element={<ReportCash />} />
+              <Route path="detail/:employee_id" element={<ReportCashDetail />} />
             </Route>
             <Route path="imbursement">
               <Route path="" element={<ReportImbursement />} />
+              <Route path="detail/:employee_id" element={<ReportImbursementDetail />} />
             </Route>
             <Route path="kpi">
               <Route path="" element={<ReportKpi />} />

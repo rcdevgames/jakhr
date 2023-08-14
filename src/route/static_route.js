@@ -80,4 +80,12 @@ export const routes_name = {
   TRANSAC_REIMBURST_DETAIL:"/transaction/reimburst/detail/",
   TRANSAC_REIMBURST_SHOW:"/transaction/reimburst/show/",
   TRANSAC_OVERTIME_CREATE:"/transaction/overtime/create",
+  TRANSAC_ATTENDANCE_DETAIL:"/transaction/attendance/detail/",
+  //-----REPORT
+  
+  REPORT_CASH_ADVANCE_DETAIL:"/report/cash/detail/",
+  REPORT_OVERTIME_DETAIL:"/report/overtime/detail/",
+  REPORT_LEAVE_DETAIL:"/report/leave/detail/",
+  REPORT_REIMBURS_DETAIL:"/report/imbursement/detail/",
+  REPORT_DEDUCTION_DETAIL:"/report/reduction/detail/",
 };
