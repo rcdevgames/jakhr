@@ -20,7 +20,7 @@ import { Switch } from "antd";
 import Select from "react-select";
 import { useLoadingContext } from "../../../components/Loading";
 import UploadFile from "../../../components/UploadFile";
-const LeaveForm = ({readOnly=false}) => {
+const LeaveForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoadingContext();
   const required_field = [
@@ -74,12 +74,7 @@ const LeaveForm = ({readOnly=false}) => {
   };
   const handleSubmit = async () => {
     try {
-      const validateForm = SysValidateForm(required_field, data);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return;
-      }
+      SysValidateForm(required_field, data);
       const resp = await providers.insertData({
         employee_id: data.employee_id,
         leave_type_id: data.leave_type_id,
@@ -96,7 +91,10 @@ const LeaveForm = ({readOnly=false}) => {
       navigate(-1);
     } catch (error) {
       console.log(error);
-      showToast({ message: "Maaf, kamu tidak punya saldo cuti, pengajuan dibatalkan!", type: "error" });
+      showToast({
+        message: "Maaf, kamu tidak punya saldo cuti, pengajuan dibatalkan!",
+        type: "error",
+      });
     }
   };
   const handleImageUpload = (val) => {
@@ -134,14 +132,16 @@ const LeaveForm = ({readOnly=false}) => {
                             data_employee,
                             data.employee_id,
                             "id",
-                            "employee_id",
+                            "employee_id"
                           )}
-                          formatOptionLabel={(val)=>val.employee_id+'-'+val.full_name}
+                          formatOptionLabel={(val) =>
+                            val.employee_id + "-" + val.full_name
+                          }
                           options={data_employee.map((option, index) => ({
                             value: option.id,
                             label: `${option.employee_id} - ${option.full_name}`,
-                            employee_id:option.employee_id,
-                            full_name:option.full_name,
+                            employee_id: option.employee_id,
+                            full_name: option.full_name,
                             target: {
                               value: option.id,
                               name: "employee_id",

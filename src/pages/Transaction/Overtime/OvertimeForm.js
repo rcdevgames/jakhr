@@ -50,16 +50,10 @@ const OvertimeForm = () => {
   const handleSubmit = async () => {
     showLoading();
     try {
-      const obj = data_attendance.find((val) => val.id == data.attendance_id);
-      const validateForm = SysValidateForm(required_field, data);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return;
-      }
+      const obj = data_attendance.find((val) => val.id == data.attendance_id); SysValidateForm(required_field, data);
+      
       if (data.time_in > data.time_out) {
-        showToast({ message: "Time End must be greater than Time Start" });
-        return;
+        throw{ message: "Time End must be greater than Time Start" };
       }
       const resp = await providers.insertData({
         attendance_id: data.attendance_id,

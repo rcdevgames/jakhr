@@ -39,6 +39,72 @@ const ReportEmployee = () => {
       key: "employee_id",
     },
     {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      type:"hidden"
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone_number",
+      key: "phone_number",
+      type:"hidden"
+    },
+    {
+      title: "ID Type",
+      dataIndex: "id_type",
+      key: "id_type",
+      type:"hidden"
+    },
+    {
+      title: "ID Number",
+      dataIndex: "id_number",
+      key: "id_number",
+      type:"hidden"
+    },
+    {
+      title: "Marital Status",
+      dataIndex: "marital_status",
+      key: "marital_status",
+      type:"hidden"
+    },
+    {
+      title: "Religion",
+      dataIndex: "religion",
+      key: "religion",
+      type:"hidden"
+    },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+      key: "gender",
+      type:"hidden"
+    },
+    {
+      title: "NPWP",
+      dataIndex: "npwp",
+      key: "npwp",
+      type:"hidden"
+    },
+    {
+      title: "PTKP",
+      dataIndex: "ptkp",
+      key: "ptkp",
+      type:"hidden"
+    },
+    {
+      title: "Citizen Address",
+      dataIndex: "citizen_address",
+      key: "citizen_address",
+      type:"hidden"
+    },
+    {
+      title: "Residential Address",
+      dataIndex: "residential_address",
+      key: "residential_address",
+      type:"hidden"
+    },
+    {
       title: "Branch",
       dataIndex: "branch_name",
       key: "branch_name",
@@ -53,7 +119,6 @@ const ReportEmployee = () => {
       title: "Job Position",
       dataIndex: "job_position_name",
       key: "job_position_name",
-      // type:"hidden"
     },
     {
       title: "Action",

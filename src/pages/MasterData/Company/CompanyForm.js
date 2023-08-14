@@ -57,7 +57,7 @@ const CompanyForm = ({ readOnly = false }) => {
           ? {
               source: resp.data.logo,
             }
-            : null,
+          : null,
       });
     } catch (error) {
       showToast({ message: error.message, type: error });
@@ -76,12 +76,7 @@ const CompanyForm = ({ readOnly = false }) => {
         logo: data.logo,
         parent_id: data.parent_id,
       };
-      const validateFields = SysValidateForm(required_field, data_submit);
-      if (!validateFields.is_valid) {
-        showToast({ message: validateFields.message });
-        hideLoading();
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
       const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -89,7 +84,6 @@ const CompanyForm = ({ readOnly = false }) => {
       hideLoading();
       showToast({ message: error.message, type: "error" });
     }
-    console.log("LEWAT KGAK DAH");
     hideLoading();
   };
 
@@ -104,11 +98,7 @@ const CompanyForm = ({ readOnly = false }) => {
         logo: data.logo,
         parent_id: data.parent_id,
       };
-      const validateFields = SysValidateForm(required_field, data_submit);
-      if (!validateFields.is_valid) {
-        showToast({ message: validateFields.message });
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
       const resp = await providers.updateData(data_submit, data.id);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);

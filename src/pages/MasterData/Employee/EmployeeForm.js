@@ -170,12 +170,7 @@ const EmployeeForm = ({readOnly=false}) => {
         photo: data.photo??"empty",
         role: { id: data.role.id },
       };
-      const validateForm = SysValidateForm(required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
       const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -236,13 +231,7 @@ const EmployeeForm = ({readOnly=false}) => {
         photo: data.photo??"empty",
         role: { id: data.role.id },
       };
-      // console.log(data_submit);
-      const validateForm = SysValidateForm(required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
       const resp = await providers.updateData(data_submit, data.id);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);

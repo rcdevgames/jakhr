@@ -11,11 +11,11 @@ import {
 } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
-const LeaveMassForm = ({readOnly=false}) => {
+const LeaveMassForm = ({ readOnly = false }) => {
   const required_field = ["name", "description", "default_total_leave"];
-  const {showLoading,hideLoading} = useLoadingContext()
+  const { showLoading, hideLoading } = useLoadingContext();
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfleave_typeModel({}));
@@ -53,12 +53,7 @@ const LeaveMassForm = ({readOnly=false}) => {
         description: data.description,
         default_total_leave: data.default_total_leave,
       };
-      const validateForm = SysValidateForm(required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
       const resp = await providers.insertData(data_submit);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -77,12 +72,8 @@ const LeaveMassForm = ({readOnly=false}) => {
         description: data.description,
         default_total_leave: data.default_total_leave,
       };
-      const validateForm = SysValidateForm(required_field, data_submit);
-      if (!validateForm.is_valid) {
-        showToast({ message: validateForm.message });
-        hideLoading();
-        return false;
-      }
+      SysValidateForm(required_field, data_submit);
+
       const resp = await providers.updateData(data_submit, data.id);
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -92,7 +83,7 @@ const LeaveMassForm = ({readOnly=false}) => {
     }
     hideLoading();
   };
-  
+
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -111,8 +102,8 @@ const LeaveMassForm = ({readOnly=false}) => {
                         className="form-control"
                         type="text"
                         name="name"
-                            disabled={readOnly}
-                            value={data.name}
+                        disabled={readOnly}
+                        value={data.name}
                         onChange={handleChange}
                       />
                     </div>
@@ -124,8 +115,8 @@ const LeaveMassForm = ({readOnly=false}) => {
                       <input
                         className="form-control"
                         type="text"
-                            disabled={readOnly}
-                            name="description"
+                        disabled={readOnly}
+                        name="description"
                         value={data.description}
                         onChange={handleChange}
                       />
@@ -137,8 +128,8 @@ const LeaveMassForm = ({readOnly=false}) => {
                       <input
                         className="form-control"
                         type="text"
-                            disabled={readOnly}
-                            onKeyDown={onlyNumber}
+                        disabled={readOnly}
+                        onKeyDown={onlyNumber}
                         onPaste={disablePaste}
                         name="default_total_leave"
                         value={data.default_total_leave}
@@ -147,15 +138,14 @@ const LeaveMassForm = ({readOnly=false}) => {
                     </div>
                   </div>
                 </div>
-                {
-                  readOnly?null:
-                <button
-                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
-                }
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

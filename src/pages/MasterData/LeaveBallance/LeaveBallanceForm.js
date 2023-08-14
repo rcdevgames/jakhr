@@ -85,15 +85,9 @@ const LeaveBallanceForm = () => {
   const handleSubmit = async () => {
     showLoading();
     if (selected_employee.length <= 0) {
-      showToast({ message: "No employee selected!" });
-      return;
-    }
-    const validateForm = SysValidateForm(required_field, data);
-    if (!validateForm.is_valid) {
-      showToast({ message: validateForm.message });
-      hideLoading();
-      return;
-    }
+      throw{ message: "No employee selected!" }
+    } 
+    SysValidateForm(required_field, data);
     for (let index = 0; index < selected_employee.length; index++) {
       try {
         const resp = await providers.insertData({
