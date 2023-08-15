@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
 });
 const PayrollPdf = (data, month,year) => {
-  console.log(month,year);
+  // console.log(month,year);
   function toCamelCase(str) {
     if (str == "value_to_add") return "Penerimaan";
     if (str == "value_to_reduce") return "Potongan";

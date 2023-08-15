@@ -23,6 +23,8 @@ const DataTablePaginationReport = ({
   withPeriode = false,
   title = "",
   filters = [],
+  action = [],
+  withExport = true,
 }) => {
   const { showLoading, hideLoading } = useLoadingContext();
   const [currentPage, setCurrentPage] = useState(1);
@@ -165,7 +167,7 @@ const DataTablePaginationReport = ({
   };
   const FilterComponent = () => {
     return (
-      <div className="row" style={{ alignItems: "center" }}>
+      <div className="d-flex flex-row" style={{ alignItems: "center" }}>
         {filters.map((val) => {
           let data = [
             {
@@ -182,70 +184,70 @@ const DataTablePaginationReport = ({
             });
           }
           return (
-            <div style={{ marginRight: 10, width: 250 }}>
-              <div className="form-group">
-                <label>{val?.title ?? ""}</label>
-                <Select
-                  onChange={(value) => handleChange(value, val.index)}
-                  value={SysGenValueOption(
-                    val.data,
-                    selectedFilters[val.index],
-                    val.data_id,
-                    val.label
-                  )}
-                  options={data}
-                  formatOptionLabel={(val) => `${val.label}`}
-                  placeholder={`Select ${val?.title ?? ""}`}
-                  aria-label="Nama"
-                  isSearchable
-                />
-              </div>
+            <div className="form-group" style={{ marginRight: 10 }}>
+              <label>{val?.title ?? ""}</label>
+              <Select
+                styles={{
+                  menu: (provide, state) => ({
+                    ...provide,
+                    zIndex: 3,
+                  }),
+                }}
+                onChange={(value) => handleChange(value, val.index)}
+                value={SysGenValueOption(
+                  val.data,
+                  selectedFilters[val.index],
+                  val.data_id,
+                  val.label
+                )}
+                options={data}
+                formatOptionLabel={(val) => `${val.label}`}
+                placeholder={`Select ${val?.title ?? ""}`}
+                aria-label="Nama"
+                isSearchable
+              />
             </div>
           );
         })}
 
         {withPeriode && (
-          <div style={{ marginRight: 10, width: 200 }}>
-            <div className="form-group">
-              <label>Periode Tahun:</label>{" "}
-              <select
-                className="form-select"
-                id="year"
-                name="year"
-                value={periode.year}
-                onChange={handleChangePeriode}
-                aria-label="year"
-              >
-                <option value={null}>Pilih Periode Tahun</option>
-                {year_data.map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="form-group " style={{ marginRight: 10 }}>
+            <label>Periode Tahun:</label>{" "}
+            <select
+              className="form-select"
+              id="year"
+              name="year"
+              value={periode.year}
+              onChange={handleChangePeriode}
+              aria-label="year"
+            >
+              <option value={null}>Pilih Periode Tahun</option>
+              {year_data.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
         )}
         {withPeriode && (
-          <div style={{ marginRight: 10, width: 200 }}>
-            <div className="form-group">
-              <label>Periode Bulan</label>{" "}
-              <select
-                className="form-select"
-                id="month"
-                name="month"
-                value={periode.month}
-                onChange={handleChangePeriode}
-                aria-label="Month"
-              >
-                <option value={null}>Pilih Periode Bulan</option>
-                {month_data.map((option, index) => (
-                  <option key={index} value={option}>
-                    {SysMonthTransform(option, "long", "in")}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="form-group " style={{ marginRight: 10 }}>
+            <label>Periode Bulan</label>{" "}
+            <select
+              className="form-select"
+              id="month"
+              name="month"
+              value={periode.month}
+              onChange={handleChangePeriode}
+              aria-label="Month"
+            >
+              <option value={null}>Pilih Periode Bulan</option>
+              {month_data.map((option, index) => (
+                <option key={index} value={option}>
+                  {SysMonthTransform(option, "long", "in")}
+                </option>
+              ))}
+            </select>
           </div>
         )}
 
@@ -306,26 +308,37 @@ const DataTablePaginationReport = ({
         let obj_data = {};
         columns.map((col_value) => {
           if (col_value.key != "action") {
-            obj_data[col_value.title] = val[col_value.key]??"";
-            // col_length++;
+            obj_data[col_value.title] = val[col_value.key] ?? "";
+            if(col_value.val_props){
+              obj_data[col_value.title] = col_value.val_props[val[col_value.key]];
+            }
           }
         });
         clean_data.push(obj_data);
       });
-      // console.log(clean_data);
       const ws = XLSX.utils.json_to_sheet(clean_data, { origin: "A5" });
       const wb = XLSX.utils.book_new();
       const headerStyle = {
         alignment: { horizontal: "center", vertical: "center" },
         font: { sz: 12, bold: true },
       };
-      for (let colIndex = 0; colIndex < columns.filter(val=>val.key != 'action').length; colIndex++) {
+      for (
+        let colIndex = 0;
+        colIndex < columns.filter((val) => val.key != "action").length;
+        colIndex++
+      ) {
         // console.log(colIndex);
         const cellRef = XLSX.utils.encode_cell({ r: 4, c: colIndex }); // Row 5 is index 4
         ws[cellRef].s = headerStyle; // Apply the style to the cell
       }
       ws["!merges"] = [
-        { s: { r: 0, c: 0 }, e: { r: 0, c: columns.filter(val=>val.key != 'action').length -1 } },
+        {
+          s: { r: 0, c: 0 },
+          e: {
+            r: 0,
+            c: columns.filter((val) => val.key != "action").length - 1,
+          },
+        },
       ];
       ws["A1"] = {
         t: "s",
@@ -384,9 +397,12 @@ const DataTablePaginationReport = ({
               alignItems: "center",
             }}
           >
-            <Button onClick={handleExport} className="btn btn-primary">
-              {sys_labels.action.EXPORT_EXCEL}
-            </Button>
+            {action}
+            {withExport && (
+              <Button onClick={handleExport} className="btn btn-primary">
+                {sys_labels.action.EXPORT_EXCEL}
+              </Button>
+            )}
           </div>
         </div>
         <div className="card-body">
@@ -405,13 +421,15 @@ const DataTablePaginationReport = ({
               pagination={false}
               className="table-responsive"
               onChange={handleTableChange}
-              columns={columns.filter(val=>val.type != 'hidden').map((col) => ({
-                ...col,
-                sorter:
-                  col.key === "action"
-                    ? false
-                    : (a, b) => a[col["key"]].localeCompare(b[col["key"]]),
-              }))}
+              columns={columns
+                .filter((val) => val.type != "hidden")
+                .map((col) => ({
+                  ...col,
+                  sorter:
+                    col.key === "action"
+                      ? false
+                      : (a, b) => a[col["key"]].localeCompare(b[col["key"]]),
+                }))}
               style={{ marginBottom: 30 }}
             />
 

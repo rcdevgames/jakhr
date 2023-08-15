@@ -11,6 +11,7 @@ import DataTablePagination, {
 } from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
 import { routes_name } from "../../../route/static_route";
+import {Badge} from "antd"
 
 import { useNavigate } from "react-router-dom";
 const ReportEmployee = () => {
@@ -108,6 +109,7 @@ const ReportEmployee = () => {
       title: "Branch",
       dataIndex: "branch_name",
       key: "branch_name",
+      width:150,
     },
     {
       title: "Division",
@@ -118,7 +120,23 @@ const ReportEmployee = () => {
     {
       title: "Job Position",
       dataIndex: "job_position_name",
+      width:200,
       key: "job_position_name",
+    },{
+      title: "Status",
+      dataIndex: "is_active",
+      key: "is_active",
+      val_props:{
+       true:"Aktif",
+       false:"Tidak Aktif" 
+      },
+      render: (val) => (
+        <Badge
+          status={val ? "success" : "warning"}
+          text={val ? "Aktif" : "Tidak Aktif"}
+          showZero
+        ></Badge>
+      ),
     },
     {
       title: "Action",

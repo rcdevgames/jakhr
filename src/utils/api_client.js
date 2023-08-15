@@ -88,7 +88,7 @@ export const sys_get_report = async ({ auth = false, endpoint = "" }) => {
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";
-    callback.data =  data.datas;
+    callback.data =  data.datas??data.data??[];
     callback.totalData= data.totalPages
     if (response.status != 201 && response.status != 200) {
       callback.message=data?.error??data?.message??"";

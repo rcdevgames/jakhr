@@ -62,7 +62,7 @@ const ReportDeduction = () => {
     {
       title: "Action",
       dataIndex: "id",
-      key: "id",
+      key: "action",
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a

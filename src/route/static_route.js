@@ -88,4 +88,5 @@ export const routes_name = {
   REPORT_LEAVE_DETAIL:"/report/leave/detail/",
   REPORT_REIMBURS_DETAIL:"/report/imbursement/detail/",
   REPORT_DEDUCTION_DETAIL:"/report/reduction/detail/",
+  REPORT_INCENTIVE_DETAIL:"/report/additional/detail/",
 };

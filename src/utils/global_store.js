@@ -500,10 +500,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.OVERTIME,
         link: "/report/overtime",
       },
-      // {
-      //   label: sys_labels.menus.INSENTIV,
-      //   link: "/report/additional",
-      // },
+      {
+        label: sys_labels.menus.INSENTIV,
+        link: "/report/additional",
+      },
       {
         label: sys_labels.menus.DEDUCTION,
         link: "/report/reduction",
