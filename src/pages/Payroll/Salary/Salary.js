@@ -1,31 +1,68 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import AdminDashboard from "../../AdminDashboard";
-// import * as providers from "../../../providers/payroll/salary";
-import DataTablePagination from "../../../components/DataTable";
-import ActionModal from "../../../components/ActionModal";
-import { showToast } from "../../../utils/global_store";
-import { useNavigate } from "react-router-dom";
+import { pdf } from "@react-pdf/renderer";
+import * as providers from "../../../providers/payroll/salary";
+import DataTablePagination, {
+  DataTablePaginationReport,
+} from "../../../components/DataTable";
 import { sys_labels } from "../../../utils/constants";
+import { SysCurrencyTransform, showToast } from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
-
+import { useLoadingContext } from "../../../components/Loading";
+import PayrollPdf from "../../PDF/payroll_pdf";
+// import 
 const Salary = () => {
   const navigate = useNavigate();
-  const [message, set_message] = useState("");
-  const [id, set_id] = useState("");
-  const [modal, set_modal] = useState(false);
+  const{showLoading,hideLoading}=useLoadingContext()
   const columns = [
-    { title: "Employee", dataIndex: "employee", key: "employee" },
     {
-      title: "Month Periode",
-      dataIndex: "periode_bulan",
-      key: "periode_bulan",
+      title: "Fullname",
+      dataIndex: "full_name",
+      key: "full_name",
+      sortable: true,
     },
-    { title: "Year Periode", dataIndex: "periode_tahun", key: "periode_tahun" },
-    { title: "Basic Salary", dataIndex: "basic_salary", key: "basic_salary" },
-    { title: "Allowance", dataIndex: "allowance", key: "allowance" },
-    { title: "Deduction", dataIndex: "deduction", key: "deduction" },
+
+    {
+      title: "NIP",
+      dataIndex: "employee_id",
+      key: "employee_id",
+      sortable: true,
+    },
+    {
+      title: "NPWP",
+      dataIndex: "npwp",
+      key: "npwp",
+    },
+    {
+      title: "Periode",
+      dataIndex: "periode",
+      key: "periode",
+    },
+    {
+      title: "Salary",
+      dataIndex: "final_salary",
+      key: "final_salary",
+      render: (val) => SysCurrencyTransform({ num: val, currency: "" }),
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      render: (val, record) => (
+        <div className="btn-group" role="group">
+          <a
+            onClick={() =>handlePrintPDF(val)}
+            style={{ marginRight: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
+            <i className="bi bi-printer"></i>
+          </a>
+        </div>
+      ),
+    },
   ];
+
   const action = [
     <Link
       to={routes_name.PAYROLL_SALARY_GENERATE}
@@ -34,39 +71,98 @@ const Salary = () => {
       <i className="bi bi-plus" /> Generate
     </Link>,
   ];
-  const handleDelete = async () => {
-    set_modal(false);
-    try {
-      // const resp = await providers.deleteData(id);
-      // showToast({ message: resp.message, type: "info" });
-      // window.location.reload();
-    } catch (error) {
-      showToast({ message: error.message, type: "error" });
-    }
-  };
-  const openModal = async (val) => {
-    set_message(val.name);
-    set_id(val.id);
-    set_modal(true);
-  };
-  const handleGet = async () => {
-    return { data: { data: [] } };
-  };
 
+  const handlePrintPDF = async(id) => {
+    showLoading();
+    try {
+      const resp = await providers.getDetailSalary(id);
+      // console.log(resp.data);
+      const data = resp.data.data;
+      const details = resp.data.details;
+      const periode = data.periode;
+      let m_y_periode = periode.split("-");
+      let total_add = 0;
+      total_add += details?.base_salary ?? 0;
+      total_add += details?.tax_paid_by_company ?? 0;
+      total_add += details?.fix_allowances?.total ?? 0;
+      total_add += details?.daily_allowances?.total ?? 0;
+      total_add += details?.other_allowances?.total ?? 0;
+      total_add += details?.overtimes ?? 0;
+      total_add += details?.incentives?.total ?? 0;
+      total_add += details?.not_fix_allowances?.total ?? 0;
+      let total_reduce = 0;
+      total_reduce += details?.tax ?? 0;
+      total_reduce += details?.late_penalty ?? 0;
+      total_reduce += details?.cash_advances?.total ?? 0;
+      total_reduce += details?.fix_deductions?.total ?? 0;
+      total_reduce += details?.not_fix_deductions?.total ?? 0;
+      let final_data = {
+        id: data?.id ?? "",
+        employee_id: data?.employee?.employee_id ?? "",
+        employee_name: data?.employee?.full_name ?? "",
+        periode: data?.periode ?? "",
+        final_salary: data?.final_salary ?? 0,
+        value_to_add: {
+          total_add: total_add,
+          gaji_pokok: details?.base_salary ?? 0,
+          total_attendance: details?.total_attendance ?? 0,
+          total_workday_per_month: details?.total_workday_per_month ?? 0,
+          tax_paid_by_company: details?.tax_paid_by_company ?? 0,
+          tunjangan_tetap: details?.fix_allowances ?? { total: 0, details: [] },
+          tunjangan_harian: details?.daily_allowances ?? {
+            total: 0,
+            details: [],
+          },
+          tunjangan_lainnya: details?.other_allowances ?? {
+            total: 0,
+            details: [],
+          },
+          lembur: details?.overtimes ?? 0,
+          insentive_bonus: details?.incentives ?? { total: 0, details: [] },
+          tunjangan_tidak_tetap: details?.not_fix_allowances ?? {
+            total: 0,
+            details: [],
+          },
+        },
+        value_to_reduce: {
+          total_reduce: total_reduce,
+          pajak: details?.tax ?? 0,
+          late_penalty: details?.late_penalty ?? 0,
+          kasbon: details?.cash_advances ?? { total: 0, details: [] },
+          asuransi: details?.insurances ?? {},
+          fix_deduction: details?.fix_deductions ?? { total: 0, details: [] },
+          not_fix_deduction: details?.not_fix_deductions ?? {
+            total: 0,
+            details: [],
+          },
+        },
+        other_informations: {
+          bank_name: "",
+          bank_account: "",
+        },
+      };
+    const pdfData = PayrollPdf(final_data, parseInt(m_y_periode[1])-1, parseInt(m_y_periode[0])); // Generate the PDF data
+    const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
+
+    // Open a new tab and display the PDF
+    const fileURL = URL.createObjectURL(pdfBlob);
+    window.open(fileURL, "_blank");
+    } catch (error) {
+      console.log(error);
+      showToast({message:error.message})
+    }
+    hideLoading();
+  };
   return (
     <AdminDashboard label="">
-      <DataTablePagination
-        fetchDataFunc={handleGet}
+      <DataTablePaginationReport
+        fetchDataFunc={providers.getListSalary}
         columns={columns}
-        title={sys_labels.menus.SALARY}
+        withExport={false}
         action={action}
-      />
-      <ActionModal
-        onOk={handleDelete}
-        onCancel={() => set_modal(false)}
-        title="Confirmation"
-        content={`Are you sure to delete ${message}?`}
-        visible={modal}
+        withPeriode={true}
+        title={sys_labels.menus.SALARY}
+        filters={[]}
       />
     </AdminDashboard>
   );

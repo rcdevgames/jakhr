@@ -1,4 +1,4 @@
-import { sys_post, sys_put, sys_get, sys_del } from "../../utils/api_client";
+import { sys_post, sys_put, sys_get, sys_del, sys_get_report, sys_get_unstructure_data } from "../../utils/api_client";
 
 const uri = "payroll/";
 export const getData = async (
@@ -81,6 +81,46 @@ export const generateData = async (data = [], m, year) => {
         payroll: data,
       },
     });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const submitData = async (data = []) => {
+  try {
+    const response = await sys_post({
+      auth: true,
+      endpoint: uri + `save`,
+      body: data,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getListSalary = async (page = 1,limit=10,search="",sort="",filter="") => {
+  try {
+    // sys_get_report
+    const response = await sys_get_report({
+      auth: true,
+      endpoint:`payroll?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}&${filter}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDetailSalary = async (id) => {
+  try {
+    const response = await sys_get_unstructure_data({
+      auth: true,
+      endpoint: uri + `${id}`,
+    });
+    // console.log(response);
     return response;
   } catch (error) {
     throw error;

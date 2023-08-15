@@ -56,7 +56,7 @@ import { ReportApplicant } from "../pages/Report/Applicant";
 import { ReportAttendance } from "../pages/Report/Attendance";
 import { ReportLeave, ReportLeaveDetail } from "../pages/Report/Leave";
 import { ReportOvertime } from "../pages/Report/Overtime";
-import { ReportAdditional } from "../pages/Report/Additional";
+import { ReportAdditional, ReportAdditionalDetail } from "../pages/Report/Additional";
 import { ReportReduction, ReportReductionDetail } from "../pages/Report/Reduction";
 import { ReportCash, ReportCashDetail } from "../pages/Report/Cash";
 import { ReportImbursement, ReportImbursementDetail } from "../pages/Report/Imbursement";
@@ -367,6 +367,7 @@ const Router = () => (
             </Route>
             <Route path="additional">
               <Route path="" element={<ReportAdditional />} />
+              <Route path="detail/:employee_id" element={<ReportAdditionalDetail />} />
             </Route>
             <Route path="reduction">
               <Route path="" element={<ReportReduction />} />

@@ -20,7 +20,7 @@ import "./styles.css";
 import { file_template, sys_labels } from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import { useRef } from "react";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
 import { pdf } from "@react-pdf/renderer";
 import PayrollPdf from "../../PDF/payroll_pdf";
@@ -31,10 +31,10 @@ const SalaryForm = () => {
   const navigate = useNavigate();
   const title = `${sys_labels.action.FORM} Payroll`;
   const [total_payroll, set_total_payroll] = useState(0);
-  const [month_generate,set_month_generate]=useState(0);
-  const [year_generate,set_year_generate]=useState(0);
+  const [month_generate, set_month_generate] = useState(0);
+  const [year_generate, set_year_generate] = useState(0);
   const month_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-  const {showLoading,hideLoading}=useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
   let year_data = [];
   const date = new Date();
   for (
@@ -148,13 +148,26 @@ const SalaryForm = () => {
       });
       const resp = await providers.generateData(payroll, data.month, data.year);
       set_month_generate(data.month);
-      set_year_generate(data.year)
+      set_year_generate(data.year);
       set_payroll_data(resp.data);
       let total = 0;
       resp.data.map((val) => {
         total += val.final_salary;
       });
       set_total_payroll(total);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message, type: "error" });
+    }
+    hideLoading();
+  };
+  
+  const handleSubmit = async () => {
+    showLoading();
+    try {
+      const resp = await providers.submitData(payroll_data);
+      navigate(-1);
+      showToast({message:resp.message});
     } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: "error" });
@@ -784,20 +797,22 @@ const SalaryForm = () => {
       dataIndex: "id",
       render: (val, record) => {
         return (
-          <a
-            className="btn icon btn-primary btn-sm"
-            onClick={() => {
-              handleOpenPDF(record);
-            }}
-          >
-            <i className="bi bi-file"></i>
-          </a>
+          <div className="btn-group" role="group">
+            <a
+              className="btn icon btn-primary btn-sm"
+              onClick={() => {
+                handleOpenPDF(record);
+              }}
+            >
+              <i className="bi bi-printer"></i>
+            </a>
+          </div>
         );
       },
     },
   ];
   const handleOpenPDF = async (record) => {
-    const pdfData = PayrollPdf(record,month_generate,year_generate); // Generate the PDF data
+    const pdfData = PayrollPdf(record, month_generate, year_generate); // Generate the PDF data
     const pdfBlob = await pdf(pdfData).toBlob(); // Convert to a PDF Blob
 
     // Open a new tab and display the PDF
@@ -987,6 +1002,10 @@ const SalaryForm = () => {
           <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
               <h3>Payroll</h3>
+              
+            <button onClick={handleSubmit} className="btn btn-primary">
+              Save
+            </button>
             </div>
             <div className="card-body">
               <div className="row mt-3">
