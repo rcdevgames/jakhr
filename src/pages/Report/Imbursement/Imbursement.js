@@ -58,7 +58,7 @@ const ReportReimbursment = () => {
       dataIndex: "totalReimbursement",
       key: "totalReimbursement",
       render:(val)=>SysCurrencyTransform({num:val,currency:""})
-    },,{
+    },{
       title: "Action",
       dataIndex: "id",
       key: "action",

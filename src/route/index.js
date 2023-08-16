@@ -102,6 +102,7 @@ import {
 } from "../pages/MasterData/LeaveBallance";
 import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
 import ReportOvertimeDetail from "../pages/Report/Overtime/OvertimeDetail";
+import Approval from "../pages/Transaction/Approval/Approval";
 
 const Router = () => (
   <BrowserRouter>
@@ -307,6 +308,9 @@ const Router = () => (
             <Route path="attendance">
               <Route path="" element={<Attendance />} />
               <Route path="detail/:id" element={<AttendanceForm />} />
+            </Route>
+            <Route path="approval">
+              <Route path="" element={<Approval />} />
             </Route>
 
             <Route path="cash_advance">

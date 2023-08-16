@@ -456,6 +456,11 @@ export function SysGenMenu() {
     label: sys_labels.menus.TRANSACTION,
     dir: "/transaction",
     subMenu: [
+      
+      {
+        label: sys_labels.menus.APPROVAL,
+        link: "/transaction/approval",
+      },
       {
         label: sys_labels.menus.ATTENDANCE,
         link: "/transaction/attendance",
@@ -658,6 +663,10 @@ export function SysGenRouting() {
     {
       route: "/transaction",
       name: "Transaksi",
+    },
+    {
+      route: "/transaction/approval",
+      name: "Approval",
     },
     {
       route: "/transaction/attendance",
