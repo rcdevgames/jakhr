@@ -67,6 +67,7 @@ export const sys_labels = {
     PAYROLL: "Payroll",
     ALLOWANCE: "Tunjangan",
     SCHEDULE: "Jadwal",
+    APPROVAL:"Approval"
   },
   action: {
     EDIT: "Ubah",
