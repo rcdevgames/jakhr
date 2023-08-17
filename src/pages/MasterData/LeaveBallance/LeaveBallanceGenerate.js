@@ -113,7 +113,7 @@ const LeaveBallanceGenerate = () => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Type:</label>
+                      <label>Tipe Cuti:</label>
                       <Select
                         onChange={handleChange}
                         value={SysGenValueOption(
@@ -130,7 +130,7 @@ const LeaveBallanceGenerate = () => {
                             name: "leave_type_id",
                           },
                         }))}
-                        placeholder="Select Type"
+                        placeholder="Pilih Tipe Cuti"
                         aria-label="Nama"
                         required
                         isSearchable
@@ -160,7 +160,7 @@ const LeaveBallanceGenerate = () => {
                   </div>
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Leave Balance:</label>
+                      <label>Saldo Cuti:</label>
                       <input
                         className="form-control"
                         type="text"

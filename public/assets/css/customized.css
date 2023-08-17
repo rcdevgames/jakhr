@@ -125,5 +125,15 @@ body, h6{
 
   .validate-error{
     border-color: #C00000 !important;
-    border-width: 1px;
+    border-width: 1px !important;
   }
+  
+  /* .validate-error .react-select__control{
+    border-color: #C00000 !important;
+    border-width: 1px !important;
+  }
+  
+  .validate-error .react-select__control:hover{
+    border-color: #C00000 !important;
+    border-width: 1px !important;
+  } */

@@ -17,12 +17,12 @@ const Company = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     {
-      title: "Name",
+      title: "Kantor/Cabang",
       dataIndex: "name",
       key: "name",
       sortable: true,
     },
-    { title: "Address", dataIndex: "address", key: "address", sortable: true },
+    { title: "Alamat", dataIndex: "address", key: "address", sortable: true },
     { title: "Alias", dataIndex: "alias", key: "alias", sortable: true },
     {
       title: "Status",
@@ -39,7 +39,7 @@ const Company = () => {
       ),
     },
     {
-      title: "Created Date",
+      title: "Tanggal Buat",
       dataIndex: "created_at",
       key: "created_at",
       sortable: true,
@@ -53,7 +53,7 @@ const Company = () => {
         }),
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

@@ -16,15 +16,15 @@ const Schedule = () => {
   // SysDateTransform
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name,sortable:true },
+    { title: "Karyawan", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name,sortable:true },
     { title: "Title", dataIndex: "title", key: "title",sortable:true },
-    { title: "Description", dataIndex: "description", key: "description",sortable:true},
-    { title: "Amount", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:record.amount,currency:""}) },
-    { title: "Cash Date", dataIndex: "cash_date", key: "cash_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
-    { title: "Due Date", dataIndex: "due_date", key: "due_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
-    { title: "Paid Status", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>record.is_paid?'LUNAS':"BELUM" },
+    { title: "Deskripsi", dataIndex: "description", key: "description",sortable:true},
+    { title: "Nominal", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:record.amount,currency:""}) },
+    { title: "Tanggal Cash Advance", dataIndex: "cash_date", key: "cash_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Tanggal Bayar", dataIndex: "due_date", key: "due_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Status Pembayaran", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>record.is_paid?'LUNAS':"BELUM" },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

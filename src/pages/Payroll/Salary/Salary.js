@@ -17,7 +17,7 @@ const Salary = () => {
   const{showLoading,hideLoading}=useLoadingContext()
   const columns = [
     {
-      title: "Fullname",
+      title: "Karyawan",
       dataIndex: "full_name",
       key: "full_name",
       sortable: true,
@@ -40,7 +40,7 @@ const Salary = () => {
       key: "periode",
     },
     {
-      title: "Salary",
+      title: "Gaji Bersih",
       dataIndex: "final_salary",
       key: "final_salary",
       render: (val) => SysCurrencyTransform({ num: val, currency: "" }),

@@ -15,24 +15,24 @@ const ReportOvertimeDetail = () => {
   const { employee_id } = useParams();
   const columns = [
     {
-      title: "Overtime Number",
+      title: "Nomor Lembur",
       dataIndex: "overtime_no",
       key: "overtime_no",
     },
     {
-      title: "Description",
+      title: "Deskripsi",
       dataIndex: "description",
       key: "description",
     },
 
     {
-      title: "Reason",
+      title: "Alasan",
       dataIndex: "reason",
       key: "reason",
     },
 
     {
-      title: "Date In",
+      title: "Tanggal Masuk",
       dataIndex: "date_in",
       key: "date_in",
       render: (val) =>
@@ -44,7 +44,7 @@ const ReportOvertimeDetail = () => {
         }),
     },
     {
-      title: "Date Out",
+      title: "Tanggal Keluar",
       dataIndex: "date_out",
       key: "date_out",
       render: (val) =>
@@ -57,19 +57,19 @@ const ReportOvertimeDetail = () => {
     },
 
     {
-      title: "Time In",
+      title: "Jam Masuk",
       dataIndex: "time_in",
       key: "time_in",
     },
 
     {
-      title: "Time Out",
+      title: "Jam Keluar",
       dataIndex: "time_out",
       key: "time_out",
     },
 
     {
-      title: "Hours",
+      title: "Jam",
       dataIndex: "total_hours",
       key: "total_hours",
     },

@@ -20,19 +20,19 @@ const ReportCashAdvanceDetail = () => {
       key: "title",
     },
     {
-      title: "Description",
+      title: "Deskripsi",
       dataIndex: "description",
       key: "description",
     },
 
     {
-      title: "Amount",
+      title: "Nominal",
       dataIndex: "amount",
       key: "amount",
       render: (val) => SysCurrencyTransform({ num: val, currency: "" }),
     },
     {
-      title: "Cash Date",
+      title: "Tanggal Hutang",
       dataIndex: "cash_date",
       key: "cash_date",
       render: (val) =>
@@ -44,7 +44,7 @@ const ReportCashAdvanceDetail = () => {
         }),
     },
     {
-      title: "Due Date",
+      title: "Tanggal Bayar",
       dataIndex: "due_date",
       key: "due_date",
       render: (val) =>

@@ -18,10 +18,10 @@ import DatePicker from "../../../components/DatePicker";
 const AttendanceForm = () => {
   const navigate = useNavigate();
   const required_field = [
-    "date_in",
-    "date_out",
-    "time_in",
-    "time_out",
+    "date_in as tanggal_masuk",
+    "date_out as tanggal_keluar",
+    "time_in as jam_masuk",
+    "time_out as jam_keluar",
     "lat as latitude",
     "lng as longitude",
   ];
@@ -137,18 +137,18 @@ const AttendanceForm = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Date In:</label>
+                      <label>Tanggal Masuk:</label>
                       <DatePicker
                         name="date_in"
                         onChange={handleDateStartChange}
                         value={attendace_data.date_in}
-                        placeholder={"Date In"}
+                        placeholder={"Tanggal Masuk"}
                         />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time In:</label>
+                      <label>Jam Masuk:</label>
                       <TimeInput
                         className="form-control"
                         name="time_in"
@@ -159,18 +159,18 @@ const AttendanceForm = () => {
                   </div>{" "}
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Date Out:</label>
+                      <label>Tanggal Keluar:</label>
                       <DatePicker
                         name="date_out"
                         onChange={handleDateEndChange}
                         value={attendace_data.date_out}
-                        placeholder={"Date Out"}
+                        placeholder={"Tanggal Keluar"}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time Out:</label>
+                      <label>Jam Keluar:</label>
 
                       <TimeInput
                         className="form-control"

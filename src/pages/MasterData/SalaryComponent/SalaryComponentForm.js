@@ -172,7 +172,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance_ex(record);
@@ -389,7 +389,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance(record);
@@ -623,7 +623,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_deduction(record);
@@ -839,7 +839,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const editable = is_editing_allowance_daily(record);

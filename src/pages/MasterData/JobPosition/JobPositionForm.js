@@ -144,7 +144,7 @@ const JobPositionForm = ({ readOnly = false }) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Job Level:</label>{" "}
+                      <label>Level Jabatan:</label>{" "}
                       <Select
                         onChange={handleChange}
                         isDisabled={readOnly}
@@ -163,7 +163,7 @@ const JobPositionForm = ({ readOnly = false }) => {
                             value: option.id,
                           },
                         }))}
-                        placeholder="Select Job Level"
+                        placeholder="Pilih Level Jabatan"
                         aria-label="Nama"
                         required
                         isSearchable
@@ -172,7 +172,7 @@ const JobPositionForm = ({ readOnly = false }) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Job Position:</label>
+                      <label>Posisi Jabatan:</label>
                       <input
                         className="form-control"
                         disabled={readOnly}

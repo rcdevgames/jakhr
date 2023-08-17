@@ -193,7 +193,7 @@ const SalaryForm = () => {
       data.map((val, index) => {
         const newData = {
           id: index + 1 + key_allowance,
-          employee_id: val["Employee Id"] ?? "",
+          employee_id: val["NIP"] ?? "",
           full_name: "",
           description: val["Nama Tunjangan"] ?? "",
           amount: val["Nominal"] ?? 0,
@@ -255,7 +255,7 @@ const SalaryForm = () => {
   };
   const columns_allowance = [
     {
-      title: "Employee Id",
+      title: "NIP",
       dataIndex: "employee_id",
       editable: true,
       render: (val, record) => {
@@ -331,7 +331,7 @@ const SalaryForm = () => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const is_edit = is_editing_allowance(record);
@@ -378,7 +378,7 @@ const SalaryForm = () => {
       data.map((val, index) => {
         const newData = {
           id: index + 1 + key_allowance,
-          employee_id: val["Employee Id"] ?? "",
+          employee_id: val["NIP"] ?? "",
           full_name: "",
           description: val["Nama Potongan"] ?? "",
           amount: val["Nominal"] ?? 0,
@@ -440,7 +440,7 @@ const SalaryForm = () => {
   };
   const columns_deduction = [
     {
-      title: "Employee Id",
+      title: "NIP",
       dataIndex: "employee_id",
       editable: true,
       render: (val, record) => {
@@ -517,7 +517,7 @@ const SalaryForm = () => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const is_edit = is_editing_deduction(record);
@@ -564,7 +564,7 @@ const SalaryForm = () => {
       data.map((val, index) => {
         const newData = {
           id: index + 1 + key_incentive,
-          employee_id: val["Employee Id"] ?? "",
+          employee_id: val["NIP"] ?? "",
           full_name: "",
           description: val["Nama Insentif"] ?? "",
           amount: val["Nominal"] ?? 0,
@@ -626,7 +626,7 @@ const SalaryForm = () => {
   };
   const columns_incentive = [
     {
-      title: "Employee Id",
+      title: "NIP",
       dataIndex: "employee_id",
       editable: true,
       render: (val, record) => {
@@ -703,7 +703,7 @@ const SalaryForm = () => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) => {
         const is_edit = is_editing_incentive(record);
@@ -737,7 +737,7 @@ const SalaryForm = () => {
   const payrollRef = useRef(null);
   const columns_payroll = [
     {
-      title: "Employee Id",
+      title: "NIP",
       dataIndex: "employee_id",
       width: 200,
       render: (val, record) => {
@@ -793,7 +793,7 @@ const SalaryForm = () => {
       },
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       render: (val, record) => {
         return (

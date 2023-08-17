@@ -165,20 +165,20 @@ const ReimburstForm = ({readOnly=false}) => {
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Date:</label>
+                        <label>Tanggal:</label>
                         <DatePicker
                           name="date"
                           onChange={handleDateStartChange}
                             disabled={readOnly}
                             value={data.date}
-                          placeholder={"Start Date"}
+                          placeholder={"Tanggal"}
                         />
                       </div>
                     </div>
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Amount:</label>
+                        <label>Nominal:</label>
                         <input
                           className="form-control"
                             disabled={readOnly}
@@ -193,7 +193,7 @@ const ReimburstForm = ({readOnly=false}) => {
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Description:</label>
+                        <label>Deskripsi:</label>
                         <input
                           className="form-control"
                             disabled={readOnly}

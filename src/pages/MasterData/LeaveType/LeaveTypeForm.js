@@ -97,7 +97,7 @@ const LeaveMassForm = ({ readOnly = false }) => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Type:</label>
+                      <label>Tipe Cuti:</label>
                       <input
                         className="form-control"
                         type="text"
@@ -111,7 +111,7 @@ const LeaveMassForm = ({ readOnly = false }) => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Description:</label>
+                      <label>Deskripsi:</label>
                       <input
                         className="form-control"
                         type="text"
@@ -124,7 +124,7 @@ const LeaveMassForm = ({ readOnly = false }) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Balance:</label>
+                      <label>Saldo Cuti:</label>
                       <input
                         className="form-control"
                         type="text"

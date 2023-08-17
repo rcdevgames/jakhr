@@ -25,22 +25,25 @@ import {
 import { routes_name } from "../../../route/static_route";
 import { sys_labels, sys_path_data } from "../../../utils/constants";
 import { Switch } from "antd";
-import {useLoadingContext} from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 import Select from "react-select";
+import { onlyNumber } from "../../../utils/validation";
 
-const EmployeeForm = ({readOnly=false}) => {
+const EmployeeForm = ({ readOnly = false }) => {
   const required_field = [
-    "full_name",
-    "phone_number",
+    "full_name as nama_lengkap",
+    "phone_number as nomor_handphone",
     "email",
-    "gender",
-    "marital_status",
-    "religion",
+    "gender as jenis_kelamin",
+    "marital_status as status_pernikahan",
+    "religion as agama",
     "id_number as NIK",
     "employee_id as NIP",
-    "ptkp"
+    "ptkp",
+    "citizen_address as alamat ktp",
+    "residential_address as alamat",
   ];
-  const {showLoading,hideLoading}= useLoadingContext()
+  const { showLoading, hideLoading } = useLoadingContext();
   const gender = SysReadData(sys_path_data.gender_data);
   const religion = SysReadData(sys_path_data.religion_data);
   const marital_status = SysReadData(sys_path_data.marital_status_data);
@@ -102,7 +105,6 @@ const EmployeeForm = ({readOnly=false}) => {
     }, 1000);
   }, []);
   const handleDetail = async (id) => {
-    
     showLoading();
     try {
       const resp = await providers.getDetail(id);
@@ -110,7 +112,7 @@ const EmployeeForm = ({readOnly=false}) => {
         ...resp.data,
         photo: resp.data.photo ? { source: resp.data.photo } : null,
       });
-      } catch (error) {
+    } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: error });
       // navigate(-1);
@@ -118,7 +120,6 @@ const EmployeeForm = ({readOnly=false}) => {
     hideLoading();
   };
   const handleSubmit = async () => {
-    
     showLoading();
     try {
       const data_submit = {
@@ -166,9 +167,9 @@ const EmployeeForm = ({readOnly=false}) => {
         user: {
           password: password,
         },
-        attend_out_of_range:data.attend_out_of_range,
-        photo: data.photo??"empty",
-        role: { id: data.role.id },
+        attend_out_of_range: data.attend_out_of_range,
+        photo: data.photo ?? "empty",
+        role: { id: data?.role?.id ?? null },
       };
       SysValidateForm(required_field, data_submit);
       const resp = await providers.insertData(data_submit);
@@ -227,8 +228,8 @@ const EmployeeForm = ({readOnly=false}) => {
         emergency_contact_relationship: data.emergency_contact_relationship,
         emergency_contact_phone_number: data.emergency_contact_phone_number,
         is_payroll: true,
-        attend_out_of_range:data.attend_out_of_range,
-        photo: data.photo??"empty",
+        attend_out_of_range: data.attend_out_of_range,
+        photo: data.photo ?? "empty",
         role: { id: data.role.id },
       };
       SysValidateForm(required_field, data_submit);
@@ -255,7 +256,6 @@ const EmployeeForm = ({readOnly=false}) => {
   };
 
   const getEmployeeStatus = async () => {
-    
     showLoading();
     try {
       const resp = await providers_employee_status.getDataMax();
@@ -293,7 +293,6 @@ const EmployeeForm = ({readOnly=false}) => {
     }
   };
   const getJobPosition = async () => {
-    
     showLoading();
     try {
       const resp = await providers_job_position.getDataMax(data.job_level_id);
@@ -333,7 +332,7 @@ const EmployeeForm = ({readOnly=false}) => {
     }));
     await getJobPosition();
   };
-  
+
   const handleChangeActive = (value) => {
     setData((prevState) => ({ ...prevState, attend_out_of_range: value }));
   };
@@ -350,14 +349,19 @@ const EmployeeForm = ({readOnly=false}) => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="col-md-12">
-                      <label>Logo:</label>
-                      {
-                        readOnly?<img src={data.photo?.source??""} style={{objectFit:"contain"}} className="col-md-12"></img>:
-                      <UploadFile
-                      onImageUpload={handleUpload}
-                      file={data.photo}
-                      />
-                    }
+                      <label>Photo:</label>
+                      {readOnly ? (
+                        <img
+                          src={data.photo?.source ?? ""}
+                          style={{ objectFit: "contain" }}
+                          className="col-md-12"
+                        ></img>
+                      ) : (
+                        <UploadFile
+                          onImageUpload={handleUpload}
+                          file={data.photo}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -372,7 +376,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                     ) : null}
                     <div className="col-md-12 mb-3">
-                      <h4>Employee Information</h4>
+                      <h4>Informasi Karyawan</h4>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -383,11 +387,12 @@ const EmployeeForm = ({readOnly=false}) => {
                             alignItems: "center",
                           }}
                         ></div>
-                        <label style={{ marginRight: 15 }}>Absen Diluar Radius</label>
+                        <label style={{ marginRight: 15 }}>
+                          Absen Diluar Radius
+                        </label>
                         <Switch
                           name="attend_out_of_range"
-                        disabled={readOnly}
-                          
+                          disabled={readOnly}
                           checked={data.attend_out_of_range}
                           onChange={handleChangeActive}
                         />
@@ -395,11 +400,11 @@ const EmployeeForm = ({readOnly=false}) => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Fullname:*</label>
+                        <label>Nama Lengkap:*</label>
                         <input
                           className="form-control"
-                        disabled={readOnly}
-                        type="text"
+                          disabled={readOnly}
+                          type="text"
                           name="full_name"
                           value={data.full_name}
                           onChange={handleChange}
@@ -411,11 +416,11 @@ const EmployeeForm = ({readOnly=false}) => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Employee ID:*</label>
+                          <label>NIP:*</label>
                           <input
                             className="form-control"
-                        disabled={readOnly}
-                        type="text"
+                            disabled={readOnly}
+                            type="text"
                             name="employee_id"
                             value={data.employee_id}
                             onChange={handleChange}
@@ -429,8 +434,9 @@ const EmployeeForm = ({readOnly=false}) => {
                           <input
                             className="form-control"
                             type="text"
-                        disabled={readOnly}
-                        name="id_number"
+                            disabled={readOnly}
+                            onKeyDown={onlyNumber}
+                            name="id_number"
                             value={data.id_number}
                             onChange={handleChange}
                             required
@@ -460,7 +466,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Role"
+                            placeholder="Pilih Role"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -469,27 +475,26 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Employee Join Date:</label>
+                          <label>Tanggal Join Karyawan:</label>
                           <DatePicker
                             name="employee_join_date"
                             onChange={handleDateChangeEmployeeJoinDate}
                             value={data.employee_join_date}
-                        disabled={readOnly}
-
-                            placeholder={"Date of Birth"}
+                            disabled={readOnly}
+                            placeholder={"Tanggal Join Karyawan"}
                           />
                         </div>
                       </div>
 
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Employee Expired Date:</label>
+                          <label>Tanggal Akhir Karyawan:</label>
                           <DatePicker
                             name="employee_expired_date"
                             onChange={handleDateChangeEmployeeExpiredDate}
-                        disabled={readOnly}
-                        value={data.employee_expired_date}
-                            placeholder={"Date of Birth"}
+                            disabled={readOnly}
+                            value={data.employee_expired_date}
+                            placeholder={"Tanggal Akhir Karyawan"}
                           />
                         </div>
                       </div>
@@ -499,8 +504,8 @@ const EmployeeForm = ({readOnly=false}) => {
                           <input
                             className="form-control"
                             type="text"
-                        disabled={readOnly}
-                        name="tax_number"
+                            disabled={readOnly}
+                            name="tax_number"
                             value={data.tax_number}
                             onChange={handleChange}
                             required
@@ -509,7 +514,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Religion:*</label>
+                          <label>Agama:*</label>
                           <Select
                             onChange={handleChange}
                             isDisabled={readOnly}
@@ -529,7 +534,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.value,
                               },
                             }))}
-                            placeholder="Select Religion"
+                            placeholder="Pilih Agama"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -538,7 +543,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Employee Status:</label>
+                          <label>Status Karyawan:</label>
                           <Select
                             onChange={handleChange}
                             isDisabled={readOnly}
@@ -557,7 +562,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Employee Status"
+                            placeholder="Pilih Status Karyawan"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -585,7 +590,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.value,
                               },
                             }))}
-                            placeholder="Select PTKP"
+                            placeholder="Pilih PTKP"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -594,7 +599,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Branch:</label>
+                          <label>Kantor/Cabang:</label>
                           <Select
                             onChange={handleBranchChange}
                             isDisabled={readOnly}
@@ -613,7 +618,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Branch"
+                            placeholder="Pilih Kantor/Cabang"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -622,7 +627,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Division:</label>
+                          <label>Divisi:</label>
                           <Select
                             onChange={handleOrganizationChange}
                             isDisabled={readOnly}
@@ -641,7 +646,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Division"
+                            placeholder="Pilih Divisi"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -650,7 +655,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Job Level:</label>
+                          <label>Level Jabatan:</label>
                           <Select
                             onChange={handleJobLevelChange}
                             isDisabled={readOnly}
@@ -669,7 +674,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Job Level"
+                            placeholder="Pilih Level Jabatan"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -678,7 +683,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Job Position:</label>
+                          <label>Posisi Jabatan:</label>
                           <Select
                             isDisabled={readOnly}
                             onChange={handleChange}
@@ -697,7 +702,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.id,
                               },
                             }))}
-                            placeholder="Select Job Position"
+                            placeholder="Pilih Posisi Jabatan"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -706,7 +711,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Place of Birth:</label>
+                          <label>Tempat Lahir:</label>
                           <input
                             className="form-control"
                             disabled={readOnly}
@@ -719,11 +724,12 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Phone Number:</label>
+                          <label>Nomor Handphone:</label>
                           <input
                             className="form-control"
                             disabled={readOnly}
                             type="text"
+                            onKeyDown={onlyNumber}
                             name="phone_number"
                             maxLength={15}
                             value={data.phone_number}
@@ -733,21 +739,21 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Date of Birth:</label>
+                          <label>Tanggal Lahir:</label>
                           <DatePicker
                             name="dob"
                             disabled={readOnly}
                             onChange={handleDateChange}
                             value={data.dob}
-                            placeholder={"Date of Birth"}
+                            placeholder={"Tanggal Lahir"}
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Gender:*</label>
+                          <label>Jenis Kelamin:*</label>
                           <Select
-                          isDisabled={readOnly}
+                            isDisabled={readOnly}
                             onChange={handleChange}
                             value={SysGenValueOption(
                               gender,
@@ -755,6 +761,7 @@ const EmployeeForm = ({readOnly=false}) => {
                               "value",
                               "name"
                             )}
+                            name="gender"
                             formatOptionLabel={(val) => `${val.label}`}
                             options={gender.map((option, index) => ({
                               value: option.value,
@@ -764,7 +771,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.value,
                               },
                             }))}
-                            placeholder="Select Gender"
+                            placeholder="Pilih Jenis Kelamin"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -773,13 +780,13 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Marital Status:*</label>
+                          <label>Status Perkawinan:*</label>
                           <Select
-                          isDisabled={readOnly}
-                          onChange={handleChange}
+                            isDisabled={readOnly}
+                            onChange={handleChange}
                             value={SysGenValueOption(
                               marital_status,
-                              data.marital_status,
+                              data?.marital_status?.toLowerCase(),
                               "value",
                               "name"
                             )}
@@ -792,7 +799,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.value,
                               },
                             }))}
-                            placeholder="Select Marital Status"
+                            placeholder="Pilih Status Perkawinan"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -801,13 +808,13 @@ const EmployeeForm = ({readOnly=false}) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Blood Type:*</label>
+                          <label>Golongan Darah:*</label>
                           <Select
-                          isDisabled={readOnly}
-                          onChange={handleChange}
+                            isDisabled={readOnly}
+                            onChange={handleChange}
                             value={SysGenValueOption(
                               blood_type,
-                              data.blood_type,
+                              data?.blood_type?.toLowerCase(),
                               "value",
                               "name"
                             )}
@@ -820,7 +827,7 @@ const EmployeeForm = ({readOnly=false}) => {
                                 value: option.value,
                               },
                             }))}
-                            placeholder="Select Blood Type"
+                            placeholder="Pilih Golongan Darah"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -844,7 +851,7 @@ const EmployeeForm = ({readOnly=false}) => {
                       {data.id ? null : (
                         <div className="col-md-12">
                           <div className="form-group">
-                            <label>Account Password</label>
+                            <label>Password Akun</label>
                             <input
                               className="form-control"
                               type="text"
@@ -858,11 +865,11 @@ const EmployeeForm = ({readOnly=false}) => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Citizen Address:*</label>
+                        <label>Alamat KTP:*</label>
                         <input
                           className="form-control"
-                            disabled={readOnly}
-                            required
+                          disabled={readOnly}
+                          required
                           type="text"
                           name="citizen_address"
                           value={data.citizen_address}
@@ -872,12 +879,12 @@ const EmployeeForm = ({readOnly=false}) => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Address:*</label>
+                        <label>Alamat:*</label>
                         <input
                           className="form-control"
                           required
-                            disabled={readOnly}
-                            type="text"
+                          disabled={readOnly}
+                          type="text"
                           name="residential_address"
                           value={data.residential_address}
                           onChange={handleChange}
@@ -886,14 +893,14 @@ const EmployeeForm = ({readOnly=false}) => {
                     </div>
                   </div>
                 </div>
-                {readOnly?null:
-                <button
-                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
-                }
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

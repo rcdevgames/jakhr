@@ -17,12 +17,12 @@ const ComponentName = () => {
   const [modal, set_modal] = useState(false);
   // SysDateTransform
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name", sortable: true },
-    { title: "Description", dataIndex: "description", key: "description", sortable: true },
-    { title: "Created Date", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Nama Tunjangan", dataIndex: "name", key: "name", sortable: true },
+    { title: "Deskripsi", dataIndex: "description", key: "description", sortable: true },
+    { title: "Tanggal Buat", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

@@ -15,12 +15,12 @@ const ReportImbursmentDetail = () => {
   const { employee_id } = useParams();
   const columns = [
     {
-      title: "Description",
+      title: "Deskripsi",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Date",
+      title: "Tanggal Reimburst",
       dataIndex: "date",
       key: "date",
       render: (val) =>
@@ -33,7 +33,7 @@ const ReportImbursmentDetail = () => {
     },
 
     {
-      title: "Amount",
+      title: "Nominal",
       dataIndex: "amount",
       key: "amount",
       render:(val)=>SysCurrencyTransform({num:val,currency:""})

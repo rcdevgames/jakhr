@@ -10,12 +10,12 @@ import { SysDateTransform } from "../../../utils/global_store";
 const Leave = () => {
   // SysDateTransform
   const columns = [
-    { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
-    { title: "Leave Type", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
-    { title: "Leave No", dataIndex: "leave_no", key: "leave_no",sortable:true },
-    { title: "Date", dataIndex: "leave_date", key: "leave_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
-    { title: "Day", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Day',sortable:true },
-    { title: "Reason", dataIndex: "reason", key: "reason",sortable:true },
+    { title: "Karyawan", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
+    { title: "Tipe Cuti", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
+    { title: "Nomor Cuti", dataIndex: "leave_no", key: "leave_no",sortable:true },
+    { title: "Tanggal Cuti", dataIndex: "leave_date", key: "leave_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
+    { title: "Hari", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Hari',sortable:true },
+    { title: "Alasan", dataIndex: "reason", key: "reason",sortable:true },
     { title: "Approved", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>val?'Yes':'No',sortable:true },
     { title: "Rejected", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>val?'Yes':'No',sortable:true },
   ];

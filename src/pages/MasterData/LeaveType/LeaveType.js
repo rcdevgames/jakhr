@@ -16,15 +16,15 @@ const LeaveType = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Leave Type", dataIndex: "name", key: "name" , sortable: true},
-    { title: "Description", dataIndex: "description", key: "description", sortable: true },
-    { title: "Amount", dataIndex: "default_total_leave", key: "default_total_leave", sortable: true },
+    { title: "Tipe Cuti", dataIndex: "name", key: "name" , sortable: true},
+    { title: "Deskripsi", dataIndex: "description", key: "description", sortable: true },
+    { title: "Saldo", dataIndex: "default_total_leave", key: "default_total_leave", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     // SysDateTransform
-    { title: "Created Date", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Tanggal Buat", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

@@ -16,14 +16,14 @@ const LeaveMass = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Leave Event", dataIndex: "leave_name", key: "leave_name" , sortable: true},
-    { title: "Leave Date", dataIndex: "leave_date", key: "leave_date" , sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:false}) },
+    { title: "Cuti Bersama", dataIndex: "leave_name", key: "leave_name" , sortable: true},
+    { title: "Tanggal Cuti", dataIndex: "leave_date", key: "leave_date" , sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:false}) },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     // SysDateTransform
-    { title: "Created Date", dataIndex: "created_at", sortable: true, key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Tanggal Buat", dataIndex: "created_at", sortable: true, key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (
