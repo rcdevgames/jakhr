@@ -304,6 +304,7 @@ export function SysValidateForm(required_field = [], data = []) {
         message += SystoCamelCase(named) + ", ";
       }
       document.getElementsByName(alises[0]).forEach((val) => {
+        // console.log(alises[0], val.classList);
         val.classList.add("validate-error");
       });
       is_valid = false;
@@ -314,6 +315,7 @@ export function SysValidateForm(required_field = [], data = []) {
     }
   });
   message += "is required!";
+  console.log({ is_valid, message });
   if (!is_valid) throw { is_valid, message };
   return {
     is_valid,

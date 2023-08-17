@@ -189,7 +189,7 @@ const ScheduleForm = ({readOnly=false}) => {
 
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Description:</label>
+                      <label>Deskripsi:</label>
                       <input
                         className="form-control"
                             disabled={readOnly}
@@ -202,31 +202,31 @@ const ScheduleForm = ({readOnly=false}) => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Start Date:</label>
+                      <label>Tanggal Mulai:</label>
                       <DatePicker
                         name="start_date"
                         onChange={handleDateStartChange}
                             disabled={readOnly}
                             value={data.start_date}
-                        placeholder={"Start Date"}
+                        placeholder={"Tanggal Mulai"}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>End Date:</label>
+                      <label>Tanggal Akhir:</label>
                       <DatePicker
                         name="end_date"
                         onChange={handleDateEndChange}
                             disabled={readOnly}
                             value={data.end_date}
-                        placeholder={"End Date"}
+                        placeholder={"Tanggal Akhir"}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time In:</label>
+                      <label>Jam Masuk:</label>
                       <TimeInput
                         className="form-control"
                         onChange={handleChangeTimeIn}
@@ -236,7 +236,7 @@ const ScheduleForm = ({readOnly=false}) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time Out:</label>
+                      <label>Jam Keluar:</label>
                       <TimeInput
                         className="form-control"
                         onChange={handleChangeTimeOut}

@@ -16,29 +16,29 @@ const Employee = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     {
-      title: "Fullname",
+      title: "Karyawan",
       dataIndex: "full_name",
       key: "full_name", sortable: true,
     },
     
     {
-      title: "Branch",
+      title: "Kantor/Cabang",
       dataIndex: "branch",
       key: "branch",
       render: (val) => val.name,
     },
     
     {
-      title: "Company",
+      title: "Perusahaan",
       dataIndex: "branch",
       key: "company",
       render: (val) => val.company.name,
     },
-    { title: "Division", dataIndex: "division", key: "division", sortable: true },
-    { title: "Position", dataIndex: "position", key: "position", sortable: true },
-    { title: "Job", dataIndex: "job_level", key: "job_level", sortable: true },
+    { title: "Divisi", dataIndex: "division", key: "division", sortable: true },
+    { title: "Posisi", dataIndex: "position", key: "position", sortable: true },
+    { title: "Level Jabatan", dataIndex: "job_level", key: "job_level", sortable: true },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

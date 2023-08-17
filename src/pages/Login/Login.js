@@ -11,8 +11,8 @@ import {useLoadingContext} from '../../components/Loading'
 function Login() {
   const {showLoading,hideLoading} = useLoadingContext()
   const navigate = useNavigate();
-  const [email, setEmail] = useState("testingadmin@jakpro.co.id");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showDialog, setShowDialog] = useState(false);
 
   const handleLogin = async () => {

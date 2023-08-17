@@ -1,13 +1,5 @@
 [
   {
-    "value": "suami",
-    "name": "Suami"
-  },
-  {
-    "value": "istri",
-    "name": "Istri"
-  },
-  {
     "value": "lajang",
     "name": "Lajang"
   },
@@ -16,11 +8,7 @@
     "name": "Menikah"
   },
   {
-    "value": "janda",
-    "name": "Janda"
-  },
-  {
-    "value": "duda",
-    "name": "Duda"
+    "value": "duda / janda",
+    "name": "Duda / Janda"
   }
 ]

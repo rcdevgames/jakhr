@@ -16,16 +16,16 @@ const LeaveBallance = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Leave Type", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
-    { title: "Employee", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.full_name },
+    { title: "Tipe Cuti", dataIndex: "leave_type", key: "leave_type",render:(val,record)=>record.leave_type.name },
+    { title: "Karyawan", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.full_name },
     { title: "Periode", dataIndex: "periode", key: "periode", sortable: true },
-    { title: "Balance", dataIndex: "balance", key: "balance", sortable: true },
+    { title: "Saldo", dataIndex: "balance", key: "balance", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
     // SysDateTransform
-    { title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Tanggal Buat", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

@@ -206,7 +206,7 @@ const ScheduleForm = ({readOnly=false}) => {
                   
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Description:</label>
+                      <label>Deskripsi:</label>
                       <input
                         className="form-control"
                         name="description"
@@ -218,7 +218,7 @@ const ScheduleForm = ({readOnly=false}) => {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Amount:</label>
+                      <label>Nominal:</label>
                       <input
                         className="form-control"
                         name="amount"
@@ -233,25 +233,25 @@ const ScheduleForm = ({readOnly=false}) => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Cash Date:</label>
+                      <label>Tanggal Cash Advance:</label>
                       <DatePicker
                         name="cash_date"
                         onChange={handleDateStartChange}
                         value={data.cash_date}
                             disabled={readOnly}
-                            placeholder={"Start Date"}
+                            placeholder={"Tanggal Cash Advance"}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Due Date:</label>
+                      <label>Tanggal Bayar:</label>
                       <DatePicker
                         name="due_date"
                         onChange={handleDateEndChange}
                             disabled={readOnly}
                             value={data.due_date}
-                        placeholder={"End Date"}
+                        placeholder={"Tanggal Bayar"}
                       />
                     </div>
                   </div>

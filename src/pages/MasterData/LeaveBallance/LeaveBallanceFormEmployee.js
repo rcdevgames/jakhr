@@ -82,7 +82,7 @@ const LeaveBallanceFormEmployee = ({readOnly =false}) => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Employee:</label>
+                      <label>Karyawan:</label>
                       <input
                         className="form-control"
                         type="text"
@@ -95,7 +95,7 @@ const LeaveBallanceFormEmployee = ({readOnly =false}) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Type:</label>
+                      <label>Tipe Cuti:</label>
 
                       <input
                         className="form-control"
@@ -110,7 +110,7 @@ const LeaveBallanceFormEmployee = ({readOnly =false}) => {
 
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Periode:</label>
+                      <label>Periode Tahun:</label>
                       <input
                         className="form-control"
                         type="text"
@@ -125,7 +125,7 @@ const LeaveBallanceFormEmployee = ({readOnly =false}) => {
                   </div>
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Leave Balance:</label>
+                      <label>Saldo Cuti:</label>
                       <input
                         className="form-control"
                         type="text"

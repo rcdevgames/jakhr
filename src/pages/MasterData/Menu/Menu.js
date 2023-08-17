@@ -16,10 +16,10 @@ const Menu = () => {
     { title: "Route", dataIndex: "route", key: "route", sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
 // SysDateTransform
-{ title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+{ title: "Tanggal Buat", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

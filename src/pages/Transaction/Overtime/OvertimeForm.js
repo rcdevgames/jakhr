@@ -111,7 +111,7 @@ const OvertimeForm = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time Start:</label>
+                      <label>Jam Mulai:</label>
 
                       <TimeInput
                         className="form-control"
@@ -123,7 +123,7 @@ const OvertimeForm = () => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Time End:</label>
+                      <label>Jam Selesai:</label>
 
                       <TimeInput
                         className="form-control"
@@ -134,7 +134,7 @@ const OvertimeForm = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Reason:</label>
+                      <label>Alasan:</label>
                       <input
                         className="form-control"
                         name="reason"

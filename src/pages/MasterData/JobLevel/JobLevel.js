@@ -16,10 +16,10 @@ const JobLevel = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name", sortable: true },
-    { title: "Company", dataIndex: "company", key: "company",render:(val)=>val.company_name, sortable: true },
+    { title: "Level Jabatan", dataIndex: "name", key: "name", sortable: true },
+    { title: "Perusahaan", dataIndex: "company", key: "company",render:(val)=>val.company_name, sortable: true },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },
-    { title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Tanggal Buat", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
 // SysDateTransform
     {
       title: "Action",

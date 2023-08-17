@@ -85,7 +85,7 @@ const LeaveMassForm = ({readOnly=false}) => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Event:</label>
+                      <label>Cuti Bersama:</label>
                       <input
                         className="form-control"
                         type="text"
@@ -99,11 +99,11 @@ const LeaveMassForm = ({readOnly=false}) => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Date:</label>
+                      <label>Tanggal Cuti:</label>
                       <DatePicker 
                             disabled={readOnly}
                       
-                      name="leave_date" onChange={handleDateChange} value={data.leave_date} placeholder={'Leave Date'} />
+                      name="leave_date" onChange={handleDateChange} value={data.leave_date} placeholder={'Tanggal Cuti'} />
                     </div>
                   </div>
                 </div>

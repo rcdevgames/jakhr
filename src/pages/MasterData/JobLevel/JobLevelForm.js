@@ -131,7 +131,7 @@ const JobLevelForm = ({readOnly=false}) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Job Level:</label>
+                      <label>Level Jabatan:</label>
                       <input
                         className="form-control"
                             disabled={readOnly}

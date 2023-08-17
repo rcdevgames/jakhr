@@ -16,27 +16,27 @@ const Branch = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     {
-      title: "Company",
+      title: "Perusahaan",
       dataIndex: "company",
       key: "company", 
       render: (val) => val.company_name,
     },
-    { title: "Branch", dataIndex: "name", key: "name", sortable: true },
-    { title: "Address", dataIndex: "address", key: "address", sortable: true },
+    { title: "Kantor/Cabang", dataIndex: "name", key: "name", sortable: true },
+    { title: "Alamat", dataIndex: "address", key: "address", sortable: true },
     { title: "Radius", dataIndex: "radius", key: "radius" , sortable: true},
     {
-      title: "Primary Phone",
+      title: "Nomor Telepon Utama",
       dataIndex: "primary_phone",
       key: "primary_phone", sortable: true,
     },
     {
-      title: "Secondary Phone",
+      title: "Nomor Telepon Lain",
       dataIndex: "secondary_phone",
       key: "secondary_phone", sortable: true,
     },
     { title: "Created Date", dataIndex: "created_at", key: "created_at", sortable: true,render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

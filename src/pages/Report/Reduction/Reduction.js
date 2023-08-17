@@ -25,7 +25,7 @@ const ReportDeduction = () => {
   }, []);
   const columns = [
     {
-      title: "Fullname",
+      title: "Karyawan",
       dataIndex: "full_name",
       key: "full_name",
       sortable: true,
@@ -38,29 +38,29 @@ const ReportDeduction = () => {
       sortable:true
     },
     {
-      title: "Branch",
+      title: "Kantor/Cabang",
       dataIndex: "branch_name",
       key: "branch_name",
     },
     {
-      title: "Division",
+      title: "Divisi",
       dataIndex: "organization_name",
       key: "organization_name",
     },
-    { title: "Job Level", dataIndex: "job_level_name", key: "job_level_name" },
+    { title: "Level Jabatan", dataIndex: "job_level_name", key: "job_level_name" },
     {
-      title: "Job Position",
+      title: "Posisi Jabatan",
       dataIndex: "job_position_name",
       key: "job_position_name",
     },
     {
-      title: "Deduction",
+      title: "Total Potongan",
       dataIndex: "totalDeduction",
       key: "totalDeduction",
       render:(val)=>SysCurrencyTransform({num:val,currency:""})
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "action",
       render: (val, record) => (
@@ -116,7 +116,7 @@ const ReportDeduction = () => {
           {
             data: data_branch,
             index: "branch_id",
-            title: "Cabang",
+            title: "Kantor/Cabang",
             label: "name",
             data_id: "id",
           },
@@ -131,14 +131,14 @@ const ReportDeduction = () => {
           {
             data: data_job_level,
             index: "job_level_id",
-            title: "Job Level",
+            title: "Level Jabatan",
             label: "name",
             data_id: "id",
           },
           {
             data: data_job_position,
             index: "job_position_id",
-            title: "Job Position",
+            title: "Posisi Jabatan",
             label: "name",
             data_id: "id",
           },

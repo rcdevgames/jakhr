@@ -22,19 +22,19 @@ const Attendance = () => {
   };
   const columns = [
     {
-      title: "Employee",
+      title: "Karyawan",
       dataIndex: "employee",
       key: "employee",
       render: (val) => val.name,
     },
     {
-      title: "Description",
+      title: "Deskripsi",
       dataIndex: "description",
       key: "description",
       sortable: true,
     },
     {
-      title: "Date In",
+      title: "Tanggal Masuk",
       dataIndex: "date_in",
       key: "date_in",
       render: (val) =>
@@ -47,9 +47,9 @@ const Attendance = () => {
         }),
       sortable: true,
     },
-    { title: "Time In", dataIndex: "time_in", key: "time_in", sortable: true },
+    { title: "Jam Masuk", dataIndex: "time_in", key: "time_in", sortable: true },
     {
-      title: "Date Out",
+      title: "Tanggal Keluar",
       dataIndex: "date_out",
       key: "date_out",
       sortable: true,
@@ -63,13 +63,13 @@ const Attendance = () => {
         }),
     },
     {
-      title: "Time Out",
+      title: "Jam Keluar",
       dataIndex: "time_out",
       key: "time_out",
       sortable: true,
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (
@@ -147,14 +147,14 @@ const Attendance = () => {
         title=""
         content={
           <>
-            <label>Location In:</label>
+            <label>Lokasi Masuk:</label>
             <br />
             <label>
               Lat: {selected_attendance?.location?.in?.lat ?? ""}, Lng:
               {selected_attendance?.location?.in?.lng ?? ""}
             </label>
             <br />
-            <label>Pict In:</label>
+            <label>Foto Masuk:</label>
             <br />
             <img
               src={selected_attendance?.photos?.in ?? null}
@@ -162,14 +162,14 @@ const Attendance = () => {
             />
             <br />
 
-            <label>Location Out:</label>
+            <label>Lokasi Keluar:</label>
             <br />
             <label>
               Lat: {selected_attendance?.location?.out?.lat ?? ""}, Lng:
               {selected_attendance?.location?.out?.lng ?? ""}
             </label>
             <br />
-            <label>Pict Out:</label>
+            <label>Foto Keluar:</label>
             <br />
             <img
               src={selected_attendance?.photos?.out ?? null}

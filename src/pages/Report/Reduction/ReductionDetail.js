@@ -15,18 +15,18 @@ const ReportReductionDetail = () => {
   const { employee_id } = useParams();
   const columns = [
     {
-      title: "Name",
+      title: "Potogan",
       dataIndex: "deduction_name",
       key: "deduction_name",
     },
     {
-      title: "Description",
+      title: "Deskripsi",
       dataIndex: "description",
       key: "description",
     },
 
     {
-      title: "Amount",
+      title: "Nominal",
       dataIndex: "amount",
       key: "amount",
       render:(val)=>SysCurrencyTransform({num:val,currency:""})

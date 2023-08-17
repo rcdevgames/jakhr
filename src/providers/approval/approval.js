@@ -39,8 +39,8 @@ export const reject = async (id, reason) => {
   try {
     const response = await sys_post({
       auth: true,
-      endpoint: uri,
-      body: { worklist_journey_id: id, reason },
+      endpoint: uri+'/reject',
+      body: { worklist_journey_id: id, "reject_reason":reason },
     });
     return response;
   } catch (error) {

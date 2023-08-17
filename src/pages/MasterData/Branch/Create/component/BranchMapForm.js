@@ -10,6 +10,7 @@ import {
   showToast,
 } from "../../../../../utils/global_store";
 import { useLoadingContext,LoadingProvider } from "../../../../../components/Loading";
+import { onlyNumber, onlyNumberAndDot, onlyNumberDotAndDash } from "../../../../../utils/validation";
 class LoadScriptComponent extends LoadScript {
   componentDidMount() {
     try {
@@ -83,11 +84,11 @@ class BranchMapForm extends Component {
     "name as nama_cabang",
     "address as alamat",
     "radius",
-    "primary_phone as nomor_utama",
+    "primary_phone as nomor_telepon_utama",
     "longitude",
     "latitude",
-    "sch_in as clock_in",
-    "sch_out as clock_out",
+    "sch_in as jam_masuk",
+    "sch_out as jam_keluar",
   ];
   getDetail = async (id) => {
     // this.lo();
@@ -325,7 +326,7 @@ class BranchMapForm extends Component {
       <div className="form form-horizontal">
         <div className="form-body">
           <div className="form-group">
-            <label>Nama</label>
+            <label>Nama Cabang</label>
             <input
               type="text"
               value={branch_name}
@@ -339,7 +340,7 @@ class BranchMapForm extends Component {
           </div>
 
           <div className="form-group">
-            <label>Address</label>
+            <label>Alamat</label>
             <Input.TextArea
               value={this.state.address}
               onChange={this.handleChange}
@@ -398,7 +399,8 @@ class BranchMapForm extends Component {
                 <label>Radius (meters):</label>
                 <input
                   className="form-control"
-                  type="number"
+                  type="text"
+                  onKeyDown={onlyNumberAndDot}
                   value={radius}
                   onChange={this.onRadiusChange}
                 />
@@ -407,7 +409,8 @@ class BranchMapForm extends Component {
                 <label>Latitude:</label>
                 <input
                   className="form-control"
-                  type="number"
+                  onKeyDown={onlyNumberDotAndDash}
+                  type="text"
                   value={marker.lat}
                   onChange={this.onLatLngChange("lat")}
                 />
@@ -417,7 +420,8 @@ class BranchMapForm extends Component {
                 <label>Longitude:</label>
                 <input
                   className="form-control"
-                  type="number"
+                  type="text"
+                  onKeyDown={onlyNumberDotAndDash}
                   value={marker.lng}
                   onChange={this.onLatLngChange("lng")}
                 />
@@ -435,12 +439,13 @@ class BranchMapForm extends Component {
           <div className="row mt-3">
             <div className="col-md-6">
               <div className="form-group">
-                <label>Phone:</label>
+                <label>Nomor Telepon Utama:</label>
                 <input
                   className="form-control"
-                  type="number"
+                  type="text"
                   name="phone"
                   value={phone}
+                  onKeyDown={onlyNumber}
                   disabled={this.props.readOnly}
                   onChange={this.handleChange}
                 />
@@ -449,11 +454,12 @@ class BranchMapForm extends Component {
 
             <div className="col-md-6">
               <div className="form-group">
-                <label>Phone 2:</label>
+                <label>Nomor Telepon Lain:</label>
                 <input
                   className="form-control"
-                  type="number"
+                  type="text"
                   name="phone2"
+                  onKeyDown={onlyNumber}
                   disabled={this.props.readOnly}
                   value={phone2}
                   onChange={(e) => {

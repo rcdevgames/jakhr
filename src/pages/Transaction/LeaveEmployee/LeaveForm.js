@@ -156,7 +156,7 @@ const LeaveForm = ({ readOnly = false }) => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Leave Type:</label>
+                        <label>Tipe Cuti:</label>
                         <Select
                           onChange={handleChange}
                           value={SysGenValueOption(
@@ -172,7 +172,7 @@ const LeaveForm = ({ readOnly = false }) => {
                               name: "leave_type_id",
                             },
                           }))}
-                          placeholder="Select Leave Type"
+                          placeholder="Pilih Tipe Cuti"
                           aria-label="Nama"
                           required
                           isSearchable
@@ -182,19 +182,19 @@ const LeaveForm = ({ readOnly = false }) => {
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Date Leave:</label>
+                        <label>Tanggal Cuti:</label>
                         <DatePicker
                           name="leave_date"
                           onChange={handleDateStartChange}
                           value={data.leave_date}
-                          placeholder={"Start Date"}
+                          placeholder={"Tanggal Cuti"}
                         />
                       </div>
                     </div>
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Day Leave:</label>
+                        <label>Hari:</label>
                         <input
                           className="form-control"
                           name="amount"
@@ -208,7 +208,7 @@ const LeaveForm = ({ readOnly = false }) => {
 
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>Reason:</label>
+                        <label>Alasan:</label>
                         <input
                           className="form-control"
                           name="reason"

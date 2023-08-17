@@ -19,7 +19,7 @@ const CompanyForm = ({ readOnly = false }) => {
   const { showLoading, hideLoading } = useLoadingContext();
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
-  const required_field = ["address", "alias", "name"];
+  const required_field = ["address as alamat", "alias", "name as nama_perusahaan"];
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.COMPANY
   }`;
@@ -162,7 +162,7 @@ const CompanyForm = ({ readOnly = false }) => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Parent:</label>
+                        <label>Induk:</label>
                         <Select
                           onChange={handleChange}
                           value={SysGenValueOption(
@@ -182,7 +182,7 @@ const CompanyForm = ({ readOnly = false }) => {
                               value: option.id,
                             },
                           }))}
-                          placeholder="Select Parent"
+                          placeholder="Pilih Induk"
                           aria-label="Nama"
                           required
                           isSearchable
@@ -191,7 +191,7 @@ const CompanyForm = ({ readOnly = false }) => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Company Name:</label>
+                        <label>Nama Perusahaan:</label>
                         <input
                           className="form-control"
                           type="text"
@@ -217,7 +217,7 @@ const CompanyForm = ({ readOnly = false }) => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Address:</label>
+                        <label>Alamat:</label>
                         <Input.TextArea
                           rows={4}
                           className="form-control"

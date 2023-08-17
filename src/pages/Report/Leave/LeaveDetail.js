@@ -15,22 +15,22 @@ const ReportLeaveDetail = () => {
   const { employee_id } = useParams();
   const columns = [
     {
-      title: "Leave Type",
+      title: "Tipe Cuti",
       dataIndex: "leave_type_name",
       key: "leave_type_name",
     },
     {
-      title: "Leave Number",
+      title: "Nomor Cuti",
       dataIndex: "leave_no",
       key: "leave_no",
     },
     {
-      title: "Reason",
+      title: "Alasan",
       dataIndex: "reason",
       key: "reason",
     },
     {
-      title: "Leave Date",
+      title: "Tanggal Cuti",
       dataIndex: "leave_date",
       key: "leave_date",
       render: (val) =>
@@ -43,7 +43,7 @@ const ReportLeaveDetail = () => {
     },
 
     {
-      title: "Day Leave",
+      title: "Hari",
       dataIndex: "amount",
       key: "amount"
     },

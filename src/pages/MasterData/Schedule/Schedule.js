@@ -16,15 +16,15 @@ const Schedule = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     { title: "Title", dataIndex: "title", key: "title", sortable: true },
-    { title: "Start Date", dataIndex: "start_date", sortable: true, key: "start_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
-    { title: "End Date", dataIndex: "end_date", sortable: true, key: "end_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
-    { title: "Time In", dataIndex: "time_in", sortable: true, key: "time_in" },
-    { title: "Time Out", dataIndex: "time_out", sortable: true, key: "time_out" },
+    { title: "Tanggal Mulai", dataIndex: "start_date", sortable: true, key: "start_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
+    { title: "Tanggal Selesai", dataIndex: "end_date", sortable: true, key: "end_date",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in'}) },
+    { title: "Jam Masuk", dataIndex: "time_in", sortable: true, key: "time_in" },
+    { title: "Jam Keluar", dataIndex: "time_out", sortable: true, key: "time_out" },
     // SysDateTransform{ title: "Created Date", dataIndex: "created_at", key: "created_at" },
-    { title: "Created Date", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    { title: "Tanggal Buat", sortable: true, dataIndex: "created_at", key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
     
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

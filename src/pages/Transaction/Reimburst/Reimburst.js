@@ -18,13 +18,13 @@ const Reimburst = () => {
   const [modal_image, set_modal_image] = useState(false);
   // SysDateTransform
   const columns = [
-    { title: "Name", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
-    { title: "Description", dataIndex: "description", key: "description",sortable:true },
-    { title: "Date", dataIndex: "date", key: "date" ,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'})},
-    { title: "Amount", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:val}),sortable:true },
+    { title: "Karyawan", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
+    { title: "Deskripsi", dataIndex: "description", key: "description",sortable:true },
+    { title: "Tanggal", dataIndex: "date", key: "date" ,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'})},
+    { title: "Nominal", dataIndex: "amount", key: "amount",render:(val,record)=>SysCurrencyTransform({num:val}),sortable:true },
     { title: "Status", dataIndex: "is_paid", key: "is_paid",render:(val,record)=>val?'PAID':'NO PAID',sortable:true },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (val, record) => (

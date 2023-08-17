@@ -28,7 +28,7 @@ const ReportEmployee = () => {
   }, []);
   const columns = [
     {
-      title: "Fullname",
+      title: "Nama Lengkap",
       dataIndex: "full_name",
       key: "full_name",
       sortable: true,
@@ -52,31 +52,31 @@ const ReportEmployee = () => {
       type:"hidden"
     },
     {
-      title: "ID Type",
+      title: "Tipe ID",
       dataIndex: "id_type",
       key: "id_type",
       type:"hidden"
     },
     {
-      title: "ID Number",
+      title: "NIK",
       dataIndex: "id_number",
       key: "id_number",
       type:"hidden"
     },
     {
-      title: "Marital Status",
+      title: "Status Pernikahan",
       dataIndex: "marital_status",
       key: "marital_status",
       type:"hidden"
     },
     {
-      title: "Religion",
+      title: "Agama",
       dataIndex: "religion",
       key: "religion",
       type:"hidden"
     },
     {
-      title: "Gender",
+      title: "Jenis Kelamin",
       dataIndex: "gender",
       key: "gender",
       type:"hidden"
@@ -94,31 +94,31 @@ const ReportEmployee = () => {
       type:"hidden"
     },
     {
-      title: "Citizen Address",
+      title: "Alamat KTP",
       dataIndex: "citizen_address",
       key: "citizen_address",
       type:"hidden"
     },
     {
-      title: "Residential Address",
+      title: "Alamat",
       dataIndex: "residential_address",
       key: "residential_address",
       type:"hidden"
     },
     {
-      title: "Branch",
+      title: "Kantor/Cabang",
       dataIndex: "branch_name",
       key: "branch_name",
       width:150,
     },
     {
-      title: "Division",
+      title: "Divisi",
       dataIndex: "organization_name",
       key: "organization_name",
     },
-    { title: "Job Level", dataIndex: "job_level_name", key: "job_level_name" },
+    { title: "Level Jabatan", dataIndex: "job_level_name", key: "job_level_name" },
     {
-      title: "Job Position",
+      title: "Posisi Jabatan",
       dataIndex: "job_position_name",
       width:200,
       key: "job_position_name",
@@ -139,7 +139,7 @@ const ReportEmployee = () => {
       ),
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "id",
       key: "action",
       render: (val, record) => (
@@ -195,7 +195,7 @@ const ReportEmployee = () => {
           {
             data: data_branch,
             index: "branch_id",
-            title: "Cabang",
+            title: "Kantor/Cabang",
             label: "name",
             data_id: "id",
           },
@@ -210,14 +210,14 @@ const ReportEmployee = () => {
           {
             data: data_job_level,
             index: "job_level_id",
-            title: "Job Level",
+            title: "Level Jabatan",
             label: "name",
             data_id: "id",
           },
           {
             data: data_job_position,
             index: "job_position_id",
-            title: "Job Position",
+            title: "Posisi Jabatan",
             label: "name",
             data_id: "id",
           },

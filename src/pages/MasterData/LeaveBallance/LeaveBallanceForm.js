@@ -116,7 +116,7 @@ const LeaveBallanceForm = () => {
                 <div className="row mt-3">
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Employee:</label>
+                      <label>Karyawan:</label>
                       <Select
                         onChange={handleChangeEmployee}
                         value={selected_employee}
@@ -125,7 +125,7 @@ const LeaveBallanceForm = () => {
                           label: `${option.employee_id} - ${option.full_name}`,
                           employee_id: option.employee_id,
                         }))}
-                        placeholder="Select Employee"
+                        placeholder="Pilih Karyawan"
                         aria-label="Nama"
                         required
                         isSearchable
@@ -135,7 +135,7 @@ const LeaveBallanceForm = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Leave Type:</label>
+                      <label>Tipe Cuti:</label>
                       <Select
                         onChange={handleChange}
                         value={SysGenValueOption(
@@ -152,7 +152,7 @@ const LeaveBallanceForm = () => {
                             name: "leave_type_id",
                           },
                         }))}
-                        placeholder="Select Type"
+                        placeholder="Pilih Tipe Cuti"
                         aria-label="Nama"
                         required
                         isSearchable
@@ -182,7 +182,7 @@ const LeaveBallanceForm = () => {
                   </div>
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Leave Balance:</label>
+                      <label>Saldo Cuti:</label>
                       <input
                         className="form-control"
                         type="text"

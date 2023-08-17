@@ -223,13 +223,13 @@ const EmployeeMultipleForm = () => {
   const{showLoading,hideLoading}= useLoadingContext()
   const defaultColumns = [
     {
-      title: "Fullname",
+      title: "Nama Lengkap",
       dataIndex: "full_name",
       width: "30%",
       editable: true,
     },
     {
-      title: "Employee ID",
+      title: "NIP",
       width: "30%",
       dataIndex: "employee_id",
       editable: true,
@@ -250,39 +250,39 @@ const EmployeeMultipleForm = () => {
 
     {
       width: "30%",
-      title: "Religion",
+      title: "Agama",
       dataIndex: "religion",
       editable: true,
     },
 
     {
-      title: "Place of Birth",
+      title: "Tempat Lahir",
       dataIndex: "place_of_birth",
       width: "30%",
       editable: true,
     },
 
     {
-      title: "Phone Number",
+      title: "Nomor Handphone",
       dataIndex: "phone_number",
       width: "30%",
       editable: true,
     },
     {
-      title: "Gender",
+      title: "Jenis Kelamin",
       width: "30%",
       dataIndex: "gender",
       editable: true,
     },
     {
-      title: "Marital Status",
+      title: "Status Pernikahan",
       width: "30%",
       dataIndex: "marital_status",
       editable: true,
     },
 
     {
-      title: "Blood Type",
+      title: "Golongan Darah",
       dataIndex: "blood_type",
       width: "30%",
       editable: true,
@@ -296,27 +296,27 @@ const EmployeeMultipleForm = () => {
     },
 
     {
-      title: "Account Password",
+      title: "Password Akun",
       width: "30%",
       dataIndex: "account_password",
       editable: true,
     },
 
     {
-      title: "Address",
+      title: "Alamat",
       dataIndex: "address",
       width: "30%",
       editable: true,
     },
 
     {
-      title: "Citizen Address",
+      title: "Alamat KTP",
       dataIndex: "citizen_address",
       width: "30%",
       editable: true,
     },
     {
-      title: "Action",
+      title: "Aksi",
       dataIndex: "action",
       render: (_, record) =>
         dataSource.length >= 1 ? (
@@ -396,20 +396,20 @@ const EmployeeMultipleForm = () => {
   const handleAddFromImport = (data) => {
     const newData = {
       key: count,
-      full_name: data["Fullname"] ?? "",
-      employee_id: data["Employee ID"] ?? "",
+      full_name: data["Nama Lengkap"] ?? "",
+      employee_id: data["NIP"] ?? "",
       nik: data["NIK"] ?? "",
       npwp: data["NPWP"] ?? "",
-      religion: data["Religion"] ?? "Islam",
-      place_of_birth: data["Place of Birth"] ?? "",
-      phone_number: data["Phone Number"] ?? "",
-      gender: data["Gender"] ?? "Laki-laki",
-      marital_status: data["Marital Status"] ?? "Lajang",
-      blood_type: data["Blood Type"] ?? "A",
+      religion: data["Agama"] ?? "Islam",
+      place_of_birth: data["Tempat Lahir"] ?? "",
+      phone_number: data["Nomor Handphone"] ?? "",
+      gender: data["Jenis Kelamin"] ?? "Laki-laki",
+      marital_status: data["Status Pernikahan"] ?? "Lajang",
+      blood_type: data["Golongan Darah"] ?? "A",
       email: data["Email"] ?? "",
-      account_password: data["Account Password"] ?? "",
-      address: data["Address"] ?? "",
-      citizen_address: data["Citizen Address"] ?? "",
+      account_password: data["Password Akun"] ?? "",
+      address: data["Alamat"] ?? "",
+      citizen_address: data["Alamat KTP"] ?? "",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
