@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/organizationModel";
 import * as providers from "../../../providers/master/organization";
-import { SysGenValueOption, showToast } from "../../../utils/global_store";
+import { SysGenValueOption, showToast,SysValidateForm } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import {useLoadingContext}from "../../../components/Loading"
 
@@ -11,6 +11,7 @@ import Select from "react-select";
 
 const OrganizationForm = ({readOnly=false}) => {
   const navigate = useNavigate();
+  const required_field =["name as divisi","code as kode"]
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
   const [parent, set_parent] = useState(convert.listOforganizationModel([]));
@@ -55,6 +56,7 @@ const OrganizationForm = ({readOnly=false}) => {
     try {
       const resp = await providers.insertData({
         name: data.name,
+        code: data.code,
         parent_id: data.parent_id,
       });
       showToast({ message: resp.message, type: "success" });
@@ -72,6 +74,7 @@ const OrganizationForm = ({readOnly=false}) => {
       const resp = await providers.updateData(
         {
           name: data.name,
+          code: data.code,
           parent_id: data.parent_id,
         },
         data.id
@@ -123,10 +126,22 @@ const OrganizationForm = ({readOnly=false}) => {
                         isSearchable
                       />
                     </div>
+                  </div><div className="col-md-6">
+                    <div className="form-group">
+                      <label>Kode:</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                            disabled={readOnly}
+                            name="code"
+                        value={data.code}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Organization Name:</label>
+                      <label>Divisi:</label>
                       <input
                         className="form-control"
                         type="text"

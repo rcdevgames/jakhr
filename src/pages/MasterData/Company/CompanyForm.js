@@ -19,7 +19,7 @@ const CompanyForm = ({ readOnly = false }) => {
   const { showLoading, hideLoading } = useLoadingContext();
   const [parent, set_parent] = useState(convert.listOfcompanyModel([]));
   const [data, setData] = useState(convert.objectOfcompanyModel({}));
-  const required_field = ["address as alamat", "alias", "name as nama_perusahaan"];
+  const required_field = ["address as alamat", "alias", "name as nama_perusahaan","code as kode_perusahaan"];
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.COMPANY
   }`;
@@ -74,6 +74,7 @@ const CompanyForm = ({ readOnly = false }) => {
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
+        code: data.code,
         parent_id: data.parent_id,
       };
       SysValidateForm(required_field, data_submit);
@@ -96,6 +97,7 @@ const CompanyForm = ({ readOnly = false }) => {
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
+        code: data.code,
         parent_id: data.parent_id,
       };
       SysValidateForm(required_field, data_submit);
@@ -186,6 +188,18 @@ const CompanyForm = ({ readOnly = false }) => {
                           aria-label="Nama"
                           required
                           isSearchable
+                        />
+                      </div>
+                    </div> <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Kode Perusahaan:</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="code"
+                          value={data.code}
+                          disabled={readOnly}
+                          onChange={handleChange}
                         />
                       </div>
                     </div>

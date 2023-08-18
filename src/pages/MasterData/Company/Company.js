@@ -17,6 +17,12 @@ const Company = () => {
   const [modal, set_modal] = useState(false);
   const columns = [
     {
+      title: "Kode Perusahaan",
+      dataIndex: "code",
+      key: "code",
+      sortable: true,
+    },
+    {
       title: "Kantor/Cabang",
       dataIndex: "name",
       key: "name",

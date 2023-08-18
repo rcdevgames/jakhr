@@ -15,6 +15,7 @@ const modelOfDataorganizationModel = {
 	id: '',
 	name: '',
 	company_id: '',
+	code: '',
 	parent_id: null,
 	created_at: '',
 	updated_at: '',
@@ -30,6 +31,7 @@ function listOforganizationModel(data = []) {
 				id: val.id ?? null,
 				name: val.name ?? null,
 				company_id: val.company_id ?? null,
+				code: val.code ?? null,
 				parent_id: val.parent_id ?? null,
 				created_at: val.created_at ?? null,
 				updated_at: val.updated_at ?? null,
@@ -52,6 +54,7 @@ function objectOforganizationModel(data = null) {
 		objectData.id = data.id ?? null;
 		objectData.name = data.name ?? null;
 		objectData.company_id = data.company_id ?? null;
+		objectData.code = data.code ?? null;
 		objectData.parent_id = data.parent_id ?? null;
 		objectData.created_at = data.created_at ?? null;
 		objectData.updated_at = data.updated_at ?? null;

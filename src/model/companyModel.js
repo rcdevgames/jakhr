@@ -12,6 +12,7 @@ const modelOfDatacompanyModel = {
 	name: '',
 	address: '',
 	logo: '',
+	code: '',
 	alias: '',
 	is_active: false,
 	parent_id: null,
@@ -27,6 +28,7 @@ function listOfcompanyModel(data = []) {
 				name: val.name ?? null,
 				address: val.address ?? null,
 				logo: val.logo ?? null,
+				code: val.code ?? null,
 				alias: val.alias ?? null,
 				is_active: val.is_active ?? null,
 				parent_id: val.parent_id ?? null,
@@ -49,6 +51,7 @@ function objectOfcompanyModel(data = null) {
 		objectData.name = data.name ?? null;
 		objectData.address = data.address ?? null;
 		objectData.logo = data.logo ?? null;
+		objectData.code = data.code ?? null;
 		objectData.alias = data.alias ?? null;
 		objectData.is_active = data.is_active ?? null;
 		objectData.parent_id = data.parent_id ?? null;
