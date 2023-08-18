@@ -439,18 +439,18 @@ export function SysGenMenu() {
       },
     ],
   };
-  const payroll = {
-    icon: "CurrencyDollarIcon",
-    iconType: "outline",
-    label: sys_labels.menus.PAYROLL,
-    dir: "/payroll",
-    subMenu: [
-      {
-        label: sys_labels.menus.SALARY,
-        link: "/payroll/salary",
-      },
-    ],
-  };
+  // const payroll = {
+  //   icon: "CurrencyDollarIcon",
+  //   iconType: "outline",
+  //   label: sys_labels.menus.PAYROLL,
+  //   dir: "/payroll",
+  //   subMenu: [
+  //     {
+  //       label: sys_labels.menus.SALARY,
+  //       link: "/payroll/salary",
+  //     },
+  //   ],
+  // };
   const transaction = {
     icon: "TableIcon",
     iconType: "solid",
@@ -467,10 +467,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.ATTENDANCE,
         link: "/transaction/attendance",
       },
-      {
-        label: sys_labels.menus.CASH_ADVANCE,
-        link: "/transaction/cash_advance",
-      },
+      // {
+      //   label: sys_labels.menus.CASH_ADVANCE,
+      //   link: "/transaction/cash_advance",
+      // },
       {
         label: sys_labels.menus.LEAVE,
         link: "/transaction/leave",
@@ -515,10 +515,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.DEDUCTION,
         link: "/report/reduction",
       },
-      {
-        label: sys_labels.menus.CASH_ADVANCE,
-        link: "/report/cash",
-      },
+      // {
+      //   label: sys_labels.menus.CASH_ADVANCE,
+      //   link: "/report/cash",
+      // },
       {
         label: sys_labels.menus.REIMBURS,
         link: "/report/imbursement",
@@ -550,7 +550,7 @@ export function SysGenMenu() {
     "/master-data": master_data,
     "/master-organization": master_organization,
     "/master-payroll": master_payroll,
-    "/payroll": payroll,
+    // "/payroll": payroll,
     "/transaction": transaction,
     "/report": report,
     "/tool": tool,
@@ -559,7 +559,7 @@ export function SysGenMenu() {
       master_data,
       master_organization,
       master_payroll,
-      payroll,
+      // payroll,
       transaction,
       report,
       tool,
@@ -654,14 +654,14 @@ export function SysGenRouting() {
       route: "/master-payroll/salary_component",
       name: "Komponen Gaji",
     },
-    {
-      route: "/payroll",
-      name: "Payroll",
-    },
-    {
-      route: "/payroll/salary",
-      name: "Gaji",
-    },
+    // {
+    //   route: "/payroll",
+    //   name: "Payroll",
+    // },
+    // {
+    //   route: "/payroll/salary",
+    //   name: "Gaji",
+    // },
     {
       route: "/transaction",
       name: "Transaksi",
@@ -674,10 +674,10 @@ export function SysGenRouting() {
       route: "/transaction/attendance",
       name: "Kehadiran",
     },
-    {
-      route: "/transaction/cash_advance",
-      name: "Cash Advance",
-    },
+    // {
+    //   route: "/transaction/cash_advance",
+    //   name: "Cash Advance",
+    // },
     {
       route: "/transaction/leave",
       name: "Cuti",
@@ -719,10 +719,10 @@ export function SysGenRouting() {
       route: "/report/reduction",
       name: "Potongan",
     },
-    {
-      route: "/report/cash",
-      name: "Cash Advance",
-    },
+    // {
+    //   route: "/report/cash",
+    //   name: "Cash Advance",
+    // },
     {
       route: "/report/imbursement",
       name: "Reimbursment",

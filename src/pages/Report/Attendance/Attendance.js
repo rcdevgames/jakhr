@@ -57,11 +57,11 @@ const ReportAttendance = () => {
       key: "attendance_visit"
     },
     
-    {
-      title: "Tidak Valid",
-      dataIndex: "attendance_invalid",
-      key: "attendance_invalid"
-    },
+    // {
+    //   title: "Tidak Valid",
+    //   dataIndex: "attendance_invalid",
+    //   key: "attendance_invalid"
+    // },
     {
       title: "Terlambat",
       dataIndex: "attendance_late",
@@ -73,16 +73,16 @@ const ReportAttendance = () => {
       dataIndex: "attendance_out_early",
       key: "attendance_out_early"
     },
-    {
-      title: "Lembur",
-      dataIndex: "attendance_overtimes",
-      key: "attendance_overtimes"
-    },
-    {
-      title: "Cuti",
-      dataIndex: "attendance_leaves",
-      key: "attendance_leaves"
-    },
+    // {
+    //   title: "Lembur",
+    //   dataIndex: "attendance_overtimes",
+    //   key: "attendance_overtimes"
+    // },
+    // {
+    //   title: "Cuti",
+    //   dataIndex: "attendance_leaves",
+    //   key: "attendance_leaves"
+    // },
   ];
   const getBranch = async () => {
     try {
