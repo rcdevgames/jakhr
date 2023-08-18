@@ -16,8 +16,8 @@ const Leave = () => {
     { title: "Tanggal Cuti", dataIndex: "leave_date", key: "leave_date",sortable: true,render:(val)=>SysDateTransform({date:val,checkIsToDay:true,withTime:false,type:'long',lang:'in'}) },
     { title: "Hari", dataIndex: "amount", key: "amount",render:(val,record)=>val + ' Hari',sortable:true },
     { title: "Alasan", dataIndex: "reason", key: "reason",sortable:true },
-    { title: "Approved", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>val?'Yes':'No',sortable:true },
-    { title: "Rejected", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>val?'Yes':'No',sortable:true },
+    { title: "Approved", dataIndex: "is_approved", key: "is_approved" },
+    { title: "Rejected", dataIndex: "is_rejected", key: "is_rejected" },
   ];
   const action = [
     <Link

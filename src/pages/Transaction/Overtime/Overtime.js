@@ -11,8 +11,8 @@ const Overtime = () => {
     { title: "Karyawan", dataIndex: "employee", key: "employee",render:(val,record)=>record.employee.name },
     { title: "Nomor Lembur", dataIndex: "overtime_no", key: "overtime_no",sortable:true },
     { title: "Alasan", dataIndex: "reason", key: "reason",sortable:true },
-    { title: "Approve", dataIndex: "is_approved", key: "is_approved",render:(val,record)=>record.is_approved?'APPROVED':"NO APPROVED",sortable:true },
-    { title: "Reject", dataIndex: "is_rejected", key: "is_rejected",render:(val,record)=>record.is_rejected?'REJECTED':"NO REJECTED",sortable:true },
+    { title: "Approve", dataIndex: "is_approved", key: "is_approved"},
+    { title: "Reject", dataIndex: "is_rejected", key: "is_rejected"},
     { title: "Tanggal Kehadiran", dataIndex: "attendance", key: "attendance",render:(val,record)=>record.attendance.date_in },
    
   ];
