@@ -21,9 +21,9 @@ pipeline {
             }
         }
 
-        stage('Build and deploy for prooduction') {
+        stage('Build and deploy for prod') {
             when {
-                branch 'staging' 
+                branch 'prod' 
             }
             steps {
                 sh '''
