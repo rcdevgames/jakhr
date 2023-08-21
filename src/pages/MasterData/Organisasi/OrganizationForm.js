@@ -3,19 +3,23 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/organizationModel";
 import * as providers from "../../../providers/master/organization";
-import { SysGenValueOption, showToast,SysValidateForm } from "../../../utils/global_store";
+import {
+  SysGenValueOption,
+  showToast,
+  SysValidateForm,
+} from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
 import Select from "react-select";
 
-const OrganizationForm = ({readOnly=false}) => {
+const OrganizationForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
-  const required_field =["name as divisi","code as kode"]
+  const required_field = ["name as divisi", "code as kode"];
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
   const [parent, set_parent] = useState(convert.listOforganizationModel([]));
-  const {showLoading,hideLoading}=useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
   const getParent = async () => {
     showLoading();
     try {
@@ -56,7 +60,7 @@ const OrganizationForm = ({readOnly=false}) => {
     try {
       const resp = await providers.insertData({
         name: data.name,
-        code: data.code,
+        // code: data.code,
         parent_id: data.parent_id,
       });
       showToast({ message: resp.message, type: "success" });
@@ -74,18 +78,18 @@ const OrganizationForm = ({readOnly=false}) => {
       const resp = await providers.updateData(
         {
           name: data.name,
-          code: data.code,
+          // code: data.code,
           parent_id: data.parent_id,
         },
         data.id
-        );
-        showToast({ message: resp.message, type: "success" });
-        navigate(-1);
-      } catch (error) {
-        console.log(error);
-        showToast({ message: error.message, type: "error" });
-      }
-      hideLoading();
+      );
+      showToast({ message: resp.message, type: "success" });
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      showToast({ message: error.message, type: "error" });
+    }
+    hideLoading();
   };
 
   return (
@@ -126,41 +130,42 @@ const OrganizationForm = ({readOnly=false}) => {
                         isSearchable
                       />
                     </div>
-                  </div><div className="col-md-6">
+                  </div>
+                  {/* <div className="col-md-6">
                     <div className="form-group">
                       <label>Kode:</label>
                       <input
                         className="form-control"
                         type="text"
-                            disabled={readOnly}
-                            name="code"
+                        disabled={readOnly}
+                        name="code"
                         value={data.code}
                         onChange={handleChange}
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Divisi:</label>
                       <input
                         className="form-control"
                         type="text"
-                            disabled={readOnly}
-                            name="name"
+                        disabled={readOnly}
+                        name="name"
                         value={data.name}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
                 </div>
-                {readOnly?null:
-                <button
-                onClick={() => (data.id ? handleUpdate() : handleSubmit())}
-                className="btn btn-primary"
-                >
-                  {data.id ? "Update" : "Submit"}
-                </button>
-                }
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (data.id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {data.id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>
