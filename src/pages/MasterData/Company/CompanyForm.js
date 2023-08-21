@@ -74,7 +74,7 @@ const CompanyForm = ({ readOnly = false }) => {
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
-        code: data.code,
+        // code: data.code,
         parent_id: data.parent_id,
       };
       SysValidateForm(required_field, data_submit);
@@ -97,7 +97,7 @@ const CompanyForm = ({ readOnly = false }) => {
         address: data.address,
         is_active: data?.is_active ?? false,
         logo: data.logo,
-        code: data.code,
+        // code: data.code,
         parent_id: data.parent_id,
       };
       SysValidateForm(required_field, data_submit);
@@ -190,7 +190,8 @@ const CompanyForm = ({ readOnly = false }) => {
                           isSearchable
                         />
                       </div>
-                    </div> <div className="col-md-6">
+                    </div> 
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Kode Perusahaan:</label>
                         <input
@@ -202,7 +203,7 @@ const CompanyForm = ({ readOnly = false }) => {
                           onChange={handleChange}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Nama Perusahaan:</label>
