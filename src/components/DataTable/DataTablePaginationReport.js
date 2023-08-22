@@ -103,6 +103,8 @@ const DataTablePaginationReport = ({
   };
 
   const handleSearch = (value) => {
+    setCurrentPage(1);
+
     setSearchQuery(value);
   };
 
@@ -309,8 +311,9 @@ const DataTablePaginationReport = ({
         columns.map((col_value) => {
           if (col_value.key != "action") {
             obj_data[col_value.title] = val[col_value.key] ?? "";
-            if(col_value.val_props){
-              obj_data[col_value.title] = col_value.val_props[val[col_value.key]];
+            if (col_value.val_props) {
+              obj_data[col_value.title] =
+                col_value.val_props[val[col_value.key]];
             }
           }
         });

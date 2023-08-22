@@ -16,7 +16,7 @@ const Organization = () => {
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    { title: "Kode Divisi", dataIndex: "code", key: "code", sortable: true },
+    // { title: "Kode Divisi", dataIndex: "code", key: "code", sortable: true },
     { title: "Divisi", dataIndex: "name", key: "name", sortable: true },
     { title: "Perusahaan", dataIndex: "company", key: "company",render:(val)=>val.company_name },
     // { title: "Created Date", dataIndex: "created_at", key: "created_at" },SysDateTransform

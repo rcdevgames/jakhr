@@ -19,7 +19,7 @@ const DataTablePaginantionFilter = ({
   const [totalItems, setTotalItems] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  let date =   new Date();
+  let date = new Date();
   date.setDate(1);
   const [startDate, setStartDate] = useState(date);
   const [endDate, setendDate] = useState(new Date());
@@ -28,16 +28,30 @@ const DataTablePaginantionFilter = ({
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, pageSize, searchQuery,startDate,endDate,sortField,sortOrder]);
+  }, [
+    currentPage,
+    pageSize,
+    searchQuery,
+    startDate,
+    endDate,
+    sortField,
+    sortOrder,
+  ]);
   // }, [currentPage, pageSize, searchQuery]);
 
   const fetchData = () => {
-    
-    let sort =`${sortField}:${sortOrder=='ascend'?'asc':'desc'}`
-    if(sortField==""||sortField==null ||sortField==undefined){
-      sort =""
+    let sort = `${sortField}:${sortOrder == "ascend" ? "asc" : "desc"}`;
+    if (sortField == "" || sortField == null || sortField == undefined) {
+      sort = "";
     }
-    fetchDataFunc(currentPage, pageSize, searchQuery, SysDateTransform({date:startDate,withTime:false,forSql:true}), SysDateTransform({date:endDate,withTime:false,forSql:true}),sort)
+    fetchDataFunc(
+      currentPage,
+      pageSize,
+      searchQuery,
+      SysDateTransform({ date: startDate, withTime: false, forSql: true }),
+      SysDateTransform({ date: endDate, withTime: false, forSql: true }),
+      sort
+    )
       .then((data) => {
         // console.log(data);
         setTableData(data.data.data);
@@ -59,6 +73,7 @@ const DataTablePaginantionFilter = ({
   };
 
   const handleSearch = (value) => {
+    setCurrentPage(1);
     setSearchQuery(value);
   };
 
@@ -92,7 +107,7 @@ const DataTablePaginantionFilter = ({
             }}
           >
             <div className="row">
-              <div className="col-md-3 mr-2" style={{marginBottom:16}}>
+              <div className="col-md-3 mr-2" style={{ marginBottom: 16 }}>
                 <div className="form-group">
                   <label>Start Date:</label>
                   <DatePicker
@@ -119,7 +134,7 @@ const DataTablePaginantionFilter = ({
                 placeholder="Search..."
                 allowClear
                 onSearch={handleSearch}
-                style={{ width: 200,marginTop:25 }}
+                style={{ width: 200, marginTop: 25 }}
               />
             </div>
 
@@ -129,7 +144,7 @@ const DataTablePaginantionFilter = ({
               onChange={handleTableChange}
               columns={columns.map((col) => ({
                 ...col,
-                sorter: col.sortable??false,
+                sorter: col.sortable ?? false,
               }))}
               style={{ marginBottom: 30 }}
             />

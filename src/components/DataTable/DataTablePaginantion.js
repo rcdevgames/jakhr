@@ -59,6 +59,7 @@ const DataTablePagination = ({
   };
 
   const handleSearch = (value) => {
+    setCurrentPage(1);
     setSearchQuery(value);
   };
 
