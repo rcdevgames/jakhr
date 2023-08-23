@@ -20,5 +20,22 @@ pipeline {
                 
             }
         }
+
+        stage('Build and deploy for prod') {
+            when {
+                branch 'prod' 
+            }
+            steps {
+                sh '''
+                    rm -rf ./.env
+                    cp /home/jenkins/project/jakhr/fe/.env ./.env
+
+                    rsync -az . root@10.20.31.2:/root/fe
+                    
+                    ssh  -o StrictHostKeyChecking=no  root@10.20.31.2 "cd /root/fe;sh deploy.sh"
+                '''
+                
+            }
+        }
     }
 }
