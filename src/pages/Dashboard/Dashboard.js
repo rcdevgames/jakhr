@@ -112,7 +112,7 @@ const data3 = {
 function Dashboard() {
   useEffect(() => {
     SysJWTDecoder();
-    // console.log(window.location.protocol);
+    console.log(window.location.protocol);
   }, []);
   return (
     <AdminDashboard label="">
