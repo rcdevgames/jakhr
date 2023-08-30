@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout/AdminDashboardLayout";
 import Dashboard from "../pages/Dashboard";
-import Login, { Authentication } from "../pages/Login";
+import Login, { Authentication, ChangePassword } from "../pages/Login";
 // master data
 import { Company, CompanyForm } from "../pages/MasterData/Company";
 import { Branch, CreateBranch } from "../pages/MasterData/Branch";
@@ -124,7 +124,9 @@ const Router = () => (
         element={<Authentication />}
       />
       <Route path="/authentication" element={<Authentication />} />
+      {/* <Route path="/change_password" element={<ChangePassword />} /> */}
       <Route path="/unauthorized" element={<Unauthorized />} />
+      {/* <Route path="/login" element={<Login />} /> */}
       {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>
         <Route element={<AdminDashboardLayout />}>
@@ -226,7 +228,7 @@ const Router = () => (
                 element={<CompanyForm readOnly={true} />}
               />
 
-              <Route path="detail/:id" element={<CompanyForm />} />
+              {/* <Route path="detail/:id" element={<CompanyForm />} /> */}
             </Route>
             <Route path="branch">
               <Route path="" element={<Branch />} />
@@ -316,6 +318,7 @@ const Router = () => (
             <Route path="attendance">
               <Route path="" element={<Attendance />} />
               <Route path="detail/:id" element={<AttendanceForm />} />
+              <Route path="create" element={<AttendanceForm />} />
             </Route>
             <Route path="approval">
               <Route path="" element={<Approval />} />

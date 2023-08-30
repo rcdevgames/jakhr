@@ -5,6 +5,7 @@ import { routes_name } from "../../route/static_route";
 import { clearSession, getSession, setSession } from "../../utils/session";
 import { SysGenMenuByRole, showToast } from "../../utils/global_store";
 import * as providers from "../../providers/auth/verify";
+import * as providers_auth from "../../providers/auth";
 import * as providers_menu from "../../providers/master/menu";
 import { SESSION, sys_images } from "../../utils/constants";
 import Unauthorized from "../Unauthorized";
@@ -28,15 +29,21 @@ function Authentication() {
       setSession(SESSION.URI, uri);
       setSession(SESSION.PROTOCOL_URI, protocol);
       const resp = await providers.verify(token);
+      // const is_login = await providers_auth.validateIsChanges();
       const menus = await providers_menu.getMenu();
       const menu = SysGenMenuByRole(menus.data);
       setSession(SESSION.MENUS, JSON.stringify(menu));
+      const is_login = true;
       setTimeout(() => {
         set_loading(false);
       }, 1000);
       set_valid(true);
       setTimeout(() => {
-        navigate(routes_name.DASHBOARD);
+        if(is_login){
+          navigate(routes_name.DASHBOARD);
+        }else{
+          navigate(routes_name.CHANGE_PASSWORD)
+        }
       }, 1000);
     } catch (error) {
       clearSession();

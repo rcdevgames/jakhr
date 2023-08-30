@@ -11,6 +11,7 @@ import * as providers_leave_type from "../../../providers/master/leave_type";
 import {
   SysDateTransform,
   SysGenValueOption,
+  SysJWTDecoder,
   SysValidateForm,
   showToast,
 } from "../../../utils/global_store";
@@ -35,6 +36,8 @@ const LeaveForm = ({ readOnly = false }) => {
   const [data_employee, setData_employee] = useState(
     convert_employee.listOfemployeeModel([])
   );
+  const token = SysJWTDecoder();
+  
   const [data_leave_type, set_data_leave_type] = useState(
     convert_leave_type.listOfleave_typeModel([])
   );
@@ -52,6 +55,9 @@ const LeaveForm = ({ readOnly = false }) => {
   useEffect(() => {
     getEmployee();
     getLeaveType();
+    if (token.role == "pegawai") {
+      setData((prev) => ({ ...prev, employee_id: token.employee_id }));
+    }
 
     if (id) {
       // console.log(id);
@@ -74,6 +80,7 @@ const LeaveForm = ({ readOnly = false }) => {
   };
   const handleSubmit = async () => {
     try {
+      // console.log(data);
       SysValidateForm(required_field, data);
       const resp = await providers.insertData({
         employee_id: data.employee_id,
@@ -123,37 +130,39 @@ const LeaveForm = ({ readOnly = false }) => {
                   </div>
 
                   <div className="col-md-6">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>Karyawan:</label>
-                        <Select
-                          onChange={handleChange}
-                          value={SysGenValueOption(
-                            data_employee,
-                            data.employee_id,
-                            "id",
-                            "employee_id"
-                          )}
-                          formatOptionLabel={(val) =>
-                            val.employee_id + "-" + val.full_name
-                          }
-                          options={data_employee.map((option, index) => ({
-                            value: option.id,
-                            label: `${option.employee_id} - ${option.full_name}`,
-                            employee_id: option.employee_id,
-                            full_name: option.full_name,
-                            target: {
+                    {token.role == "pegawai" ? null : (
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>Karyawan:</label>
+                          <Select
+                            onChange={handleChange}
+                            value={SysGenValueOption(
+                              data_employee,
+                              data.employee_id,
+                              "id",
+                              "employee_id"
+                            )}
+                            formatOptionLabel={(val) =>
+                              val.employee_id + "-" + val.full_name
+                            }
+                            options={data_employee.map((option, index) => ({
                               value: option.id,
-                              name: "employee_id",
-                            },
-                          }))}
-                          placeholder="Select Employee"
-                          aria-label="Nama"
-                          required
-                          isSearchable
-                        />
+                              label: `${option.employee_id} - ${option.full_name}`,
+                              employee_id: option.employee_id,
+                              full_name: option.full_name,
+                              target: {
+                                value: option.id,
+                                name: "employee_id",
+                              },
+                            }))}
+                            placeholder="Pilih Karyawan"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Tipe Cuti:</label>

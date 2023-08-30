@@ -164,32 +164,6 @@ function Dashboard() {
                   <i className="bi bi-cash"></i> Gaji &amp; Kontrak
                 </a>
               </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link"
-                  id="kpi-tab"
-                  data-bs-toggle="tab"
-                  href="#kpi"
-                  role="tab"
-                  aria-controls="kpi"
-                  aria-selected="false"
-                >
-                  <i className="bi bi-bar-chart-fill"></i> KPI
-                </a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link"
-                  id="ppd-tab"
-                  data-bs-toggle="tab"
-                  href="#ppd"
-                  role="tab"
-                  aria-controls="ppd"
-                  aria-selected="false"
-                >
-                  <i className="bi bi-people"></i> Pengajuan Perubahan Data
-                </a>
-              </li>
             </ul>
             <div className="tab-content" id="myTabContent">
               <div

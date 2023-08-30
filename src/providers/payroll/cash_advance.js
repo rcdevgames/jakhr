@@ -1,8 +1,12 @@
 import { sys_post, sys_put, sys_get,sys_del } from "../../utils/api_client";
+import { SysJWTDecoder } from "../../utils/global_store";
 
 const uri = "payroll/";
 export const getData = async (page = 1, limit = 10, search = "") => {
-  console.log(uri + `?page=${page}&perPage=${limit}&keywords=${search}`);
+  const token = SysJWTDecoder();
+  if(token.role=='pegawai'){
+    search+= `&employee_id=${token.employee_id}`
+  }
   try {
     const response = await sys_get({
       auth: true,
@@ -16,11 +20,16 @@ export const getData = async (page = 1, limit = 10, search = "") => {
 };
 
 export const getDataMax = async (id=null) => {
+  const token = SysJWTDecoder();
+  let search ='';
+  if(token.role=='pegawai'){
+    search+= `&employee_id=${token.employee_id}`
+  }
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
-        uri + `cash_advance?page=1&perPage=99999999`+(id?`&branch_id=${id}`:''),
+        uri + `cash_advance?page=1&perPage=99999999${search}`+(id?`&branch_id=${id}`:''),
     });
     return response;
   } catch (error) {

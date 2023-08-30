@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-const PayrollPdf = (data, month,year) => {
+const PayrollPdf = (data, month, year) => {
   // console.log(month,year);
   function toCamelCase(str) {
     if (str == "value_to_add") return "Penerimaan";
@@ -142,7 +142,8 @@ const PayrollPdf = (data, month,year) => {
       return "Asuransi Lain oleh Perusahaan";
     if (str == "fix_deduction") return "Potongan Tetap";
     if (str == "not_fix_deduction") return "Potongan Tidak Tetap";
-    if (str == "pajak") return "Pph21";
+    if (str == "pajak") return "PPh21";
+    if (str == "tunjangan_pajak") return "Tunjangan PPh21";
     return str
       .replace(/_([a-z])/g, (match, char) => " " + char.toUpperCase())
       .replace(/^./, (firstChar) => firstChar.toUpperCase());
@@ -157,9 +158,9 @@ const PayrollPdf = (data, month,year) => {
       name:
         val.name +
         " " +
-        `${data.value_to_add.total_attendance} hari x ${
-          parseInt(val.amount / data.value_to_add.total_workday_per_month)
-        }`,
+        `${data.value_to_add.total_attendance} hari x ${parseInt(
+          val.amount / data.value_to_add.total_workday_per_month
+        )}`,
       total_tax: val.total_tax,
       is_final_tax: val.is_final_tax,
       amount:
@@ -170,76 +171,79 @@ const PayrollPdf = (data, month,year) => {
     tunjangan_harian.push(obj);
   });
   let payroll_data = {
-    id: data?.id??"",
-    employee_id: data?.employee_id??"",
-    employee_name: data?.employee_name??"",
-    final_salary: data?.final_salary??0,
+    id: data?.id ?? "",
+    employee_id: data?.employee_id ?? "",
+    employee_name: data?.employee_name ?? "",
+    final_salary: data?.final_salary ?? 0,
     value_to_add: {
-      total_add: data?.value_to_add?.total_add??0,
-      gaji_pokok: data?.value_to_add?.gaji_pokok??0,
+      total_add:
+        data?.value_to_add?.total_add ?? 0 ,
+      gaji_pokok: data?.value_to_add?.gaji_pokok ?? 0,
       tunjangan_tetap: {
-        total: data?.value_to_add?.tunjangan_tetap?.total??0,
-        details: data?.value_to_add?.tunjangan_tetap?.details??[],
+        total: data?.value_to_add?.tunjangan_tetap?.total ?? 0,
+        details: data?.value_to_add?.tunjangan_tetap?.details ?? [],
       },
       tunjangan_harian: {
-        total: total_tunjangan_harian??0,
-        details: tunjangan_harian??[],
+        total: total_tunjangan_harian ?? 0,
+        details: tunjangan_harian ?? [],
       },
       tunjangan_lainnya: {
-        total: data?.value_to_add?.tunjangan_lainnya?.total??0,
-        details: data?.value_to_add?.tunjangan_lainnya?.details??[],
+        total: data?.value_to_add?.tunjangan_lainnya?.total ?? 0,
+        details: data?.value_to_add?.tunjangan_lainnya?.details ?? [],
       },
       insentive_bonus: {
-        total: data?.value_to_add?.insentive_bonus?.total??0,
-        details: data?.value_to_add?.insentive_bonus?.details??[],
+        total: data?.value_to_add?.insentive_bonus?.total ?? 0,
+        details: data?.value_to_add?.insentive_bonus?.details ?? [],
       },
       tunjangan_tidak_tetap: {
-        total: data?.value_to_add?.tunjangan_tidak_tetap?.total??0,
-        details: data?.value_to_add?.tunjangan_tidak_tetap?.details??[],
+        total: data?.value_to_add?.tunjangan_tidak_tetap?.total ?? 0,
+        details: data?.value_to_add?.tunjangan_tidak_tetap?.details ?? [],
       },
-      lembur: data?.value_to_add?.lembur??0,
+      lembur: data?.value_to_add?.lembur ?? 0,
+      tunjangan_pajak: data?.value_to_reduce?.pajak ?? 0,
     },
     value_to_reduce: {
-      total_reduce: data?.value_to_reduce?.total_reduce??0,
-      late_penalty: data?.value_to_reduce?.late_penalty??0,
+      total_reduce: (data?.value_to_reduce?.total_reduce ?? 0),
+      late_penalty: data?.value_to_reduce?.late_penalty ?? 0,
       kasbon: {
-        total: data?.value_to_reduce?.kasbon.total??0,
-        details: data?.value_to_reduce?.kasbon.details??[],
+        total: data?.value_to_reduce?.kasbon.total ?? 0,
+        details: data?.value_to_reduce?.kasbon.details ?? [],
       },
       asuransi_karyawan: {
-        jht_by_employee: data?.value_to_reduce?.asuransi?.jht_by_employee??0,
+        jht_by_employee: data?.value_to_reduce?.asuransi?.jht_by_employee ?? 0,
         kesehatan_by_employee:
-          data?.value_to_reduce?.asuransi?.kesehatan_by_employee??0,
-        jp_by_employee: data?.value_to_reduce?.asuransi?.jp_by_employee??0,
+          data?.value_to_reduce?.asuransi?.kesehatan_by_employee ?? 0,
+        jp_by_employee: data?.value_to_reduce?.asuransi?.jp_by_employee ?? 0,
         other_insurance_by_employee:
-          data?.value_to_reduce?.asuransi?.other_insurance_by_employee??0,
+          data?.value_to_reduce?.asuransi?.other_insurance_by_employee ?? 0,
       },
       fix_deduction: {
-        total: data?.value_to_reduce?.fix_deduction?.total??0,
-        details: data?.value_to_reduce?.fix_deduction?.details??[],
+        total: data?.value_to_reduce?.fix_deduction?.total ?? 0,
+        details: data?.value_to_reduce?.fix_deduction?.details ?? [],
       },
       not_fix_deduction: {
-        total: data?.value_to_reduce?.not_fix_deduction?.total??0,
-        details: data?.value_to_reduce?.not_fix_deduction?.details??[],
+        total: data?.value_to_reduce?.not_fix_deduction?.total ?? 0,
+        details: data?.value_to_reduce?.not_fix_deduction?.details ?? [],
       },
-      pajak: data?.value_to_reduce?.pajak??0,
+      pajak: data?.value_to_reduce?.pajak ?? 0,
     },
 
     asuransi_dibayarkan_perusahaan: {
-      jht_by_company: data?.value_to_reduce?.asuransi?.jht_by_company??0,
-      kesehatan_by_company: data?.value_to_reduce?.asuransi?.kesehatan_by_company??0,
-      jp_by_company: data?.value_to_reduce?.asuransi?.jp_by_company??0,
-      jkm_by_company: data?.value_to_reduce?.asuransi?.jkm_by_company??0,
-      jkk_by_company: data?.value_to_reduce?.asuransi?.jkk_by_company??0,
+      jht_by_company: data?.value_to_reduce?.asuransi?.jht_by_company ?? 0,
+      kesehatan_by_company:
+        data?.value_to_reduce?.asuransi?.kesehatan_by_company ?? 0,
+      jp_by_company: data?.value_to_reduce?.asuransi?.jp_by_company ?? 0,
+      jkm_by_company: data?.value_to_reduce?.asuransi?.jkm_by_company ?? 0,
+      jkk_by_company: data?.value_to_reduce?.asuransi?.jkk_by_company ?? 0,
       other_insurance_by_company:
-        data?.value_to_reduce?.asuransi?.other_insurance_by_company??0,
+        data?.value_to_reduce?.asuransi?.other_insurance_by_company ?? 0,
     },
     other_informations: {
-      bank_name: data?.other_informations?.bank_name??"",
-      bank_account: data?.other_informations?.bank_account??"",
-      pajak_perusahaan: data?.value_to_add?.tax_paid_by_company??0,
-      total_attendance: data?.value_to_add?.total_attendance??0,
-      total_workday_per_month: data?.value_to_add?.total_workday_per_month??0,
+      bank_name: data?.other_informations?.bank_name ?? "",
+      bank_account: data?.other_informations?.bank_account ?? "",
+      pajak_perusahaan: data?.value_to_add?.tax_paid_by_company ?? 0,
+      total_attendance: data?.value_to_add?.total_attendance ?? 0,
+      total_workday_per_month: data?.value_to_add?.total_workday_per_month ?? 0,
     },
   };
   const user = SysJWTDecoder();
@@ -259,8 +263,7 @@ const PayrollPdf = (data, month,year) => {
           <View style={[styles.border, { flexDirection: "row-reverse" }]}>
             <Text style={styles.textEmployee}>
               {payroll_data.employee_id} - {payroll_data.employee_name} -{" "}
-              {SysMonthTransform(month, "long", "in")}{" "}
-              {year}
+              {SysMonthTransform(month, "long", "in")} {year}
             </Text>
           </View>
           <View style={styles.container}>

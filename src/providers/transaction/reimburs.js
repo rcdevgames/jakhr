@@ -1,4 +1,5 @@
 import { sys_del, sys_get, sys_post, sys_put } from "../../utils/api_client";
+import { SysJWTDecoder } from "../../utils/global_store";
 
 const uri = "payroll/reimbursement";
 export const getData = async (
@@ -8,6 +9,10 @@ export const getData = async (
   startDate,
   endDate,sort=""
 ) => {
+  const token = SysJWTDecoder();
+  if(token.role=='pegawai'){
+    search+= `&employee_id=${token.employee_id}`
+  }
   try {
     const response = await sys_get({
       auth: true,

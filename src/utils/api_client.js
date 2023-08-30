@@ -89,7 +89,7 @@ export const sys_get_report = async ({ auth = false, endpoint = "" }) => {
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";
     callback.data =  data.datas??data.data??[];
-    callback.totalData= data.totalPages
+    callback.totalData= data?.totalPages?? data?.totalPage??1
     if (response.status != 201 && response.status != 200) {
       callback.message=data?.error??data?.message??"";
       throw callback;
@@ -182,7 +182,7 @@ export const sys_put = async ({
     const data = await response.json();
     // console.log(API_URL + endpoint);
     // console.log(body);
-    // console.log(data);
+    console.log(data);
     callback.code = response.status;
     callback.success = response.status == 200 ? true : false;
     callback.message = data?.message ?? "ERROR!";

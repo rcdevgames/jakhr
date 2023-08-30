@@ -169,7 +169,7 @@ const DataTablePaginationReport = ({
   };
   const FilterComponent = () => {
     return (
-      <div className="d-flex flex-row" style={{ alignItems: "center" }}>
+      <div className="row" style={{ alignItems: "center" }}>
         {filters.map((val) => {
           let data = [
             {
@@ -186,7 +186,7 @@ const DataTablePaginationReport = ({
             });
           }
           return (
-            <div className="form-group" style={{ marginRight: 10 }}>
+            <div className="form-group col-auto mr-2">
               <label>{val?.title ?? ""}</label>
               <Select
                 styles={{
@@ -213,7 +213,7 @@ const DataTablePaginationReport = ({
         })}
 
         {withPeriode && (
-          <div className="form-group " style={{ marginRight: 10 }}>
+          <div className="form-group col-2 mr-2">
             <label>Periode Tahun:</label>{" "}
             <select
               className="form-select"
@@ -233,7 +233,7 @@ const DataTablePaginationReport = ({
           </div>
         )}
         {withPeriode && (
-          <div className="form-group " style={{ marginRight: 10 }}>
+          <div className="form-group col-2 mr-2">
             <label>Periode Bulan</label>{" "}
             <select
               className="form-select"

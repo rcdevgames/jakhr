@@ -4,6 +4,7 @@ import {TimePicker} from "antd"
 import { SysDateTransform } from '../utils/global_store';
 function TimeInput(props) {
     const { value, onChange, placeholder,name } = props;
+    const disabled = props?.disabled??false;
     const handleChange =(val,str)=>{
       onChange(str)
     }
@@ -15,6 +16,7 @@ function TimeInput(props) {
         name={name??'input_time'}
         className='form-control'
         format="HH:mm:ss"
+        disabled={disabled}
         // minuteStep={1}
         
         placeholder={placeholder}
