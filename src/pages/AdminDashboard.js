@@ -185,19 +185,6 @@ const AdminDashboard = ({ label, subHeading, children }) => {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-
-            <div className="mx-3 form-group position-relative mb-0 mt-0 has-icon-left">
-              <input
-                type="text"
-                className="form-control form-control-sm form-control-lg"
-                style={{ background: "#F5F5F5", borderRadius: "6px" }}
-                placeholder="Cari.."
-              />
-              <div className="form-control-icon">
-                <MagnifyingGlassIcon width="30" height="30" />
-              </div>
-            </div>
-
             <div
               className="collapse navbar-collapse"
               id="navbarSupportedContent"

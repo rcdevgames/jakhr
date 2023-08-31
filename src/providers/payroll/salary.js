@@ -108,6 +108,7 @@ export const getListSalary = async (page = 1,limit=10,search="",sort="",filter="
       auth: true,
       endpoint:`payroll?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}&${filter}`,
     });
+    // console.log(response);
     return response;
   } catch (error) {
     throw error;

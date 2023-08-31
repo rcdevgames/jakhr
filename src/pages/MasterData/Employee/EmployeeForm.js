@@ -166,6 +166,7 @@ const EmployeeForm = ({ readOnly = false }) => {
         is_payroll: true,
         user: {
           password: password,
+          is_new :true
         },
         attend_out_of_range: data.attend_out_of_range,
         photo: data.photo ?? "empty",

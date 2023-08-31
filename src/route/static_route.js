@@ -1,5 +1,6 @@
 export const routes_name = {
   DASHBOARD: "/dashboard",
+  CHANGE_PASSWORD: "/change_password",
   //--MASTER DATA------------------------------------------------------
   M_LEAVE_MASS_CREATE: "/master-data/leave_mass/create",
   M_LEAVE_MASS_DETAIL: "/master-data/leave_mass/detail/",
@@ -25,9 +26,9 @@ export const routes_name = {
   M_SCHEDULE_SHOW: "/master-data/schedule/show/",
   M_ROLE_MENU_DETAIL: "/master-data/role_menu/detail/",
   M_ROLE_MENU_SHOW: "/master-data/role_menu/show/",
+  M_EMPLOYEE_CREATE_MULTIPLE: "/master-data/employee/multiple/",
   //--MASTER PAYROLL------------------------------------------------------
   
-  M_EMPLOYEE_CREATE_MULTIPLE: "/master-payroll/employee/multiple/",
   M_SALARY_COMPONENT_DETAIL: "/master-payroll/salary_component/detail/",
   M_SALARY_COMPONENT_SHOW: "/master-payroll/salary_component/show/",
   M_SALARY_COMPONENT_MULTIPLE: "/master-payroll/salary_component/multiple",
@@ -81,6 +82,7 @@ export const routes_name = {
   TRANSAC_REIMBURST_SHOW:"/transaction/reimburst/show/",
   TRANSAC_OVERTIME_CREATE:"/transaction/overtime/create",
   TRANSAC_ATTENDANCE_DETAIL:"/transaction/attendance/detail/",
+  TRANSAC_ATTENDANCE_CREATE:"/transaction/attendance/create",
   //-----REPORT
   
   REPORT_CASH_ADVANCE_DETAIL:"/report/cash/detail/",

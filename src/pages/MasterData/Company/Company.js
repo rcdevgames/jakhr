@@ -71,13 +71,13 @@ const Company = () => {
             >
             <i className="bi bi-file-text"></i>
           </a>
-          <a
+          {/* <a
             onClick={() => navigate(`${routes_name.M_COMPANY_DETAIL}${val}`)}
             className="btn icon btn-warning btn-sm"
             style={{ marginRight: 10 }}
           >
             <i className="bi bi-pencil"></i>
-          </a>
+          </a> */}
           {/* <a
             onClick={() => openModal(record)}
             className="btn icon btn-danger btn-sm"
@@ -89,12 +89,12 @@ const Company = () => {
     },
   ];
   const action = [
-    <Link
-      to={routes_name.M_COMPANY_CREATE}
-      className="btn icon icon-left btn-primary"
-    >
-      <i className="bi bi-plus" /> {sys_labels.action.ADD}
-    </Link>,
+    // <Link
+    //   to={routes_name.M_COMPANY_CREATE}
+    //   className="btn icon icon-left btn-primary"
+    // >
+    //   <i className="bi bi-plus" /> {sys_labels.action.ADD}
+    // </Link>,
   ];
 
   const handleDelete = async () => {

@@ -6,7 +6,7 @@ import { sys_labels } from "../../../utils/constants";
 import ActionModal from "../../../components/ActionModal";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
 import { routes_name } from "../../../route/static_route";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Attendance = () => {
   const navigate = useNavigate();
   const [message, set_message] = useState("");
@@ -101,7 +101,14 @@ const Attendance = () => {
       ),
     },
   ];
-  const action = [];
+  const action = [
+    <Link
+      to={routes_name.TRANSAC_ATTENDANCE_CREATE}
+      className="btn icon icon-left btn-primary"
+    >
+      <i className="bi bi-plus" /> Absen Masuk
+    </Link>,
+  ];
   const handleDelete = async () => {
     set_modal(false);
     try {

@@ -11,7 +11,7 @@ import * as XLSX from "xlsx";
 import * as providers from "../../../providers/master/employee";
 import { SysReadData, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -39,7 +39,7 @@ const EditableCell = ({
   const religion = SysReadData(sys_path_data.religion_data);
   const marital_status = SysReadData(sys_path_data.marital_status_data);
   const blood_type = SysReadData(sys_path_data.blood_type_data);
-
+  const ptkp = SysReadData(sys_path_data.ptkp);
   const form = useContext(EditableContext);
   useEffect(() => {
     if (editing) {
@@ -123,6 +123,34 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
+      ) : dataIndex == "ptkp" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            // style={{ width: "100%" }}
+            style={{ minWidth: "150px" }}
+          >
+            {ptkp.map((val) => (
+              <option style={{ minWidth: "150px" }} value={val.value}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
       ) : dataIndex == "marital_status" ? (
         <Form.Item
           style={{
@@ -192,15 +220,23 @@ const EditableCell = ({
             },
           ]}
         >
-          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+          <Input
+            ref={inputRef}
+            onPressEnter={save}
+            style={{
+              minWidth: "150px",
+              height: "40px",
+            }}
+            onBlur={save}
+          />
         </Form.Item>
       )
     ) : (
       <div
         className="editable-cell-value-wrap"
         style={{
-          paddingRight: 24,
           minWidth: "150px",
+          height: "40px",
         }}
         onClick={toggleEdit}
       >
@@ -220,22 +256,22 @@ const EmployeeMultipleForm = () => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
-  const{showLoading,hideLoading}= useLoadingContext()
+  const { showLoading, hideLoading } = useLoadingContext();
   const defaultColumns = [
     {
       title: "Nama Lengkap",
       dataIndex: "full_name",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
     {
       title: "NIP",
-      width: "30%",
+      width: "40%",
       dataIndex: "employee_id",
       editable: true,
     },
     {
-      width: "30%",
+      width: "40%",
       title: "NIK",
       dataIndex: "nik",
       editable: true,
@@ -244,12 +280,12 @@ const EmployeeMultipleForm = () => {
     {
       title: "NPWP",
       dataIndex: "npwp",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
 
     {
-      width: "30%",
+      width: "40%",
       title: "Agama",
       dataIndex: "religion",
       editable: true,
@@ -258,25 +294,25 @@ const EmployeeMultipleForm = () => {
     {
       title: "Tempat Lahir",
       dataIndex: "place_of_birth",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
 
     {
       title: "Nomor Handphone",
       dataIndex: "phone_number",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
     {
       title: "Jenis Kelamin",
-      width: "30%",
+      width: "40%",
       dataIndex: "gender",
       editable: true,
     },
     {
       title: "Status Pernikahan",
-      width: "30%",
+      width: "40%",
       dataIndex: "marital_status",
       editable: true,
     },
@@ -284,20 +320,26 @@ const EmployeeMultipleForm = () => {
     {
       title: "Golongan Darah",
       dataIndex: "blood_type",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
 
     {
+      title: "PTKP",
+      dataIndex: "ptkp",
+      width: "40%",
+      editable: true,
+    },
+    {
       title: "Email",
       dataIndex: "email",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
 
     {
       title: "Password Akun",
-      width: "30%",
+      width: "40%",
       dataIndex: "account_password",
       editable: true,
     },
@@ -305,14 +347,14 @@ const EmployeeMultipleForm = () => {
     {
       title: "Alamat",
       dataIndex: "address",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
 
     {
       title: "Alamat KTP",
       dataIndex: "citizen_address",
-      width: "30%",
+      width: "40%",
       editable: true,
     },
     {
@@ -399,6 +441,7 @@ const EmployeeMultipleForm = () => {
       full_name: data["Nama Lengkap"] ?? "",
       employee_id: data["NIP"] ?? "",
       nik: data["NIK"] ?? "",
+      ptkp: data["PTKP"] ?? "",
       npwp: data["NPWP"] ?? "",
       religion: data["Agama"] ?? "Islam",
       place_of_birth: data["Tempat Lahir"] ?? "",
@@ -433,6 +476,7 @@ const EmployeeMultipleForm = () => {
           pob: element.pob,
           dob: null,
           blood_type: element.blood_type,
+          ptkp: element.ptkp,
           id_type: "KTP",
           id_number: element.nik.toString(),
           citizen_address: element.citizien_address,
@@ -453,6 +497,7 @@ const EmployeeMultipleForm = () => {
           emergency_contact_phone_number: null,
           is_payroll: true,
           user: {
+            is_new: true,
             password: element.account_password,
           },
           photo: sys_iamges.EMPLOYEE_DEFAULT,
@@ -510,6 +555,7 @@ const EmployeeMultipleForm = () => {
             <Table
               style={{ overflowX: "scroll" }}
               components={components}
+              className="table-responsive"
               rowClassName={() => "editable-row"}
               bordered
               pagination={false}

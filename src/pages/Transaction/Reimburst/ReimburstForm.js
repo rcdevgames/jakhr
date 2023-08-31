@@ -6,21 +6,27 @@ import convert from "../../../model/reimburstModel";
 import convert_employee from "../../../model/employeeModel";
 import * as providers from "../../../providers/transaction/reimburs";
 import * as providers_employee from "../../../providers/master/employee";
-import { SysDateTransform, showToast } from "../../../utils/global_store";
+import {
+  SysDateTransform,
+  SysJWTDecoder,
+  showToast,
+} from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import { disablePaste, onlyNumber } from "../../../utils/validation";
 import { Switch } from "antd";
 import UploadFile from "../../../components/UploadFile";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
-const ReimburstForm = ({readOnly=false}) => {
+const ReimburstForm = ({ readOnly = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOfreimburstModel({}));
   const [data_employee, setData_employee] = useState(
     convert_employee.listOfemployeeModel([])
   );
-  const {showLoading,hideLoading}=useLoadingContext();
+
+  const token = SysJWTDecoder();
+  const { showLoading, hideLoading } = useLoadingContext();
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.REIMBURS
   }`;
@@ -37,6 +43,9 @@ const ReimburstForm = ({readOnly=false}) => {
   };
   useEffect(() => {
     getEmployee();
+    if (token.role == "pegawai") {
+      setData((prev) => ({ ...prev, employee_id: token.employee_id }));
+    }
 
     if (id) {
       handleDetail(id);
@@ -139,29 +148,31 @@ const ReimburstForm = ({readOnly=false}) => {
                     />
                   </div>
                   <div className="col-md-6">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>Karyawan:</label>
-                        <select
-                          className="form-select"
-                          id="employee_id"
-                          name="employee_id"
-                          value={data.employee_id}
+                    {token.role == "pegawai" ? null : (
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>Karyawan:</label>
+                          <select
+                            className="form-select"
+                            id="employee_id"
+                            name="employee_id"
+                            value={data.employee_id}
                             disabled={readOnly}
                             onChange={handleChange}
-                          aria-label="Nama"
-                          required
-                        >
-                          <option value={null}>Pilih Karyawan</option>
+                            aria-label="Nama"
+                            required
+                          >
+                            <option value={null}>Pilih Karyawan</option>
 
-                          {data_employee.map((option, index) => (
-                            <option key={index} value={option.id}>
-                              {option.employee_id} - {option.full_name}
-                            </option>
-                          ))}
-                        </select>
+                            {data_employee.map((option, index) => (
+                              <option key={index} value={option.id}>
+                                {option.employee_id} - {option.full_name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="col-md-12">
                       <div className="form-group">
@@ -169,8 +180,8 @@ const ReimburstForm = ({readOnly=false}) => {
                         <DatePicker
                           name="date"
                           onChange={handleDateStartChange}
-                            disabled={readOnly}
-                            value={data.date}
+                          disabled={readOnly}
+                          value={data.date}
                           placeholder={"Tanggal"}
                         />
                       </div>
@@ -181,8 +192,8 @@ const ReimburstForm = ({readOnly=false}) => {
                         <label>Nominal:</label>
                         <input
                           className="form-control"
-                            disabled={readOnly}
-                            name="amount"
+                          disabled={readOnly}
+                          name="amount"
                           onKeyDown={onlyNumber}
                           onPaste={disablePaste}
                           value={data.amount}
@@ -196,8 +207,8 @@ const ReimburstForm = ({readOnly=false}) => {
                         <label>Deskripsi:</label>
                         <input
                           className="form-control"
-                            disabled={readOnly}
-                            name="description"
+                          disabled={readOnly}
+                          name="description"
                           value={data.description}
                           onChange={handleChange}
                         />
@@ -205,14 +216,14 @@ const ReimburstForm = ({readOnly=false}) => {
                     </div>
                   </div>
                 </div>
-                {readOnly?null:
-                <button
-                onClick={() => (id ? handleUpdate() : handleSubmit())}
-                className="btn btn-primary"
-                >
-                  {id ? "Update" : "Submit"}
-                </button>
-                }
+                {readOnly ? null : (
+                  <button
+                    onClick={() => (id ? handleUpdate() : handleSubmit())}
+                    className="btn btn-primary"
+                  >
+                    {id ? "Update" : "Submit"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

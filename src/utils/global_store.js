@@ -263,12 +263,14 @@ export function SysJWTDecoder(token = null) {
     my_jwt = jwt_decode(getToken());
   }
 
-  // console.log(my_jwt);
+
+  console.log(my_jwt);
   return {
     id: my_jwt?.id ?? "",
     email: my_jwt?.email ?? "",
     employee_id: my_jwt?.employee_id ?? "",
     full_name: my_jwt?.full_name ?? "",
+    // role:"pegawai",
     role: my_jwt?.role ?? "",
     company: my_jwt?.company ?? "",
     branchId: my_jwt?.branchId ?? "",
@@ -290,6 +292,7 @@ export function SystoCamelCase(text = "") {
 export function SysValidateForm(required_field = [], data = []) {
   let message = "field ";
   let is_valid = true;
+  let msg_error = [];
   required_field.map((val, index) => {
     const alises = val.split(" as ");
     const named = alises.length > 1 ? alises[1] : alises[0];
@@ -298,13 +301,8 @@ export function SysValidateForm(required_field = [], data = []) {
       data[alises[0]] == "" ||
       data[alises[0]] == undefined
     ) {
-      if (index == required_field.length - 1 || required_field.length == 0) {
-        message += SystoCamelCase(named) + " ";
-      } else {
-        message += SystoCamelCase(named) + ", ";
-      }
+      msg_error.push(SystoCamelCase(named))
       document.getElementsByName(alises[0]).forEach((val) => {
-        // console.log(alises[0], val.classList);
         val.classList.add("validate-error");
       });
       is_valid = false;
@@ -314,8 +312,8 @@ export function SysValidateForm(required_field = [], data = []) {
       });
     }
   });
-  message += "is required!";
-  console.log({ is_valid, message });
+  message += msg_error.join(",");
+  message += " is required!";
   if (!is_valid) throw { is_valid, message };
   return {
     is_valid,
@@ -439,18 +437,18 @@ export function SysGenMenu() {
       },
     ],
   };
-  // const payroll = {
-  //   icon: "CurrencyDollarIcon",
-  //   iconType: "outline",
-  //   label: sys_labels.menus.PAYROLL,
-  //   dir: "/payroll",
-  //   subMenu: [
-  //     {
-  //       label: sys_labels.menus.SALARY,
-  //       link: "/payroll/salary",
-  //     },
-  //   ],
-  // };
+  const payroll = {
+    icon: "CurrencyDollarIcon",
+    iconType: "outline",
+    label: sys_labels.menus.PAYROLL,
+    dir: "/payroll",
+    subMenu: [
+      {
+        label: sys_labels.menus.SALARY,
+        link: "/payroll/salary",
+      },
+    ],
+  };
   const transaction = {
     icon: "TableIcon",
     iconType: "solid",
@@ -543,6 +541,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.BPJS,
         link: "/tool/bpjs",
       },
+      {
+        label: sys_labels.menus.COMPANY,
+        link: "/tool/company",
+      },
     ],
   };
   return {
@@ -550,7 +552,7 @@ export function SysGenMenu() {
     "/master-data": master_data,
     "/master-organization": master_organization,
     "/master-payroll": master_payroll,
-    // "/payroll": payroll,
+    "/payroll": payroll,
     "/transaction": transaction,
     "/report": report,
     "/tool": tool,
@@ -559,7 +561,7 @@ export function SysGenMenu() {
       master_data,
       master_organization,
       master_payroll,
-      // payroll,
+      payroll,
       transaction,
       report,
       tool,
@@ -654,14 +656,14 @@ export function SysGenRouting() {
       route: "/master-payroll/salary_component",
       name: "Komponen Gaji",
     },
-    // {
-    //   route: "/payroll",
-    //   name: "Payroll",
-    // },
-    // {
-    //   route: "/payroll/salary",
-    //   name: "Gaji",
-    // },
+    {
+      route: "/payroll",
+      name: "Payroll",
+    },
+    {
+      route: "/payroll/salary",
+      name: "Gaji",
+    },
     {
       route: "/transaction",
       name: "Transaksi",
@@ -743,6 +745,10 @@ export function SysGenRouting() {
     {
       route: "/tool/bpjs",
       name: "BPJS",
+    },
+    {
+      route: "/tool/company",
+      name: "Perusahaan",
     },
   ];
 }
