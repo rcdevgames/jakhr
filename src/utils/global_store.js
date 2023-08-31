@@ -541,6 +541,10 @@ export function SysGenMenu() {
         label: sys_labels.menus.BPJS,
         link: "/tool/bpjs",
       },
+      {
+        label: sys_labels.menus.COMPANY,
+        link: "/tool/company",
+      },
     ],
   };
   return {
@@ -742,6 +746,10 @@ export function SysGenRouting() {
       route: "/tool/bpjs",
       name: "BPJS",
     },
+    {
+      route: "/tool/company",
+      name: "Perusahaan",
+    },
   ];
 }
 export function SysGenMenuByRole(role_menu = []) {
@@ -771,7 +779,7 @@ export function SysGenMenuByRole(role_menu = []) {
       menu_route.push(relate_menu);
     }
   });
-  return [my_menus["/dasboard"], ...menu_route];
+  // return [my_menus["/dasboard"], ...menu_route];
 
   // "/dasboard": dashboard,
   // "/master-data": master_data,
@@ -781,14 +789,14 @@ export function SysGenMenuByRole(role_menu = []) {
   // "/transaction": transaction,
   // "/report": report,
   // "/tool": tool,
-  // return [
-  //   my_menus["/dasboard"],
-  //   my_menus["/master-data"],
-  //   my_menus["/master-organization"],
-  //   my_menus["/master-payroll"],
-  //   my_menus["/payroll"],
-  //   my_menus["/transaction"],
-  //   my_menus["/report"],
-  //   my_menus["/tool"],
-  // ];
+  return [
+    my_menus["/dasboard"],
+    my_menus["/master-data"],
+    my_menus["/master-organization"],
+    my_menus["/master-payroll"],
+    my_menus["/payroll"],
+    my_menus["/transaction"],
+    my_menus["/report"],
+    my_menus["/tool"],
+  ];
 }

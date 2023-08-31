@@ -112,6 +112,7 @@ import {
 import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
 import ReportOvertimeDetail from "../pages/Report/Overtime/OvertimeDetail";
 import Approval from "../pages/Transaction/Approval/Approval";
+import { ConfigCompanyForm } from "../pages/Config/Company";
 
 const Router = () => (
   <BrowserRouter>
@@ -126,7 +127,7 @@ const Router = () => (
       <Route path="/authentication" element={<Authentication />} />
       {/* <Route path="/change_password" element={<ChangePassword />} /> */}
       <Route path="/unauthorized" element={<Unauthorized />} />
-      {/* <Route path="/login" element={<Login />} /> */}
+      <Route path="/login" element={<Login />} />
       {/* <Route path="*" element={<NotFound />} /> */}
       <Route element={<PrivateRoute />}>
         <Route element={<AdminDashboardLayout />}>
@@ -427,6 +428,9 @@ const Router = () => (
           <Route path="tool">
             <Route path="bpjs">
               <Route path="" element={<BpjsForm />} />
+            </Route>
+            <Route path="company">
+              <Route path="" element={<ConfigCompanyForm />} />
             </Route>
             {/* <Route path="late">
               <Route path="" element={<LateForm />} />
