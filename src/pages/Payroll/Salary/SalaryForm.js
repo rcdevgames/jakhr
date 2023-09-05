@@ -91,7 +91,7 @@ const SalaryForm = () => {
     try {
       const date = new Date();
       let payroll = [];
-      if(employee_data.length <= 0){
+      if(!employee_data){
         throw {message:"Belum ada karyawan yang mempunyai komponen gaji!"}
       }
       employee_data.map((val_employee) => {

@@ -135,7 +135,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
               "name"
             )}
             formatOptionLabel={(val) => `${val.label}`}
-            options={data_component_ex.map((option, index) => ({
+            options={data_component_ex && data_component_ex.map((option, index) => ({
               value: option.id,
               label: `${option.name}`,
               target: {
@@ -352,7 +352,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
               "name"
             )}
             formatOptionLabel={(val) => `${val.label}`}
-            options={data_component.map((option, index) => ({
+            options={data_component && data_component.map((option, index) => ({
               value: option.id,
               label: `${option.name}`,
               target: {
@@ -569,7 +569,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
               "name"
             )}
             formatOptionLabel={(val) => `${val.label}`}
-            options={data_component_deduction.map((option, index) => ({
+            options={data_component_deduction && data_component_deduction.map((option, index) => ({
               value: option.id,
               label: `${option.name}`,
               target: {
@@ -802,7 +802,7 @@ const SalaryComponentForm = ({readOnly=false}) => {
               "name"
             )}
             formatOptionLabel={(val) => `${val.label}`}
-            options={data_component_daily.map((option, index) => ({
+            options={data_allowance_daily && data_component_daily.map((option, index) => ({
               value: option.id,
               label: `${option.name}`,
               target: {
