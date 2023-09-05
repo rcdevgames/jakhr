@@ -91,6 +91,9 @@ const SalaryForm = () => {
     try {
       const date = new Date();
       let payroll = [];
+      if(employee_data.length <= 0){
+        throw {message:"Belum ada karyawan yang mempunyai komponen gaji!"}
+      }
       employee_data.map((val_employee) => {
         let emp_allowance = [];
         let emp_deduction = [];
