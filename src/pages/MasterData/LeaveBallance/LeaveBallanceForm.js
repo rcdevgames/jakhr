@@ -32,10 +32,10 @@ const LeaveBallanceForm = () => {
   const [selected_employee, set_selected_employee] = useState([]);
   let year_data = [];
   const date = new Date();
-  
+
   for (
-    let index = date.getFullYear()-1;
-    index > date.getFullYear() -2;
+    let index = date.getFullYear() - 1;
+    index > date.getFullYear() - 2;
     index--
   ) {
     year_data.push(index);
@@ -84,22 +84,26 @@ const LeaveBallanceForm = () => {
 
   const handleSubmit = async () => {
     showLoading();
-    if (selected_employee.length <= 0) {
-      throw{ message: "No employee selected!" }
-    } 
-    SysValidateForm(required_field, data);
-    for (let index = 0; index < selected_employee.length; index++) {
-      try {
-        const resp = await providers.insertData({
-          leave_type_id: data.leave_type_id,
-          employee_id: selected_employee[index].value,
-          periode: data.periode,
-          balance: data.balance,
-        });
-      } catch (error) {}
+    try {
+      if (selected_employee.length <= 0) {
+        throw { message: "No employee selected!" };
+      }
+      SysValidateForm(required_field, data);
+      for (let index = 0; index < selected_employee.length; index++) {
+        try {
+          const resp = await providers.insertData({
+            leave_type_id: data.leave_type_id,
+            employee_id: selected_employee[index].value,
+            periode: data.periode,
+            balance: data.balance,
+          });
+        } catch (error) {}
+      }
+      showToast({ message: "Leave ballance succesfully add!" });
+      navigate(-1);
+    } catch (error) {
+      showToast({message:error.message})
     }
-    showToast({ message: "Leave ballance succesfully add!" });
-    navigate(-1);
     hideLoading();
   };
 

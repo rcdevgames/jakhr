@@ -39,6 +39,8 @@ const modelOfDataemployeeModel = {
 	job_position_id: '',
 	employee_status_id: '',
 	ptkp: '',
+	direktorat_id: '',
+	department_id: '',
 	create_user: false,
 	emergency_contact_name: null,
 	emergency_contact_relationship: null,
@@ -59,7 +61,9 @@ function listOfemployeeModel(data = []) {
 				id: val.id ?? null,
 				photo: val.photo ?? null,
 				phone_number: val.phone_number ?? null,
-				email: val.email ?? null,
+				email : val.email ?? null,
+				direktorat_id : val.direktorat_id ?? null,
+				department_id : val.department_id ?? null,
 				gender: val.gender ?? null,
 				ptkp: val.ptkp ?? null,
 				marital_status: val.marital_status ?? null,
@@ -108,6 +112,8 @@ function objectOfemployeeModel(data = null) {
 		objectData.photo = data.photo ?? null;
 		objectData.phone_number = data.phone_number ?? null;
 		objectData.email = data.email ?? null;
+		objectData.direktorat_id = data.direktorat_id ?? null;
+		objectData.department_id = data.department_id ?? null;
 		objectData.gender = data.gender ?? null;
 		objectData.ptkp = data.ptkp ?? null;
 		objectData.marital_status = data.marital_status ?? null;

@@ -15,6 +15,8 @@ import * as providers_organization from "../../../providers/master/organization"
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
 import * as providers_employee_status from "../../../providers/master/employee_statuses";
+import * as provider_direktorat from "../../../providers/master/direktorat";
+import * as providers_department from "../../../providers/master/department";
 import {
   SysDateTransform,
   SysGenValueOption,
@@ -58,6 +60,9 @@ const EmployeeForm = ({ readOnly = false }) => {
   const [organization, set_organization] = useState(
     convert_organization.listOforganizationModel([])
   );
+
+  const [direktorat, set_direktorat] = useState([]);
+  const [department, set_department] = useState([]);
   const [job_level, set_job_level] = useState(
     convert_job_level.listOfjob_levelModel([])
   );
@@ -70,9 +75,21 @@ const EmployeeForm = ({ readOnly = false }) => {
     sys_labels.menus.EMPLOYEE
   }`;
   const handleChange = (event) => {
-    console.log(event.target);
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const handleChangeOrganization = (event) => {
+    const { name, value } = event.target;
+    setData((prevState) => ({ ...prevState, [name]: value }));
+    if (name == "direktorat_id") {
+      getOrganization(value);
+    }
+    if (name == "organization_id") {
+      getDepartment(data.direktorat_id, value);
+    }
+    if (name == "department_id") {
+      getJobPosition(data.direktorat_id, data.organization_id, value);
+    }
   };
 
   const handleChangeRole = (event) => {
@@ -93,10 +110,9 @@ const EmployeeForm = ({ readOnly = false }) => {
   };
   useEffect(() => {
     getEmployeeStatus();
-    getOrganization();
+    getDirektorat();
     getJobLevel();
     getRole();
-    getJobPosition();
     if (id) {
       handleDetail(id);
     }
@@ -112,6 +128,9 @@ const EmployeeForm = ({ readOnly = false }) => {
         ...resp.data,
         photo: resp.data.photo ? { source: resp.data.photo } : null,
       });
+      getDepartment(data.direktorat_id,data.organization_id);
+      getOrganization(data.direktorat_id);
+      getJobPosition(data.direktorat_id,data.organization_id,data.department_id);
     } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: error });
@@ -166,7 +185,7 @@ const EmployeeForm = ({ readOnly = false }) => {
         is_payroll: true,
         user: {
           password: password,
-          is_new :true
+          is_new: true,
         },
         attend_out_of_range: data.attend_out_of_range,
         photo: data.photo ?? "empty",
@@ -277,13 +296,31 @@ const EmployeeForm = ({ readOnly = false }) => {
       // showToast({ message: error.message, type: "error" });
     }
   };
-  const getOrganization = async () => {
+  const getOrganization = async (id) => {
     try {
-      const resp = await providers_organization.getDataMax(data.branch_id);
+      const resp = await providers_organization.getDataMax(
+        `&direktorat_id=${id ?? ""}`
+      );
+      // const resp = await providers_organization.getDataMax(data.branch_id);
       set_organization(resp.data.data);
     } catch (error) {
       // showToast({ message: error.message, type: "error" });
     }
+  };
+
+  const getDirektorat = async () => {
+    try {
+      const resp = await provider_direktorat.getDataMax();
+      set_direktorat(resp.data.data);
+    } catch (error) {}
+  };
+  const getDepartment = async (id = null, id_or = null) => {
+    try {
+      const resp = await providers_department.getDataMax(
+        `&direktorat_id=${id ?? ""}&&organization_id=${id_or ?? ""}`
+      );
+      set_department(resp.data.data);
+    } catch (error) {}
   };
   const getJobLevel = async () => {
     try {
@@ -293,10 +330,18 @@ const EmployeeForm = ({ readOnly = false }) => {
       // showToast({ message: error.message, type: "error" });
     }
   };
-  const getJobPosition = async () => {
+  const getJobPosition = async (
+    id_direktorat = null,
+    id_organisasi = null,
+    id_department = null
+  ) => {
     showLoading();
     try {
-      const resp = await providers_job_position.getDataMax(data.job_level_id);
+      const resp = await providers_job_position.getDataMax(
+        `&direktorat_id=${id_direktorat ?? ""}&organization_id=${
+          id_organisasi ?? ""
+        }&department_id=${id_department ?? ""}`
+      );
       set_job_position(resp.data.data);
     } catch (error) {
       // showToast({ message: error.message, type: "error" });
@@ -309,29 +354,25 @@ const EmployeeForm = ({ readOnly = false }) => {
     setData((prevState) => ({
       ...prevState,
       branch_id: value,
-      organization_id: null,
     }));
-    await getOrganization();
   };
 
-  const handleOrganizationChange = async (event) => {
-    const { name, value } = event.target;
-    setData((prevState) => ({
-      ...prevState,
-      organization_id: value,
-      job_level_id: null,
-    }));
-    await getJobLevel();
-  };
+  // const handleOrganizationChange = async (event) => {
+  //   const { name, value } = event.target;
+  //   setData((prevState) => ({
+  //     ...prevState,
+  //     organization_id: value,
+  //     job_level_id: null,
+  //   }));
+  //   await getJobLevel();
+  // };
 
   const handleJobLevelChange = async (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({
       ...prevState,
       job_level_id: value,
-      job_position_id: null,
     }));
-    await getJobPosition();
   };
 
   const handleChangeActive = (value) => {
@@ -457,16 +498,19 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.name}`}
-                            options={role.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              ext: index,
-                              name: option.name,
-                              target: {
-                                name: "role",
+                            options={
+                              role &&
+                              role.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                ext: index,
+                                name: option.name,
+                                target: {
+                                  name: "role",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Role"
                             aria-label="Nama"
                             required
@@ -555,14 +599,17 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.label}`}
-                            options={employee_status.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              target: {
-                                name: "employee_status_id",
+                            options={
+                              employee_status &&
+                              employee_status.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                target: {
+                                  name: "employee_status_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Status Karyawan"
                             aria-label="Nama"
                             required
@@ -611,15 +658,48 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.label}`}
-                            options={branch.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              target: {
-                                name: "branch_id",
+                            options={
+                              branch &&
+                              branch.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                target: {
+                                  name: "branch_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Kantor/Cabang"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
+                        </div>
+                      </div> <div className="col-md-6">
+                        <div className="form-group">
+                          <label>Direktorat:</label>
+                          <Select
+                            onChange={handleChangeOrganization}
+                            isDisabled={readOnly}
+                            value={SysGenValueOption(
+                              direktorat,
+                              data.direktorat_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={
+                              direktorat &&
+                              direktorat.map((option, index) => ({
+                                value: option.id,
+                                label: `${option.name}`,
+                                target: {
+                                  name: "direktorat_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
+                            placeholder="Pilih Direktorat"
                             aria-label="Nama"
                             required
                             isSearchable
@@ -630,7 +710,7 @@ const EmployeeForm = ({ readOnly = false }) => {
                         <div className="form-group">
                           <label>Divisi:</label>
                           <Select
-                            onChange={handleOrganizationChange}
+                            onChange={handleChangeOrganization}
                             isDisabled={readOnly}
                             value={SysGenValueOption(
                               organization,
@@ -639,14 +719,17 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.label}`}
-                            options={organization.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              target: {
-                                name: "organization_id",
+                            options={
+                              organization &&
+                              organization.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                target: {
+                                  name: "organization_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Divisi"
                             aria-label="Nama"
                             required
@@ -654,6 +737,38 @@ const EmployeeForm = ({ readOnly = false }) => {
                           />
                         </div>
                       </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>Department:</label>
+                          <Select
+                            onChange={handleChangeOrganization}
+                            isDisabled={readOnly}
+                            value={SysGenValueOption(
+                              department,
+                              data.department_id,
+                              "id",
+                              "name"
+                            )}
+                            formatOptionLabel={(val) => `${val.label}`}
+                            options={
+                              department &&
+                              department.map((option, index) => ({
+                                value: option.id,
+                                label: `${option.name}`,
+                                target: {
+                                  name: "department_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
+                            placeholder="Pilih Department"
+                            aria-label="Nama"
+                            required
+                            isSearchable
+                          />
+                        </div>
+                      </div>
+                     
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Level Jabatan:</label>
@@ -667,14 +782,17 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.label}`}
-                            options={job_level.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              target: {
-                                name: "job_level_id",
+                            options={
+                              job_level &&
+                              job_level.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                target: {
+                                  name: "job_level_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Level Jabatan"
                             aria-label="Nama"
                             required
@@ -695,14 +813,17 @@ const EmployeeForm = ({ readOnly = false }) => {
                               "name"
                             )}
                             formatOptionLabel={(val) => `${val.label}`}
-                            options={job_position.map((option, index) => ({
-                              value: option.id,
-                              label: `${option.name}`,
-                              target: {
-                                name: "job_position_id",
+                            options={
+                              job_position &&
+                              job_position.map((option, index) => ({
                                 value: option.id,
-                              },
-                            }))}
+                                label: `${option.name}`,
+                                target: {
+                                  name: "job_position_id",
+                                  value: option.id,
+                                },
+                              }))
+                            }
                             placeholder="Pilih Posisi Jabatan"
                             aria-label="Nama"
                             required

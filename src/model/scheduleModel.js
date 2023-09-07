@@ -14,7 +14,7 @@ const modelOfDatascheduleModel = {
 	time_in: '',
 	time_out: '',
 	title: '',
-	description: ''
+	decription: ''
 };
 function listOfscheduleModel(data = []) {
   var listData = [modelOfDatascheduleModel];
@@ -28,7 +28,7 @@ function listOfscheduleModel(data = []) {
 				time_in: val.time_in ?? null,
 				time_out: val.time_out ?? null,
 				title: val.title ?? null,
-				description: val.description ?? null
+				decription: val.decription ?? null
       };
       listData.push(object);
     });
@@ -49,7 +49,7 @@ function objectOfscheduleModel(data = null) {
 		objectData.time_in = data.time_in ?? null;
 		objectData.time_out = data.time_out ?? null;
 		objectData.title = data.title ?? null;
-		objectData.description = data.description ?? null;
+		objectData.decription = data.decription ?? null;
   } catch (error) {
     console.log(error.message);
   }

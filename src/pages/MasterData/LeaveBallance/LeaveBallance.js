@@ -31,14 +31,14 @@ const LeaveBallance = () => {
       render: (val, record) => (
         <div className="btn-group" role="group">
           <a
-            onClick={() => navigate(`${routes_name.M_LEAVE_BALLANCE_DETAIL}${val}`)}
+            onClick={() => navigate(`${routes_name.M_LEAVE_BALLANCE_SHOW}${val}`)}
             style={{ marginRight: 10 }}
             className="btn icon btn-primary btn-sm"
           >
             <i className="bi bi-file-text"></i>
           </a>
           <a
-            onClick={() => navigate(`${routes_name.M_LEAVE_BALLANCE_SHOW}${val}`)}
+            onClick={() => navigate(`${routes_name.M_LEAVE_BALLANCE_DETAIL}${val}`)}
             className="btn icon btn-warning btn-sm"
             style={{ marginRight: 10 }}
           >

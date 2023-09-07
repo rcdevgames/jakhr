@@ -84,16 +84,20 @@ const LeaveBallanceGenerate = () => {
 
   const handleSubmit = async () => {
     showLoading();
- SysValidateForm(required_field, data);
-    for (let index = 0; index < data_employee.length; index++) {
-      try {
-        const resp = await providers.insertData({
-          leave_type_id: data.leave_type_id,
-          employee_id: data_employee[index].id,
-          periode: data.periode,
-          balance: data.balance,
-        });
-      } catch (error) {}
+    try {
+      SysValidateForm(required_field, data);
+      for (let index = 0; index < data_employee.length; index++) {
+        try {
+          const resp = await providers.insertData({
+            leave_type_id: data.leave_type_id,
+            employee_id: data_employee[index].id,
+            periode: data.periode,
+            balance: data.balance,
+          });
+        } catch (error) {}
+      }
+    } catch (error) {
+      showToast({ message: error.message });
     }
     showToast({ message: "Leave ballance succesfully generate!" });
     navigate(-1);
