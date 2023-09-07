@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 import AdminDashboard from "../../AdminDashboard";
+import * as provider_direktorat from "../../../providers/master/direktorat";
 import * as organization_providers from "../../../providers/master/organization";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
@@ -12,15 +13,38 @@ import { sys_labels } from "../../../utils/constants";
 
 const Organization = () => {
   const navigate = useNavigate();
+  const [direktorat, set_direktorat] = useState([]);
   const [message, set_message] = useState("");
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
   const columns = [
-    // { title: "Kode Divisi", dataIndex: "code", key: "code", sortable: true },
+    {
+      title: "Direktorat",
+      dataIndex: "direktorat",
+      key: "direktorat",
+      render: (val) => val.name,
+    },
     { title: "Divisi", dataIndex: "name", key: "name", sortable: true },
-    { title: "Perusahaan", dataIndex: "company", key: "company",render:(val)=>val.company_name },
-    // { title: "Created Date", dataIndex: "created_at", key: "created_at" },SysDateTransform
-    { title: "Tanggal Buat", dataIndex: "created_at", sortable: true, key: "created_at",render:(val,record)=>SysDateTransform({date:val,type:'long',checkIsToDay:true,lang:'in',withTime:true}) },
+    {
+      title: "Perusahaan",
+      dataIndex: "company",
+      key: "company",
+      render: (val) => val.company_name,
+    },
+    {
+      title: "Tanggal Buat",
+      dataIndex: "created_at",
+      sortable: true,
+      key: "created_at",
+      render: (val, record) =>
+        SysDateTransform({
+          date: val,
+          type: "long",
+          checkIsToDay: true,
+          lang: "in",
+          withTime: true,
+        }),
+    },
 
     {
       title: "Aksi",
@@ -35,9 +59,11 @@ const Organization = () => {
           >
             <i className="bi bi-file-text"></i>
           </a>
-          
+
           <a
-            onClick={() => navigate(`${routes_name.M_ORGANIZATION_DETAIL}${val}`)}
+            onClick={() =>
+              navigate(`${routes_name.M_ORGANIZATION_DETAIL}${val}`)
+            }
             className="btn icon btn-warning btn-sm"
             style={{ marginRight: 10 }}
           >
@@ -77,6 +103,15 @@ const Organization = () => {
     set_modal(true);
   };
 
+  const getDirektorat = async () => {
+    try {
+      const resp = await provider_direktorat.getDataMax();
+      set_direktorat(resp.data.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getDirektorat();
+  }, []);
   return (
     <AdminDashboard label="">
       <DataTablePagination
@@ -84,6 +119,15 @@ const Organization = () => {
         columns={columns}
         title={sys_labels.menus.DIVISION}
         action={action}
+        filters={[
+          {
+            data: direktorat,
+            index: "direktorat_id",
+            title: "Direktorat",
+            label: "name",
+            data_id: "id",
+          },
+        ]}
       />
       <ActionModal
         onOk={handleDelete}

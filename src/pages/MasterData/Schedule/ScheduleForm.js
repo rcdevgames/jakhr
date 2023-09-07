@@ -91,7 +91,7 @@ const ScheduleForm = ({readOnly=false}) => {
         time_in: data.time_in,
         time_out: data.time_out,
         title: data.title,
-        description: data.description,
+        decription: data.decription,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -121,7 +121,7 @@ const ScheduleForm = ({readOnly=false}) => {
           time_in: data.time_in,
           time_out: data.time_out,
           title: data.title,
-          description: data.description,
+          decription: data.decription,
         },
         id
       );

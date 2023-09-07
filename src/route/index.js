@@ -113,6 +113,8 @@ import { RoleMenuForm } from "../pages/MasterData/RoleMenu";
 import ReportOvertimeDetail from "../pages/Report/Overtime/OvertimeDetail";
 import Approval from "../pages/Transaction/Approval/Approval";
 import { ConfigCompanyForm } from "../pages/Config/Company";
+import { Direktorat, DirektoratForm } from "../pages/MasterData/Direktorat";
+import { Department, DepartmentForm } from "../pages/MasterData/Department";
 
 const Router = () => (
   <BrowserRouter>
@@ -198,6 +200,24 @@ const Router = () => (
               />
               <Route path="create" element={<OrganizationForm />} />
               <Route path="detail/:id" element={<OrganizationForm />} />
+            </Route>
+            <Route path="direktorat">
+              <Route path="" element={<Direktorat />} />
+              <Route
+                path="show/:id"
+                element={<DirektoratForm readOnly={true} />}
+              />
+              <Route path="create" element={<DirektoratForm />} />
+              <Route path="detail/:id" element={<DirektoratForm />} />
+            </Route>
+            <Route path="department">
+              <Route path="" element={<Department />} />
+              <Route
+                path="show/:id"
+                element={<DepartmentForm readOnly={true} />}
+              />
+              <Route path="create" element={<DepartmentForm />} />
+              <Route path="detail/:id" element={<DepartmentForm />} />
             </Route>
             <Route path="job_level">
               <Route path="" element={<JobLevel />} />

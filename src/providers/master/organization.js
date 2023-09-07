@@ -1,12 +1,12 @@
 import { sys_post, sys_put, sys_get,sys_del } from "../../utils/api_client";
 
 const uri = "master/";
-export const getData = async (page = 1, limit = 10, search = "",sort="") => {
+export const getData = async (page = 1, limit = 10, search = "",sort="",filter="") => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
-        uri + `organizations?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}`,
+        uri + `organizations?page=${page}&perPage=${limit}&keywords=${search}&sort_by=${sort}&${filter}`,
     });
     return response;
   } catch (error) {
@@ -14,12 +14,12 @@ export const getData = async (page = 1, limit = 10, search = "",sort="") => {
   }
 };
 
-export const getDataMax = async (id=null) => {
+export const getDataMax = async (filter="") => {
   try {
     const response = await sys_get({
       auth: true,
       endpoint:
-        uri + `organizations?page=1&perPage=99999999`+(id?`&branch_id=${id}`:''),
+        uri + `organizations?page=1&perPage=99999999&${filter}`,
     });
     return response;
   } catch (error) {

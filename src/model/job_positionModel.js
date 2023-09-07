@@ -1,5 +1,5 @@
 // HOW TO IMPORT ?
-// const Convert = require('location/job_positionModel.js'); 
+// const Convert = require('location/job_positionModel.js');
 // OR
 // import Convert from 'location/job_positionModel.js'
 // HOW TO USE?
@@ -8,22 +8,25 @@
 // FOR ARRAY
 // const data = Convert.listOfjob_positionModel(data)
 const modelOfDatacompany = {
-	name: ''
+  name: "",
 };
 const modelOfDatajob_level = {
-	name: ''
+  name: "",
 };
 const modelOfDatajob_positionModel = {
-	id: '',
-	job_level_id: '',
-	parent_id: null,
-	name: '',
-	company_id: '',
-	created_at: '',
-	updated_at: '',
-	deleted: false,
-	company: modelOfDatacompany,
-	job_level: modelOfDatajob_level
+  id: "",
+  job_level_id: "",
+  parent_id: null,
+  name: "",
+  company_id: "",
+  created_at: "",
+  updated_at: "",
+  direktorat_id: null,
+  organization_id: null,
+  department_id: null,
+  deleted: false,
+  company: modelOfDatacompany,
+  job_level: modelOfDatajob_level,
 };
 function listOfjob_positionModel(data = []) {
   var listData = [modelOfDatajob_positionModel];
@@ -31,16 +34,19 @@ function listOfjob_positionModel(data = []) {
   try {
     data.map((val) => {
       var object = {
-				id: val.id ?? null,
-				job_level_id: val.job_level_id ?? null,
-				parent_id: val.parent_id ?? null,
-				name: val.name ?? null,
-				company_id: val.company_id ?? null,
-				created_at: val.created_at ?? null,
-				updated_at: val.updated_at ?? null,
-				deleted: val.deleted ?? null,
-				company: objectOfcompany(val.company ?? null),
-				job_level: objectOfjob_level(val.job_level ?? null)
+        id: val.id ?? null,
+        job_level_id: val.job_level_id ?? null,
+        parent_id: val.parent_id ?? null,
+        direktorat_id: val.direktorat_id ?? null,
+        organization_id: val.organization_id ?? null,
+        department_id: val.department_id ?? null,
+        name: val.name ?? null,
+        company_id: val.company_id ?? null,
+        created_at: val.created_at ?? null,
+        updated_at: val.updated_at ?? null,
+        deleted: val.deleted ?? null,
+        company: objectOfcompany(val.company ?? null),
+        job_level: objectOfjob_level(val.job_level ?? null),
       };
       listData.push(object);
     });
@@ -55,16 +61,19 @@ function objectOfjob_positionModel(data = null) {
     return null;
   }
   try {
-		objectData.id = data.id ?? null;
-		objectData.job_level_id = data.job_level_id ?? null;
-		objectData.parent_id = data.parent_id ?? null;
-		objectData.name = data.name ?? null;
-		objectData.company_id = data.company_id ?? null;
-		objectData.created_at = data.created_at ?? null;
-		objectData.updated_at = data.updated_at ?? null;
-		objectData.deleted = data.deleted ?? null;
-		objectData.company = objectOfcompany(data.company ?? null);
-		objectData.job_level = objectOfjob_level(data.job_level ?? null);
+    objectData.id = data.id ?? null;
+    objectData.job_level_id = data.job_level_id ?? null;
+    objectData.parent_id = data.parent_id ?? null;
+    objectData.department_id = data.department_id ?? null;
+    objectData.organization_id = data.organization_id ?? null;
+    objectData.direktorat_id = data.direktorat_id ?? null;
+    objectData.name = data.name ?? null;
+    objectData.company_id = data.company_id ?? null;
+    objectData.created_at = data.created_at ?? null;
+    objectData.updated_at = data.updated_at ?? null;
+    objectData.deleted = data.deleted ?? null;
+    objectData.company = objectOfcompany(data.company ?? null);
+    objectData.job_level = objectOfjob_level(data.job_level ?? null);
   } catch (error) {
     console.log(error.message);
   }
@@ -81,7 +90,7 @@ function objectOfcompany(data = null) {
     return null;
   }
   try {
-		objectData.name = data.name ?? null;
+    objectData.name = data.name ?? null;
   } catch (error) {
     console.log(error.message);
   }
@@ -93,13 +102,9 @@ function objectOfjob_level(data = null) {
     return null;
   }
   try {
-		objectData.name = data.name ?? null;
+    objectData.name = data.name ?? null;
   } catch (error) {
     console.log(error.message);
   }
   return objectData;
 }
-
-
-
-  

@@ -396,8 +396,16 @@ export function SysGenMenu() {
     dir: "/master-organization",
     subMenu: [
       {
+        label: sys_labels.menus.DIREKTORAT,
+        link: "/master-organization/direktorat",
+      },
+      {
         label: sys_labels.menus.DIVISION,
         link: "/master-organization/organization",
+      },
+      {
+        label: sys_labels.menus.DEPARTMENT,
+        link: "/master-organization/department",
       },
       {
         label: sys_labels.menus.JOB_LEVEL,
@@ -618,6 +626,16 @@ export function SysGenRouting() {
       route: "/master-organization",
       name: "Master Organisasi",
     },
+
+    {
+      route: "/master-organization/direktorat",
+      name: sys_labels.menus.DIREKTORAT,
+    },
+    {
+      route: "/master-organization/department",
+      name: sys_labels.menus.DEPARTMENT,
+    },
+
 
     {
       route: "/master-organization/organization",

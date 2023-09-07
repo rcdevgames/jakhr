@@ -24,7 +24,7 @@ const LeaveBallanceFormEmployee = ({readOnly =false}) => {
   const required_field = ["leave_type_id", "balance", "periode"];
   const navigate = useNavigate();
   const [data, setData] = useState(convert.objectOfleave_ballanceModel({}));
-  const title = `Edit ${sys_labels.action.FORM} ${sys_labels.menus.LEAVE_BALLANCE}`;
+  const title = ` ${readOnly?'Detail':"Edit"} ${sys_labels.menus.LEAVE_BALLANCE}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     let changed = {

@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 
 import AdminDashboard from "../../AdminDashboard";
 import * as job_position_provider from "../../../providers/master/job_position";
+import * as provider_direktorat from "../../../providers/master/direktorat";
+import * as providers_organization from "../../../providers/master/organization";
+import * as providers_department from "../../../providers/master/department";
 import DataTablePagination from "../../../components/DataTable";
 import ActionModal from "../../../components/ActionModal";
 import { SysDateTransform, showToast } from "../../../utils/global_store";
@@ -15,6 +18,9 @@ const JobPosition = () => {
   const [message, set_message] = useState("");
   const [id, set_id] = useState("");
   const [modal, set_modal] = useState(false);
+  const [direktorat,set_direktorat]= useState([]);
+  const [organization,set_organization]= useState([]);
+  const [department,set_department]= useState([]);
   const columns = [
     { title: "Posisi", dataIndex: "name", key: "name", sortable: true },
     { title: "Perusahaan", dataIndex: "company", key: "company",render:(val)=>val.company_name, sortable: true },
@@ -77,13 +83,59 @@ const JobPosition = () => {
     set_modal(true);
   };
 
+  const getOrganization = async () => {
+    try {
+      const resp = await providers_organization.getDataMax();
+      set_organization(resp.data.data);
+    } catch (error) {}
+  };
+  const getDirektorat = async () => {
+    try {
+      const resp = await provider_direktorat.getDataMax();
+      set_direktorat(resp.data.data);
+    } catch (error) {}
+  };
+  const getDepartment = async () => {
+    try {
+      const resp = await providers_department.getDataMax();
+      set_department(resp.data.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getDirektorat();
+    getOrganization();
+    getDepartment();
+  }, []);
   return (
     <AdminDashboard label="">
       <DataTablePagination
         fetchDataFunc={job_position_provider.getData}
         columns={columns}
         title={sys_labels.menus.JOB_POSITION}
-        action={action}
+        action={action} 
+        filters={[
+          {
+            data: direktorat,
+            index: "direktorat_id",
+            title: "Direktorat",
+            label: "name",
+            data_id: "id",
+          },
+          {
+            data: organization,
+            index: "organization_id",
+            title: "Divisi",
+            label: "name",
+            data_id: "id",
+          },
+          {
+            data: department,
+            index: "department_id",
+            title: "Department",
+            label: "name",
+            data_id: "id",
+          },
+        ]}
       />
       <ActionModal
         onOk={handleDelete}

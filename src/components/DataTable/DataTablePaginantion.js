@@ -35,8 +35,9 @@ const DataTablePagination = ({
     if (sortField == "" || sortField == null || sortField == undefined) {
       sort = "";
     }
+    const my_filter = genFilter();
     // console.log(filter);
-    fetchDataFunc(currentPage, pageSize, searchQuery, sort,filter)
+    fetchDataFunc(currentPage, pageSize, searchQuery, sort, my_filter)
       .then((data) => {
         // console.log(data);
         setTableData(data.data.data);
@@ -68,22 +69,36 @@ const DataTablePagination = ({
     setSortField(field);
     setSortOrder(order);
   };
-
-  const handleChange = (value, index) => {
+  const genFilter = () => {
     let my_filter = selectedFilters;
     let my_filter_str = "";
-    my_filter[index] = value.value;
-    setSelectedFilters(my_filter);
     Object.keys(my_filter).map((val) => {
       if (my_filter[val] != "all") {
         my_filter_str += `&${val}=${my_filter[val]}`;
       }
     });
     setFilters(my_filter_str);
+    return my_filter_str;
+  };
+  const handleChange = (value, index) => {
+    let my_filter = selectedFilters;
+    let my_filter_str = "";
+    my_filter[index] = value.value;
+    Object.keys(my_filter).map((val) => {
+      if (my_filter[val] != "all") {
+        my_filter_str += `&${val}=${my_filter[val]}`;
+      }
+    });
+
+    if (value.value == "all") {
+      delete my_filter[index];
+    }
+    setSelectedFilters(my_filter);
+    setFilters(my_filter_str);
   };
   const FilterComponent = () => {
     return (
-      <div className="row" style={{alignItems:'center' }}>
+      <div className="row" style={{ alignItems: "center" }}>
         {filters.map((val) => {
           let data = [
             {
@@ -100,18 +115,29 @@ const DataTablePagination = ({
             });
           }
           return (
-            <div style={{ marginRight: 10, width: 250 }}>
-              <div className="form-group">
-                <label>{val?.title ?? ""}</label>
-                <Select
-                  onChange={(value) => handleChange(value, val.index)}
-                  options={data}
-                  formatOptionLabel={(val) => `${val.label}`}
-                  placeholder={`Select ${val?.title ?? ""}`}
-                  aria-label="Nama"
-                  isSearchable
-                />
-              </div>
+            <div className="form-group  col-auto mr-2">
+              <label>{val?.title ?? ""}</label>
+              <Select
+                styles={{
+                  menu: (provide, state) => ({
+                    ...provide,
+                    zIndex: 3,
+                  }),
+                }}
+                onChange={(value) => handleChange(value, val.index)}
+                options={data}
+                
+                value={SysGenValueOption(
+                  val.data,
+                  selectedFilters[val.index],
+                  val.data_id,
+                  val.label
+                )}
+                formatOptionLabel={(val) => `${val.label}`}
+                placeholder={`Pilih ${val?.title ?? ""}`}
+                aria-label="Nama"
+                isSearchable
+              />
             </div>
           );
         })}
@@ -120,7 +146,7 @@ const DataTablePagination = ({
           placeholder="Search..."
           allowClear
           onSearch={handleSearch}
-          style={{ width: 200,marginTop:10 }}
+          style={{ width: 200, marginTop: 10 }}
         />
       </div>
     );
@@ -148,7 +174,7 @@ const DataTablePagination = ({
             }}
           >
             <div className="col-md-12" style={{ marginBottom: 16 }}>
-                <FilterComponent />
+              <FilterComponent />
             </div>
 
             <Table

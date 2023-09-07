@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/organizationModel";
+import convert_direktorat from "../../../model/direktoratModel";
 import * as providers from "../../../providers/master/organization";
+import * as providers_direktorat from "../../../providers/master/direktorat";
 import {
   SysGenValueOption,
   showToast,
@@ -18,21 +20,27 @@ const OrganizationForm = ({ readOnly = false }) => {
   const required_field = ["name as divisi", "code as kode"];
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOforganizationModel({}));
-  const [parent, set_parent] = useState(convert.listOforganizationModel([]));
+  const [parent, set_parent] = useState(
+    convert_direktorat.listOfundefinedModel([])
+  );
   const { showLoading, hideLoading } = useLoadingContext();
   const getParent = async () => {
     showLoading();
     try {
-      const resp = await providers.getDataMax();
+      const resp = await providers_direktorat.getDataMax();
       set_parent(resp.data.data);
     } catch (error) {
       showToast({ message: error.message, type: error });
     }
     hideLoading();
   };
-  const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
-    sys_labels.menus.DIVISION
-  }`;
+  const title = `${
+    readOnly
+      ? sys_labels.action.DETAIL
+      : id
+      ? sys_labels.action.EDIT_FORM
+      : sys_labels.action.FORM
+  } ${sys_labels.menus.DIVISION}`;
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -58,10 +66,11 @@ const OrganizationForm = ({ readOnly = false }) => {
   const handleSubmit = async () => {
     showLoading();
     try {
+      SysValidateForm(required_field, data);
       const resp = await providers.insertData({
         name: data.name,
-        // code: data.code,
-        parent_id: data.parent_id,
+        code: data.code,
+        direktorat_id: data.direktorat_id,
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -75,11 +84,12 @@ const OrganizationForm = ({ readOnly = false }) => {
   const handleUpdate = async () => {
     showLoading();
     try {
+      SysValidateForm(required_field, data);
       const resp = await providers.updateData(
         {
           name: data.name,
-          // code: data.code,
-          parent_id: data.parent_id,
+          code: data.code,
+          direktorat_id: data.direktorat_id,
         },
         data.id
       );
@@ -105,13 +115,13 @@ const OrganizationForm = ({ readOnly = false }) => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Parent:</label>{" "}
+                      <label>Direktorat:</label>{" "}
                       <Select
                         onChange={handleChange}
                         isDisabled={readOnly}
                         value={SysGenValueOption(
                           parent,
-                          data.parent_id,
+                          data.direktorat_id,
                           "id",
                           "name"
                         )}
@@ -120,18 +130,18 @@ const OrganizationForm = ({ readOnly = false }) => {
                           value: option.id,
                           label: `${option.name}`,
                           target: {
-                            name: "parent_id",
+                            name: "direktorat_id",
                             value: option.id,
                           },
                         }))}
-                        placeholder="Select Parent"
+                        placeholder="Pilih Direktorat"
                         aria-label="Nama"
                         required
                         isSearchable
                       />
                     </div>
                   </div>
-                  {/* <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <label>Kode:</label>
                       <input
@@ -143,7 +153,7 @@ const OrganizationForm = ({ readOnly = false }) => {
                         onChange={handleChange}
                       />
                     </div>
-                  </div> */}
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Divisi:</label>
