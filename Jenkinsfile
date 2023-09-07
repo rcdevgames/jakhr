@@ -7,7 +7,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    docker system prune -f
                     rm -rf ./.env
                     cp /home/jenkins/project/jakhr/fe/.env-staging ./.env
 
