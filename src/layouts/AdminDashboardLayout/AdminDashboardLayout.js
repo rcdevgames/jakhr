@@ -222,7 +222,7 @@ const defaultNav = [
 const myMenus = JSON.parse(getSession(SESSION.MENUS));
 const AdminDashboardLayout = () => {
   // console.log(myMenus);
-  if(myMenus ==undefined){
+  if (myMenus == undefined) {
     window.location.reload();
   }
   const location = useLocation();
@@ -283,12 +283,16 @@ const AdminDashboardLayout = () => {
         <div className="sidebar-wrapper active">
           <div className="sidebar-header position-relative">
             <div className="d-flex justify-content-between">
-              <Link to="/">
-                <img
-                  src={process.env.PUBLIC_URL + "/assets/images/logo/Jakhr.png"}
-                  alt="Logo"
-                />
-              </Link>
+              <div className="text-center m-auto">
+                <Link to="/">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/assets/images/logo/Jakhr.png"
+                    }
+                    alt="Logo"
+                  />
+                </Link>
+              </div>
 
               <div className="sidebar-toggler x">
                 <a href="#" className="sidebar-hide d-xl-none d-block">
@@ -296,12 +300,12 @@ const AdminDashboardLayout = () => {
                 </a>
               </div>
             </div>
-            <h5>{sys_token.company}</h5>
+            <h5 className="text-center">{sys_token.company}</h5>
           </div>
           <div className="sidebar-menu">
             <ul className="menu">
               {/* {!loading && */}
-              { myMenus.length > 0 &&
+              {myMenus.length > 0 &&
                 myMenus.map((el, idx) => {
                   const link = "" + (el.link ? el.link : "");
 
