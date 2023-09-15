@@ -143,7 +143,7 @@ const DepartmentForm = ({ readOnly = false }) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Divisi:</label>
+                      <label>Department:</label>
                       <input
                         className="form-control"
                         type="text"

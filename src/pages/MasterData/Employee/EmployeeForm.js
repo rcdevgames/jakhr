@@ -76,7 +76,16 @@ const EmployeeForm = ({ readOnly = false }) => {
   }`;
   const handleChange = (event) => {
     const { name, value } = event.target;
+    // console.log(name,value);
     setData((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const autoDash = (e) => {
+    const { name } = e.target;
+    const value = e.target.value.replace(/-/g, ""); // Remove existing dashes
+    const formattedValue = value
+      .replace(/\D/g, "") // Remove non-numeric characters
+      .replace(/(\d{4})/g, "$1-"); // Add dash every 4 characters
+    setData((prevState) => ({ ...prevState, [name]: formattedValue }));
   };
   const handleChangeOrganization = (event) => {
     const { name, value } = event.target;
@@ -128,9 +137,14 @@ const EmployeeForm = ({ readOnly = false }) => {
         ...resp.data,
         photo: resp.data.photo ? { source: resp.data.photo } : null,
       });
-      getDepartment(data.direktorat_id,data.organization_id);
+      autoDash({target:{name:"id_number",value:resp?.data?.id_number??""}})
+      getDepartment(data.direktorat_id, data.organization_id);
       getOrganization(data.direktorat_id);
-      getJobPosition(data.direktorat_id,data.organization_id,data.department_id);
+      getJobPosition(
+        data.direktorat_id,
+        data.organization_id,
+        data.department_id
+      );
     } catch (error) {
       console.log(error);
       showToast({ message: error.message, type: error });
@@ -156,7 +170,7 @@ const EmployeeForm = ({ readOnly = false }) => {
         }),
         blood_type: data.blood_type,
         id_type: "KTP",
-        id_number: data.id_number,
+        id_number: data.id_number.replace(/-/g, ''),
         citizen_address: data.citizen_address,
         residential_address: data.residential_address,
         employee_id: data.employee_id,
@@ -221,7 +235,7 @@ const EmployeeForm = ({ readOnly = false }) => {
         }),
         blood_type: data.blood_type,
         id_type: "KTP",
-        id_number: data.id_number,
+        id_number: data.id_number.replace(/-/g, ''),
         citizen_address: data.citizen_address,
         residential_address: data.residential_address,
         employee_id: data.employee_id,
@@ -389,7 +403,7 @@ const EmployeeForm = ({ readOnly = false }) => {
             <div className="form form-horizontal">
               <div className="form-body">
                 <div className="row mt-3">
-                  <div className="col-md-6">
+                  <div className="col-md-3">
                     <div className="col-md-12">
                       <label>Photo:</label>
                       {readOnly ? (
@@ -406,7 +420,7 @@ const EmployeeForm = ({ readOnly = false }) => {
                       )}
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-8">
                     {data.id == null ? (
                       <div className="col-md-12">
                         <Link
@@ -477,10 +491,10 @@ const EmployeeForm = ({ readOnly = false }) => {
                             className="form-control"
                             type="text"
                             disabled={readOnly}
-                            onKeyDown={onlyNumber}
+                            // onKeyDown={(e) => autoDash(e, handleChange)}
                             name="id_number"
                             value={data.id_number}
-                            onChange={handleChange}
+                            onChange={autoDash}
                             required
                           />
                         </div>
@@ -530,7 +544,6 @@ const EmployeeForm = ({ readOnly = false }) => {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Tanggal Akhir Karyawan:</label>
@@ -675,7 +688,8 @@ const EmployeeForm = ({ readOnly = false }) => {
                             isSearchable
                           />
                         </div>
-                      </div> <div className="col-md-6">
+                      </div>{" "}
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>Direktorat:</label>
                           <Select
@@ -768,7 +782,6 @@ const EmployeeForm = ({ readOnly = false }) => {
                           />
                         </div>
                       </div>
-                     
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Level Jabatan:</label>

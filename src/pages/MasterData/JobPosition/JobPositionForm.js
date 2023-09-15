@@ -191,7 +191,7 @@ const JobPositionForm = ({ readOnly = false }) => {
                     <div className="form-group">
                       <label>Divisi:</label>{" "}
                       <Select
-                        onChange={handleChange}
+                        onChange={handleChangeOrganization}
                         isDisabled={readOnly}
                         value={SysGenValueOption(
                           organization,
