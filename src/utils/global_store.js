@@ -777,7 +777,7 @@ export function SysGenMenuByRole(role_menu = []) {
   Object.keys(my_menus).map((val) => {
     // console.log(val);
     const route = menus.find((m_val) => m_val.route == val);
-    console.log(route);
+    // console.log(route);
     if (val != "/dashboard" && route) {
       let relate_menu = {
         ...my_menus[val],
