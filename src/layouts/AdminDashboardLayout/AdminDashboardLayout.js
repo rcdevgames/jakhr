@@ -16,6 +16,7 @@ import GlobalLoadingBlock, {
   useLoadingContext,
 } from "../../components/Loading";
 import { getSession } from "../../utils/session";
+import Footer from "../../components/Footer";
 
 const defaultNav = [
   {
@@ -366,11 +367,12 @@ const AdminDashboardLayout = () => {
       </div>
 
       <header id="hamburger" className="mb-3">
-        <a href="#" className="burger-btn d-block d-xl-none">
+        <a className="burger-btn d-block d-xl-none">
           <i className="bi bi-justify fs-3"></i>
         </a>
       </header>
       <Outlet />
+      {/* <Footer/> */}
     </div>
   );
 };
