@@ -14,9 +14,9 @@ import * as providers_role from "../../../providers/master/role";
 import * as providers_organization from "../../../providers/master/organization";
 import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
-import * as providers_employee_status from "../../../providers/master/employee_statuses";
 import * as provider_direktorat from "../../../providers/master/direktorat";
 import * as providers_department from "../../../providers/master/department";
+import * as providers_employee_status from "../../../providers/master/employee_statuses";
 import {
   SysDateTransform,
   SysGenValueOption,
