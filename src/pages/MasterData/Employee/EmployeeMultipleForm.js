@@ -12,6 +12,13 @@ import * as providers from "../../../providers/master/employee";
 import { SysReadData, showToast } from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { useLoadingContext } from "../../../components/Loading";
+import * as providers_employee_status from "../../../providers/master/employee_statuses";
+import * as providers_branch from "../../../providers/master/branch";
+import * as providers_organization from "../../../providers/master/organization";
+import * as providers_job_level from "../../../providers/master/job_level";
+import * as providers_job_position from "../../../providers/master/job_position";
+import * as provider_direktorat from "../../../providers/master/direktorat";
+import * as providers_department from "../../../providers/master/department";
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -41,11 +48,77 @@ const EditableCell = ({
   const blood_type = SysReadData(sys_path_data.blood_type_data);
   const ptkp = SysReadData(sys_path_data.ptkp);
   const form = useContext(EditableContext);
+  const [employee_status, set_employee_status] = useState([]);
+  const [branch, set_branch] = useState([]);
+  const [organization, set_organization] = useState([]);
+  const [direktorat, set_direktorat] = useState([]);
+  const [department, set_department] = useState([]);
+  const [job_level, set_job_level] = useState([]);
+  const [job_position, set_job_position] = useState([]);
+  const getEmployeeStatus = async () => {
+    try {
+      const resp = await providers_employee_status.getDataMax();
+      set_employee_status(resp.data.data);
+    } catch (error) {
+    }
+  };
+  
+  const getBranch = async () => {
+    try {
+      const resp = await providers_branch.getDataMax();
+      set_branch(resp.data.data);
+    } catch (error) {
+    }
+  };
+  const getOrganization = async () => {
+    try {
+      const resp = await providers_organization.getDataMax();
+      set_organization(resp.data.data);
+    } catch (error) {
+    }
+  };
+
+  const getDirektorat = async () => {
+    try {
+      const resp = await provider_direktorat.getDataMax();
+      set_direktorat(resp.data.data);
+    } catch (error) {}
+  };
+  const getDepartment = async () => {
+    try {
+      const resp = await providers_department.getDataMax();
+      set_department(resp.data.data);
+    } catch (error) {}
+  };
+  const getJobLevel = async () => {
+    try {
+      const resp = await providers_job_level.getDataMax();
+      set_job_level(resp.data.data);
+    } catch (error) {
+    }
+  };
+  const getJobPosition = async (
+  ) => {
+    try {
+      const resp = await providers_job_position.getDataMax();
+      set_job_position(resp.data.data);
+    } catch (error) {
+    }
+  };
   useEffect(() => {
     if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);
+  useEffect(()=>{
+    getEmployeeStatus();
+    getBranch();
+    getJobLevel();
+    getJobPosition();
+    // getDepartment();
+    getOrganization();
+    // getDirektorat();
+  },[])
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({
@@ -207,6 +280,146 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
+      ): dataIndex == "employee_status_id" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            style={{ minWidth: "150px" }}
+            // style={{ width: "100%" }}
+          >
+            {employee_status.map((val) => (
+              <option value={val.id} style={{ minWidth: "150px" }}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
+      ): dataIndex == "branch_id" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            style={{ minWidth: "150px" }}
+            // style={{ width: "100%" }}
+          >
+            {branch.map((val) => (
+              <option value={val.id} style={{ minWidth: "150px" }}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
+      ): dataIndex == "organization_id" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            style={{ minWidth: "150px" }}
+            // style={{ width: "100%" }}
+          >
+            {organization.map((val) => (
+              <option value={val.id} style={{ minWidth: "150px" }}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
+      ): dataIndex == "job_position_id" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            style={{ minWidth: "150px" }}
+            // style={{ width: "100%" }}
+          >
+            {job_position.map((val) => (
+              <option value={val.id} style={{ minWidth: "150px" }}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
+      ): dataIndex == "job_level_id" ? (
+        <Form.Item
+          style={{
+            margin: 0,
+          }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Select
+            ref={inputRef}
+            onBlur={save}
+            onPressEnter={save}
+            onChange={save}
+            style={{ minWidth: "150px" }}
+            // style={{ width: "100%" }}
+          >
+            {job_level.map((val) => (
+              <option value={val.id} style={{ minWidth: "150px" }}>
+                {val.name}
+              </option>
+            ))}
+          </Select>
+        </Form.Item>
       ) : (
         <Form.Item
           style={{
@@ -358,6 +571,36 @@ const EmployeeMultipleForm = () => {
       editable: true,
     },
     {
+      title: "Status Karyawan",
+      dataIndex: "employee_status_id",
+      width: "40%",
+      editable: true,
+    },
+    {
+      title: "Kantor/Cabang",
+      dataIndex: "branch_id",
+      width: "40%",
+      editable: true,
+    },
+    {
+      title: "Divisi",
+      dataIndex: "organization_id",
+      width: "40%",
+      editable: true,
+    },
+    {
+      title: "Posisi Jabatan",
+      dataIndex: "job_position_id",
+      width: "40%",
+      editable: true,
+    },
+    {
+      title: "Level Jabatan",
+      dataIndex: "job_level_id",
+      width: "40%",
+      editable: true,
+    },
+    {
       title: "Aksi",
       dataIndex: "action",
       render: (_, record) =>
@@ -453,6 +696,11 @@ const EmployeeMultipleForm = () => {
       account_password: data["Password Akun"] ?? "",
       address: data["Alamat"] ?? "",
       citizen_address: data["Alamat KTP"] ?? "",
+      employee_status_id: data["ID Status Karyawan"] ?? "",
+      branch_id: data["ID Kantor/Cabang"] ?? "",
+      organization_id: data["ID Divisi"] ?? "",
+      job_position_id: data["ID Posisi Jabatan"] ?? "",
+      job_level_id: data["ID Level Jabatan"] ?? "",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -486,11 +734,11 @@ const EmployeeMultipleForm = () => {
           employee_expired_date: null,
           tax_config: 1,
           tax_number: element.npwp.toString(),
-          branch_id: null,
-          organization_id: null,
-          job_level_id: null,
-          job_position_id: null,
-          employee_status_id: null,
+          branch_id: element.branch_id.toString(),
+          organization_id: element.organization_id.toString(),
+          job_level_id: element.job_level_id.toString(),
+          job_position_id: element.job_position_id.toString(),
+          employee_status_id: element.employee_status_id.toString(),
           create_user: true,
           emergency_contact_name: null,
           emergency_contact_relationship: null,
