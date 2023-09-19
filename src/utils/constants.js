@@ -34,6 +34,9 @@ export const file_template = {
   DEDUCTION: process.env.PUBLIC_URL + "/assets/templates/deduction.xlsx",
   ICENTIVE: process.env.PUBLIC_URL + "/assets/templates/incentive.xlsx",
   SALARY_COMPONENT: process.env.PUBLIC_URL + "/assets/templates/salary_component.xlsx",
+  ALLOWANCE_TEMPLATE: process.env.PUBLIC_URL + "/assets/templates/allowance_template.xlsx",
+  DEDUCTION_TEMPLATE: process.env.PUBLIC_URL + "/assets/templates/deduction_template.xlsx",
+  OVERTIME_LATE: process.env.PUBLIC_URL + "/assets/templates/overtime_config.xlsx",
 };
 
 export const sys_labels = {

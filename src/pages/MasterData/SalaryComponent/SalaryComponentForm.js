@@ -1176,17 +1176,13 @@ const SalaryComponentForm = ({readOnly=false}) => {
     }
   };
   const checkEmployeeHaveConfig = async (id) => {
-    console.log("KESINI KGAK DAH");
     try {
       const resp = await providers.getData(1, 1, "", id);
       if (resp.data.data.length > 0) {
         await handleDetail(resp.data.data[0].id);
         set_is_salary(true);
       }
-      console.log(is_salary);
     } catch (error) {
-      console.log(is_salary);
-      console.log(error);
     }
   };
   const handleSubmit = async () => {

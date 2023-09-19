@@ -5,6 +5,8 @@ import jwt_decode from "jwt-decode";
 import { getToken } from "./session";
 import { sys_labels } from "./constants";
 import convert from "../model/role_menuModel";
+import * as XLSX from "xlsx-js-style";
+
 export function SysCurrencyTransform({ num = 0, currency = "IDR" }) {
   num = parseInt(num ?? 0);
   if (isNaN(num)) {
@@ -818,3 +820,88 @@ export function SysGenMenuByRole(role_menu = []) {
   //   my_menus["/tool"],
   // ];
 }
+export async function SysExportData  (data=[],columns=[],filename='')  {
+  // const {showLoading,hideLoading} = useLoadingContext()
+  // showLoading();
+  console.log(data,columns);
+  try {
+    if(!data)throw {message:"No Data!"};
+    let my_data = data;
+    // let columns =[];
+    // Object.keys(my_data[0]).map(val=>{
+    //   if(typeof my_data[0]==="object"&&my_data[0]!== null){
+    //     Object.keys(my_data[0][val]).map(key_2=>{
+    //       columns.push(`${val}_${key_2}`)
+    //     })
+    //   }else{
+    //     columns.push(val)
+    //   }
+    // })
+    let the_datas = [];
+    for (let index = 0; index < my_data.length; index++) {
+      let clean_data_structure = {};
+      Object.keys(my_data[index]).map((key) => {
+        if (
+          typeof my_data[index][key] === "object" &&
+          my_data[index][key] != null
+        ) {
+          Object.keys(my_data[index][key]).map((key_child) => {
+            clean_data_structure[`${key}_${key_child}`] =
+              my_data[index][key][key_child];
+            // console.log(clean_data_structure);
+          });
+        } else {
+          clean_data_structure[key] = my_data[index][key];
+        }
+      });
+      the_datas.push(clean_data_structure);
+    }
+    let clean_data = [];
+    // let col_length=0;
+    the_datas.map((val) => {
+      let obj_data = {};
+      columns.map((col_value) => {
+          obj_data[col_value.title] = val[col_value.key] ?? "";
+          // if (col_value.val_props) {
+          //   obj_data[col_value.title] =
+          //     col_value.val_props[val[col_value.key]];
+          // }
+      });
+      clean_data.push(obj_data);
+    });
+    const ws = XLSX.utils.json_to_sheet(clean_data, { origin: "A1" });
+    const wb = XLSX.utils.book_new();
+    const headerStyle = {
+      alignment: { horizontal: "center", vertical: "center" },
+      font: { sz: 12, bold: true },
+    };
+    for (
+      let colIndex = 0;
+      colIndex < columns.length;
+      colIndex++
+    ) {
+      // console.log(colIndex);
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: colIndex }); // Row 5 is index 4
+      ws[cellRef].s = headerStyle; // Apply the style to the cell
+    }
+    
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "buffer" });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download", "Data " + filename + ".xlsx"
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    showToast({ message: error.message });
+  }
+  // hideLoading();
+};
