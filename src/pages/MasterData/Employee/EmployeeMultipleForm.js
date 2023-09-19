@@ -9,7 +9,11 @@ import {
 } from "../../../utils/constants";
 import * as XLSX from "xlsx";
 import * as providers from "../../../providers/master/employee";
-import { SysReadData, showToast } from "../../../utils/global_store";
+import {
+  SysReadData,
+  showToast,
+  SysExportData,
+} from "../../../utils/global_store";
 import { useNavigate } from "react-router-dom";
 import { useLoadingContext } from "../../../components/Loading";
 import * as providers_employee_status from "../../../providers/master/employee_statuses";
@@ -19,6 +23,12 @@ import * as providers_job_level from "../../../providers/master/job_level";
 import * as providers_job_position from "../../../providers/master/job_position";
 import * as provider_direktorat from "../../../providers/master/direktorat";
 import * as providers_department from "../../../providers/master/department";
+
+let branch_data = [];
+let organization_data = [];
+let job_position_data = [];
+let job_level_data = [];
+let employee_status_data = [];
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -59,23 +69,23 @@ const EditableCell = ({
     try {
       const resp = await providers_employee_status.getDataMax();
       set_employee_status(resp.data.data);
-    } catch (error) {
-    }
+      employee_status_data= resp.data.data;
+    } catch (error) {}
   };
-  
+
   const getBranch = async () => {
     try {
       const resp = await providers_branch.getDataMax();
       set_branch(resp.data.data);
-    } catch (error) {
-    }
+      branch_data = resp.data.data;
+    } catch (error) {}
   };
   const getOrganization = async () => {
     try {
       const resp = await providers_organization.getDataMax();
       set_organization(resp.data.data);
-    } catch (error) {
-    }
+      organization_data = resp.data.data;
+    } catch (error) {}
   };
 
   const getDirektorat = async () => {
@@ -94,23 +104,22 @@ const EditableCell = ({
     try {
       const resp = await providers_job_level.getDataMax();
       set_job_level(resp.data.data);
-    } catch (error) {
-    }
+      job_level_data = resp.data.data;
+    } catch (error) {}
   };
-  const getJobPosition = async (
-  ) => {
+  const getJobPosition = async () => {
     try {
       const resp = await providers_job_position.getDataMax();
       set_job_position(resp.data.data);
-    } catch (error) {
-    }
+      job_position_data = resp.data.data;
+    } catch (error) {}
   };
   useEffect(() => {
     if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);
-  useEffect(()=>{
+  useEffect(() => {
     getEmployeeStatus();
     getBranch();
     getJobLevel();
@@ -118,7 +127,7 @@ const EditableCell = ({
     // getDepartment();
     getOrganization();
     // getDirektorat();
-  },[])
+  }, []);
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({
@@ -280,7 +289,7 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
-      ): dataIndex == "employee_status_id" ? (
+      ) : dataIndex == "employee_status_id" ? (
         <Form.Item
           style={{
             margin: 0,
@@ -308,7 +317,7 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
-      ): dataIndex == "branch_id" ? (
+      ) : dataIndex == "branch_id" ? (
         <Form.Item
           style={{
             margin: 0,
@@ -336,7 +345,7 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
-      ): dataIndex == "organization_id" ? (
+      ) : dataIndex == "organization_id" ? (
         <Form.Item
           style={{
             margin: 0,
@@ -364,7 +373,7 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
-      ): dataIndex == "job_position_id" ? (
+      ) : dataIndex == "job_position_id" ? (
         <Form.Item
           style={{
             margin: 0,
@@ -392,7 +401,7 @@ const EditableCell = ({
             ))}
           </Select>
         </Form.Item>
-      ): dataIndex == "job_level_id" ? (
+      ) : dataIndex == "job_level_id" ? (
         <Form.Item
           style={{
             margin: 0,
@@ -573,29 +582,34 @@ const EmployeeMultipleForm = () => {
     {
       title: "Status Karyawan",
       dataIndex: "employee_status_id",
+      render:(val)=>employee_status_data.find(obj=>obj.id == val)?.name??"",
       width: "40%",
       editable: true,
     },
     {
       title: "Kantor/Cabang",
       dataIndex: "branch_id",
+      render:(val)=>branch_data.find(obj=>obj.id == val)?.name??"",
       width: "40%",
       editable: true,
     },
     {
       title: "Divisi",
+      render:(val)=>organization_data.find(obj=>obj.id == val)?.name??"",
       dataIndex: "organization_id",
       width: "40%",
       editable: true,
     },
     {
       title: "Posisi Jabatan",
+      render:(val)=>job_position_data.find(obj=>obj.id == val)?.name??"",
       dataIndex: "job_position_id",
       width: "40%",
       editable: true,
     },
     {
       title: "Level Jabatan",
+      render:(val)=>job_level_data.find(obj=>obj.id == val)?.name??"",
       dataIndex: "job_level_id",
       width: "40%",
       editable: true,
@@ -746,7 +760,7 @@ const EmployeeMultipleForm = () => {
           is_payroll: true,
           user: {
             is_new: true,
-            password: element.account_password,
+            password: element.account_password.toString(),
           },
           photo: sys_iamges.EMPLOYEE_DEFAULT,
         });
@@ -763,6 +777,49 @@ const EmployeeMultipleForm = () => {
     }
     hideLoading();
   };
+  const handleExportJobPosition = async () => {
+    try {
+      const columns = [
+        { title: "ID Direktorat", key: "direktorat_id" },
+        { title: "Direktorat", key: "direktorat_name" },
+        { title: "ID Divisi", key: "organization_id" },
+        { title: "Divisi", key: "organization_name" },
+        { title: "ID Departmen", key: "department_id" },
+        { title: "Departmen", key: "department_name" },
+        { title: "ID Posisi Jabatan", key: "id" },
+        { title: "Posisi Jabatan", key: "name" },
+        { title: "ID Level Jabatan", key: "job_level_job_level_id" },
+        { title: "Level Jabatan", key: "job_level_job_level_name" },
+      ];
+      await SysExportData(job_position_data, columns, "Posisi Jabatan");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleExportBranch = async () => {
+    try {
+      const columns = [
+        { title: "ID Kantor/Cabang", key: "id" },
+        { title: "Kantor/Cabang", key: "name" },
+      ];
+      await SysExportData(branch_data, columns, "Kantor/Cabang");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleExportEmployeeStatus = async () => {
+    try {
+      const columns = [
+        { title: "ID Status Karyawan", key: "id" },
+        { title: "Status Karyawan", key: "name" },
+      ];
+      await SysExportData(employee_status_data, columns, "Status Karyawan");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <AdminDashboard label="">
       <section className="section">
@@ -773,10 +830,37 @@ const EmployeeMultipleForm = () => {
           <div className="card-body">
             <div className="row mb-3 justify-content-between">
               <div className="col-md-10">
-                <Button onClick={downloadTemplates} type="primary">
+                {" "}
+                <Button onClick={() => handleExportBranch()} type="primary">
+                  Download Kantor/Cabang
+                </Button>{" "}
+                <Button
+                  onClick={() => handleExportEmployeeStatus()}
+                  type="primary"
+                  style={{
+                    marginLeft: 10,
+                  }}
+                >
+                  Download Status Karyawan
+                </Button>
+                <Button
+                  onClick={() => handleExportJobPosition()}
+                  type="primary"
+                  style={{
+                    marginLeft: 10,
+                  }}
+                >
+                  Download Posisi Jabatan
+                </Button>
+                <Button
+                  style={{
+                    marginLeft: 10,
+                  }}
+                  onClick={downloadTemplates}
+                  type="primary"
+                >
                   Download Templates
                 </Button>
-
                 <Button
                   onClick={handleClickImport}
                   type="primary"
