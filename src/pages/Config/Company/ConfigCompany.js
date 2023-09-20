@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AdminDashboard from "../../AdminDashboard";
 import convert from "../../../model/bpjs_configModel";
 import * as providers from "../../../providers/config/company";
-import { showToast } from "../../../utils/global_store";
+import * as providers_company from "../../../providers/master/company";
+import { showToast,SysJWTDecoder } from "../../../utils/global_store";
 import { sys_labels } from "../../../utils/constants";
 import { useLoadingContext } from "../../../components/Loading";
 import UploadFile from "../../../components/UploadFile";
@@ -12,6 +13,7 @@ const ConfigCompanyForm = () => {
   const { showLoading, hideLoading } = useLoadingContext();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [data_company, set_data_company] = useState([]);
   const [is_loading, set_loading] = useState(true);
   const title = `${sys_labels.menus.COMPANY} ${sys_labels.action.FORM}`;
   const handleChange = (event) => {
@@ -24,6 +26,7 @@ const ConfigCompanyForm = () => {
   };
   useEffect(() => {
     handleDetail();
+    handleDetailCompany();
   }, []);
   const handleDetail = async () => {
     showLoading();
@@ -36,6 +39,17 @@ const ConfigCompanyForm = () => {
         : null;
       setData(resp_data);
       set_loading(false);
+    } catch (error) {
+      showToast({ message: error.message, type: error });
+      navigate(-1);
+    }
+  };
+  const handleDetailCompany = async () => {
+    try {
+      const token = SysJWTDecoder();
+      const resp = await providers_company.getDetail(token.companyId);
+      let resp_data = resp.data;
+      set_data_company(resp_data);
     } catch (error) {
       showToast({ message: error.message, type: error });
       navigate(-1);
@@ -99,6 +113,39 @@ const ConfigCompanyForm = () => {
                     </div>
                   </div>
                   <div className="col-md-6">
+                  <div className="col-md-12">
+                      <div className="form-group">
+                        <label>Perusahaan:</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          readOnly={true}
+                          value={data_company?.name??""}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>Alias:</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          readOnly={true}
+                          value={data_company?.alias??""}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>Alamat:</label>
+                        <input
+                          className="form-control"
+                          type="textarea"
+                          readOnly={true}
+                          value={data_company?.address??""}
+                        />
+                      </div>
+                    </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>NPWP:</label>
