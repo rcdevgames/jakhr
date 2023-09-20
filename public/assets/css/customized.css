@@ -137,3 +137,7 @@ body, h6{
     border-color: #C00000 !important;
     border-width: 1px !important;
   } */
+  .table-container-responsive {
+    width: auto;
+    min-width: unset !important;
+  }

@@ -160,13 +160,11 @@ const EditableCellSalary = ({
             onBlur={save}
             onPressEnter={save}
             onChange={save}
-            style={{ minWidth: "150px" }}
+            style={{ minWidth: "200px" }}
             // style={{ width: "100%" }}
           >
             {employee_data.map((val) => (
-              <option value={val.id} style={{ minWidth: "150px" }}>
-                {val.employee_id}
-              </option>
+              <option value={val.id}>{val.employee_id}</option>
             ))}
           </Select>
         </Form.Item>
@@ -188,7 +186,7 @@ const EditableCellSalary = ({
             onBlur={save}
             onPressEnter={save}
             onChange={save}
-            style={{ minWidth: "150px" }}
+            style={{ minWidth: "200px" }}
             // style={{ width: "100%" }}
           >
             {bank_data.map((val) => (
@@ -215,7 +213,7 @@ const EditableCellSalary = ({
             ref={inputRef}
             onPressEnter={save}
             style={{
-              minWidth: "150px",
+              // minWidth: "150px",
               height: "40px",
             }}
             onBlur={save}
@@ -226,7 +224,7 @@ const EditableCellSalary = ({
       <div
         className="editable-cell-value-wrap"
         style={{
-          minWidth: "150px",
+          // minWidth: "150px",
           height: "40px",
         }}
         onClick={toggleEdit}
@@ -305,13 +303,11 @@ const EditableCellAllowance = ({
             onBlur={save}
             onPressEnter={save}
             onChange={save}
-            style={{ minWidth: "150px" }}
+            style={{ minWidth: "200px" }}
             // style={{ width: "100%" }}
           >
             {employee_data.map((val) => (
-              <option value={val.id} style={{ minWidth: "150px" }}>
-                {val.employee_id}
-              </option>
+              <option value={val.id}>{val.employee_id}</option>
             ))}
           </Select>
         </Form.Item>
@@ -360,7 +356,7 @@ const EditableCellAllowance = ({
             ref={inputRef}
             onPressEnter={save}
             style={{
-              minWidth: "150px",
+              // minWidth: "150px",
               height: "40px",
             }}
             onBlur={save}
@@ -371,7 +367,7 @@ const EditableCellAllowance = ({
       <div
         className="editable-cell-value-wrap"
         style={{
-          minWidth: "150px",
+          // minWidth: "150px",
           height: "40px",
         }}
         onClick={toggleEdit}
@@ -450,13 +446,11 @@ const EditableCellDeduction = ({
             onBlur={save}
             onPressEnter={save}
             onChange={save}
-            style={{ minWidth: "150px" }}
+            style={{ minWidth: "200px" }}
             // style={{ width: "100%" }}
           >
             {employee_data.map((val) => (
-              <option value={val.id} style={{ minWidth: "150px" }}>
-                {val.employee_id}
-              </option>
+              <option value={val.id}>{val.employee_id}</option>
             ))}
           </Select>
         </Form.Item>
@@ -542,19 +536,19 @@ const SalaryComponent = () => {
       dataIndex: "employee_id",
       render: (val) =>
         employee_data.find((obj) => obj.id == val)?.employee_id ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "Karyawan",
-      width: "40%",
+      // width: "40%",
       render: (val, rec) =>
         employee_data.find((obj) => obj.id == rec.employee_id)?.full_name ?? "",
       dataIndex: "employee_name",
       editable: false,
     },
     {
-      width: "40%",
+      // width: "40%",
       title: "Gaji Pokok",
       dataIndex: "basic_salary",
       editable: true,
@@ -564,12 +558,12 @@ const SalaryComponent = () => {
       title: "Kode Bank",
       dataIndex: "bank_name",
       render: (val) => bank_data.find((obj) => obj.value == val)?.name ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
 
     {
-      width: "40%",
+      // width: "40%",
       title: "Rekening",
       dataIndex: "bank_account",
       editable: true,
@@ -578,67 +572,67 @@ const SalaryComponent = () => {
     {
       title: "Hari Kerja",
       dataIndex: "working_days",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JHT Karyawan",
       dataIndex: "jht",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS Kesehatan Karyawan",
       dataIndex: "kesehatan",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JP Karyawan",
       dataIndex: "jp",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "Asuransi Lain Karyawan",
       dataIndex: "other_insurance",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JHT Perusahaan",
       dataIndex: "jht_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS Kesehatan Perusahaan",
       dataIndex: "kesehatan_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JP Perusahaan",
       dataIndex: "jp_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JKM Perusahaan",
       dataIndex: "jkm_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "BPJS JKK Perusahaan",
       dataIndex: "jkk_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "Asuransi Lain Perusahaan",
       dataIndex: "other_insurance_company",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
@@ -719,8 +713,7 @@ const SalaryComponent = () => {
   const handleAddFromImport = (data) => {
     const nip = data["NIP"] ?? "";
     const employee_id =
-      employee_data.find((val) => val.employee_id == nip).id ?? "";
-    console.log(nip, employee_id, data);
+      employee_data.find((val) => val.employee_id == nip)?.id ?? "";
     const newData = {
       key: count,
       employee_id: employee_id,
@@ -876,17 +869,19 @@ const SalaryComponent = () => {
           </Button>
         </div>
       </div>
-
+      {/* <div className="table-responsive"> */}
       <Table
-        style={{ overflowX: "scroll" }}
         components={components}
-        className="table-responsive"
+        tableLayout="auto"
+        scroll={{ x: "max-content" }}
+        // className="table-container-responsive"
         rowClassName={() => "editable-row"}
         bordered
         pagination={false}
         dataSource={dataSource}
         columns={columns}
       />
+      {/* </div> */}
 
       <Button
         onClick={handleAddFromImport}
@@ -918,23 +913,24 @@ const AllowanceComponent = () => {
       dataIndex: "employee_id",
       render: (val) =>
         employee_data.find((obj) => obj.id == val)?.employee_id ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "Karyawan",
-      width: "40%",
+      // width: "40%",
       render: (val, rec) =>
         employee_data.find((obj) => obj.id == rec.employee_id)?.full_name ?? "",
       dataIndex: "employee_name",
       editable: false,
     },
     {
-      width: "40%",
+      // width: "40%",
       title: "Tipe",
       dataIndex: "tipe",
       render: (val, rec) =>
-        allowance_data.find((obj) => obj.id == rec.component_name_id)?.type ?? "",
+        allowance_data.find((obj) => obj.id == rec.component_name_id)?.type ??
+        "",
       editable: false,
     },
 
@@ -942,12 +938,12 @@ const AllowanceComponent = () => {
       title: "Tunjangan",
       dataIndex: "component_name_id",
       render: (val) => allowance_data.find((obj) => obj.id == val)?.name ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
 
     {
-      width: "40%",
+      // width: "40%",
       title: "Nominal",
       dataIndex: "ammount",
       editable: true,
@@ -1035,7 +1031,7 @@ const AllowanceComponent = () => {
       key: count,
       employee_id: employee_id,
       component_name_id: data["ID Tunjangan"] ?? "",
-      ammount: data["Nominal"] ?? ""
+      ammount: data["Nominal"] ?? "",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -1051,14 +1047,19 @@ const AllowanceComponent = () => {
         const element = dataSource[index];
         const id = element.employee_id;
         console.log(allowance_data);
-        const type = allowance_data.find(val=>val.id==element.component_name_id).type??"";
-          const resp = await providers_allowance.insertData( {
+        const type =
+          allowance_data.find((val) => val.id == element.component_name_id)
+            .type ?? "";
+        const resp = await providers_allowance.insertData(
+          {
             allowance_type: type,
             component_name_id: element.component_name_id,
             ammount: element.ammount,
             is_taxable: false,
             is_final_tax: false,
-          },id);
+          },
+          id
+        );
         handleDelete(element.key);
       } catch (error) {
         is_reject = true;
@@ -1128,9 +1129,9 @@ const AllowanceComponent = () => {
       </div>
 
       <Table
-        style={{ overflowX: "scroll" }}
+        tableLayout="auto"
+        scroll={{ x: "max-content" }}
         components={components}
-        className="table-responsive"
         rowClassName={() => "editable-row"}
         bordered
         pagination={false}
@@ -1168,12 +1169,12 @@ const DeductionComponent = () => {
       dataIndex: "employee_id",
       render: (val) =>
         employee_data.find((obj) => obj.id == val)?.employee_id ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
       title: "Karyawan",
-      width: "40%",
+      // width: "40%",
       render: (val, rec) =>
         employee_data.find((obj) => obj.id == rec.employee_id)?.full_name ?? "",
       dataIndex: "employee_name",
@@ -1184,7 +1185,7 @@ const DeductionComponent = () => {
       title: "Potongan",
       dataIndex: "component_name_id",
       render: (val) => deduction_data.find((obj) => obj.id == val)?.name ?? "",
-      width: "40%",
+      // width: "40%",
       editable: true,
     },
     {
@@ -1195,7 +1196,7 @@ const DeductionComponent = () => {
     },
 
     {
-      width: "40%",
+      // width: "40%",
       title: "Nominal",
       dataIndex: "amount",
       editable: true,
@@ -1284,7 +1285,7 @@ const DeductionComponent = () => {
       employee_id: employee_id,
       component_name_id: data["ID Potongan"] ?? "",
       description: data["Deskripsi"] ?? "",
-      amount: data["Nominal"] ?? ""
+      amount: data["Nominal"] ?? "",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -1299,12 +1300,12 @@ const DeductionComponent = () => {
       try {
         const element = dataSource[index];
         const id = element.employee_id;
-          const resp = await providers_deduction.insertData( {
-            component_name_id: element.component_name_id,
-            amount: element.amount,
-            description: element.description,
-            employee_id:id
-          });
+        const resp = await providers_deduction.insertData({
+          component_name_id: element.component_name_id,
+          amount: element.amount,
+          description: element.description,
+          employee_id: id,
+        });
         handleDelete(element.key);
       } catch (error) {
         is_reject = true;
@@ -1373,9 +1374,9 @@ const DeductionComponent = () => {
       </div>
 
       <Table
-        style={{ overflowX: "scroll" }}
+        tableLayout="auto"
+        scroll={{ x: "max-content" }}
         components={components}
-        className="table-responsive"
         rowClassName={() => "editable-row"}
         bordered
         pagination={false}

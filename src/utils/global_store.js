@@ -55,6 +55,7 @@ export function SysDateTransform({
   lang = "en",
   withTime = false,
   forSql = false,
+  withDay=false
 }) {
   if (date == "") {
     return "";
@@ -118,7 +119,7 @@ export function SysDateTransform({
       })}:${addZero({ num: seconds })}.${addZero({ num: mili })}`;
     }
   }
-  return fullOfdate;
+  return withDay?`${SysDay({date:date,lang:"in"})}, ${fullOfdate}`:fullOfdate;
 }
 export function SysMonthTransform(val, type = "long", lang = "en") {
   var longMonth = [

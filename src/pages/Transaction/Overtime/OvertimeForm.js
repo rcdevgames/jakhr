@@ -9,7 +9,7 @@ import {
   SysValidateForm,
   showToast,
 } from "../../../utils/global_store";
-import {useLoadingContext}from "../../../components/Loading"
+import { useLoadingContext } from "../../../components/Loading";
 
 import Select from "react-select";
 
@@ -17,16 +17,11 @@ import { sys_labels } from "../../../utils/constants";
 import TimeInput from "../../../components/TimeInput";
 const OvertimeForm = () => {
   const navigate = useNavigate();
-  const required_field = [
-    "attendance_id",
-    "reason",
-    "time_in",
-    "time_out",
-  ];
+  const required_field = ["attendance_id", "reason", "time_in", "time_out"];
   const { id } = useParams();
   const [data, setData] = useState(convert.objectOftrans_overtimeModel({}));
   const [data_attendance, setData_attendance] = useState([]);
-  const {showLoading,hideLoading}= useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
   const title = `${id ? sys_labels.action.EDIT_FORM : sys_labels.action.FORM} ${
     sys_labels.menus.OVERTIME
   }`;
@@ -45,15 +40,16 @@ const OvertimeForm = () => {
       const resp = await providers_attendance.getDataMax();
       setData_attendance(resp.data.data);
     } catch (error) {}
-      hideLoading();
+    hideLoading();
   };
   const handleSubmit = async () => {
     showLoading();
     try {
-      const obj = data_attendance.find((val) => val.id == data.attendance_id); SysValidateForm(required_field, data);
-      
+      const obj = data_attendance.find((val) => val.id == data.attendance_id);
+      SysValidateForm(required_field, data);
+
       if (data.time_in > data.time_out) {
-        throw{ message: "Time End must be greater than Time Start" };
+        throw { message: "Time End must be greater than Time Start" };
       }
       const resp = await providers.insertData({
         attendance_id: data.attendance_id,
@@ -97,7 +93,12 @@ const OvertimeForm = () => {
                         onChange={handleChange}
                         options={data_attendance.map((option) => ({
                           value: option.id,
-                          label: `(${option.date_in}) - ${option.employee.name}`,
+                          label: `(${SysDateTransform({
+                            date: option.date_in,
+                            type: "short",
+                            lang: "in",
+                            withDay: true,
+                          })}) - ${option.employee.name}`,
                           target: {
                             name: "attendance_id",
                             value: option.id,
