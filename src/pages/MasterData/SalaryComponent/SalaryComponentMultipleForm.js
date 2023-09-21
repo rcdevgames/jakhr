@@ -715,7 +715,7 @@ const SalaryComponent = () => {
     const employee_id =
       employee_data.find((val) => val.employee_id == nip)?.id ?? "";
     const newData = {
-      key: count,
+      key: count+ data.__rowNum__,
       employee_id: employee_id,
       basic_salary: data["Gaji Pokok"] ?? "",
       bank_name: data["Kode Bank"] ?? "",
@@ -732,8 +732,8 @@ const SalaryComponent = () => {
       jkk_company: data["BPJS JKK Perusahaan"] ?? "",
       other_insurance_company: data["Asuransi Lain Perusahaan"] ?? "",
     };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+    setDataSource((prev)=>[...prev, newData]);
+    setCount(count + data.__rowNum__);
   };
   const handleClickImport = () => {
     fileInputRef.current.click();
@@ -1028,13 +1028,13 @@ const AllowanceComponent = () => {
     const employee_id =
       employee_data.find((val) => val.employee_id == nip)?.id ?? "";
     const newData = {
-      key: count,
+      key: count+ data.__rowNum__,
       employee_id: employee_id,
       component_name_id: data["ID Tunjangan"] ?? "",
       ammount: data["Nominal"] ?? "",
     };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+    setDataSource((prev)=>[...prev, newData]);
+    setCount(count + data.__rowNum__);
   };
   const handleClickImport = () => {
     fileInputRef.current.click();
@@ -1156,11 +1156,11 @@ const AllowanceComponent = () => {
 const DeductionComponent = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const [dataSource, setDataSource] = useState([]);
-  const [count, setCount] = useState(0);
+  const [dataSource_deduction, setDataSource_deduction] = useState([]);
+  const [count_deduction, setCount_deduction] = useState(0);
   const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
+    const newData = dataSource_deduction.filter((item) => item.key !== key);
+    setDataSource_deduction(newData);
   };
   const { showLoading, hideLoading } = useLoadingContext();
   const defaultColumns = [
@@ -1205,7 +1205,7 @@ const DeductionComponent = () => {
       title: "Aksi",
       dataIndex: "action",
       render: (_, record) =>
-        dataSource.length >= 1 ? (
+        dataSource_deduction.length >= 1 ? (
           <Popconfirm
             title="Sure to delete?"
             onConfirm={() => handleDelete(record.key)}
@@ -1216,14 +1216,14 @@ const DeductionComponent = () => {
     },
   ];
   const handleSave = (row) => {
-    const newData = [...dataSource];
+    const newData = [...dataSource_deduction];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
-    setDataSource(newData);
+    setDataSource_deduction(newData);
   };
   const components = {
     body: {
@@ -1271,6 +1271,7 @@ const DeductionComponent = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      console.log(jsonData);
       jsonData.map((val) => handleAddFromImport(val));
     };
     reader.readAsArrayBuffer(file);
@@ -1279,16 +1280,17 @@ const DeductionComponent = () => {
   const handleAddFromImport = (data) => {
     const nip = data["NIP"] ?? "";
     const employee_id =
-      employee_data.find((val) => val.employee_id == nip)?.id ?? "";
+    employee_data.find((val) => val.employee_id == nip)?.id ?? "";
     const newData = {
-      key: count,
+      key: count_deduction + data.__rowNum__,
       employee_id: employee_id,
       component_name_id: data["ID Potongan"] ?? "",
       description: data["Deskripsi"] ?? "",
       amount: data["Nominal"] ?? "",
     };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+    setDataSource_deduction((prev)=>[...prev, newData]);
+    console.log(count_deduction+ data.__rowNum__);
+    setCount_deduction(count_deduction + data.__rowNum__);
   };
   const handleClickImport = () => {
     fileInputRef.current.click();
@@ -1296,9 +1298,9 @@ const DeductionComponent = () => {
   const handleSubmit = async () => {
     showLoading();
     let is_reject = false;
-    for (let index = 0; index < dataSource.length; index++) {
+    for (let index = 0; index < dataSource_deduction.length; index++) {
       try {
-        const element = dataSource[index];
+        const element = dataSource_deduction[index];
         const id = element.employee_id;
         const resp = await providers_deduction.insertData({
           component_name_id: element.component_name_id,
@@ -1380,7 +1382,7 @@ const DeductionComponent = () => {
         rowClassName={() => "editable-row"}
         bordered
         pagination={false}
-        dataSource={dataSource}
+        dataSource={dataSource_deduction}
         columns={columns}
       />
 

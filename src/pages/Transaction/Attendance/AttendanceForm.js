@@ -80,7 +80,7 @@ const AttendanceForm = () => {
     } catch (error) {}
     hideLoading();
   };
-  useEffect(() => {
+  const getLocation=()=>{
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -96,6 +96,9 @@ const AttendanceForm = () => {
         }
       );
     }
+  }
+  useEffect(() => {
+   getLocation();
     if (token.role == "pegawai") {
       set_attendance_data((prev) => ({
         ...prev,
@@ -126,6 +129,7 @@ const AttendanceForm = () => {
           : null,
       });
       setData(resp.data);
+      getLocation();
     } catch (error) {}
     hideLoading();
   };
@@ -148,7 +152,7 @@ const AttendanceForm = () => {
       // console.log(submit_data);
       SysValidateForm(required_field_insert, submit_data);
       const resp = await providers.insertData({
-        attendance: [submit_data],
+        attendances: [submit_data],
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);
@@ -178,7 +182,7 @@ const AttendanceForm = () => {
       console.log(submit_data);
       SysValidateForm(required_field_update, submit_data);
       const resp = await providers.updateData({
-        attendance: [submit_data],
+        attendances: [submit_data],
       });
       showToast({ message: resp.message, type: "success" });
       navigate(-1);

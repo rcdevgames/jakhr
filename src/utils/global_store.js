@@ -55,7 +55,7 @@ export function SysDateTransform({
   lang = "en",
   withTime = false,
   forSql = false,
-  withDay=false
+  withDay = false,
 }) {
   if (date == "") {
     return "";
@@ -119,7 +119,9 @@ export function SysDateTransform({
       })}:${addZero({ num: seconds })}.${addZero({ num: mili })}`;
     }
   }
-  return withDay?`${SysDay({date:date,lang:"in"})}, ${fullOfdate}`:fullOfdate;
+  return withDay
+    ? `${SysDay({ date: date, lang: "in" })}, ${fullOfdate}`
+    : fullOfdate;
 }
 export function SysMonthTransform(val, type = "long", lang = "en") {
   var longMonth = [
@@ -266,7 +268,6 @@ export function SysJWTDecoder(token = null) {
     my_jwt = jwt_decode(getToken());
   }
 
-
   console.log(my_jwt);
   return {
     id: my_jwt?.id ?? "",
@@ -304,7 +305,7 @@ export function SysValidateForm(required_field = [], data = []) {
       data[alises[0]] == "" ||
       data[alises[0]] == undefined
     ) {
-      msg_error.push(SystoCamelCase(named))
+      msg_error.push(SystoCamelCase(named));
       document.getElementsByName(alises[0]).forEach((val) => {
         val.classList.add("validate-error");
       });
@@ -467,7 +468,6 @@ export function SysGenMenu() {
     label: sys_labels.menus.TRANSACTION,
     dir: "/transaction",
     subMenu: [
-      
       {
         label: sys_labels.menus.APPROVAL,
         link: "/transaction/approval",
@@ -638,7 +638,6 @@ export function SysGenRouting() {
       route: "/master-organization/department",
       name: sys_labels.menus.DEPARTMENT,
     },
-
 
     {
       route: "/master-organization/organization",
@@ -821,12 +820,16 @@ export function SysGenMenuByRole(role_menu = []) {
   //   my_menus["/tool"],
   // ];
 }
-export async function SysExportData  (data=[],columns=[],filename='')  {
+export async function SysExportData(data = [], columns = [], filename = "") {
   // const {showLoading,hideLoading} = useLoadingContext()
   // showLoading();
-  console.log(data,columns);
+  // console.log(data,columns);
+
   try {
-    if(!data)throw {message:"No Data!"};
+    if (data == null || !data || data.length == 0 || data == undefined)
+      throw {
+        message: `Data ${filename} tidak ditemukan, mohon lengkapi data tersebut terlebih dahulu!`,
+      };
     let my_data = data;
     // let columns =[];
     // Object.keys(my_data[0]).map(val=>{
@@ -862,11 +865,11 @@ export async function SysExportData  (data=[],columns=[],filename='')  {
     the_datas.map((val) => {
       let obj_data = {};
       columns.map((col_value) => {
-          obj_data[col_value.title] = val[col_value.key] ?? "";
-          // if (col_value.val_props) {
-          //   obj_data[col_value.title] =
-          //     col_value.val_props[val[col_value.key]];
-          // }
+        obj_data[col_value.title] = val[col_value.key] ?? "";
+        // if (col_value.val_props) {
+        //   obj_data[col_value.title] =
+        //     col_value.val_props[val[col_value.key]];
+        // }
       });
       clean_data.push(obj_data);
     });
@@ -876,16 +879,12 @@ export async function SysExportData  (data=[],columns=[],filename='')  {
       alignment: { horizontal: "center", vertical: "center" },
       font: { sz: 12, bold: true },
     };
-    for (
-      let colIndex = 0;
-      colIndex < columns.length;
-      colIndex++
-    ) {
+    for (let colIndex = 0; colIndex < columns.length; colIndex++) {
       // console.log(colIndex);
       const cellRef = XLSX.utils.encode_cell({ r: 0, c: colIndex }); // Row 5 is index 4
       ws[cellRef].s = headerStyle; // Apply the style to the cell
     }
-    
+
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "buffer" });
     const blob = new Blob([excelBuffer], {
@@ -894,15 +893,14 @@ export async function SysExportData  (data=[],columns=[],filename='')  {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute(
-      "download", "Data " + filename + ".xlsx"
-    );
+    link.setAttribute("download", "Data " + filename + ".xlsx");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   } catch (error) {
     showToast({ message: error.message });
+    throw error;
   }
   // hideLoading();
-};
+}

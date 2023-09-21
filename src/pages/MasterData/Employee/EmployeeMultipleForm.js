@@ -780,12 +780,8 @@ const EmployeeMultipleForm = () => {
   const handleExportJobPosition = async () => {
     try {
       const columns = [
-        { title: "ID Direktorat", key: "direktorat_id" },
-        { title: "Direktorat", key: "direktorat_name" },
         { title: "ID Divisi", key: "organization_id" },
         { title: "Divisi", key: "organization_name" },
-        { title: "ID Departmen", key: "department_id" },
-        { title: "Departmen", key: "department_name" },
         { title: "ID Posisi Jabatan", key: "id" },
         { title: "Posisi Jabatan", key: "name" },
         { title: "ID Level Jabatan", key: "job_level_job_level_id" },
