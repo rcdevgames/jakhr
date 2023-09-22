@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-const PayrollPdf = (data, month, year) => {
+const PayrollPdf = (data, month, year,token=null) => {
   // console.log(month,year);
   function toCamelCase(str) {
     if (str == "value_to_add") return "Penerimaan";
@@ -246,7 +246,7 @@ const PayrollPdf = (data, month, year) => {
       total_workday_per_month: data?.value_to_add?.total_workday_per_month ?? 0,
     },
   };
-  const user = SysJWTDecoder();
+  const user = SysJWTDecoder(token??null);
   const date = new Date();
   let total_penerimaan = payroll_data.value_to_add.total_add;
   let total_potongan = payroll_data.value_to_reduce.total_reduce;
