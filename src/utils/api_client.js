@@ -39,9 +39,9 @@ export const sys_get = async ({ auth = false, endpoint = "" }) => {
   }
 };
 
-export const sys_get_unstructure_data = async ({ auth = false, endpoint = "" }) => {
+export const sys_get_unstructure_data = async ({ auth = false, endpoint = "",token_public=null }) => {
   try {
-    let token = getToken();
+    let token = token_public??getToken();
     var callback = callbackModel;
     const head = {
       method: "GET",

@@ -127,3 +127,17 @@ export const getDetailSalary = async (id) => {
     throw error;
   }
 };
+
+export const getDetailSalaryPublic = async (id,token) => {
+  try {
+    const response = await sys_get_unstructure_data({
+      auth: true,
+      endpoint: uri + `${id}`,
+      token_public:token
+    });
+    // console.log(response);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

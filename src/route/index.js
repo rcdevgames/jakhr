@@ -115,6 +115,7 @@ import Approval from "../pages/Transaction/Approval/Approval";
 import { ConfigCompanyForm } from "../pages/Config/Company";
 import { Direktorat, DirektoratForm } from "../pages/MasterData/Direktorat";
 import { Department, DepartmentForm } from "../pages/MasterData/Department";
+import GenerateSalaryPdf from "../pages/Public/SalaryGeneratePdf";
 
 const Router = () => (
   <BrowserRouter>
@@ -127,6 +128,7 @@ const Router = () => (
         element={<Authentication />}
       />
       <Route path="/authentication" element={<Authentication />} />
+      <Route path="/generate_salary" element={<GenerateSalaryPdf />} />
       {/* <Route path="/change_password" element={<ChangePassword />} /> */}
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="/login" element={<Login />} />
