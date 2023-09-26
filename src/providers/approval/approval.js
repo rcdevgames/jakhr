@@ -22,6 +22,20 @@ export const getData = async (
   }
 };
 
+export const getDetail = async (
+  id
+) => {
+  try {
+    const response = await sys_get_unstructure_data({
+      auth: true,
+      endpoint: uri + `/${id}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const approve = async (id) => {
   try {
     const response = await sys_post({

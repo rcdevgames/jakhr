@@ -88,7 +88,8 @@ const GenerateSalaryPdf = () => {
 
     // Open a new tab and display the PDF
     const fileURL = URL.createObjectURL(pdfBlob);
-    window.open(fileURL);
+    // window.open(fileURL);
+    window.location.href = fileURL;
     } catch (error) {
       console.log(error);
     //   showToast({message:error.message})

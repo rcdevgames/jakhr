@@ -22,6 +22,8 @@ const DataTablePaginantionFilterApproval = ({ title = "" }) => {
   const [startDate, setStartDate] = useState(date);
   const [reason, set_reason] = useState("");
   const [modal, set_modal] = useState(false);
+  const [modal_detail, set_modal_detail] = useState(false);
+  const [data_detail, set_data_detail] = useState(null);
   const [selected_id, set_selected_id] = useState("");
   const [endDate, setendDate] = useState(new Date());
   const [sortField, setSortField] = useState("");
@@ -80,6 +82,14 @@ const DataTablePaginantionFilterApproval = ({ title = "" }) => {
           >
             <i className="bi bi-x-circle"></i>
           </a>
+
+          <a
+            onClick={() => loadDetail(val)}
+            style={{ marginLeft: 10 }}
+            className="btn icon btn-primary btn-sm"
+          >
+            <i className="bi bi-file-text"></i>
+          </a>
         </div>
       ),
     },
@@ -93,7 +103,7 @@ const DataTablePaginantionFilterApproval = ({ title = "" }) => {
     },
     { title: "Status", dataIndex: "worklist_status", key: "worklist_status" },
     { title: "Ref", dataIndex: "doc_reff", key: "doc_reff" },
-    
+
     {
       title: "Created Date",
       dataIndex: "created_at",
@@ -112,7 +122,17 @@ const DataTablePaginantionFilterApproval = ({ title = "" }) => {
   useEffect(() => {
     fetchData();
   }, [searchQuery, startDate, endDate]);
-
+  const loadDetail = async (val) => {
+    showLoading();
+    try {
+      const resp = await providers.getDetail(val.id);
+      set_data_detail(JSON.parse(resp.data.data.payloads));
+      set_modal_detail(true);
+    } catch (error) {
+      showToast({ message: error.message });
+    }
+    hideLoading();
+  };
   const fetchData = () => {
     let sort = `${sortField}:${sortOrder == "ascend" ? "asc" : "desc"}`;
     if (sortField == "" || sortField == null || sortField == undefined) {
@@ -316,6 +336,73 @@ const DataTablePaginantionFilterApproval = ({ title = "" }) => {
           ></input>
         }
         visible={modal}
+      />
+
+      <ActionModal
+        onOk={() => set_modal_detail(false)}
+        onCancel={() => set_modal_detail(false)}
+        title="Detail"
+        content={
+          <>
+            <label>Referensi:</label>
+            <br />
+            <label>
+              {data_detail.overtime_no
+                ? data_detail.overtime_no
+                : data_detail.leave_no
+                ? data_detail.leave_no
+                : data_detail.reimbursment_no
+                ? data_detail.reimbursment_no
+                : ""}
+            </label>
+            <br />
+            <label>Reason:</label>
+            <br />
+            {data_detail.amount && (
+              <>
+                <label>Total:</label>
+                <br />
+                <label>{data_detail.amount}</label>
+                <br />
+              </>
+            )}
+            {data_detail.leave_date && (
+              <>
+                <label>Tanggal Cuti:</label>
+                <br />
+                <label>
+                  {SysDateTransform({
+                    date: data_detail.leave_date,
+                    type: "short",
+                    lang: "in",
+                    withDay: true,
+                    withTime: false,
+                  })}
+                </label>
+                <br />
+              </>
+            )}
+
+            <label>Attachment:</label>
+            {data_detail.details?.attachments &&
+              data_detail.details?.attachments.map((val) => {
+                return (
+                  <>
+                    <br />
+                    <img
+                      src={val}
+                      style={{
+                        objectFit: "contain",
+                        width: "100%",
+                        marginBottom: 20,
+                      }}
+                    />
+                  </>
+                );
+              })}
+          </>
+        }
+        visible={modal_detail}
       />
     </section>
   );
