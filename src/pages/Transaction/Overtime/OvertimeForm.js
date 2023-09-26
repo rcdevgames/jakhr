@@ -38,7 +38,14 @@ const OvertimeForm = () => {
     showLoading();
     try {
       const resp = await providers_attendance.getDataMax();
-      setData_attendance(resp.data.data);
+      const data = resp.data.data;
+      let clean_data =[];
+      data.map(val=>{
+        if(val.date_out&&val.time_out){
+          clean_data.push(val)
+        }
+      });
+      setData_attendance(clean_data);
     } catch (error) {}
     hideLoading();
   };
